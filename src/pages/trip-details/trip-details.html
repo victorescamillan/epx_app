@@ -1,0 +1,150 @@
+<!--
+  Generated template for the TripDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Details</ion-title>
+    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-slides loop="true" autoplay="3000" speed="1000" pager="true">
+      <ion-slide *ngFor="let img of details.data.trip_gallery">
+          <img src="{{img}}" />
+      </ion-slide>
+  </ion-slides>
+  <div class="content-text">
+    <p class="md-text white">ADVENTURE</p>
+    <p class="lg-text white"><strong>{{details.data.title | uppercase}}</strong></p>
+  </div>
+  <div class="content-details">
+    <p class="sm-text pre-line" [innerHTML]="details.data.content"></p>
+    <br/>
+    <button ion-button round icon-right small block>
+        I'm Interested
+        <ion-icon name="heart-outline"></ion-icon>
+    </button>
+    <ion-item>
+        <ion-avatar item-end>
+          <img class="coordinator" src="{{details.data.trip_coordinator.Trip_coordinator_avatar}}">
+        </ion-avatar>
+        <h2>{{details.data.trip_coordinator.Trip_coordinator_name}}</h2>
+        <p>Trip Coordinator</p>
+    </ion-item>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col class="left">
+          <h1>{{details.data.number_of_registered != null ? details.data.number_of_registered : 0}}</h1>
+          <p>registrations</p>
+        </ion-col>
+
+        <ion-col class="right">
+            <h1>{{details.data.number_of_interested != null ? details.data.number_of_interested : 0}}</h1>
+            <p>interested</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="trip-duration">
+        <ion-row>
+          <ion-col col-4>
+            <p>Trip Duration</p>
+          </ion-col>
+          <ion-col col-8>
+              <p><span class="md-text black">{{details.data.Trip_duration}}</span></p>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col col-4>
+              <p>Start Location</p>
+            </ion-col>
+            <ion-col col-8>
+                <p><span class="md-text black">{{details.data.Start_location}}</span></p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-col col-4>
+                <p>End Location</p>
+              </ion-col>
+              <ion-col col-8>
+                  <p><span class="md-text black">{{details.data.End_location}}</span></p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-4>
+                  <p>Trip Themes</p>
+                </ion-col>
+                <ion-col col-8>
+                    <p><span class="md-text black"></span></p>
+                </ion-col>
+              </ion-row>
+      </ion-grid>
+      
+  </div>
+  <div class="whos-interested">
+      <h1 class="center black">Who's Interested</h1>
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngFor="let item of whos_interested">
+            <ion-item>
+                <ion-avatar>
+                    <img class="interested" src="{{item.avatar}}"/>
+                  </ion-avatar>
+                  <p class="sm-text-important center black-important">{{item.name}}</p>
+                  <p class="center gray">{{item.date_registered}}</p>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div *ngIf="whos_interested.length > 1">
+          <button ion-button round outline block>View More</button>
+      </div>
+      <div *ngIf="whos_interested.length <= 0">
+        <p class="md-text center gray"> ***** Nothing *****</p>
+      </div>
+    </div>
+    <div class="details-map">
+        <div id="map_canvas"></div>
+    </div>
+    <div class="trip-leader">
+        <ion-item>
+            <ion-avatar>
+                <img class="leader" src="{{trip_leader.Trip_leader_avatar}}"/>
+              </ion-avatar>
+              <p class="sm-text-important center black-important">EPX Trip Leader</p>
+              <p class="center gray">Member Since:</p>
+              <p class="center gray">{{trip_leader.Trip_leader_Member_since | date : "MMMM dd, yyyy"}}</p>
+        </ion-item>
+
+        <div class="leader-name">
+          <p class="strong center lg-text">Meet {{trip_leader.Trip_leader_name}}, Your Trip Leader</p>
+        </div>
+        <p class="center md-text"><span class="strong blue">{{trip_leader.Trip_leader_name}}</span> is the <span class="strong blue">{{trip_leader.Trip_leader_position}}</span> at <span class="strong blue">{{trip_leader.Trip_leader_company}}</span>, a <span class="strong blue">{{trip_leader.Trip_leader_business_model}}</span> business in the <span class="strong blue">{{trip_leader.Trip_leader_industry}}</span> industry with the <span class="strong blue">{{trip_leader.Trip_leader_employee}}</span> employees.</p>
+    </div>
+
+    <div class="whos-going">
+        <h1 class="center black">Who's Going</h1>
+        <ion-item *ngFor="let item of whos_going">
+            <ion-avatar item-start>
+              <img class="going" src="{{item.avatar}}">
+            </ion-avatar>
+            <p><span class="strong">{{item.name}}</span> is the <span class="strong">{{item.position}}</span> at <span class="strong blue">{{item.company}}</span>, a <span class="strong">{{item.business_model}}</span> in the <span class="strong">{{item.industry}}</span> industry with the <span class="strong">{{item.employee}}</span> employees.</p>
+        </ion-item>
+          
+        <div *ngIf="whos_going.length > 4">
+          <button ion-button round outline block>View More </button>
+        </div>
+        <div *ngIf="whos_going.length <= 0">
+          <p class="md-text center gray"> ***** Nothing *****</p>
+        </div>
+    </div>
+</ion-content>

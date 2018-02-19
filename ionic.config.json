@@ -1,0 +1,8 @@
+{
+  "name": "EPX_App",
+  "app_id": "8920bef4",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
