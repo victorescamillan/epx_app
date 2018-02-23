@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { TabsPage } from '../pages/tabs/tabs';
 import  { EpxProvider} from '../providers/epx/epx';
 @Component({
   templateUrl: 'app.html'
@@ -17,8 +16,8 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.epxProvider.isLogin().then(user => {
-        if(user != null){
-          this.rootPage = 'TabsPage';
+        if(user){
+          this.rootPage = 'MenuPage';
         }
         else{
           this.rootPage = 'LoginPage';

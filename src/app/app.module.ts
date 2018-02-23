@@ -5,10 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 // import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps } from '@ionic-native/google-maps';
-
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
-
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
@@ -18,6 +16,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TripDetailsPage} from '../pages/trip-details/trip-details';
 import { TripFilterPage} from '../pages/trip-filter/trip-filter';
 import {IonicStorageModule} from '@ionic/storage';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CacheModule } from 'ionic-cache';
+
 var config = {
   apiKey: "AIzaSyD9l4jYr1CsW9LRaDWrwkcjc79amz97_JA",
   authDomain: "phoenix-dev-181002.firebaseapp.com",
@@ -32,14 +33,17 @@ var config = {
     MyApp,
     TripDetailsPage,
     TripFilterPage,
+    
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(config),
     AngularFireDatabaseModule, // imports firebase/firestore, only needed for database features
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    CacheModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -53,7 +57,7 @@ var config = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EpxProvider,
-    GoogleMaps
+    GoogleMaps,
   ]
 })
 export class AppModule {}

@@ -68,14 +68,17 @@ export class LoginPage {
   // }
   presentLoadingDefault() {
     let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: 'Logging in...',
+      dismissOnPageChange: true
+    });
+    
+    loading.present().then(()=>{
+      this.loginUser();
     });
   
-    loading.present();
-  
-    setTimeout(() => {
-      loading.dismiss();
-    }, 5000);
+    // setTimeout(() => {
+    //   loading.dismiss();
+    // }, 5000);
   }
 
   presentConfirm(title:string, message:string) {
@@ -113,8 +116,8 @@ export class LoginPage {
   loginUser(){
 
     if(/^[a-zA-Z0-9@.]+$/.test(this.username)){
-     this.epxProvider.isLogin().then(data => {        
-        if(data == null){
+     this.epxProvider.isLogin().then(user => {        
+        if(!user){
           this.epxProvider.getLogin(this.username,this.password).subscribe(result =>{            
             if(result.authentication){
               this.epxProvider.saveUser('ID',result.ID);
@@ -122,7 +125,7 @@ export class LoginPage {
               this.epxProvider.saveUser('password',this.password);
               this.epxProvider.saveUser('name',result.name);
               this.epxProvider.saveUser('authentication',result.authentication);
-              this.navCtrl.setRoot('TabsPage');
+              this.navCtrl.setRoot('MenuPage');
             }
           });
         }
@@ -130,9 +133,7 @@ export class LoginPage {
           this.showAlert('Login Failed','Invalid username or password');
         }
       });
-
-      
-      this.presentLoadingDefault();
+      // this.presentLoadingDefault();
     }else{
       this.showAlert('Error','Invalid username');
     }

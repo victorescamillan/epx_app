@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, MenuController } from 'ionic-angular';
 
 /**
  * Generated class for the TabsPage tabs.
@@ -18,12 +18,16 @@ export class TabsPage {
   tripsRoot = 'TripsPage'
   vaultRoot = 'VaultPage'
   soloRoot = 'SoloPage'
-  mentorRoot = 'MentorPage'
-  assistRoot = 'AssistPage'
+  membersRoot = 'MembersPage'
+  
 
   badgeCount;
-  constructor(public navCtrl: NavController) {
+  constructor(
+    private menuCtrl:MenuController,
+    public navCtrl: NavController) {
     this.badgeCount = 5;
   }
-
+  openSideMenu(){
+    this.menuCtrl.toggle();
+    }
 }

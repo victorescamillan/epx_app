@@ -33,7 +33,7 @@
 }
 
 //Text Alignment
-.center{
+.text-center{
     text-align: center;
 }
 .pre-line{
@@ -60,4 +60,7 @@ p.strong{
 }
 .xxl-text{
     font-size: 150%;
+}
+.badge-md {
+    border-radius: 10px;
 }
