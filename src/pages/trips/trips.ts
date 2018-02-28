@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
-import { TripDetailsPage } from '../trip-details/trip-details';
-import { TripFilterPage } from '../trip-filter/trip-filter';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
 import { HttpClient } from '@angular/common/http';
@@ -52,7 +50,7 @@ export class TripsPage {
 
   //Filter Page
   showFilter() {
-    let filterModal = this.modalCtrl.create(TripFilterPage);
+    let filterModal = this.modalCtrl.create('TripFilterPage');
     filterModal.present();
   }
 
@@ -100,7 +98,8 @@ export class TripsPage {
 
   //Navigate to Trip Details
   tripDetails(trip) {
-    this.navCtrl.push(TripDetailsPage, { data: trip });
+    this.navCtrl.push('TripDetailsPage', { data: trip });
+    console.log(trip);
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripsPage');

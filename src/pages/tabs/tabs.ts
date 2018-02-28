@@ -19,15 +19,15 @@ export class TabsPage {
   vaultRoot = 'VaultPage'
   soloRoot = 'SoloPage'
   membersRoot = 'MembersPage'
-  
+
 
   badgeCount;
   constructor(
-    private menuCtrl:MenuController,
+    private menuCtrl: MenuController,
     public navCtrl: NavController) {
     this.badgeCount = 5;
   }
-  openSideMenu(){
+  openSideMenu() {
     this.menuCtrl.toggle();
-    }
+  }
 }
