@@ -16,10 +16,10 @@
     </ion-refresher-content>
   </ion-refresher> -->
 
-  <div class="busy-indicator" *ngIf="details == null">
+  <!-- <div class="busy-indicator" *ngIf="details == null">
     <ion-spinner name="ios"></ion-spinner>
     <p class="text-center">Loading Details...</p>
-  </div>
+  </div> -->
   <div class="gallery" *ngIf="details != null">
     <ion-slides loop="true" autoplay="3000" speed="1000" pager="true">
       <ion-slide *ngFor="let img of details.trip_gallery">

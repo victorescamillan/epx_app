@@ -16,15 +16,17 @@ import { CacheService } from "ionic-cache";
 @Injectable()
 export class EpxProvider {
   
-  // private trips_url: string='http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=all-trip-details&user_id=';
+  // LOGIN
   public login_url: string='http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
+  // TRIPS
   public trips_url: string='http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
-  // public trips_url: string='http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=test-api&user_id=';
-
   public trips_details_url: string='http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
-  public solo_url: string='http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+  // SOLO
+  public solo_url: string='http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+  // VAULT
   public vault_url: string='http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
-  
+  public vault_details_url: string ='http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
+
   trips: Observable<any>;
   constructor( public cache: CacheService,  private storage: Storage, private httpClient: HttpClient) {
   // Set TTL to 12h
@@ -39,13 +41,14 @@ export class EpxProvider {
     // });
   }
 
-  getTrips(){
-    return this.httpClient.get(this.trips_url)
+ 
+  getLogin(username, password){
+    return this.httpClient.get(this.login_url + 'username=' + username + '&password='+ password)
     .do(this.logResponse)
     .map(this.extractData)
     .catch(this.catchError)
   }
-  getTrips1(user_id){
+  getTrips(user_id){
     return this.httpClient.get(this.trips_url + user_id)
     .do(this.logResponse)
     .map(this.extractData)
@@ -58,13 +61,24 @@ export class EpxProvider {
     .catch(this.catchError)
   }
 
-  getLogin(username, password){
-    return this.httpClient.get(this.login_url + 'username=' + username + '&password='+ password)
+ getsolo(){
+    return this.httpClient.get(this.solo_url)
     .do(this.logResponse)
     .map(this.extractData)
     .catch(this.catchError)
   }
-
+  getVault(){
+    return this.httpClient.get(this.vault_url)
+    .do(this.logResponse)
+    .map(this.extractData)
+    .catch(this.catchError)
+  }
+  getVaultDetails(id){
+    return this.httpClient.get(this.vault_details_url + id)
+    .do(this.logResponse)
+    .map(this.extractData)
+    .catch(this.catchError)
+  }
   private catchError(error: Response | any){
     console.log(error);
     return Observable.throw(error.json().error || "Server Error.");

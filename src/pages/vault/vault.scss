@@ -1,3 +1,17 @@
 page-vault {
-
+    ion-item.item.item-block.item {
+        padding-left: 0px;
+    }
+    h3.content-text.xl-text.strong.blue {
+        font-size: 130%;
+        font-weight: bold;
+    }
+  
+  
+    ion-card img.pdf {
+        display: block;
+        width: 50%;
+        height: 50%;
+        margin: auto;
+    }
 }

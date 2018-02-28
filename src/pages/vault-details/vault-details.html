@@ -1,0 +1,87 @@
+<!--
+  Generated template for the VaultDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Details</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="content" *ngIf="details != null">
+    <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(details.embed_link)" *ngIf="details.vault_type == 'video'"> </iframe>
+    <img [src]="details.embed_link" *ngIf="details.vault_type == 'ebook'">
+    <div class="title">
+      <h2>{{details.title}}</h2>
+      <p class="md-text" *ngIf="details.vault_type != 'ebook'">Length {{details.length}}</p>
+    </div>
+    <div class="content-text">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-3>
+            <span class="md-text strong">Posted :</span>
+          </ion-col>
+          <ion-col col-9>
+            <span class="md-text">{{details.posted}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-3>
+            <span class="md-text strong">Category :</span>
+          </ion-col>
+          <ion-col col-9>
+            <p class="md-text blue" *ngFor="let item of details.category">{{item}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-3>
+            <span class="md-text strong">Skills :</span>
+          </ion-col>
+          <ion-col col-9 class="tags">
+            <button ion-button round outline small *ngFor="let item of details.tags">{{item}}</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div class="underline"></div>
+
+      <ion-item>
+        <ion-avatar>
+          <img src="{{details.author_avatar}}">
+        </ion-avatar>
+        <br />
+        <p class="md-text text-center">Member Since: {{details.member_since}}</p>
+      </ion-item>
+      <br />
+      <p class="text-center md-text">
+        <span class="strong ">{{details.author_name}}</span> is the
+        <span class="strong ">{{details.position}}</span> at
+        <span class="strong blue">{{details.company}}</span>, a
+        <span class="strong ">{{details.business_model}}</span> business in the
+        <span class="strong ">{{details.industry}}</span> industry with the
+        <span class="strong ">{{details.employee}}</span> employees.
+      </p>
+      <br />
+      <p class="md-text text-center">
+        <strong>A bit about me,</strong> {{details.personal_description}}</p>
+      <p class="md-text text-center">
+        <strong>A brief description about my business,</strong> {{details.business_description}}</p>
+      <br />
+      <p class="md-text text-center strong">I'm an expert in:</p>
+      <p class="md-text text-center">{{details.expert_in}}</p>
+      <br />
+      <p class="md-text text-center strong">I can also help you with:</p>
+      <p class="md-text text-center">{{details.help_with}}</p>
+      <br />
+      <p class="md-text text-center strong">I prefer:</p>
+      <p class="md-text text-center pre-line" [innerHTML]="item" *ngFor="let item of details.I_prefer"></p>
+      <br />
+    </div>
+  </div>
+</ion-content>

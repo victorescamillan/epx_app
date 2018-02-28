@@ -52,7 +52,6 @@ export class TripDetailsPage {
 
   visibleState = 'visible';
   constructor(
-
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     // private googleMaps: GoogleMaps,
@@ -62,30 +61,45 @@ export class TripDetailsPage {
     var details = navParams.data.data;
     this.trip_id = details.ID;
     this.location = details.map_info.map_address;
-    this.lat = parseFloat(details.map_info.map_latitude);
-    this.lng = parseFloat(details.map_info.map_longitude);
+    this.lat = Number(details.map_info.map_latitude);
+    this.lng = Number(details.map_info.map_longitude);
     this.loadTripDetails(this.trip_id);
   }
 
+ 
+
   //get trip details
   loadTripDetails(id) {
-    this.epxProvider.getTripDetails(id).subscribe(data => {
-      this.details = data;
-      console.log('trip details: ', data);
-      
-      
-      let interested = this.details.whos_interested;
-      this.whos_interested = Object.keys(interested).map(key => interested[key]);
-      
-      let going = this.details.whos_going;
-      this.whos_going = Object.keys(going).map(key => going[key]);
+    let loading = this.loadingCtrl.create({
+      content: 'Loading Details...'
     });
+    
+    let url = this.epxProvider.solo_url;
+    let ttl = 1000;
+    let delay_type = 'all';
+    let groupKey = 'solo-list';
+    loading.present().then(() => {
+      this.epxProvider.getTripDetails(id).subscribe(data => {
+        this.details = data;
+        console.log('trip details: ', data);
+        
+        let interested = this.details.whos_interested;
+        this.whos_interested = Object.keys(interested).map(key => interested[key]);
+        
+        let going = this.details.whos_going;
+        this.whos_going = Object.keys(going).map(key => going[key]);
+        
+        this.initMap(this.lat, this.lng, this.location);
+        loading.dismiss();
+      });
+    });
+  
   }
 
   //cordova-plugin-googlemaps
   ionViewDidLoad() {
 
-    this.initMap(this.lat, this.lng, this.location);
+   
     console.log('ionViewDidLoad TripDetailsPage');
   }
   initMap(lat, long, location) {

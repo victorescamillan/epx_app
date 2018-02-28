@@ -7,12 +7,38 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>vault</ion-title>
+    <ion-title>THE VAULT</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content overflow-scroll="true">
+  <ion-refresher (ionRefresh)="forceReload($event)">
+    <ion-refresher-content refreshingText="Loading Vault...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <br />
+  <ion-list [virtualScroll]="(vaultList | async)" [approxItemHeight]="'200px'">
+    <ion-card *virtualItem="let vault">
+      
+      <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}" >
+      
+      <ion-card-content>
+        <h3 class="content-text xl-text strong blue">
+          {{vault.title | uppercase}}
+        </h3>
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="{{vault.author_avatar}}">
+          </ion-avatar>
+          <h2>
+            <strong>{{vault.author}}</strong> |
+            <span class="gray">{{vault.length}}</span>
+          </h2>
+          <p>{{vault.posted}}</p>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 </ion-content>

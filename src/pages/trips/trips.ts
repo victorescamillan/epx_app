@@ -73,7 +73,7 @@ export class TripsPage {
     let groupKey = 'trip-list';
     loading.present().then(() => {
       this.epxProvider.getUser('ID').then(user_id => { //Get user id from local storage
-        this.epxProvider.getTrips1(user_id).subscribe(data => { //Get data from url/api
+        this.epxProvider.getTrips(user_id).subscribe(data => { //Get data from url/api
           
           let trips = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
          

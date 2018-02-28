@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <!-- <ion-title>Trips</ion-title> -->
+    <ion-title>EXPLORE . EXPAND</ion-title>
 
 
     <!-- <ion-buttons right>
@@ -27,16 +27,16 @@
     <ion-refresher-content refreshingText="Loading Trips...">
     </ion-refresher-content>
   </ion-refresher>
-  <h1 class="text-center">
+  <!-- <h1 class="text-center">
     <strong>EXPLORE . EXPAND</strong>
-  </h1>
-  <ion-buttons>
+  </h1> -->
+  <!-- <ion-buttons>
     <button ion-button block icon-end (click)="showFilter()">
       Filter
       <ion-icon name="search"></ion-icon>
     </button>
-  </ion-buttons>
-
+  </ion-buttons> -->
+  <br />
   <ion-list [virtualScroll]="(tripList | async)" [approxItemHeight]="'200px'">
     <ion-card *virtualItem="let trip">
         
