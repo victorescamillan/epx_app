@@ -24,9 +24,12 @@
     </button>
   </ion-buttons> -->
   <br />
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
   <ion-list [virtualScroll]="(tripList | async)" [approxItemHeight]="'200px'">
     <ion-card *virtualItem="let trip">
-        
+
       <button ion-button round outline small class="top">{{trip.product_cat}}</button>
       <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">
       <ion-card-content>

@@ -19,6 +19,8 @@ import { CacheService } from 'ionic-cache';
 export class VaultDetailsPage {
 
   details: any;
+  isLoading:boolean = true;
+  isRefresh:boolean = false;
 
   constructor(
     private loadingCtrl: LoadingController,
@@ -34,14 +36,17 @@ export class VaultDetailsPage {
     console.log('ionViewDidLoad VaultDetailsPage');
   }
   LoadDetails(id) {
-    let loading = this.loadingCtrl.create({
-      content: 'Loading Details...'
-    });
-    loading.present().then(() => {
-      this.epxProvider.getVaultDetails(id).subscribe(data => { //Get data from url/api
-        this.details = data;
-        loading.dismiss();
-      });
+    // let loading = this.loadingCtrl.create({
+    //   content: 'Loading Details...'
+    // });
+    // loading.present().then(() => {
+      
+    // });
+    this.epxProvider.getVaultDetails(id).subscribe(data => { //Get data from url/api
+      this.details = data;
+      // loading.dismiss();
+      this.isLoading = false;
+      this.isRefresh = true;
     });
   }
 }

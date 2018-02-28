@@ -18,7 +18,7 @@
 
 <ion-content>
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Loading Trips...">
+    <ion-refresher-content refreshingText="Loading Solo...">
     </ion-refresher-content>
   </ion-refresher>
   
@@ -29,6 +29,10 @@
     </button>
   </ion-buttons> -->
   <br />
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
   <ion-list [virtualScroll]="(soloList | async)" [approxItemHeight]="'200px'">
     <ion-card *virtualItem="let solo">
       <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">

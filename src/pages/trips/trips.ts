@@ -23,8 +23,8 @@ export class TripsPage {
   is_interested: boolean = false;
   id: any;
   date: string = new Date().toLocaleString();
-  
-
+  isLoading:boolean = true;
+  isRefresh:boolean = false;
   
   constructor(
     private httpClient: HttpClient,
@@ -45,7 +45,6 @@ export class TripsPage {
     //   this.tripList = Observable.of(Object.keys(data).map(key => data[key]));
     //   console.log('trips',data);
     // });;
-    
   }
 
   //Filter Page
@@ -61,36 +60,45 @@ export class TripsPage {
 
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
-    let loading = this.loadingCtrl.create({
-      content: 'Loading Trips...'
-    });
+
+    this.isLoading = true;
+    // let loading = this.loadingCtrl.create({
+    //   content: 'Loading Trips...'
+    // });
     
     let url = this.epxProvider.trips_url;
     let ttl = 1000;
     let delay_type = 'all';
     let groupKey = 'trip-list';
-    loading.present().then(() => {
-      this.epxProvider.getUser('ID').then(user_id => { //Get user id from local storage
-        this.epxProvider.getTrips(user_id).subscribe(data => { //Get data from url/api
+    // loading.present().then(() => {
+      
+    // });
+    this.epxProvider.getUser('ID').then(user_id => { //Get user id from local storage
+      this.epxProvider.getTrips(user_id).subscribe(data => { //Get data from url/api
+        
+        let trips = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+       
+        if (refresher) {
           
-          let trips = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-         
-          if (refresher) {
-            this.tripList = this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type);
-            this.tripList.subscribe(data => {
-              refresher.complete();
-            });
-          }
-          else {
-            this.tripList = this.cache.loadFromObservable(url, trips, groupKey, ttl);
-          }
-          loading.dismiss();
-        });
+          this.tripList = this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type);
+          this.tripList.subscribe(data => {
+            refresher.complete();
+          });
+        }
+        else {
+          
+          this.tripList = this.cache.loadFromObservable(url, trips, groupKey, ttl);
+        }
+    
+        this.isLoading = false;
+        this.isRefresh = true;
+        // loading.dismiss();
       });
     });
   }
   //Pull to refresh page
   forceReload(refresher) {
+   
     this.LoadTrips(refresher);
   }
  
@@ -103,6 +111,7 @@ export class TripsPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripsPage');
+   
   }
   //Interested
   clickInterest(ID) {

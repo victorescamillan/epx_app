@@ -118,7 +118,10 @@ export class LoginPage {
     if(/^[a-zA-Z0-9@.]+$/.test(this.username)){
      this.epxProvider.isLogin().then(user => {        
         if(!user){
-          this.epxProvider.getLogin(this.username,this.password).subscribe(result =>{            
+          this.epxProvider.getLogin(this.username,this.password).subscribe(result =>{   
+            this.username = '';
+            this.password = '';
+                     
             if(result.authentication){
               this.epxProvider.saveUser('ID',result.ID);
               this.epxProvider.saveUser('username',this.username);

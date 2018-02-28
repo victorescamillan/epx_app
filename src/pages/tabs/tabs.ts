@@ -25,7 +25,7 @@ export class TabsPage {
   constructor(
     private menuCtrl: MenuController,
     public navCtrl: NavController) {
-    this.badgeCount = 5;
+    this.badgeCount = 2;
   }
   openSideMenu() {
     this.menuCtrl.toggle();

@@ -13,7 +13,8 @@ import { DomSanitizer } from '@angular/platform-browser'
 })
 export class VaultPage {
   vaultList: Observable<any>;
-
+  isLoading:boolean = true;
+  isRefresh:boolean = false;
   constructor(
     public domSanitizer: DomSanitizer,
     private loadingCtrl: LoadingController,
@@ -33,32 +34,35 @@ export class VaultPage {
     this.navCtrl.push('VaultDetailsPage',{data: vault});
   }
   LoadVault(refresher?) {
-    let loading = this.loadingCtrl.create({
-      content: 'Loading Vault...'
-    });
-    
+    // let loading = this.loadingCtrl.create({
+    //   content: 'Loading Vault...'
+    // });
+    // loading.present().then(() => {
+      
+    // });
     let url = this.epxProvider.vault_url;
     let ttl = 1000;
     let delay_type = 'all';
     let groupKey = 'vault-list';
-    loading.present().then(() => {
-      this.epxProvider.getVault().subscribe(data => { //Get data from url/api
+    
+    this.epxProvider.getVault().subscribe(data => { //Get data from url/api
           
-        var vault = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-        
-        console.log('vault list', vault);
-        
-        if (refresher) {
-          this.vaultList = this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type);
-          this.vaultList.subscribe(data => {
-            refresher.complete();
-          });
-        }
-        else {
-          this.vaultList = this.cache.loadFromObservable(url, vault, groupKey, ttl);
-        }
-        loading.dismiss();
-      });
+      var vault = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+      
+      console.log('vault list', vault);
+      
+      if (refresher) {
+        this.vaultList = this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type);
+        this.vaultList.subscribe(data => {
+          refresher.complete();
+        });
+      }
+      else {
+        this.vaultList = this.cache.loadFromObservable(url, vault, groupKey, ttl);
+      }
+      this.isLoading = false;
+      this.isRefresh = true;
+      // loading.dismiss();
     });
   }
   //Pull to refresh page

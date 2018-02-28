@@ -20,6 +20,9 @@
     <ion-spinner name="ios"></ion-spinner>
     <p class="text-center">Loading Details...</p>
   </div> -->
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
   <div class="gallery" *ngIf="details != null">
     <ion-slides loop="true" autoplay="3000" speed="1000" pager="true">
       <ion-slide *ngFor="let img of details.trip_gallery">

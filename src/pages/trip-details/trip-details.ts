@@ -49,7 +49,8 @@ export class TripDetailsPage {
   location: string;
   lat: number;
   lng: number;
-
+  isLoading:boolean = true;
+  isRefresh:boolean = false;
   visibleState = 'visible';
   constructor(
     private loadingCtrl: LoadingController,
@@ -70,30 +71,32 @@ export class TripDetailsPage {
 
   //get trip details
   loadTripDetails(id) {
-    let loading = this.loadingCtrl.create({
-      content: 'Loading Details...'
-    });
+    // let loading = this.loadingCtrl.create({
+    //   content: 'Loading Details...'
+    // });
     
-    let url = this.epxProvider.solo_url;
-    let ttl = 1000;
-    let delay_type = 'all';
-    let groupKey = 'solo-list';
-    loading.present().then(() => {
-      this.epxProvider.getTripDetails(id).subscribe(data => {
-        this.details = data;
-        console.log('trip details: ', data);
-        
-        let interested = this.details.whos_interested;
-        this.whos_interested = Object.keys(interested).map(key => interested[key]);
-        
-        let going = this.details.whos_going;
-        this.whos_going = Object.keys(going).map(key => going[key]);
-        
-        this.initMap(this.lat, this.lng, this.location);
-        loading.dismiss();
-      });
+    // let url = this.epxProvider.solo_url;
+    // let ttl = 1000;
+    // let delay_type = 'all';
+    // let groupKey = 'solo-list';
+    // loading.present().then(() => {
+     
+    // });
+    this.epxProvider.getTripDetails(id).subscribe(data => {
+      this.details = data;
+      console.log('trip details: ', data);
+      
+      let interested = this.details.whos_interested;
+      this.whos_interested = Object.keys(interested).map(key => interested[key]);
+      
+      let going = this.details.whos_going;
+      this.whos_going = Object.keys(going).map(key => going[key]);
+      
+      this.initMap(this.lat, this.lng, this.location);
+      // loading.dismiss();
+      this.isLoading = false;
+      this.isRefresh = true;
     });
-  
   }
 
   //cordova-plugin-googlemaps
