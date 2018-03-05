@@ -15,7 +15,7 @@
 
 <ion-content overflow-scroll="true">
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Loading Vault...">
+    <ion-refresher-content refreshingText="Loading...">
     </ion-refresher-content>
   </ion-refresher>
   <br />
@@ -23,11 +23,11 @@
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   
-  <ion-list [virtualScroll]="(vaultList | async)" [approxItemHeight]="'20px'">
-    <ion-card *virtualItem="let vault">
-      
+  <!-- <ion-list [virtualScroll]="(vaultList | async)" [approxItemHeight]="'20px'"> -->
+  <ion-list>
+    <!-- <ion-card *virtualItem="let vault"> -->
+    <ion-card *ngFor="let vault of vaultList | async">
       <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}" >
-      
       <ion-card-content>
         <h3 class="content-text xl-text strong blue">
           {{vault.title | uppercase}}

@@ -20,7 +20,6 @@ export class TabsPage {
   soloRoot = 'SoloPage'
   membersRoot = 'MembersPage'
 
-
   badgeCount;
   constructor(
     private menuCtrl: MenuController,

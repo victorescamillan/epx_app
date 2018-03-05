@@ -24,9 +24,7 @@ export class VaultPage {
 
       this.LoadVault();
   }
-  videoUrl(url){
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
-  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultPage');
   }

@@ -7,12 +7,28 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>business</ion-title>
+    <ion-title>BUSINESS</ion-title>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content class="card-background-page">
+  <ion-refresher (ionRefresh)="forceReload($event)">
+    <ion-refresher-content refreshingText="Loading...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <br />
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <ion-searchbar placeholder="Search Business" showCancelButton color="danger"  (ionInput)="filterBusiness($event)" ></ion-searchbar>
 
-<ion-content padding>
+  <ion-card *ngFor="let business of businessList | async">
+    <img [src]="business.business_logo" />
+    <div class="content-text">
+      <div class="card-title">{{business.business_name}}</div>
+      <div class="card-subtitle">{{business.member_name}}</div>
+      <div class="card-subtitle">{{business.business_industry}}</div>
+    </div>
+  </ion-card>
 
 </ion-content>

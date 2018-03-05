@@ -5,13 +5,13 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar transparent>
     <ion-title>EXPLORE . EXPAND</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Loading Trips...">
+    <ion-refresher-content refreshingText="Loading...">
     </ion-refresher-content>
   </ion-refresher>
   <!-- <h1 class="text-center">
@@ -24,12 +24,13 @@
     </button>
   </ion-buttons> -->
   <br />
-  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <ion-list [virtualScroll]="(tripList | async)" [approxItemHeight]="'200px'">
-    <ion-card *virtualItem="let trip">
-
+  <!-- <ion-list [virtualScroll]="(tripList | async)" [approxItemHeight]="'200px'"> -->
+  <ion-list>
+      <!-- <ion-card *virtualItem="let trip"> -->
+    <ion-card *ngFor="let trip of tripList | async">
       <button ion-button round outline small class="top">{{trip.product_cat}}</button>
       <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">
       <ion-card-content>

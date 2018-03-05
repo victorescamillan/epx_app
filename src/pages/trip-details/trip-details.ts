@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, LoadingController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
+import { StatusBar } from '@ionic-native/status-bar';
 // import { trigger, state, style, transition, animate,keyframes } from '@angular/animations'
 
 // import { Geolocation } from '@ionic-native/geolocation';
@@ -50,7 +51,7 @@ export class TripDetailsPage {
   lat: number;
   lng: number;
   isLoading:boolean = true;
-  isRefresh:boolean = false;
+  
   visibleState = 'visible';
   constructor(
     private loadingCtrl: LoadingController,
@@ -65,9 +66,12 @@ export class TripDetailsPage {
     this.lat = Number(details.map_info.map_latitude);
     this.lng = Number(details.map_info.map_longitude);
     this.loadTripDetails(this.trip_id);
+
   }
 
- 
+  memberDetails(member){
+    this.navCtrl.push('MemberDetailsPage',{data: member});
+  }
 
   //get trip details
   loadTripDetails(id) {
@@ -95,7 +99,6 @@ export class TripDetailsPage {
       this.initMap(this.lat, this.lng, this.location);
       // loading.dismiss();
       this.isLoading = false;
-      this.isRefresh = true;
     });
   }
 

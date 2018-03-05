@@ -7,12 +7,54 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>members</ion-title>
+    <ion-title>MEMBERS</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-refresher (ionRefresh)="forceReload($event)">
+    <ion-refresher-content refreshingText="Loading...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <br />
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  
+  <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar>
+  <ion-list>
+    <ion-item-sliding *ngFor="let member of memberList  | async">
+      <ion-item >
+        <ion-avatar item-start>
+          <img [src]="member.avatar">
+        </ion-avatar>
+        <p class="item-text">
+            <span class="strong ">{{member.name}}</span> is the
+            <span class="strong ">{{member.position}}</span> at
+            <span class="strong blue">{{member.company}}</span>, a
+            <span class="strong ">{{member.business_model}}</span> business in the
+            <span class="strong ">{{member.industry}}</span> industry with the
+            <span class="strong ">{{member.employee}}</span> employees.
+          </p>
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button color="secondary">
+          <ion-icon name="text"></ion-icon>
+          Message
+        </button>
+        <!-- <button ion-button color="secondary">
+          <ion-icon name="call"></ion-icon>
+          Call
+        </button> -->
+      </ion-item-options>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="memberDetails(member)">
+          <ion-icon name="person"></ion-icon>
+          Profile
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

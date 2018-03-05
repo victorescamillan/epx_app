@@ -19,8 +19,7 @@ import { CacheService } from 'ionic-cache';
 export class VaultDetailsPage {
 
   details: any;
-  isLoading:boolean = true;
-  isRefresh:boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     private loadingCtrl: LoadingController,
@@ -28,6 +27,7 @@ export class VaultDetailsPage {
     private cache: CacheService,
     public domSanitizer: DomSanitizer,
     public navCtrl: NavController, public navParams: NavParams) {
+
     var id = navParams.data.data.ID;
     this.LoadDetails(id);
   }
@@ -35,18 +35,12 @@ export class VaultDetailsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultDetailsPage');
   }
+
   LoadDetails(id) {
-    // let loading = this.loadingCtrl.create({
-    //   content: 'Loading Details...'
-    // });
-    // loading.present().then(() => {
-      
-    // });
     this.epxProvider.getVaultDetails(id).subscribe(data => { //Get data from url/api
       this.details = data;
-      // loading.dismiss();
       this.isLoading = false;
-      this.isRefresh = true;
+      console.log('isLoading', this.isLoading);
     });
   }
 }

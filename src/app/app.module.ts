@@ -8,7 +8,6 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
-
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
@@ -17,6 +16,9 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {IonicStorageModule} from '@ionic/storage';
 import { CacheModule } from 'ionic-cache';
+import { SearchMembersPipe } from '../pipes/search-members/search-members';
+
+
 
 var config = {
   apiKey: "AIzaSyD9l4jYr1CsW9LRaDWrwkcjc79amz97_JA",
@@ -30,6 +32,8 @@ var config = {
 @NgModule({
   declarations: [
     MyApp,
+    SearchMembersPipe,
+    
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,8 @@ var config = {
     AngularFireDatabaseModule, // imports firebase/firestore, only needed for database features
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    CacheModule.forRoot()
+    CacheModule.forRoot(),
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -50,7 +55,8 @@ var config = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EpxProvider,
-    GoogleMaps
+    GoogleMaps,
+    
   ]
 })
 export class AppModule {}

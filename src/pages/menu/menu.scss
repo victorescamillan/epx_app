@@ -1,20 +1,35 @@
 page-menu {
-    ion-header.header.header.menu-header {
-        background-image: url(../assets/imgs/bg.png);
-        background-size: 120%;
-        background-position: 0%;
-        height: 150px;
-    }
+    // ion-header.menu-header {
+    //     // background-image: url(../assets/imgs/bg.png);
+    //     @include linear-gradient(left,$nighthawk);
+    //     background-size: 120%;
+    //     // background: color($colors,dark);
+    //     background-position: 0%;
+    //     height: 150px;
+    // }
     
     // .menu-content{
     //     top: 150px!important;
     // }
     .user-info{
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
+        @include linear-gradient(left,$nighthawk);
+        height: 150px;
+        // position: absolute;
+        // bottom: 20px;
+        // left: 20px;
         color: white;
         font-weight: bold;
         font-size: 130%;
+    }
+    .user-info p{
+        position: absolute;
+        top: 90px;
+        left: 10px;
+    }
+    .item-inner {
+        border-bottom: none!important;
+    }
+    .list > .item-block:last-child, .list > .item-wrapper:last-child .item-block {
+        border-bottom: none;
     }
 }

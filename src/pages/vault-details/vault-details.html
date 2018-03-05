@@ -14,10 +14,10 @@
 
 
 <ion-content>
-  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
+  <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <div class="content" *ngIf="details != null">
+  <div class="content" *ngIf="!isLoading">
     <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(details.embed_link)" *ngIf="details.vault_type == 'video'"> </iframe>
     <img [src]="details.embed_link" *ngIf="details.vault_type == 'ebook'">
     <div class="title">

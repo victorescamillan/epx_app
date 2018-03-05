@@ -20,17 +20,17 @@
     <ion-spinner name="ios"></ion-spinner>
     <p class="text-center">Loading Details...</p>
   </div> -->
-  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+  <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'" >
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <div class="gallery" *ngIf="details != null">
-    <ion-slides loop="true" autoplay="3000" speed="1000" pager="true">
+  <div class="gallery" *ngIf="!isLoading">
+    <ion-slides loop="true" autoplay="3000" speed="1000" pager="true" *ngIf="details.trip_gallery.length">
       <ion-slide *ngFor="let img of details.trip_gallery">
         <img src="{{img}}" />
       </ion-slide>
     </ion-slides>
   </div>
-  <div *ngIf="details != null">
+  <div *ngIf="!isLoading">
     <div class="content-text">
       <p class="md-text white">ADVENTURE</p>
       <p class="lg-text white">
@@ -113,7 +113,7 @@
       <ion-grid>
         <ion-row>
           <ion-col *ngFor="let item of whos_interested">
-            <ion-item>
+            <ion-item (click)="memberDetails(item)">
               <ion-avatar>
                 <img class="interested" src="{{item.avatar}}" />
               </ion-avatar>
@@ -132,7 +132,7 @@
     </div>
   </div>
   <div #map id="map"></div>
-  <div *ngIf="details != null">
+  <div *ngIf="!isLoading">
     <div class="trip-leader">
       <ion-item>
         <ion-avatar>
@@ -156,7 +156,7 @@
     </div>
     <div class="whos-going">
       <h1 class="text-center black">Who's Going</h1>
-      <ion-item *ngFor="let item of whos_going">
+      <ion-item *ngFor="let item of whos_going" (click)="memberDetails(item)">
         <ion-avatar item-start>
           <img class="going" src="{{item.avatar}}">
         </ion-avatar>

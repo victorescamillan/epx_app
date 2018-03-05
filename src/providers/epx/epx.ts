@@ -27,6 +27,10 @@ export class EpxProvider {
   // VAULT
   public vault_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
   public vault_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
+  // MEMBERS
+  public members_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
+  // BUSINESS
+  public business_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
 
   trips: Observable<any>;
   constructor(public cache: CacheService, private storage: Storage, private httpClient: HttpClient) {
@@ -70,6 +74,18 @@ export class EpxProvider {
   }
   getVaultDetails(id) {
     return this.httpClient.get(this.vault_details_url + id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getMembers() {
+    return this.httpClient.get(this.members_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getBusiness() {
+    return this.httpClient.get(this.business_url)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
