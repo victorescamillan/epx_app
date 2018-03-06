@@ -20,10 +20,12 @@
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <ion-searchbar placeholder="Search Business" showCancelButton color="danger"  (ionInput)="filterBusiness($event)" ></ion-searchbar>
+  <ion-searchbar placeholder="Search Business" showCancelButton color="danger" (ionInput)="filterBusiness($event)"></ion-searchbar>
 
-  <ion-card *ngFor="let business of businessList | async">
-    <img [src]="business.business_logo" />
+  <ion-card *ngFor="let business of businessList | async" (click)="businessDetails(business)">
+    <div class="business-logo">
+      <img [src]="business.business_logo"  />
+    </div>
     <div class="content-text">
       <div class="card-title">{{business.business_name}}</div>
       <div class="card-subtitle">{{business.member_name}}</div>

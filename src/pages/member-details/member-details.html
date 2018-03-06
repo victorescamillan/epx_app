@@ -7,12 +7,22 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Member Details</ion-title>
+    <ion-title>Details</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="member-content" *ngIf="!isLoading">
+    <div class="member-info">
+      <img [src]="details.avatar">
+      <h2>{{details.name}}</h2>
+      <p>Member Since:</p>
+      <p>{{details.member_since}}</p>
+    </div>
+  </div>
 </ion-content>

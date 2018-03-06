@@ -25,6 +25,10 @@ export class BusinessPage {
     private epxProvider: EpxProvider,
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {
+    // Set TTL to 12h
+    cache.setDefaultTTL(60 * 60 * 12);
+    // Keep our cached results when device is offline!
+    cache.setOfflineInvalidate(false);
     this.LoadBusiness();
   }
   LoadBusiness(refresher?) {
@@ -39,19 +43,15 @@ export class BusinessPage {
       var business = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
 
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, business, groupKey, ttl, delay_type).subscribe(data => {
+        this.cache.loadFromDelayedObservable(url, business, groupKey).subscribe(data => {
           this.businessList = Observable.of(data);
           refresher.complete();
         });
-        // this.memberList.subscribe(data => {
-        //   refresher.complete();
-        // });
       }
       else {
-        this.cache.loadFromObservable(url, business, groupKey, ttl).subscribe(data => {
+        this.cache.loadFromObservable(url, business, groupKey).subscribe(data => {
           this.businessList = Observable.of(data);
           this.temp_businessList = Observable.of(data);
-          // console.log('member list', data);
         });
       }
       this.isLoading = false;
@@ -73,8 +73,9 @@ export class BusinessPage {
       }
     }
   }
+
   businessDetails(business) {
-    this.navCtrl.push('MemberDetailsPage', { data: business });
+    this.navCtrl.push('BusinessDetailsPage', { data: business });
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad BusinessPage');

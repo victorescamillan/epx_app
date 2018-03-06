@@ -28,7 +28,7 @@
     <ion-item-sliding *ngFor="let member of memberList  | async">
       <ion-item >
         <ion-avatar item-start>
-          <img [src]="member.avatar">
+          <img [src]="member.avatar" (click)="memberDetails(member)">
         </ion-avatar>
         <p class="item-text">
             <span class="strong ">{{member.name}}</span> is the

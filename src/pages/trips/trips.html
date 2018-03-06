@@ -41,7 +41,7 @@
         <p class="content-text">
           <strong class="colored">{{trip.price}}</strong> Trip Fee</p>
         <div class="btn-interested">
-          <button ion-button icon-right clear small>
+          <button ion-button icon-right clear small (click)="interested(trip)">
             <div>{{trip.trip_interested.interested == true ? "Interested" : "I'm Interested"}}</div>
             <ion-icon name="{{trip.trip_interested.interested == true ? 'heart' : 'heart-outline'}}"></ion-icon>
           </button>

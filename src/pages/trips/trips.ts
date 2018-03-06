@@ -23,9 +23,9 @@ export class TripsPage {
   is_interested: boolean = false;
   id: any;
   date: string = new Date().toLocaleString();
-  isLoading:boolean = true;
-  isRefresh:boolean = false;
-  
+  isLoading: boolean = true;
+  isRefresh: boolean = false;
+  isInterested: boolean = false;
   constructor(
     private httpClient: HttpClient,
     private cache: CacheService,
@@ -35,16 +35,12 @@ export class TripsPage {
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     public navCtrl: NavController, public navParams: NavParams) {
+    // Set TTL to 12h
+    cache.setDefaultTTL(60 * 60 * 12);
+    // Keep our cached results when device is offline!
+    cache.setOfflineInvalidate(false);
 
     this.LoadTrips();
-
-  
-    // let trips_url = "http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=295";
-    // this.httpClient.get(trips_url)
-    // .subscribe(data => {
-    //   this.tripList = Observable.of(Object.keys(data).map(key => data[key]));
-    //   console.log('trips',data);
-    // });;
   }
 
   //Filter Page
@@ -60,49 +56,39 @@ export class TripsPage {
 
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
-
-    this.isLoading = true;
-    // let loading = this.loadingCtrl.create({
-    //   content: 'Loading Trips...'
-    // });
-    
     let url = this.epxProvider.trips_url;
     let ttl = 1000;
     let delay_type = 'all';
     let groupKey = 'trip-list';
-    // loading.present().then(() => {
-      
-    // });
+
     this.epxProvider.getUser('ID').then(user_id => { //Get user id from local storage
       this.epxProvider.getTrips(user_id).subscribe(data => { //Get data from url/api
-        
+
         let trips = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-       
+
         if (refresher) {
-          
-          this.tripList = this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type);
+
+          this.tripList = this.cache.loadFromDelayedObservable(url, trips, groupKey, );
           this.tripList.subscribe(data => {
             refresher.complete();
           });
         }
         else {
-          
-          this.tripList = this.cache.loadFromObservable(url, trips, groupKey, ttl);
+
+          this.tripList = this.cache.loadFromObservable(url, trips, groupKey);
         }
-    
+
         this.isLoading = false;
         this.isRefresh = true;
-        // loading.dismiss();
+        this.isInterested = false;
       });
     });
   }
   //Pull to refresh page
   forceReload(refresher) {
-   
+
     this.LoadTrips(refresher);
   }
- 
-
 
   //Navigate to Trip Details
   tripDetails(trip) {
@@ -111,20 +97,16 @@ export class TripsPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripsPage');
-   
+
   }
   //Interested
-  clickInterest(ID) {
-    if (!this.is_interested) {
-      this.presentToast("Interested");
-      this.is_interested = true;
-      this.id = ID;
-    }
-    else {
-      this.presentToast("I'm Interested");
-      this.is_interested = false;
-      this.id = ID;
-    }
+  interested(trip) {
+    this.epxProvider.getUser('ID').then(user_id => {
+      this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(res => {
+        trip.trip_interested.interested = res.interest;
+        console.log('interest result:', res);
+      });
+    });
   }
   presentToast(message: string) {
     let toast = this.toastCtrl.create({

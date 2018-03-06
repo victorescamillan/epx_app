@@ -1,0 +1,33 @@
+page-business-details {
+    .business-content {
+        text-align: center;
+        padding: 1em;
+    }
+    img.owner-thumbnail {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 120px;
+        height: 120px;
+    }
+    .owner-info {
+        margin-top: 5em;
+    }
+    .page-thumbnail img {
+        height: 100%;
+    }
+    .page-title {
+        position: absolute;
+        bottom: 3px;
+        padding: 5px 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 120%;
+        background: black;
+        opacity: .7;
+        width: 100%;
+    }
+    .business-content img.business-logo{
+        height: 70%;
+        width: 70%;
+    }
+}

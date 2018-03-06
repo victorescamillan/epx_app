@@ -1,8 +1,8 @@
 {
   "name": "EPX",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "ideahub IT Solutions Providers, Inc",
+  "homepage": "http://hpoutsourcinginc.com",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",

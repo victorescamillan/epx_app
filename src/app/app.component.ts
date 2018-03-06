@@ -24,7 +24,7 @@ export class MyApp {
           this.rootPage = 'LoginPage';
         }
       })
-      statusBar.styleDefault();
+      statusBar.overlaysWebView(true);
       splashScreen.hide();
     });
   }

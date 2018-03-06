@@ -50,8 +50,8 @@ export class TripDetailsPage {
   location: string;
   lat: number;
   lng: number;
-  isLoading:boolean = true;
-  
+  isLoading: boolean = true;
+  isInterested: boolean;
   visibleState = 'visible';
   constructor(
     private loadingCtrl: LoadingController,
@@ -61,6 +61,8 @@ export class TripDetailsPage {
     // public geolocation: Geolocation,
     public navCtrl: NavController, public navParams: NavParams) {
     var details = navParams.data.data;
+    this.isInterested = details.trip_interested.interested;
+    console.log('trip details:', details);
     this.trip_id = details.ID;
     this.location = details.map_info.map_address;
     this.lat = Number(details.map_info.map_latitude);
@@ -69,33 +71,31 @@ export class TripDetailsPage {
 
   }
 
-  memberDetails(member){
-    this.navCtrl.push('MemberDetailsPage',{data: member});
+  memberDetails(member) {
+    this.navCtrl.push('MemberDetailsPage', { data: member });
   }
-
+  //Interested
+  interested() {
+    this.epxProvider.getUser('ID').then(user_id => {
+      this.epxProvider.getTripInterest(this.trip_id, user_id).subscribe(res => {
+        this.isInterested = res.interest;
+        console.log('interest result:', res);
+      });
+    });
+  }
   //get trip details
   loadTripDetails(id) {
-    // let loading = this.loadingCtrl.create({
-    //   content: 'Loading Details...'
-    // });
-    
-    // let url = this.epxProvider.solo_url;
-    // let ttl = 1000;
-    // let delay_type = 'all';
-    // let groupKey = 'solo-list';
-    // loading.present().then(() => {
-     
-    // });
+
     this.epxProvider.getTripDetails(id).subscribe(data => {
       this.details = data;
       console.log('trip details: ', data);
-      
+
       let interested = this.details.whos_interested;
       this.whos_interested = Object.keys(interested).map(key => interested[key]);
-      
+
       let going = this.details.whos_going;
       this.whos_going = Object.keys(going).map(key => going[key]);
-      
+
       this.initMap(this.lat, this.lng, this.location);
       // loading.dismiss();
       this.isLoading = false;
@@ -105,7 +105,7 @@ export class TripDetailsPage {
   //cordova-plugin-googlemaps
   ionViewDidLoad() {
 
-   
+
     console.log('ionViewDidLoad TripDetailsPage');
   }
   initMap(lat, long, location) {

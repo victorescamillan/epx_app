@@ -1,3 +1,17 @@
 page-member-details {
-
+    .member-content {
+        text-align: center;
+        padding: 1em;
+    }
+    .member-content img {
+        max-width: 100%;
+        border: 0;
+        border-radius: 50%;
+        height: 120px;
+        width: 120px;
+    }
+    .member-content p {
+        -webkit-margin-before: 0em;
+        -webkit-margin-after: .5em;
+    }
 }

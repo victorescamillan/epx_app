@@ -11,15 +11,7 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Loading Details...">
-    </ion-refresher-content>
-  </ion-refresher> -->
 
-  <!-- <div class="busy-indicator" *ngIf="details == null">
-    <ion-spinner name="ios"></ion-spinner>
-    <p class="text-center">Loading Details...</p>
-  </div> -->
   <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'" >
     <ion-spinner name="crescent"></ion-spinner>
   </div>
@@ -40,8 +32,8 @@
     <div class="content-details">
       <p class="sm-text pre-line" [innerHTML]="details.content"></p>
       <br/>
-      <button ion-button round icon-right block>
-        I'm Interested
+      <button ion-button round icon-right block (click)="interested()">
+          {{isInterested == true ? "Interested" : "I'm Interested"}}
         <ion-icon name="heart-outline"></ion-icon>
       </button>
       <ion-item>

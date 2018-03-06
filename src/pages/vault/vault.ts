@@ -13,54 +13,50 @@ import { DomSanitizer } from '@angular/platform-browser'
 })
 export class VaultPage {
   vaultList: Observable<any>;
-  isLoading:boolean = true;
-  isRefresh:boolean = false;
+  isLoading: boolean = true;
+  isRefresh: boolean = false;
   constructor(
     public domSanitizer: DomSanitizer,
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {
-
-      this.LoadVault();
+    // Set TTL to 12h
+    cache.setDefaultTTL(60 * 60 * 12);
+    // Keep our cached results when device is offline!
+    cache.setOfflineInvalidate(false);
+    this.LoadVault();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultPage');
   }
-  vaultDetails(vault){
-    this.navCtrl.push('VaultDetailsPage',{data: vault});
+  vaultDetails(vault) {
+    this.navCtrl.push('VaultDetailsPage', { data: vault });
   }
   LoadVault(refresher?) {
-    // let loading = this.loadingCtrl.create({
-    //   content: 'Loading Vault...'
-    // });
-    // loading.present().then(() => {
-      
-    // });
     let url = this.epxProvider.vault_url;
     let ttl = 1000;
     let delay_type = 'all';
     let groupKey = 'vault-list';
-    
+
     this.epxProvider.getVault().subscribe(data => { //Get data from url/api
-          
+
       var vault = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-      
+
       console.log('vault list', vault);
-      
+
       if (refresher) {
-        this.vaultList = this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type);
+        this.vaultList = this.cache.loadFromDelayedObservable(url, vault, groupKey);
         this.vaultList.subscribe(data => {
           refresher.complete();
         });
       }
       else {
-        this.vaultList = this.cache.loadFromObservable(url, vault, groupKey, ttl);
+        this.vaultList = this.cache.loadFromObservable(url, vault, groupKey);
       }
       this.isLoading = false;
       this.isRefresh = true;
-      // loading.dismiss();
     });
   }
   //Pull to refresh page

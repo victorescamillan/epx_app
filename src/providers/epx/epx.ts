@@ -20,8 +20,10 @@ export class EpxProvider {
   // LOGIN
   public login_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
   // TRIPS
+  
   public trips_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_details_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
+  public trips_interest_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
   // SOLO
   public solo_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
   // VAULT
@@ -29,16 +31,13 @@ export class EpxProvider {
   public vault_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
   // MEMBERS
   public members_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
+  public member_details_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id';
+  
   // BUSINESS
   public business_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
-
-  trips: Observable<any>;
-  constructor(public cache: CacheService, private storage: Storage, private httpClient: HttpClient) {
-    // Set TTL to 12h
-    cache.setDefaultTTL(60 * 60 * 12);
-
-    // Keep our cached results when device is offline!
-    cache.setOfflineInvalidate(false);
+  public business_details_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
+  
+  constructor(private storage: Storage, private httpClient: HttpClient) {
   }
 
   getLogin(username, password) {
@@ -55,6 +54,12 @@ export class EpxProvider {
   }
   getTripDetails(id) {
     return this.httpClient.get(this.trips_details_url + id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getTripInterest(trip_id, user_id) {
+    return this.httpClient.get(this.trips_interest_url + trip_id + '&user_id=' + user_id)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -84,8 +89,20 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
+  getMemberDetails(user_id) {
+    return this.httpClient.get(this.member_details_url + user_id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
   getBusiness() {
     return this.httpClient.get(this.business_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getBusinessDetails(id) {
+    return this.httpClient.get(this.business_details_url + id)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -103,8 +120,8 @@ export class EpxProvider {
   saveUser(name, value) {
     return this.storage.set(name, value);
   }
-  getUser(name) {
-    return this.storage.get(name);
+  getUser(key) {
+    return this.storage.get(key);
   }
   removeUser(name) {
     return this.storage.remove(name);
