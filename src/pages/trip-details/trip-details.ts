@@ -76,6 +76,14 @@ export class TripDetailsPage {
   }
   //Interested
   interested() {
+    if(this.isInterested){
+      this.isInterested = false;
+      this.navParams.data.data.trip_interested.interested = false;
+    }
+    else{
+      this.isInterested = true;
+      this.navParams.data.data.trip_interested.interested = true;
+    }
     this.epxProvider.getUser('ID').then(user_id => {
       this.epxProvider.getTripInterest(this.trip_id, user_id).subscribe(res => {
         this.isInterested = res.interest;

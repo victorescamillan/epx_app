@@ -1,15 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
 import { HttpClient } from '@angular/common/http';
-/**
- * Generated class for the TripsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Chart } from 'chart.js';
 
 @IonicPage()
 @Component({
@@ -17,7 +12,8 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: 'trips.html',
 })
 export class TripsPage {
-
+  @ViewChild('doughnutCanvas') doughnutCanvas: ElementRef;
+  doughnutChart: any;
   tripList: Observable<any>;
   selectedTrips;
   is_interested: boolean = false;
@@ -53,7 +49,7 @@ export class TripsPage {
     this.epxProvider.clearUser();
     this.navCtrl.setRoot('LoginPage');
   }
-
+ 
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
     let url = this.epxProvider.trips_url;
@@ -77,7 +73,6 @@ export class TripsPage {
 
           this.tripList = this.cache.loadFromObservable(url, trips, groupKey);
         }
-
         this.isLoading = false;
         this.isRefresh = true;
         this.isInterested = false;
@@ -86,7 +81,6 @@ export class TripsPage {
   }
   //Pull to refresh page
   forceReload(refresher) {
-
     this.LoadTrips(refresher);
   }
 
@@ -95,18 +89,54 @@ export class TripsPage {
     this.navCtrl.push('TripDetailsPage', { data: trip });
     console.log(trip);
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TripsPage');
+  loadChart() {
+    console.log('load chart: ',this.doughnutCanvas);
+    // this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+    //   type: 'doughnut',
+    //   rotation: 5,
+    //   data: {
+    //     labels: ["Occupied", "Vacant"],
+    //     datasets: [{
+    //       label: '# of Votes',
+    //       data: [30,5],
+    //       backgroundColor: [
+    //         'rgba(255, 99, 132, 0.9)',
+    //         'rgba(54, 162, 235, 0.2)',
+    //         // 'rgba(255, 206, 86, 0.2)',
+    //         // 'rgba(75, 192, 192, 0.2)',
+    //         // 'rgba(153, 102, 255, 0.2)',
+    //         // 'rgba(255, 159, 64, 0.2)'
+    //       ],
+    //       hoverBackgroundColor: [
+    //         "#FF6384",
+    //         "#36A2EB",
+    //         // "#FFCE56",
+    //         // "#FF6384",
+    //         // "#36A2EB",
+    //         // "#FFCE56"
+    //       ],
 
+    //     }]
+    //   }
+    // });
   }
   //Interested
   interested(trip) {
     this.epxProvider.getUser('ID').then(user_id => {
+      if (trip.trip_interested.interested) {
+        trip.trip_interested.interested = false;
+      }
+      else {
+        trip.trip_interested.interested = true;
+      }
       this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(res => {
         trip.trip_interested.interested = res.interest;
         console.log('interest result:', res);
       });
     });
+  }
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad TripsPage');
   }
   presentToast(message: string) {
     let toast = this.toastCtrl.create({

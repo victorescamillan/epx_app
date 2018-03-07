@@ -89,9 +89,12 @@ page-trips {
         height: 30px;
         margin-bottom: 20px;
     }
-    .bar-button-default, .bar-button-default.bar-button-default, .bar-button-clear-default {
-        color: #222;
-        background-color: transparent;
-    }
-    
+    // .bar-button-default, .bar-button-default.bar-button-default, .bar-button-clear-default {
+    //     color: #222;
+    //     background-color: transparent;
+    // }
+    // page-trips .bar-button-default, page-trips .bar-button-default.bar-button-default, page-trips .bar-button-clear-default {
+    //     color: #ffffff;
+    //     background-color: transparent;
+    // }
 }

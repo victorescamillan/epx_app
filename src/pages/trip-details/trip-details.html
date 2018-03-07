@@ -32,9 +32,9 @@
     <div class="content-details">
       <p class="sm-text pre-line" [innerHTML]="details.content"></p>
       <br/>
-      <button ion-button round icon-right block (click)="interested()">
-          {{isInterested == true ? "Interested" : "I'm Interested"}}
-        <ion-icon name="heart-outline"></ion-icon>
+      <button ion-button round icon-right block outline (click)="interested()">
+          {{isInterested ? "Interested" : "I'm Interested"}}
+        <ion-icon name="{{isInterested ? 'heart' : 'heart-outline'}}"></ion-icon>
       </button>
       <ion-item>
         <ion-avatar item-end>

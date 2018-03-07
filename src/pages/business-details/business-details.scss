@@ -17,7 +17,7 @@ page-business-details {
     }
     .page-title {
         position: absolute;
-        bottom: 3px;
+        bottom: 0px;
         padding: 5px 10px;
         color: white;
         font-weight: bold;
@@ -29,5 +29,11 @@ page-business-details {
     .business-content img.business-logo{
         height: 70%;
         width: 70%;
+    }
+    .page-thumbnail {
+        height: 100%;
+    }
+    ion-row.row {
+        display: -webkit-inline-box;
     }
 }

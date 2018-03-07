@@ -31,7 +31,7 @@ export class EpxProvider {
   public vault_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
   // MEMBERS
   public members_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
-  public member_details_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id';
+  public member_details_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
   
   // BUSINESS
   public business_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
