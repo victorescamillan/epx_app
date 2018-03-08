@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Details</ion-title>
+    <ion-title>Member Details</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -59,68 +59,37 @@
     <div class="affiliates">
       <div class="crew" *ngIf="hasCrews">
         <h4>{{details.name}}'s Crew</h4>
-        <ion-grid>
-          <ion-row>
-            <ion-col *ngFor="let item of member_crews">
-              <ion-item (click)="memberDetails(item)">
-                <ion-avatar>
-                  <img class="interested" src="{{item.avatar}}" />
-                </ion-avatar>
-                <h1>{{item.name}}</h1>
-                <p>Member Since:</p>
-                <p>{{item.member_since}}</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        <!-- <ion-list>
-          <ion-item *ngFor="let item of member_crews">
-            <ion-avatar item-start>
-              <img [src]="item.avatar">
-            </ion-avatar>
-            <h1>Finn</h1>
-            <p>Member Since:</p>
-            <p>{{item.member_since}}</p>
-          </ion-item>
-        </ion-list> -->
+        <ion-scroll scrollX="true">
+          <ion-card *ngFor="let item of member_crews" (click)="memberDetails(item)">
+            <img class="interested" [src]="item.avatar" />
+            <ion-card-content>
+              <p class="text-center md-text strong">{{item.name}}</p>
+              <p class="text-center sm-text">Member Since:</p>
+              <p class="text-center sm-text">{{item.member_since}}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-scroll>
       </div>
       <div class="vault" *ngIf="hasCurrent || hasPast">
         <h4>{{details.name}}'s Vault Videos</h4>
         <div class="current-trips" *ngIf="hasCurrent">
           <p class="md-text text-center strong">Current Trips</p>
           <ion-scroll scrollX="true">
-              <ion-card *ngFor="let trip of current_trips">
-                <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">
-                <ion-card-content>
-                  <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>
-                  <h3 class="content-text">
-                    <strong>{{trip.title | uppercase}}</strong>
-                  </h3>
-                  <p class="content-text">
-                    <strong class="price">{{trip.price}}</strong> Trip Fee</p>
-                </ion-card-content>
-              </ion-card>
-            </ion-scroll>
-          <!-- <ion-list>
-            <ion-item *ngFor="let trip of current_trips">
-              <ion-avatar item-start>
-                <img [src]="trip.thumbnail">
-              </ion-avatar>
-              <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>
-              <p class="xxl-text strong">{{trip.title | uppercase}}</p>
-              <p class="md-text">
-                <strong color="secondary">{{trip.price}}</strong> Trip Fee</p>
-            </ion-item>
-          </ion-list> -->
+            <ion-card *ngFor="let trip of current_trips">
+              <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">
+              <ion-card-content>
+                <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>
+                <h3 class="content-text">
+                  <strong>{{trip.title | uppercase}}</strong>
+                </h3>
+                <p class="content-text">
+                  <strong class="price">{{trip.price}}</strong> Trip Fee</p>
+              </ion-card-content>
+            </ion-card>
+          </ion-scroll>   
         </div>
         <div class="past-trips">
           <p class="md-text text-center strong">Past Trips</p>
-          <!-- <ion-grid>
-            <ion-row>
-              
-            </ion-row>
-          </ion-grid> -->
-
           <ion-scroll scrollX="true">
             <ion-card *ngFor="let trip of past_trips">
               <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">

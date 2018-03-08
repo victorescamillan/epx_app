@@ -104,3 +104,10 @@ ion-header {
     -moz-background-size: cover;
     background-size: cover;
   }
+  .scroll-zoom-wrapper {
+    display: -webkit-inline-box;
+}
+ion-scroll.scroll-x {
+    min-height: 250px;
+    height: auto;
+}

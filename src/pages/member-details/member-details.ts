@@ -25,9 +25,10 @@ export class MemberDetailsPage {
   hasPast: boolean = false;
 
   constructor(private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
-    console.log('details: ', navParams.data);
+    console.log('member details: ', navParams.data);
     var param = navParams.data.data;
-    this.loadMemberDetails(param.member_id);
+    console.log('member id:',param.ID);
+    this.loadMemberDetails(param.ID);
   }
   loadMemberDetails(id) {
     this.epxProvider.getMemberDetails(id).subscribe(data => {
@@ -64,6 +65,18 @@ export class MemberDetailsPage {
       this.isLoading = false;
     });
   }
+
+  //Navigate to Trip Details
+  tripDetails(trip) {
+    console.log('trip details:', trip);
+    this.navCtrl.push('TripDetailsPage', { data: trip });
+  }
+  //Navigate to Member Details
+  memberDetails(member) {
+    console.log('member details:', member);
+    this.navCtrl.push('MemberDetailsPage', { data: member });
+  }
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad MemberDetailsPage');
   }

@@ -33,8 +33,10 @@ page-member-details {
         max-width: 100%;
         border: 0;
         border-radius: 50%;
-        height: 60px;
-        width: 60px;
+        height: 80px;
+        width: 80px;
+        margin: auto;
+        margin-top: 10px;
     }
     .vault img {
         border-radius: 0%;
@@ -74,13 +76,8 @@ page-member-details {
     // ion-row.row {
     //     display: -webkit-inline-box;
     // }
-    .scroll-zoom-wrapper {
-        display: -webkit-inline-box;
-    }
-    ion-scroll.scroll-x {
-        min-height: 250px;
-    }
    
+  
     /* Hide ion-content scrollbar */
 //   ::-webkit-scrollbar{
 //     display:none;

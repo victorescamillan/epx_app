@@ -37,6 +37,7 @@ declare const google;
 export class TripDetailsPage {
   details: any;
   whos_interested: any;
+  whos_interested_temp: any;
   whos_going: any;
   trip_leader: any;
   map_info: any;
@@ -74,6 +75,7 @@ export class TripDetailsPage {
   memberDetails(member) {
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
+  
   //Interested
   interested() {
     if(this.isInterested){
@@ -100,15 +102,21 @@ export class TripDetailsPage {
 
       let interested = this.details.whos_interested;
       this.whos_interested = Object.keys(interested).map(key => interested[key]);
-
+      this.whos_interested_temp = this.whos_interested.filter((element,index) => {
+        if(index < 4){
+          element[index];
+        }
+      });
       let going = this.details.whos_going;
       this.whos_going = Object.keys(going).map(key => going[key]);
 
       this.initMap(this.lat, this.lng, this.location);
       // loading.dismiss();
       this.isLoading = false;
+      // this.getInterested();
     });
   }
+
 
   //cordova-plugin-googlemaps
   ionViewDidLoad() {

@@ -18,24 +18,28 @@ import { CacheService } from "ionic-cache";
 export class EpxProvider {
 
   // LOGIN
-  public login_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
+  public login_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
   // TRIPS
   
-  public trips_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
-  public trips_details_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
-  public trips_interest_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
+  public trips_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
+  public trips_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
+  public trips_interest_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
+
+  public trips_filter_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
   // SOLO
   public solo_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+  public solo_filter_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
+  
   // VAULT
   public vault_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
   public vault_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
   // MEMBERS
-  public members_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
-  public member_details_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
+  public members_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
+  public member_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
   
   // BUSINESS
-  public business_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
-  public business_details_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
+  public business_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
+  public business_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
   
   constructor(private storage: Storage, private httpClient: HttpClient) {
   }

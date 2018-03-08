@@ -50,4 +50,7 @@ page-login {
   ion-item.item.item-block.item.item-input.item-label-floating.ng-untouched.ng-pristine.ng-valid.input-has-value.item-input-has-value {
       background: transparent;
   }
+  ion-item.item.item-block.item-md.item-input.item-label-floating.ng-valid.ng-dirty.ng-touched {
+    background: transparent;
+}
 }

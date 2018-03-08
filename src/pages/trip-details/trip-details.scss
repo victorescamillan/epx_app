@@ -176,5 +176,23 @@ page-trip-details {
         height: 20px;
         margin: 1px;
     }
+
+    ion-card.card.card-md {
+        width: 160px;
+        height: 220px;
+        margin: 5px;
+    }
+    ion-card.card.card-ios {
+        width: 160px;
+        height: 220px;
+        margin: 5px;
+    }
+    img.interested {
+        border-radius: 50%;
+        height: 80px;
+        width: 80px;
+        margin: auto;
+        margin-top: 20px;
+    }
     
 }

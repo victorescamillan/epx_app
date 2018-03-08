@@ -20,8 +20,10 @@ import  { EpxProvider} from '../../providers/epx/epx';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  username: string='jaylord.lagud.hpo@gmail.com';
-  password: string='jaylord.lagud.hpo@gmail.com';
+  // username: string='jaylord.lagud.hpo@gmail.com';
+  // password: string='jaylord.lagud.hpo@gmail.com';
+  username: string='stan.lee@hpoutsourcinginc.com';
+  password: string='VzOo$)dl';
   constructor(
     // private push:Push,
     private epxProvider: EpxProvider,
