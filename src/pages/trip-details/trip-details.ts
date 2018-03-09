@@ -37,7 +37,7 @@ declare const google;
 export class TripDetailsPage {
   details: any;
   whos_interested: any;
-  whos_interested_temp: any;
+  
   whos_going: any;
   trip_leader: any;
   map_info: any;
@@ -68,10 +68,16 @@ export class TripDetailsPage {
     this.location = details.map_info.map_address;
     this.lat = Number(details.map_info.map_latitude);
     this.lng = Number(details.map_info.map_longitude);
-    this.loadTripDetails(this.trip_id);
-
   }
-
+  ionViewDidLoad() {
+    this.loadTripDetails(this.trip_id);
+    console.log('ionViewDidLoad TripDetailsPage');
+  }
+ 
+  // ionViewWillUnload(){
+  //   this.epxProvider.removeData('trip_details');
+  // }
+  
   memberDetails(member) {
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
@@ -86,7 +92,7 @@ export class TripDetailsPage {
       this.isInterested = true;
       this.navParams.data.data.trip_interested.interested = true;
     }
-    this.epxProvider.getUser('ID').then(user_id => {
+    this.epxProvider.getData('ID').then(user_id => {
       this.epxProvider.getTripInterest(this.trip_id, user_id).subscribe(res => {
         this.isInterested = res.interest;
         console.log('interest result:', res);
@@ -95,18 +101,13 @@ export class TripDetailsPage {
   }
   //get trip details
   loadTripDetails(id) {
-
     this.epxProvider.getTripDetails(id).subscribe(data => {
       this.details = data;
       console.log('trip details: ', data);
 
       let interested = this.details.whos_interested;
       this.whos_interested = Object.keys(interested).map(key => interested[key]);
-      this.whos_interested_temp = this.whos_interested.filter((element,index) => {
-        if(index < 4){
-          element[index];
-        }
-      });
+      
       let going = this.details.whos_going;
       this.whos_going = Object.keys(going).map(key => going[key]);
 
@@ -119,11 +120,7 @@ export class TripDetailsPage {
 
 
   //cordova-plugin-googlemaps
-  ionViewDidLoad() {
-
-
-    console.log('ionViewDidLoad TripDetailsPage');
-  }
+  
   initMap(lat, long, location) {
     let position = { lat: lat, lng: long }
     this.map = new google.maps.Map(this.mapElement.nativeElement, {

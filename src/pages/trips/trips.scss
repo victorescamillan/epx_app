@@ -89,6 +89,13 @@ page-trips {
         height: 30px;
         margin-bottom: 20px;
     }
+    img.sashes {
+        position: relative;
+        height: 120px;
+        width: 145px;
+        bottom: 70px;
+        margin-bottom: -70px;
+    }
     // .bar-button-default, .bar-button-default.bar-button-default, .bar-button-clear-default {
     //     color: #222;
     //     background-color: transparent;

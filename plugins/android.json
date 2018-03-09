@@ -1,0 +1,36 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    },
+    "cordova-plugin-googlemaps": {
+      "API_KEY_FOR_ANDROID": "AIzaSyAM4-DPd7xGkqpoTog8MQp1QAI1I1JckAA",
+      "PLAY_SERVICES_VERSION": "11.8.0",
+      "ANDROID_SUPPORT_V4_VERSION": "24.1.0",
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    }
+  },
+  "dependent_plugins": {}
+}

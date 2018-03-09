@@ -28,7 +28,7 @@ export class MenuPage {
 
   name: string;
   constructor(public alertCtrl: AlertController,private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.epxProvider.getUser('name').then(name => {
+    this.epxProvider.getData('name').then(name => {
       this.name = name;
     })
   }

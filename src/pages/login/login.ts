@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, LoadingController
 import { stagger } from '@angular/core/src/animation/dsl';
 
 import { ChatPage } from '../chat/chat';
-import  { EpxProvider} from '../../providers/epx/epx';
+import { EpxProvider } from '../../providers/epx/epx';
 // import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 //phonegap-plugin-push
@@ -24,22 +24,24 @@ export class LoginPage {
   // password: string='jaylord.lagud.hpo@gmail.com';
   username: string='stan.lee@hpoutsourcinginc.com';
   password: string='VzOo$)dl';
+  // username: string = '';
+  // password: string = '';
   constructor(
     // private push:Push,
     private epxProvider: EpxProvider,
     private loadingCtrl: LoadingController,
-    public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController ) {
-      
-      // this.push.hasPermission()
-      //   .then((res: any) => {
+    public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
 
-      //     if (res.isEnabled) {
-      //       console.log('We have permission to send push notifications');
-      //       this.initPush();
-      //     } else {
-      //       console.log('We do not have permission to send push notifications');
-      //     }
-      //   });
+    // this.push.hasPermission()
+    //   .then((res: any) => {
+
+    //     if (res.isEnabled) {
+    //       console.log('We have permission to send push notifications');
+    //       this.initPush();
+    //     } else {
+    //       console.log('We do not have permission to send push notifications');
+    //     }
+    //   });
   }
 
   // initPush(){
@@ -55,7 +57,7 @@ export class LoginPage {
   //         pushServiceURL: 'http://push.api.phonegap.com/v1/push'
   //     }
   //  };
-   
+
   //   const pushObject: PushObject = this.push.init(options);
 
 
@@ -73,17 +75,14 @@ export class LoginPage {
       content: 'Logging in...',
       dismissOnPageChange: true
     });
-    
-    loading.present().then(()=>{
+
+    loading.present().then(() => {
       this.loginUser();
     });
-  
-    // setTimeout(() => {
-    //   loading.dismiss();
-    // }, 5000);
+
   }
 
-  presentConfirm(title:string, message:string) {
+  presentConfirm(title: string, message: string) {
     let alert = this.alertCtrl.create({
       title: title,
       message: message,
@@ -106,7 +105,7 @@ export class LoginPage {
     alert.present();
   }
 
-  showAlert(title:string, message:string) {
+  showAlert(title: string, message: string) {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: message,
@@ -115,33 +114,33 @@ export class LoginPage {
     alert.present();
   }
 
-  loginUser(){
-
-    if(/^[a-zA-Z0-9@.]+$/.test(this.username)){
-     this.epxProvider.isLogin().then(user => {        
-        if(!user){
-          this.epxProvider.getLogin(this.username,this.password).subscribe(result =>{   
+  loginUser() {
+    let loading = this.loadingCtrl.create({
+      content: 'Logging in...',
+      dismissOnPageChange: true
+    });
+    loading.present().then(() => {
+      if (/^[a-zA-Z0-9@.]+$/.test(this.username)) {
+        this.epxProvider.getLogin(this.username, this.password).subscribe(result => {
+          if (result.authentication) {
             this.username = '';
             this.password = '';
-                     
-            if(result.authentication){
-              this.epxProvider.saveUser('ID',result.ID);
-              this.epxProvider.saveUser('username',this.username);
-              this.epxProvider.saveUser('password',this.password);
-              this.epxProvider.saveUser('name',result.name);
-              this.epxProvider.saveUser('authentication',result.authentication);
-              this.navCtrl.setRoot('MenuPage');
-            }
-          });
-        }
-        else{
-          this.showAlert('Login Failed','Invalid username or password');
-        }
-      });
-      // this.presentLoadingDefault();
-    }else{
-      this.showAlert('Error','Invalid username');
-    }
+            this.epxProvider.saveData('ID', result.ID);
+            this.epxProvider.saveData('name', result.name);
+            this.epxProvider.saveData('authentication', result.authentication);
+            this.navCtrl.setRoot('MenuPage');
+          }
+          else {
+            this.showAlert('Login Failed', 'Invalid username or password');
+            loading.dismiss();
+          }
+        });
+      } else {
+        this.showAlert('Error', 'Invalid username');
+        loading.dismiss();
+      }
+    });
+
   }
 
   ionViewDidLoad() {

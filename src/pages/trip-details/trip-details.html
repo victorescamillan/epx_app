@@ -11,7 +11,6 @@
 </ion-header>
 
 <ion-content>
-
   <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
@@ -102,19 +101,7 @@
     </div>
     <div class="whos-interested" *ngIf="whos_interested.length > 0">
       <h1 class="text-center black">Who's Interested</h1>
-      <!-- <ion-grid>
-        <ion-row>
-          <ion-col *ngFor="let item of whos_interested; let i = index">
-            <ion-item (click)="memberDetails(item)">
-              <ion-avatar>
-                <img class="interested" src="{{item.avatar}}" />
-              </ion-avatar>
-              <p class="sm-text-important text-center black-important">{{item.name}}</p>
-              <p class="text-center gray">{{item.date_registered}}</p>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid> -->
+   
       <ion-scroll scrollX="true">
         <ion-card *ngFor="let member of whos_interested" (click)="memberDetails(member)">
           <img class="interested" [src]="member.avatar" />
@@ -124,12 +111,7 @@
           </ion-card-content>
         </ion-card>
       </ion-scroll>
-      <!-- <div *ngIf="whos_interested.length > 4">
-        <button ion-button round outline block>View More</button>
-      </div> -->
-      <!-- <div *ngIf="whos_interested.length <= 0">
-        <p class="md-text text-center gray"> ***** Nothing *****</p>
-      </div> -->
+ 
     </div>
   </div>
   <div #map id="map"></div>
@@ -169,13 +151,6 @@
           <span class="strong">{{item.industry}}</span> industry with the
           <span class="strong">{{item.employee}}</span> employees.</p>
       </ion-item>
-
-      <!-- <div *ngIf="whos_going.length > 4">
-        <button ion-button round outline block>View More </button>
-      </div> -->
-      <!-- <div *ngIf="whos_going.length <= 0">
-        <p class="md-text text-center gray"> ***** Nothing *****</p>
-      </div> -->
     </div>
   </div>
 </ion-content>

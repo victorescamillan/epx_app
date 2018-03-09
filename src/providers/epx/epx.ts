@@ -121,13 +121,13 @@ export class EpxProvider {
   private extractData(res: Response) {
     return res;
   }
-  saveUser(name, value) {
+  saveData(name, value) {
     return this.storage.set(name, value);
   }
-  getUser(key) {
+  getData(key) {
     return this.storage.get(key);
   }
-  removeUser(name) {
+  removeData(name) {
     return this.storage.remove(name);
   }
   clearUser() {
@@ -135,8 +135,18 @@ export class EpxProvider {
       console.log('all keys are cleared.')
     });
   }
+  isLoaded(name) {
+    return this.getData('name').then(data => {
+      if (data == null) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    });
+  }
   isLogin() {
-    return this.getUser('ID').then(data => {
+    return this.getData('ID').then(data => {
       // console.log('login details', data);
       // return data && data !== -1;
       if (data == null) {

@@ -15,6 +15,7 @@ export class TripsPage {
   @ViewChild('doughnutCanvas') doughnutCanvas: ElementRef;
   doughnutChart: any;
   tripList: Observable<any>;
+  trip: any;
   selectedTrips;
   is_interested: boolean = false;
   id: any;
@@ -35,8 +36,6 @@ export class TripsPage {
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
-
-    this.LoadTrips();
   }
 
   //Filter Page
@@ -49,7 +48,7 @@ export class TripsPage {
     this.epxProvider.clearUser();
     this.navCtrl.setRoot('LoginPage');
   }
- 
+
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
     let url = this.epxProvider.trips_url;
@@ -57,21 +56,22 @@ export class TripsPage {
     let delay_type = 'all';
     let groupKey = 'trip-list';
 
-    this.epxProvider.getUser('ID').then(user_id => { //Get user id from local storage
+    this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
       this.epxProvider.getTrips(user_id).subscribe(data => { //Get data from url/api
 
         let trips = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
 
         if (refresher) {
 
-          this.tripList = this.cache.loadFromDelayedObservable(url, trips, groupKey, );
-          this.tripList.subscribe(data => {
+          this.cache.loadFromDelayedObservable(url, trips, groupKey).subscribe(data => {
+            this.tripList = Observable.of(data);
             refresher.complete();
           });
         }
         else {
-
-          this.tripList = this.cache.loadFromObservable(url, trips, groupKey);
+          this.cache.loadFromObservable(url, trips, groupKey).subscribe(data => {
+            this.tripList = Observable.of(data);
+          });
         }
         this.isLoading = false;
         this.isRefresh = true;
@@ -84,13 +84,9 @@ export class TripsPage {
     this.LoadTrips(refresher);
   }
 
-  //Navigate to Trip Details
-  tripDetails(trip) {
-    this.navCtrl.push('TripDetailsPage', { data: trip });
-    console.log(trip);
-  }
+
   loadChart() {
-    console.log('load chart: ',this.doughnutCanvas);
+    console.log('load chart: ', this.doughnutCanvas);
     // this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
     //   type: 'doughnut',
     //   rotation: 5,
@@ -122,7 +118,7 @@ export class TripsPage {
   }
   //Interested
   interested(trip) {
-    this.epxProvider.getUser('ID').then(user_id => {
+    this.epxProvider.getData('ID').then(user_id => {
       if (trip.trip_interested.interested) {
         trip.trip_interested.interested = false;
       }
@@ -137,6 +133,7 @@ export class TripsPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripsPage');
+    this.LoadTrips();
   }
   presentToast(message: string) {
     let toast = this.toastCtrl.create({
@@ -151,5 +148,15 @@ export class TripsPage {
 
     toast.present();
   }
-
+  //Navigate to Trip Details
+  tripDetails(trip) {
+    this.trip = trip;
+    this.navCtrl.push('TripDetailsPage', { data: trip });
+  }
+  // ionViewWillLeave(){
+  //   // console.log('trip',this.trip);
+  //   this.epxProvider.getTripDetails(this.trip.ID).subscribe(data => {
+  //     this.epxProvider.saveData('trip_details',data);
+  //   });
+  // }
 }

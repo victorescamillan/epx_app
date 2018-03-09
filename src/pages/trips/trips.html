@@ -7,11 +7,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>EXPLORE . EXPAND</ion-title>
-    <!-- <ion-buttons end>
+    <ion-buttons end>
       <button ion-button icon-only color="light" (click)="showFilter()">
         <ion-icon name="md-funnel"></ion-icon>
       </button>
-    </ion-buttons> -->
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content>
@@ -43,7 +43,8 @@
   <!-- <ion-card *virtualItem="let trip"> -->
   <ion-card *ngFor="let trip of tripList | async">
     <button ion-button round outline small class="top">{{trip.product_cat}}</button>
-    <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">
+    <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)" >
+    <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != ''">
     <!-- <canvas #doughnutCanvas></canvas> -->
     <ion-card-content>
       <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>
@@ -52,7 +53,7 @@
       </h3>
       <p class="content-text">
         <strong class="colored">{{trip.price}}</strong> Trip Fee</p>
-      <div class="btn-interested">
+      <div class="btn-interested" *ngIf="trip.sashes_image == ''">
         <button ion-button icon-right clear small (click)="interested(trip)">
           <div>{{trip.trip_interested.interested ? "Interested" : "I'm Interested"}}</div>
           <ion-icon name="{{trip.trip_interested.interested ? 'heart' : 'heart-outline'}}"></ion-icon>
