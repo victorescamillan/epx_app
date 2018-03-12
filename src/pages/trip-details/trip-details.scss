@@ -62,15 +62,15 @@ page-trip-details {
     }
     .swiper-slide img {
         width: auto;
-        max-width: 100%;
         height: 100%;
-        max-height: 100%;
+        object-fit: fill;
     }
     .slide-zoom {
         text-align: center;
         display: block;
         width: 100%;
         height: 100%;
+        background: black;
     }
     .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets {
         left: 0;
@@ -179,13 +179,17 @@ page-trip-details {
 
     ion-card.card.card-md {
         width: 160px;
-        height: 220px;
+        height: 170px;
         margin: 5px;
     }
     ion-card.card.card-ios {
         width: 160px;
-        height: 220px;
+        height: 170px;
         margin: 5px;
+    }
+    ion-scroll.scroll-x {
+        min-height: 200px;
+        height: auto;
     }
     img.interested {
         border-radius: 50%;

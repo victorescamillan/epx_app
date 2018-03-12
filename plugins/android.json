@@ -30,6 +30,9 @@
     },
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
     }
   },
   "dependent_plugins": {}

@@ -35,7 +35,7 @@ export class TripsPage {
     // Set TTL to 12h
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
-    cache.setOfflineInvalidate(false);
+    // cache.setOfflineInvalidate(false);
   }
 
   //Filter Page
@@ -62,8 +62,7 @@ export class TripsPage {
         let trips = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
 
         if (refresher) {
-
-          this.cache.loadFromDelayedObservable(url, trips, groupKey).subscribe(data => {
+          this.cache.loadFromDelayedObservable(url, trips, groupKey, null, delay_type).subscribe(data => {
             this.tripList = Observable.of(data);
             refresher.complete();
           });
@@ -73,6 +72,7 @@ export class TripsPage {
             this.tripList = Observable.of(data);
           });
         }
+        
         this.isLoading = false;
         this.isRefresh = true;
         this.isInterested = false;

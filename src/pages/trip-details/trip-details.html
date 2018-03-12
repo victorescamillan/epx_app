@@ -11,6 +11,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="forceReload($event)">
+    <ion-refresher-content refreshingText="Loading">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
@@ -31,13 +36,14 @@
     <div class="content-details">
       <p class="sm-text pre-line" [innerHTML]="details.content"></p>
       <br/>
-      <button ion-button round icon-right block outline (click)="interested()">
+      <button ion-button round icon-right block outline (click)="interested()" *ngIf="sashes_image == ''">
         {{isInterested ? "Interested" : "I'm Interested"}}
         <ion-icon name="{{isInterested ? 'heart' : 'heart-outline'}}"></ion-icon>
       </button>
+
       <ion-item>
         <ion-avatar item-end>
-          <img class="coordinator" src="{{details.trip_coordinator.Trip_coordinator_avatar}}">
+          <img class="coordinator" src="{{details.trip_coordinator.Trip_coordinator_avatar}}" (click)="memberDetails(details.trip_coordinator)">
         </ion-avatar>
         <h2>{{details.trip_coordinator.Trip_coordinator_name}}</h2>
         <p>Trip Coordinator</p>
@@ -101,7 +107,7 @@
     </div>
     <div class="whos-interested" *ngIf="whos_interested.length > 0">
       <h1 class="text-center black">Who's Interested</h1>
-   
+
       <ion-scroll scrollX="true">
         <ion-card *ngFor="let member of whos_interested" (click)="memberDetails(member)">
           <img class="interested" [src]="member.avatar" />
@@ -111,7 +117,7 @@
           </ion-card-content>
         </ion-card>
       </ion-scroll>
- 
+
     </div>
   </div>
   <div #map id="map"></div>
@@ -119,7 +125,7 @@
     <div class="trip-leader">
       <ion-item>
         <ion-avatar>
-          <img class="leader" src="{{details.trip_leader.Trip_leader_avatar}}" />
+          <img class="leader" src="{{details.trip_leader.Trip_leader_avatar}}" (click)="memberDetails(details.trip_leader)" />
         </ion-avatar>
         <p class="sm-text-important text-center black-important">EPX Trip Leader</p>
         <p class="text-center gray">Member Since:</p>
@@ -139,14 +145,14 @@
     </div>
     <div class="whos-going" *ngIf="whos_going.length > 0">
       <h1 class="text-center black">Who's Going</h1>
-      <ion-item *ngFor="let item of whos_going" (click)="memberDetails(item)">
+      <ion-item *ngFor="let item of whos_going" >
         <ion-avatar item-start>
-          <img class="going" src="{{item.avatar}}">
+          <img class="going" src="{{item.avatar}}" (click)="memberDetails(item)">
         </ion-avatar>
         <p>
           <span class="strong">{{item.name}}</span> is the
           <span class="strong">{{item.position}}</span> at
-          <span class="strong blue">{{item.company}}</span>, a
+          <span class="strong blue" (click)="openBrowser(item.business_url)">{{item.company}}</span>, a
           <span class="strong">{{item.business_model}}</span> in the
           <span class="strong">{{item.industry}}</span> industry with the
           <span class="strong">{{item.employee}}</span> employees.</p>

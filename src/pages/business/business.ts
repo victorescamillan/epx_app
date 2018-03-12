@@ -43,7 +43,7 @@ export class BusinessPage {
       var business = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
 
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, business, groupKey).subscribe(data => {
+        this.cache.loadFromDelayedObservable(url, business, groupKey,null, delay_type).subscribe(data => {
           this.businessList = Observable.of(data);
           refresher.complete();
         });

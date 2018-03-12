@@ -92,7 +92,7 @@ var BusinessPage = (function () {
         this.epxProvider.getBusiness().subscribe(function (data) {
             var business = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(Object.keys(data).map(function (key) { return data[key]; })); //Convert object to array since angular accepts array for iteration
             if (refresher) {
-                _this.cache.loadFromDelayedObservable(url, business, groupKey).subscribe(function (data) {
+                _this.cache.loadFromDelayedObservable(url, business, groupKey, null, delay_type).subscribe(function (data) {
                     _this.businessList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
                     refresher.complete();
                 });

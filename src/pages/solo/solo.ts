@@ -43,7 +43,7 @@ export class SoloPage {
       var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
       console.log('solo list', solo);
       if (refresher) {
-        this.soloList = this.cache.loadFromDelayedObservable(url, solo, groupKey);
+        this.soloList = this.cache.loadFromDelayedObservable(url, solo, groupKey,null,delay_type);
         this.soloList.subscribe(data => {
           refresher.complete();
         });

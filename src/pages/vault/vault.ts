@@ -47,7 +47,7 @@ export class VaultPage {
       console.log('vault list', vault);
 
       if (refresher) {
-        this.vaultList = this.cache.loadFromDelayedObservable(url, vault, groupKey);
+        this.vaultList = this.cache.loadFromDelayedObservable(url, vault, groupKey, null, delay_type);
         this.vaultList.subscribe(data => {
           refresher.complete();
         });

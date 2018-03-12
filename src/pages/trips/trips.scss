@@ -46,13 +46,22 @@ page-trips {
     //     // max-width: 169px;
     //     // width: 169px;
     // }
-    ion-card img {
-        display: block;
+    // ion-card img {
+    //     display: block;
+    //     width: 100%;
+    //     height: 100;
+    //     margin-top: -50px;
+    // }
+    .trip-image {
+        height: 220px;
         width: 100%;
-        height: 200px;
+        margin-bottom: -10px;
+    }
+    .trip-image img{
+        width: 100%;
+        height: 100%;
         margin-top: -50px;
     }
-   
     .list {
         margin: 0px;
     }
@@ -92,9 +101,25 @@ page-trips {
     img.sashes {
         position: relative;
         height: 120px;
-        width: 145px;
+        width: 130px;
         bottom: 70px;
         margin-bottom: -70px;
+    }
+    .trip-meter p.sm-text.strong.white {
+        color: white;
+        margin-top: 30px;
+    }
+    .trip-meter {
+        position: relative;
+        display: block;
+        bottom: 50px;
+        color: white;
+        height: 29px;
+        width: 58px;
+        float: right;
+        right: 0px;
+        text-align: center;
+        // padding-right: 30px;
     }
     // .bar-button-default, .bar-button-default.bar-button-default, .bar-button-clear-default {
     //     color: #222;

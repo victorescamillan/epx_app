@@ -54,6 +54,7 @@ export class TripDetailsPage {
   isLoading: boolean = true;
   isInterested: boolean;
   visibleState = 'visible';
+  sashes_image:any;
   constructor(
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
@@ -65,6 +66,7 @@ export class TripDetailsPage {
     this.isInterested = details.trip_interested.interested;
     console.log('trip details:', details);
     this.trip_id = details.ID;
+    this.sashes_image = details.sashes_image;
     this.location = details.map_info.map_address;
     this.lat = Number(details.map_info.map_latitude);
     this.lng = Number(details.map_info.map_longitude);
@@ -81,30 +83,31 @@ export class TripDetailsPage {
   memberDetails(member) {
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
-  
+  //Pull to refresh page
+  forceReload(refresher) {
+    this.loadTripDetails(refresher);
+  }
   //Interested
   interested() {
-    if(this.isInterested){
-      this.isInterested = false;
-      this.navParams.data.data.trip_interested.interested = false;
-    }
-    else{
-      this.isInterested = true;
-      this.navParams.data.data.trip_interested.interested = true;
-    }
     this.epxProvider.getData('ID').then(user_id => {
       this.epxProvider.getTripInterest(this.trip_id, user_id).subscribe(res => {
         this.isInterested = res.interest;
+        if(res.interest){
+          this.details.number_of_interested++;
+        }
+        else{
+          this.details.number_of_interested--;
+        }
         console.log('interest result:', res);
       });
     });
   }
   //get trip details
-  loadTripDetails(id) {
-    this.epxProvider.getTripDetails(id).subscribe(data => {
+  loadTripDetails(refresher?) {
+    this.epxProvider.getTripDetails(this.trip_id).subscribe(data => {
       this.details = data;
       console.log('trip details: ', data);
-
+      
       let interested = this.details.whos_interested;
       this.whos_interested = Object.keys(interested).map(key => interested[key]);
       
@@ -112,12 +115,13 @@ export class TripDetailsPage {
       this.whos_going = Object.keys(going).map(key => going[key]);
 
       this.initMap(this.lat, this.lng, this.location);
-      // loading.dismiss();
+
       this.isLoading = false;
-      // this.getInterested();
     });
   }
-
+  openBrowser(url){
+    window.open(url,"_blank");
+  }
 
   //cordova-plugin-googlemaps
   

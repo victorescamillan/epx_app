@@ -26065,6 +26065,14 @@ page-member-details .business-logo {
   margin-top: 2em;
 }
 
+page-member-details .business-logo img {
+  max-width: 100%;
+  border: 0;
+  height: 150px;
+  width: 150px;
+  border-radius: 0px;
+}
+
 page-member-details .affiliates {
   border-top: solid 1px gray;
   margin-top: 2em;
@@ -26077,7 +26085,7 @@ page-member-details .crew img {
   height: 80px;
   width: 80px;
   margin: auto;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 page-member-details .vault img {
@@ -26086,7 +26094,7 @@ page-member-details .vault img {
 }
 
 page-member-details ion-card.card.card-md {
-  max-width: 150px;
+  width: 150px;
 }
 
 page-member-details ion-card.card.card-ios {
@@ -26304,9 +26312,9 @@ page-trip-details ion-col h1 {
 
 page-trip-details .swiper-slide img {
   width: auto;
-  max-width: 100%;
   height: 100%;
-  max-height: 100%;
+  -o-object-fit: fill;
+  object-fit: fill;
 }
 
 page-trip-details .slide-zoom {
@@ -26314,6 +26322,7 @@ page-trip-details .slide-zoom {
   display: block;
   width: 100%;
   height: 100%;
+  background: black;
 }
 
 page-trip-details .swiper-pagination-fraction, page-trip-details .swiper-pagination-custom, page-trip-details .swiper-container-horizontal > .swiper-pagination-bullets {
@@ -26437,14 +26446,19 @@ page-trip-details .tags .button-round {
 
 page-trip-details ion-card.card.card-md {
   width: 160px;
-  height: 220px;
+  height: 170px;
   margin: 5px;
 }
 
 page-trip-details ion-card.card.card-ios {
   width: 160px;
-  height: 220px;
+  height: 170px;
   margin: 5px;
+}
+
+page-trip-details ion-scroll.scroll-x {
+  min-height: 200px;
+  height: auto;
 }
 
 page-trip-details img.interested {
@@ -26517,10 +26531,15 @@ page-trips .top {
   top: 10px;
 }
 
-page-trips ion-card img {
-  display: block;
+page-trips .trip-image {
+  height: 220px;
   width: 100%;
-  height: 200px;
+  margin-bottom: -10px;
+}
+
+page-trips .trip-image img {
+  width: 100%;
+  height: 100%;
   margin-top: -50px;
 }
 
@@ -26569,9 +26588,26 @@ page-trips button.disable-hover.button.button.button-default.button-default.butt
 page-trips img.sashes {
   position: relative;
   height: 120px;
-  width: 145px;
+  width: 130px;
   bottom: 70px;
   margin-bottom: -70px;
+}
+
+page-trips .trip-meter p.sm-text.strong.white {
+  color: white;
+  margin-top: 30px;
+}
+
+page-trips .trip-meter {
+  position: relative;
+  display: block;
+  bottom: 50px;
+  color: white;
+  height: 29px;
+  width: 58px;
+  float: right;
+  right: 0px;
+  text-align: center;
 }
 
 page-vault ion-item.item.item-block.item {
