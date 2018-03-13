@@ -24,10 +24,11 @@ export class EpxProvider {
   public trips_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
   public trips_interest_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
+  public trips_tags_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
 
   public trips_filter_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
   // SOLO
-  public solo_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+  public solo_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
   public solo_filter_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
   
   // VAULT
@@ -58,6 +59,12 @@ export class EpxProvider {
   }
   getTripDetails(id) {
     return this.httpClient.get(this.trips_details_url + id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getTripTags(tag,user_id) {
+    return this.httpClient.get(this.trips_tags_url + tag + "&user_id=" + user_id)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

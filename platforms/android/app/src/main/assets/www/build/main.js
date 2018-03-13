@@ -1,4 +1,4 @@
-webpackJsonp([18],{
+webpackJsonp([21],{
 
 /***/ 137:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -48,9 +48,10 @@ var EpxProvider = (function () {
         this.trips_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
         this.trips_details_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
         this.trips_interest_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
+        this.trips_tags_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
         this.trips_filter_url = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
         // SOLO
-        this.solo_url = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+        this.solo_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
         this.solo_filter_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
         // VAULT
         this.vault_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
@@ -76,6 +77,12 @@ var EpxProvider = (function () {
     };
     EpxProvider.prototype.getTripDetails = function (id) {
         return this.httpClient.get(this.trips_details_url + id)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.getTripTags = function (tag, user_id) {
+        return this.httpClient.get(this.trips_tags_url + tag + "&user_id=" + user_id)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -138,13 +145,13 @@ var EpxProvider = (function () {
     EpxProvider.prototype.extractData = function (res) {
         return res;
     };
-    EpxProvider.prototype.saveUser = function (name, value) {
+    EpxProvider.prototype.saveData = function (name, value) {
         return this.storage.set(name, value);
     };
-    EpxProvider.prototype.getUser = function (key) {
+    EpxProvider.prototype.getData = function (key) {
         return this.storage.get(key);
     };
-    EpxProvider.prototype.removeUser = function (name) {
+    EpxProvider.prototype.removeData = function (name) {
         return this.storage.remove(name);
     };
     EpxProvider.prototype.clearUser = function () {
@@ -152,8 +159,18 @@ var EpxProvider = (function () {
             console.log('all keys are cleared.');
         });
     };
+    EpxProvider.prototype.isLoaded = function (name) {
+        return this.getData('name').then(function (data) {
+            if (data == null) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+    };
     EpxProvider.prototype.isLogin = function () {
-        return this.getUser('ID').then(function (data) {
+        return this.getData('ID').then(function (data) {
             // console.log('login details', data);
             // return data && data !== -1;
             if (data == null) {
@@ -198,74 +215,86 @@ webpackEmptyAsyncContext.id = 151;
 var map = {
 	"../pages/assist/assist.module": [
 		453,
-		17
+		20
 	],
 	"../pages/business-details/business-details.module": [
 		454,
-		16
+		19
 	],
 	"../pages/business/business.module": [
 		455,
-		15
+		18
 	],
 	"../pages/chat/chat.module": [
 		456,
-		14
+		17
 	],
 	"../pages/login/login.module": [
 		457,
-		13
+		16
 	],
 	"../pages/member-details/member-details.module": [
-		458,
-		12
+		459,
+		15
 	],
 	"../pages/members/members.module": [
-		459,
-		11
+		458,
+		14
 	],
 	"../pages/mentor/mentor.module": [
 		460,
-		10
+		13
 	],
 	"../pages/menu/menu.module": [
 		461,
-		9
+		12
 	],
 	"../pages/notification/notification.module": [
 		462,
-		8
+		11
 	],
 	"../pages/solo-details/solo-details.module": [
 		463,
-		7
+		10
+	],
+	"../pages/solo-tags/solo-tags.module": [
+		464,
+		9
 	],
 	"../pages/solo/solo.module": [
-		464,
-		6
+		465,
+		8
 	],
 	"../pages/tabs/tabs.module": [
-		465,
-		5
+		466,
+		7
 	],
 	"../pages/trip-details/trip-details.module": [
-		466,
-		4
+		468,
+		6
 	],
 	"../pages/trip-filter/trip-filter.module": [
 		467,
-		3
+		5
+	],
+	"../pages/trip-tags/trip-tags.module": [
+		469,
+		4
 	],
 	"../pages/trips/trips.module": [
-		468,
-		2
+		470,
+		3
 	],
 	"../pages/vault-details/vault-details.module": [
-		469,
+		471,
+		2
+	],
+	"../pages/vault-tags/vault-tags.module": [
+		472,
 		1
 	],
 	"../pages/vault/vault.module": [
-		470,
+		473,
 		0
 	]
 };
@@ -367,18 +396,21 @@ var AppModule = (function () {
                         { loadChildren: '../pages/business/business.module#BusinessPageModule', name: 'BusinessPage', segment: 'business', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/vault-tags/vault-tags.module#VaultTagsPageModule', name: 'VaultTagsPage', segment: 'vault-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] }
                     ]
                 }),

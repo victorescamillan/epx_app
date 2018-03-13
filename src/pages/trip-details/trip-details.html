@@ -100,7 +100,7 @@
             <p>Trip Themes</p>
           </ion-col>
           <ion-col col-8 class="tags">
-            <button ion-button round outline small *ngFor="let tag of details.product_tag">{{tag}}</button>
+            <button ion-button round outline small *ngFor="let tag of details.product_tag" (click)="tripByTags(tag)">{{tag}}</button>
           </ion-col>
         </ion-row>
       </ion-grid>

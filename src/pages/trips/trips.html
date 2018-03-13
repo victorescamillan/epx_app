@@ -7,11 +7,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>EXPLORE . EXPAND</ion-title>
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button icon-only color="light" (click)="showFilter()">
         <ion-icon name="md-funnel"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 <ion-content>
@@ -44,7 +44,7 @@
   <ion-card *ngFor="let trip of tripList | async">
     <div class="trip-image" (click)="tripDetails(trip)">
       <button ion-button round outline small class="top">{{trip.product_cat}}</button>
-      <img src="{{trip.thumbnail}}">
+      <img src="{{trip.thumbnail}}" >
       <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != ''">
       <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">
         <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>

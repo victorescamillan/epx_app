@@ -38,6 +38,7 @@ export class TripsPage {
     // cache.setOfflineInvalidate(false);
   }
 
+  
   //Filter Page
   showFilter() {
     let filterModal = this.modalCtrl.create('TripFilterPage');
@@ -48,7 +49,11 @@ export class TripsPage {
     this.epxProvider.clearUser();
     this.navCtrl.setRoot('LoginPage');
   }
-
+  tripByTags(tag){
+    console.log('tag',tag);
+    this.navCtrl.push('TripTagsPage',{data: tag});
+  }
+  
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
     let url = this.epxProvider.trips_url;

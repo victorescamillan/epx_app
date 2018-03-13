@@ -22,10 +22,10 @@ import { EpxProvider } from '../../providers/epx/epx';
 export class LoginPage {
   // username: string='jaylord.lagud.hpo@gmail.com';
   // password: string='jaylord.lagud.hpo@gmail.com';
-  username: string='stan.lee@hpoutsourcinginc.com';
-  password: string='VzOo$)dl';
-  // username: string = '';
-  // password: string = '';
+  // username: string='stan.lee@hpoutsourcinginc.com';
+  // password: string='VzOo$)dl';
+  username: string = '';
+  password: string = '';
   constructor(
     // private push:Push,
     private epxProvider: EpxProvider,

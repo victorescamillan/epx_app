@@ -32,12 +32,24 @@
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable-xhdpi-v4\\common_full_open_on_phone.png"
     },
     {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_ic_action_next_item.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-mdpi\\ic_action_next_item.png"
+    },
+    {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable-mdpi-v4\\common_google_signin_btn_icon_dark_normal_background.9.png"
     },
     {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi_ic_action_next_item.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-hdpi\\ic_action_next_item.png"
+    },
+    {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-port-xhdpi_screen.png.flat",
         "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-port-xhdpi\\screen.png"
+    },
+    {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi_ic_action_remove.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-hdpi\\ic_action_remove.png"
     },
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-land-xhdpi_screen.png.flat",
@@ -54,6 +66,14 @@
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_common_google_signin_btn_icon_disabled.xml.flat",
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable\\common_google_signin_btn_icon_disabled.xml"
+    },
+    {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi_ic_action_previous_item.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-xhdpi\\ic_action_previous_item.png"
+    },
+    {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi_ic_action_remove.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-xhdpi\\ic_action_remove.png"
     },
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
@@ -88,12 +108,20 @@
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable-xhdpi-v4\\googleg_standard_color_18.png"
     },
     {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi_ic_action_previous_item.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-xxhdpi\\ic_action_previous_item.png"
+    },
+    {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_common_google_signin_btn_icon_dark_focused.xml.flat",
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable\\common_google_signin_btn_icon_dark_focused.xml"
     },
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_googleg_disabled_color_18.png.flat",
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable-mdpi-v4\\googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi_ic_action_remove.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-xxhdpi\\ic_action_remove.png"
     },
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4_common_full_open_on_phone.png.flat",
@@ -120,12 +148,20 @@
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable-hdpi-v4\\common_google_signin_btn_text_dark_normal_background.9.png"
     },
     {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi_ic_action_previous_item.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-hdpi\\ic_action_previous_item.png"
+    },
+    {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable-xhdpi-v4\\common_google_signin_btn_icon_light_normal_background.9.png"
     },
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4_googleg_disabled_color_18.png.flat",
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable-hdpi-v4\\googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_ic_action_remove.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-mdpi\\ic_action_remove.png"
     },
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_common_google_signin_btn_text_light_normal.xml.flat",
@@ -142,6 +178,10 @@
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_dummy_infowindow.xml.flat",
         "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\layout\\dummy_infowindow.xml"
+    },
+    {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_ic_action_previous_item.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-mdpi\\ic_action_previous_item.png"
     },
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-land-ldpi_screen.png.flat",
@@ -192,8 +232,16 @@
         "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\xml\\config.xml"
     },
     {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi_ic_action_next_item.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-xhdpi\\ic_action_next_item.png"
+    },
+    {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_common_google_signin_btn_text_disabled.xml.flat",
         "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\drawable\\common_google_signin_btn_text_disabled.xml"
+    },
+    {
+        "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi_ic_action_next_item.png.flat",
+        "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\drawable-xxhdpi\\ic_action_next_item.png"
     },
     {
         "merged": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_googleg_standard_color_18.png.flat",

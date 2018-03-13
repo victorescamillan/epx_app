@@ -1,14 +1,14 @@
 webpackJsonp([5],{
 
-/***/ 462:
+/***/ 467:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripFilterPageModule", function() { return TripFilterPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(480);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_filter__ = __webpack_require__(488);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,31 +18,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TabsPageModule = (function () {
-    function TabsPageModule() {
+var TripFilterPageModule = (function () {
+    function TripFilterPageModule() {
     }
-    TabsPageModule = __decorate([
+    TripFilterPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__trip_filter__["a" /* TripFilterPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */]),
-            ]
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_filter__["a" /* TripFilterPage */]),
+            ],
         })
-    ], TabsPageModule);
-    return TabsPageModule;
+    ], TripFilterPageModule);
+    return TripFilterPageModule;
 }());
 
-//# sourceMappingURL=tabs.module.js.map
+//# sourceMappingURL=trip-filter.module.js.map
 
 /***/ }),
 
-/***/ 480:
+/***/ 488:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripFilterPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -57,35 +57,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 /**
- * Generated class for the TabsPage tabs.
+ * Generated class for the TripFilterPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var TabsPage = (function () {
-    function TabsPage(menuCtrl, navCtrl) {
-        this.menuCtrl = menuCtrl;
+var TripFilterPage = (function () {
+    function TripFilterPage(viewCtrl, navCtrl, navParams) {
+        this.viewCtrl = viewCtrl;
         this.navCtrl = navCtrl;
-        this.tripsRoot = 'TripsPage';
-        this.vaultRoot = 'VaultPage';
-        this.soloRoot = 'SoloPage';
-        this.membersRoot = 'MembersPage';
-        this.badgeCount = 0;
+        this.navParams = navParams;
     }
-    TabsPage.prototype.openSideMenu = function () {
-        this.menuCtrl.toggle();
+    TripFilterPage.prototype.closeFilter = function () {
+        this.viewCtrl.dismiss();
     };
-    TabsPage = __decorate([
+    TripFilterPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad TripFilterPage');
+    };
+    TripFilterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{badgeCount > 0 ? badgeCount : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/
+            selector: 'page-trip-filter',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/'<!--\n  Generated template for the TripFilterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <!-- <ion-title>Search Trips</ion-title> -->\n    <ion-buttons right>\n        \n        <button ion-button  icon-end (click)="closeFilter()">\n            Close\n          <ion-icon name="close-circle"></ion-icon>\n          \n        </button>\n        \n      </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <h1 class="text-center">Search Trips</h1>\n  <div class="select">\n      <ion-item>\n          <ion-label>Region</ion-label>\n          <ion-select [(ngModel)]="gaming">\n            <ion-option value="nes">Europe West</ion-option>\n            <ion-option value="n64">Central America</ion-option>\n            <ion-option value="ps">Africa</ion-option>\n            <ion-option value="genesis">USA</ion-option>\n            <ion-option value="saturn">East Asia</ion-option>\n            <ion-option value="snes">Carribean</ion-option>\n            <ion-option value="snes">South America</ion-option>\n          </ion-select>\n        </ion-item>\n  </div>\n  <div class="select">\n      <ion-item>\n          <ion-label>Trip Type</ion-label>\n          <ion-select [(ngModel)]="gaming">\n            <ion-option value="nes">Adventure</ion-option>\n            <ion-option value="n64">Beach</ion-option>\n            <ion-option value="ps">Food and Culture</ion-option>\n            <ion-option value="genesis">Nature</ion-option>\n            <ion-option value="saturn">Party</ion-option>\n            <ion-option value="snes">Sports</ion-option>\n            <ion-option value="snes">Thrill</ion-option>\n          </ion-select>\n        </ion-item>\n  </div>\n  <button ion-button round block outline>Update</button>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]])
-    ], TabsPage);
-    return TabsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], TripFilterPage);
+    return TripFilterPage;
 }());
 
-//# sourceMappingURL=tabs.js.map
+//# sourceMappingURL=trip-filter.js.map
 
 /***/ })
 

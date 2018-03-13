@@ -122,7 +122,10 @@ export class TripDetailsPage {
   openBrowser(url){
     window.open(url,"_blank");
   }
-
+  tripByTags(tag){
+    console.log('tag',tag);
+    this.navCtrl.push('TripTagsPage',{data: tag});
+  }
   //cordova-plugin-googlemaps
   
   initMap(lat, long, location) {

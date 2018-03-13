@@ -62,7 +62,10 @@ int drawable dummy_my_location_button 0x7f030013
 int drawable dummy_mylocation_button_shadow 0x7f030014
 int drawable googleg_disabled_color_18 0x7f030015
 int drawable googleg_standard_color_18 0x7f030016
-int drawable screen 0x7f030017
+int drawable ic_action_next_item 0x7f030017
+int drawable ic_action_previous_item 0x7f030018
+int drawable ic_action_remove 0x7f030019
+int drawable screen 0x7f03001a
 int id adjust_height 0x7f040000
 int id adjust_width 0x7f040001
 int id auto 0x7f040002

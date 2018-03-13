@@ -35,7 +35,10 @@ export class VaultDetailsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultDetailsPage');
   }
-
+  openBrowser(url){
+    console.log('company url:',url);
+    window.open(url,"_blank");
+  }
   LoadDetails(id) {
     this.epxProvider.getVaultDetails(id).subscribe(data => { //Get data from url/api
       this.details = data;

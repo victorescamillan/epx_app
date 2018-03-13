@@ -32,5 +32,7 @@ export class BusinessDetailsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad BusinessDetailsPage');
   }
-
+  memberDetails(member) {
+    this.navCtrl.push('MemberDetailsPage', { data: member });
+  }
 }

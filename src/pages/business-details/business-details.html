@@ -37,16 +37,16 @@
     <p class="md-text">{{details.target_customers}}</p>
 
     <h4>Benefits Delivered:</h4>
-    <p class="md-text">{{details.benefits_delivered}}</p>
+    <p class="md-text pre-line" [innerHTML]="details.benefits_delivered"></p>
 
     <h4>Where I can use help:</h4>
-    <p class="md-text">{{details.business_name}}</p>
+    <p class="md-text" >{{details.business_name}}</p>
 
     <h4>Target Customers:</h4>
     <p class="md-text">{{details.target_customers}}</p>
 
     <div class="owner-info">
-      <img class="owner-thumbnail" [src]="details.avatar">
+      <img class="owner-thumbnail" [src]="details.avatar" (click)="memberDetails(details)">
       <h1>{{details.member_name}}</h1>
       <p class="md-text">{{details.member_position}}</p>
     </div>

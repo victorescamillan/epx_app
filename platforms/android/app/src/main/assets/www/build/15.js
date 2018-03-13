@@ -1,14 +1,14 @@
 webpackJsonp([15],{
 
-/***/ 455:
+/***/ 459:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BusinessPageModule", function() { return BusinessPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MemberDetailsPageModule", function() { return MemberDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__business__ = __webpack_require__(473);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__member_details__ = __webpack_require__(480);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,37 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var BusinessPageModule = (function () {
-    function BusinessPageModule() {
+var MemberDetailsPageModule = (function () {
+    function MemberDetailsPageModule() {
     }
-    BusinessPageModule = __decorate([
+    MemberDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__business__["a" /* BusinessPage */],
+                __WEBPACK_IMPORTED_MODULE_2__member_details__["a" /* MemberDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__business__["a" /* BusinessPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__member_details__["a" /* MemberDetailsPage */]),
             ],
         })
-    ], BusinessPageModule);
-    return BusinessPageModule;
+    ], MemberDetailsPageModule);
+    return MemberDetailsPageModule;
 }());
 
-//# sourceMappingURL=business.module.js.map
+//# sourceMappingURL=member-details.module.js.map
 
 /***/ }),
 
-/***/ 473:
+/***/ 480:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BusinessPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MemberDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(284);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -61,84 +58,80 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
 /**
- * Generated class for the BusinessPage page.
+ * Generated class for the MemberDetailsPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var BusinessPage = (function () {
-    function BusinessPage(epxProvider, cache, navCtrl, navParams) {
+var MemberDetailsPage = (function () {
+    function MemberDetailsPage(epxProvider, navCtrl, navParams) {
         this.epxProvider = epxProvider;
-        this.cache = cache;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.isLoading = true;
-        this.isRefresh = false;
-        // Set TTL to 12h
-        cache.setDefaultTTL(60 * 60 * 12);
-        // Keep our cached results when device is offline!
-        cache.setOfflineInvalidate(false);
-        this.LoadBusiness();
+        this.hasCrews = false;
+        this.hasCurrent = false;
+        this.hasPast = false;
+        console.log('member details: ', navParams.data);
+        var param = navParams.data.data;
+        console.log('member id:', param.ID);
+        this.loadMemberDetails(param.ID);
     }
-    BusinessPage.prototype.LoadBusiness = function (refresher) {
+    MemberDetailsPage.prototype.loadMemberDetails = function (id) {
         var _this = this;
-        var url = this.epxProvider.business_url;
-        var ttl = 1000;
-        var delay_type = 'all';
-        var groupKey = 'business-list';
-        this.epxProvider.getBusiness().subscribe(function (data) {
-            var business = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(Object.keys(data).map(function (key) { return data[key]; })); //Convert object to array since angular accepts array for iteration
-            if (refresher) {
-                _this.cache.loadFromDelayedObservable(url, business, groupKey).subscribe(function (data) {
-                    _this.businessList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
-                    refresher.complete();
-                });
+        this.epxProvider.getMemberDetails(id).subscribe(function (data) {
+            _this.details = data;
+            var crews = _this.details.crews;
+            if (crews != null) {
+                _this.member_crews = Object.keys(crews).map(function (keys) { return crews[keys]; });
+                if (_this.member_crews.length > 0) {
+                    _this.hasCrews = true;
+                }
+                console.log('crews: ', _this.member_crews);
             }
-            else {
-                _this.cache.loadFromObservable(url, business, groupKey).subscribe(function (data) {
-                    _this.businessList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
-                    _this.temp_businessList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
-                });
+            var current = _this.details.current_trips;
+            if (current != null) {
+                _this.current_trips = Object.keys(current).map(function (keys) { return current[keys]; });
+                console.log('current trips: ', _this.current_trips);
+                if (_this.current_trips.length > 0) {
+                    _this.hasCurrent = true;
+                }
+            }
+            var past = _this.details.past_trips;
+            if (past != null) {
+                _this.past_trips = Object.keys(past).map(function (keys) { return past[keys]; });
+                console.log('past trips: ', _this.past_trips);
+                if (_this.past_trips.length > 0) {
+                    _this.hasPast = true;
+                }
             }
             _this.isLoading = false;
-            _this.isRefresh = true;
         });
     };
-    BusinessPage.prototype.forceReload = function (refresher) {
-        this.LoadBusiness(refresher);
+    //Navigate to Trip Details
+    MemberDetailsPage.prototype.tripDetails = function (trip) {
+        console.log('trip details:', trip);
+        this.navCtrl.push('TripDetailsPage', { data: trip });
     };
-    BusinessPage.prototype.filterBusiness = function (ev) {
-        if (!this.isLoading) {
-            this.businessList = this.temp_businessList;
-            var val_1 = ev.target.value;
-            if (val_1 && val_1.trim() !== '') {
-                this.businessList = this.businessList.map(function (business) { return business.filter(function (item) {
-                    return item.business_name.toLowerCase().includes(val_1.toLowerCase());
-                }); });
-            }
-        }
+    //Navigate to Member Details
+    MemberDetailsPage.prototype.memberDetails = function (member) {
+        console.log('member details:', member);
+        this.navCtrl.push('MemberDetailsPage', { data: member });
     };
-    BusinessPage.prototype.businessDetails = function (business) {
-        this.navCtrl.push('BusinessDetailsPage', { data: business });
+    MemberDetailsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad MemberDetailsPage');
     };
-    BusinessPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad BusinessPage');
-    };
-    BusinessPage = __decorate([
+    MemberDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-business',template:/*ion-inline-start:"D:\epx_app\src\pages\business\business.html"*/'<!--\n  Generated template for the BusinessPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>BUSINESS</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="card-background-page">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Loading...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-searchbar placeholder="Search Business" showCancelButton color="danger" (ionInput)="filterBusiness($event)"></ion-searchbar>\n\n  <ion-card *ngFor="let business of businessList | async" (click)="businessDetails(business)">\n    <div class="business-logo">\n      <img [src]="business.business_logo"  />\n    </div>\n    <div class="content-text">\n      <div class="card-title">{{business.business_name}}</div>\n      <div class="card-subtitle">{{business.member_name}}</div>\n      <div class="card-subtitle">{{business.business_industry}}</div>\n    </div>\n  </ion-card>\n\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\business\business.html"*/,
+            selector: 'page-member-details',template:/*ion-inline-start:"D:\epx_app\src\pages\member-details\member-details.html"*/'<!--\n  Generated template for the MemberDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div class="member-content" *ngIf="!isLoading">\n    <div class="member-info">\n      <img [src]="details.avatar">\n      <h2>{{details.name}}</h2>\n      <p>Member Since:</p>\n      <p>{{details.member_since}}</p>\n    </div>\n    <div class="about">\n      <p class="sm-text">\n        <span class="strong">{{details.name}}</span> is the\n        <span class="strong">{{details.position}}</span> at\n        <span class="strong blue">{{details.company}}</span>, a\n        <span class="strong">{{details.business_model}}</span> business in the\n        <span class="strong">{{details.industry}}</span> industry with the\n        <span class="strong">{{details.employee}}</span> employees.</p>\n\n      <p class="sm-text">\n        <span class="strong break">A bit more about me, </span> {{details.personal_description}}\n      </p>\n\n      <p class="sm-text">\n        <span class="strong break">I\'m an expert in, </span> {{details.expert_in}}\n      </p>\n\n      <p class="sm-text">\n        <span class="strong break">I can also help you with, </span> {{details.help_with}}\n      </p>\n    </div>\n\n    <div class="business-info">\n      <div class="business-logo">\n        <img [src]="details.business.business_logo">\n      </div>\n      <p class="sm-text">\n        <span class="strong">A brief description about my business, </span> {{details.business.description}}\n      </p>\n      <p class="sm-text strong">I Prefer:</p>\n      <p class="sm-text pre-line" [innerHTML]="item" *ngFor="let item of details.I_prefer"></p>\n    </div>\n    <div class="affiliates">\n      <div class="crew" *ngIf="hasCrews">\n        <h4>{{details.name}}\'s Crew</h4>\n        <ion-scroll scrollX="true">\n          <ion-card *ngFor="let item of member_crews" (click)="memberDetails(item)">\n            <img class="interested" [src]="item.avatar" />\n            <ion-card-content>\n              <p class="text-center md-text strong">{{item.name}}</p>\n              <p class="text-center sm-text">Member Since:</p>\n              <p class="text-center sm-text">{{item.member_since}}</p>\n            </ion-card-content>\n          </ion-card>\n        </ion-scroll>\n      </div>\n      <div class="vault" *ngIf="hasCurrent || hasPast">\n        <h4>{{details.name}}\'s Vault Videos</h4>\n        <div class="current-trips" *ngIf="hasCurrent">\n          <p class="md-text text-center strong">Current Trips</p>\n          <ion-scroll scrollX="true">\n            <ion-card *ngFor="let trip of current_trips">\n              <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n              <ion-card-content>\n                <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>\n                <h3 class="content-text">\n                  <strong>{{trip.title | uppercase}}</strong>\n                </h3>\n                <p class="content-text">\n                  <strong class="price">{{trip.price}}</strong> Trip Fee</p>\n              </ion-card-content>\n            </ion-card>\n          </ion-scroll>   \n        </div>\n        <div class="past-trips">\n          <p class="md-text text-center strong">Past Trips</p>\n          <ion-scroll scrollX="true">\n            <ion-card *ngFor="let trip of past_trips">\n              <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n              <ion-card-content>\n                <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>\n                <h3 class="content-text">\n                  <strong>{{trip.title | uppercase}}</strong>\n                </h3>\n                <p class="content-text">\n                  <strong class="price">{{trip.price}}</strong> Trip Fee</p>\n              </ion-card-content>\n            </ion-card>\n          </ion-scroll>\n        </div>\n      </div>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\member-details\member-details.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], BusinessPage);
-    return BusinessPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], MemberDetailsPage);
+    return MemberDetailsPage;
 }());
 
-//# sourceMappingURL=business.js.map
+//# sourceMappingURL=member-details.js.map
 
 /***/ })
 

@@ -1,14 +1,14 @@
 webpackJsonp([16],{
 
-/***/ 454:
+/***/ 457:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BusinessDetailsPageModule", function() { return BusinessDetailsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageModule", function() { return LoginPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__business_details__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(478);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,31 +18,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var BusinessDetailsPageModule = (function () {
-    function BusinessDetailsPageModule() {
+var LoginPageModule = (function () {
+    function LoginPageModule() {
     }
-    BusinessDetailsPageModule = __decorate([
+    LoginPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__business_details__["a" /* BusinessDetailsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__login__["a" /* LoginPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__business_details__["a" /* BusinessDetailsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__login__["a" /* LoginPage */]),
             ],
         })
-    ], BusinessDetailsPageModule);
-    return BusinessDetailsPageModule;
+    ], LoginPageModule);
+    return LoginPageModule;
 }());
 
-//# sourceMappingURL=business-details.module.js.map
+//# sourceMappingURL=login.module.js.map
 
 /***/ }),
 
-/***/ 472:
+/***/ 478:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BusinessDetailsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(137);
@@ -58,42 +58,144 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+// import { Push, PushObject, PushOptions } from '@ionic-native/push';
+//phonegap-plugin-push
 /**
- * Generated class for the BusinessDetailsPage page.
+ * Generated class for the LoginPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var BusinessDetailsPage = (function () {
-    function BusinessDetailsPage(epxProvider, navCtrl, navParams) {
+var LoginPage = (function () {
+    function LoginPage(
+        // private push:Push,
+        epxProvider, loadingCtrl, navCtrl, navParams, alertCtrl) {
+        // this.push.hasPermission()
+        //   .then((res: any) => {
         this.epxProvider = epxProvider;
+        this.loadingCtrl = loadingCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.isLoading = true;
-        var id = navParams.data.data.ID;
-        this.loadBusinessDetails(id);
+        this.alertCtrl = alertCtrl;
+        // username: string='jaylord.lagud.hpo@gmail.com';
+        // password: string='jaylord.lagud.hpo@gmail.com';
+        // username: string='stan.lee@hpoutsourcinginc.com';
+        // password: string='VzOo$)dl';
+        this.username = '';
+        this.password = '';
+        //     if (res.isEnabled) {
+        //       console.log('We have permission to send push notifications');
+        //       this.initPush();
+        //     } else {
+        //       console.log('We do not have permission to send push notifications');
+        //     }
+        //   });
     }
-    BusinessDetailsPage.prototype.loadBusinessDetails = function (id) {
+    // initPush(){
+    //   const options: any = {
+    //     android: {},
+    //     ios: {
+    //         alert: 'true',
+    //         badge: true,
+    //         sound: 'false'
+    //     },
+    //     windows: {},
+    //     browser: {
+    //         pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+    //     }
+    //  };
+    //   const pushObject: PushObject = this.push.init(options);
+    //   pushObject.on('notification').subscribe((notification: any) => {
+    //     console.log('Received a notification', notification)
+    //     this.presentConfirm(notification.title,notification.message);
+    //   });
+    //   pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+    //   pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+    // }
+    LoginPage.prototype.presentLoadingDefault = function () {
         var _this = this;
-        this.epxProvider.getBusinessDetails(id).subscribe(function (data) {
-            _this.details = data;
-            console.log('business details:', _this.details);
-            _this.isLoading = false;
+        var loading = this.loadingCtrl.create({
+            content: 'Logging in...',
+            dismissOnPageChange: true
+        });
+        loading.present().then(function () {
+            _this.loginUser();
         });
     };
-    BusinessDetailsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad BusinessDetailsPage');
+    LoginPage.prototype.presentConfirm = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            message: message,
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: function () {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Okay',
+                    handler: function () {
+                        console.log('Buy clicked');
+                    }
+                }
+            ]
+        });
+        alert.present();
     };
-    BusinessDetailsPage = __decorate([
+    LoginPage.prototype.showAlert = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['OK']
+        });
+        alert.present();
+    };
+    LoginPage.prototype.loginUser = function () {
+        var _this = this;
+        var loading = this.loadingCtrl.create({
+            content: 'Logging in...',
+            dismissOnPageChange: true
+        });
+        loading.present().then(function () {
+            if (/^[a-zA-Z0-9@.]+$/.test(_this.username)) {
+                _this.epxProvider.getLogin(_this.username, _this.password).subscribe(function (result) {
+                    if (result.authentication) {
+                        _this.username = '';
+                        _this.password = '';
+                        _this.epxProvider.saveData('ID', result.ID);
+                        _this.epxProvider.saveData('name', result.name);
+                        _this.epxProvider.saveData('authentication', result.authentication);
+                        _this.navCtrl.setRoot('MenuPage');
+                    }
+                    else {
+                        _this.showAlert('Login Failed', 'Invalid username or password');
+                        loading.dismiss();
+                    }
+                });
+            }
+            else {
+                _this.showAlert('Error', 'Invalid username');
+                loading.dismiss();
+            }
+        });
+    };
+    LoginPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad LoginPage');
+    };
+    LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-business-details',template:/*ion-inline-start:"D:\epx_app\src\pages\business-details\business-details.html"*/'<!--\n  Generated template for the BusinessDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Business Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <div class="page-thumbnail" *ngIf="!isLoading">\n    <img class="business-logo" [src]="details.page_thumbnail">\n    <div class="page-title">\n      <h2 class="md-text">{{details.business_name}}</h2>\n    </div>\n  </div>\n  <div class="business-content" *ngIf="!isLoading">\n\n    <img class="business-logo" [src]="details.business_logo">\n    <h4>Business Name:</h4>\n    <p class="md-text">{{details.business_name}}</p>\n\n    <h4>Business Description:</h4>\n    <p class="md-text pre-line" [innerHTML]="details.business_description"></p>\n\n    <h4>Target Customers:</h4>\n    <p class="md-text">{{details.target_customers}}</p>\n\n    <h4>Benefits Delivered:</h4>\n    <p class="md-text">{{details.benefits_delivered}}</p>\n\n    <h4>Where I can use help:</h4>\n    <p class="md-text">{{details.business_name}}</p>\n\n    <h4>Target Customers:</h4>\n    <p class="md-text">{{details.target_customers}}</p>\n\n    <div class="owner-info">\n      <img class="owner-thumbnail" [src]="details.avatar">\n      <h1>{{details.member_name}}</h1>\n      <p class="md-text">{{details.member_position}}</p>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\business-details\business-details.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"D:\epx_app\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!-- <ion-header>\n\n  <ion-navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n -->\n <ion-content padding>\n  <div class="logo">\n    <img src="assets/imgs/epx_logo_colored.png" alt="epx logo">\n    <h1>Welcome Back!</h1>\n    <h1>New Adventure Await!</h1>\n  </div>\n  <div class="login-item">\n    <ion-item>\n    <ion-label floating>Username</ion-label>\n      <ion-input [(ngModel)]="username" type="text"></ion-input>\n    </ion-item>\n    <ion-item>\n    <ion-label floating>Password</ion-label>\n    <ion-input [(ngModel)]="password"  type="password"></ion-input>\n  </ion-item>\n</div>\n  <button ion-button round outline block (click)="loginUser()">Login</button>\n \n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\login\login.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], BusinessDetailsPage);
-    return BusinessDetailsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
+    ], LoginPage);
+    return LoginPage;
 }());
 
-//# sourceMappingURL=business-details.js.map
+//# sourceMappingURL=login.js.map
 
 /***/ })
 

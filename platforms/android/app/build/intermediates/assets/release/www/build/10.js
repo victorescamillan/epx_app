@@ -1,14 +1,14 @@
 webpackJsonp([10],{
 
-/***/ 460:
+/***/ 463:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MentorPageModule", function() { return MentorPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloDetailsPageModule", function() { return SoloDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mentor__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_details__ = __webpack_require__(484);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,31 +18,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var MentorPageModule = (function () {
-    function MentorPageModule() {
+var SoloDetailsPageModule = (function () {
+    function SoloDetailsPageModule() {
     }
-    MentorPageModule = __decorate([
+    SoloDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__mentor__["a" /* MentorPage */],
+                __WEBPACK_IMPORTED_MODULE_2__solo_details__["a" /* SoloDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__mentor__["a" /* MentorPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__solo_details__["a" /* SoloDetailsPage */]),
             ],
         })
-    ], MentorPageModule);
-    return MentorPageModule;
+    ], SoloDetailsPageModule);
+    return SoloDetailsPageModule;
 }());
 
-//# sourceMappingURL=mentor.module.js.map
+//# sourceMappingURL=solo-details.module.js.map
 
 /***/ }),
 
-/***/ 478:
+/***/ 484:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MentorPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SoloDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -56,30 +56,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-/**
- * Generated class for the MentorPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var MentorPage = (function () {
-    function MentorPage(navCtrl, navParams) {
+var SoloDetailsPage = (function () {
+    function SoloDetailsPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.details = navParams.data.data;
+        this.lat = Number(this.details.latitude);
+        this.lng = Number(this.details.longitude);
+        this.location = this.details.address;
+        console.log('solo details', this.details);
     }
-    MentorPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad MentorPage');
+    SoloDetailsPage.prototype.isNumber = function (value) {
     };
-    MentorPage = __decorate([
+    SoloDetailsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SoloDetailsPage');
+        this.initMap(this.lat, this.lng, this.location);
+    };
+    SoloDetailsPage.prototype.initMap = function (lat, long, location) {
+        var position = { lat: lat, lng: long };
+        this.map = new google.maps.Map(this.mapElement.nativeElement, {
+            zoom: 15,
+            center: position,
+            mapTypeId: 'roadmap'
+        });
+        var marker = new google.maps.Marker({
+            position: position,
+            map: this.map,
+            title: location
+        });
+        this.map.setCenter(position);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('map'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+    ], SoloDetailsPage.prototype, "mapElement", void 0);
+    SoloDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-mentor',template:/*ion-inline-start:"D:\epx_app\src\pages\mentor\mentor.html"*/'<!--\n  Generated template for the MentorPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Mentor Match</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\mentor\mentor.html"*/,
+            selector: 'page-solo-details',template:/*ion-inline-start:"D:\epx_app\src\pages\solo-details\solo-details.html"*/'<!--\n  Generated template for the SoloDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Solo Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n  <img src="{{details.thumbnail}}" />\n  <div id="title">\n    <p>{{details.title}}</p>\n  </div>\n  <div class="content-text">\n    <p class="pre-line sm-text" [innerHTML]="details.content"></p>\n\n    <div class="other-details">\n      <p class="text-center xxl-text">Trip Fee</p>\n      <div class="price">\n        <p class="text-center xxl-text">{{details.price}}</p>\n      </div>\n      <p class="text-center xxl-text strong">Date</p>\n      <p class="text-center xxl-text">{{details.start_date}}</p>\n\n      <p class="text-center xxl-text strong">Location</p>\n      <p class="text-center xxl-text">{{details.address}}</p>\n    </div>\n  </div>\n  <div #map id="map"></div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo-details\solo-details.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], MentorPage);
-    return MentorPage;
+    ], SoloDetailsPage);
+    return SoloDetailsPage;
 }());
 
-//# sourceMappingURL=mentor.js.map
+//# sourceMappingURL=solo-details.js.map
 
 /***/ })
 

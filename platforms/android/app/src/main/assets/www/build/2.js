@@ -1,14 +1,14 @@
 webpackJsonp([2],{
 
-/***/ 468:
+/***/ 471:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripsPageModule", function() { return TripsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultDetailsPageModule", function() { return VaultDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(486);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault_details__ = __webpack_require__(492);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,38 +18,36 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TripsPageModule = (function () {
-    function TripsPageModule() {
+var VaultDetailsPageModule = (function () {
+    function VaultDetailsPageModule() {
     }
-    TripsPageModule = __decorate([
+    VaultDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__trips__["a" /* TripsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__vault_details__["a" /* VaultDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trips__["a" /* TripsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__vault_details__["a" /* VaultDetailsPage */]),
             ],
         })
-    ], TripsPageModule);
-    return TripsPageModule;
+    ], VaultDetailsPageModule);
+    return VaultDetailsPageModule;
 }());
 
-//# sourceMappingURL=trips.module.js.map
+//# sourceMappingURL=vault-details.module.js.map
 
 /***/ }),
 
-/***/ 486:
+/***/ 492:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VaultDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(284);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__(138);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64,152 +62,53 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var TripsPage = (function () {
-    function TripsPage(httpClient, cache, alertCtrl, toastCtrl, modalCtrl, loadingCtrl, epxProvider, navCtrl, navParams) {
-        this.httpClient = httpClient;
-        this.cache = cache;
-        this.alertCtrl = alertCtrl;
-        this.toastCtrl = toastCtrl;
-        this.modalCtrl = modalCtrl;
+/**
+ * Generated class for the VaultDetailsPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var VaultDetailsPage = (function () {
+    function VaultDetailsPage(loadingCtrl, epxProvider, cache, domSanitizer, navCtrl, navParams) {
         this.loadingCtrl = loadingCtrl;
         this.epxProvider = epxProvider;
+        this.cache = cache;
+        this.domSanitizer = domSanitizer;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.is_interested = false;
-        this.date = new Date().toLocaleString();
         this.isLoading = true;
-        this.isRefresh = false;
-        this.isInterested = false;
-        // Set TTL to 12h
-        cache.setDefaultTTL(60 * 60 * 12);
-        // Keep our cached results when device is offline!
-        cache.setOfflineInvalidate(false);
-        this.LoadTrips();
+        var id = navParams.data.data.ID;
+        this.LoadDetails(id);
     }
-    //Filter Page
-    TripsPage.prototype.showFilter = function () {
-        var filterModal = this.modalCtrl.create('TripFilterPage');
-        filterModal.present();
+    VaultDetailsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad VaultDetailsPage');
     };
-    TripsPage.prototype.logoutUser = function () {
-        this.epxProvider.clearUser();
-        this.navCtrl.setRoot('LoginPage');
+    VaultDetailsPage.prototype.openBrowser = function (url) {
+        console.log('company url:', url);
+        window.open(url, "_blank");
     };
-    //Get Trips List and show indicator
-    TripsPage.prototype.LoadTrips = function (refresher) {
+    VaultDetailsPage.prototype.LoadDetails = function (id) {
         var _this = this;
-        var url = this.epxProvider.trips_url;
-        var ttl = 1000;
-        var delay_type = 'all';
-        var groupKey = 'trip-list';
-        this.epxProvider.getUser('ID').then(function (user_id) {
-            _this.epxProvider.getTrips(user_id).subscribe(function (data) {
-                var trips = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(Object.keys(data).map(function (key) { return data[key]; })); //Convert object to array since angular accepts array for iteration
-                if (refresher) {
-                    _this.tripList = _this.cache.loadFromDelayedObservable(url, trips, groupKey);
-                    _this.tripList.subscribe(function (data) {
-                        refresher.complete();
-                    });
-                }
-                else {
-                    _this.tripList = _this.cache.loadFromObservable(url, trips, groupKey);
-                }
-                _this.isLoading = false;
-                _this.isRefresh = true;
-                _this.isInterested = false;
-            });
+        this.epxProvider.getVaultDetails(id).subscribe(function (data) {
+            _this.details = data;
+            _this.isLoading = false;
+            console.log('isLoading', _this.isLoading);
         });
     };
-    //Pull to refresh page
-    TripsPage.prototype.forceReload = function (refresher) {
-        this.LoadTrips(refresher);
-    };
-    //Navigate to Trip Details
-    TripsPage.prototype.tripDetails = function (trip) {
-        this.navCtrl.push('TripDetailsPage', { data: trip });
-    };
-    TripsPage.prototype.loadChart = function () {
-        console.log('load chart: ', this.doughnutCanvas);
-        // this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
-        //   type: 'doughnut',
-        //   rotation: 5,
-        //   data: {
-        //     labels: ["Occupied", "Vacant"],
-        //     datasets: [{
-        //       label: '# of Votes',
-        //       data: [30,5],
-        //       backgroundColor: [
-        //         'rgba(255, 99, 132, 0.9)',
-        //         'rgba(54, 162, 235, 0.2)',
-        //         // 'rgba(255, 206, 86, 0.2)',
-        //         // 'rgba(75, 192, 192, 0.2)',
-        //         // 'rgba(153, 102, 255, 0.2)',
-        //         // 'rgba(255, 159, 64, 0.2)'
-        //       ],
-        //       hoverBackgroundColor: [
-        //         "#FF6384",
-        //         "#36A2EB",
-        //         // "#FFCE56",
-        //         // "#FF6384",
-        //         // "#36A2EB",
-        //         // "#FFCE56"
-        //       ],
-        //     }]
-        //   }
-        // });
-    };
-    //Interested
-    TripsPage.prototype.interested = function (trip) {
-        var _this = this;
-        this.epxProvider.getUser('ID').then(function (user_id) {
-            if (trip.trip_interested.interested) {
-                trip.trip_interested.interested = false;
-            }
-            else {
-                trip.trip_interested.interested = true;
-            }
-            _this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(function (res) {
-                trip.trip_interested.interested = res.interest;
-                console.log('interest result:', res);
-            });
-        });
-    };
-    TripsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad TripsPage');
-    };
-    TripsPage.prototype.presentToast = function (message) {
-        var toast = this.toastCtrl.create({
-            message: message,
-            duration: 2000,
-            position: 'bottom'
-        });
-        toast.onDidDismiss(function () {
-            console.log('Dismissed toast');
-        });
-        toast.present();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('doughnutCanvas'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
-    ], TripsPage.prototype, "doughnutCanvas", void 0);
-    TripsPage = __decorate([
+    VaultDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trips',template:/*ion-inline-start:"D:\epx_app\src\pages\trips\trips.html"*/'<!-- <!--\n  Generated template for the TripsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>EXPLORE . EXPAND</ion-title>\n    <!-- <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="showFilter()">\n        <ion-icon name="md-funnel"></ion-icon>\n      </button>\n    </ion-buttons> -->\n  </ion-navbar>\n</ion-header>\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Loading...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <!-- <h1 class="text-center">\n    <strong>EXPLORE . EXPAND</strong>\n  </h1> -->\n  <!-- <ion-buttons>\n    <button ion-button block icon-end (click)="showFilter()">\n      Filter\n      <ion-icon name="search"></ion-icon>\n    </button>\n  </ion-buttons> -->\n  <br />\n\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <!-- <ion-card >\n    <ion-card-content>\n      <canvas #doughnutCanvas></canvas>\n    </ion-card-content>\n  </ion-card> -->\n  <!-- <ion-list [virtualScroll]="(tripList | async)" [approxItemHeight]="\'200px\'"> -->\n  <!-- <ion-list> -->\n  <!-- <ion-card *virtualItem="let trip"> -->\n  <ion-card *ngFor="let trip of tripList | async">\n    <button ion-button round outline small class="top">{{trip.product_cat}}</button>\n    <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n    <!-- <canvas #doughnutCanvas></canvas> -->\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong>{{trip.title | uppercase}}</strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <ion-icon name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n  <!-- </ion-list> -->\n\n</ion-content> -->'/*ion-inline-end:"D:\epx_app\src\pages\trips\trips.html"*/,
+            selector: 'page-vault-details',template:/*ion-inline-start:"D:\epx_app\src\pages\vault-details\vault-details.html"*/'<!--\n  Generated template for the VaultDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Vault Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div class="content" *ngIf="!isLoading">\n    <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(details.embed_link)" *ngIf="details.vault_type == \'video\'"> </iframe>\n    <img [src]="details.embed_link" *ngIf="details.vault_type == \'ebook\'">\n    <div class="title">\n      <h2>{{details.title}}</h2>\n      <p class="md-text" *ngIf="details.vault_type != \'ebook\'">Length {{details.length}}</p>\n    </div>\n    <div class="content-text">\n      <ion-grid>\n        <ion-row>\n          <ion-col col-3>\n            <span class="md-text strong">Posted :</span>\n          </ion-col>\n          <ion-col col-9>\n            <span class="md-text">{{details.posted}}</span>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-3>\n            <span class="md-text strong">Category :</span>\n          </ion-col>\n          <ion-col col-9>\n            <p class="md-text blue" *ngFor="let item of details.category">{{item}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-3>\n            <span class="md-text strong">Skills :</span>\n          </ion-col>\n          <ion-col col-9 class="tags">\n            <button ion-button round outline small *ngFor="let item of details.tags">{{item}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n\n      <div class="underline"></div>\n\n      <ion-item>\n        <ion-avatar>\n          <img src="{{details.author_avatar}}">\n        </ion-avatar>\n        <br />\n        <p class="md-text text-center">Member Since: {{details.member_since}}</p>\n      </ion-item>\n      <br />\n      <p class="text-center md-text">\n        <span class="strong ">{{details.author_name}}</span> is the\n        <span class="strong ">{{details.position}}</span> at\n        <span class="strong blue" (click)="openBrowser(details.company_url)">{{details.company}}</span>, a\n        <span class="strong ">{{details.business_model}}</span> business in the\n        <span class="strong ">{{details.industry}}</span> industry with the\n        <span class="strong ">{{details.employee}}</span> employees.\n      </p>\n      <br />\n      <p class="md-text text-center">\n        <strong>A bit about me,</strong> {{details.personal_description}}</p>\n      <p class="md-text text-center">\n        <strong>A brief description about my business,</strong> {{details.business_description}}</p>\n      <br />\n      <p class="md-text text-center strong">I\'m an expert in:</p>\n      <p class="md-text text-center">{{details.expert_in}}</p>\n      <br />\n      <p class="md-text text-center strong">I can also help you with:</p>\n      <p class="md-text text-center">{{details.help_with}}</p>\n      <br />\n      <p class="md-text text-center strong">I prefer:</p>\n      <p class="md-text text-center pre-line" [innerHTML]="item" *ngFor="let item of details.I_prefer"></p>\n      <br />\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\vault-details\vault-details.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__angular_common_http__["a" /* HttpClient */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["c" /* DomSanitizer */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], TripsPage);
-    return TripsPage;
+    ], VaultDetailsPage);
+    return VaultDetailsPage;
 }());
 
-//# sourceMappingURL=trips.js.map
+//# sourceMappingURL=vault-details.js.map
 
 /***/ })
 

@@ -5,10 +5,10 @@ webpackJsonp([14],{
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatPageModule", function() { return ChatPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MembersPageModule", function() { return MembersPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__chat__ = __webpack_require__(476);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__members__ = __webpack_require__(479);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,37 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ChatPageModule = (function () {
-    function ChatPageModule() {
+var MembersPageModule = (function () {
+    function MembersPageModule() {
     }
-    ChatPageModule = __decorate([
+    MembersPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__chat__["a" /* ChatPage */],
+                __WEBPACK_IMPORTED_MODULE_2__members__["a" /* MembersPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__chat__["a" /* ChatPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__members__["a" /* MembersPage */]),
             ],
         })
-    ], ChatPageModule);
-    return ChatPageModule;
+    ], MembersPageModule);
+    return MembersPageModule;
 }());
 
-//# sourceMappingURL=chat.module.js.map
+//# sourceMappingURL=members.module.js.map
 
 /***/ }),
 
-/***/ 476:
+/***/ 479:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MembersPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(284);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,60 +61,85 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 /**
- * Generated class for the ChatPage page.
+ * Generated class for the MembersPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var ChatPage = (function () {
-    function ChatPage(db, navCtrl, navParams) {
-        var _this = this;
-        this.db = db;
+var MembersPage = (function () {
+    function MembersPage(epxProvider, cache, navCtrl, navParams) {
+        this.epxProvider = epxProvider;
+        this.cache = cache;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.username = '';
-        this.message = '';
-        this.messages = [];
-        this.username = this.navParams.get('username');
-        this._chatSubscription = db.list('chat').valueChanges().subscribe(function (data) {
-            _this.messages = data;
-        });
+        this.isLoading = true;
+        this.isRefresh = false;
+        // Set TTL to 12h
+        cache.setDefaultTTL(60 * 60 * 12);
+        // Keep our cached results when device is offline!
+        cache.setOfflineInvalidate(false);
+        this.LoadMembers();
     }
-    ChatPage.prototype.sendMessage = function () {
-        this.db.list('/chat').push({
-            username: this.username,
-            message: this.message
-        }).then(function () {
+    MembersPage.prototype.LoadMembers = function (refresher) {
+        var _this = this;
+        var url = this.epxProvider.members_url;
+        var ttl = 1000;
+        var delay_type = 'all';
+        var groupKey = 'member-list';
+        this.epxProvider.getMembers().subscribe(function (data) {
+            var members = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(Object.keys(data).map(function (key) { return data[key]; })); //Convert object to array since angular accepts array for iteration
+            if (refresher) {
+                _this.cache.loadFromDelayedObservable(url, members, groupKey, null, delay_type).subscribe(function (data) {
+                    _this.memberList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
+                    refresher.complete();
+                });
+            }
+            else {
+                _this.cache.loadFromObservable(url, members, groupKey).subscribe(function (data) {
+                    _this.memberList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
+                    _this.temp_memberList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
+                    // console.log('member list', data);
+                });
+            }
+            _this.isLoading = false;
+            _this.isRefresh = true;
         });
-        this.message = '';
     };
-    ChatPage.prototype.ionViewWillLeave = function () {
-        console.log('user is about to go.');
-        this._chatSubscription.unsubscribe();
-        this.db.list('/chat').push({
-            specialMessage: true,
-            message: this.username + ' has left the room'
-        });
+    MembersPage.prototype.forceReload = function (refresher) {
+        this.LoadMembers(refresher);
     };
-    ChatPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ChatPage');
-        this.db.list('/chat').push({
-            specialMessage: true,
-            message: this.username + ' has joined the room'
-        });
+    MembersPage.prototype.filterMembers = function (ev) {
+        if (!this.isLoading) {
+            this.memberList = this.temp_memberList;
+            var val_1 = ev.target.value;
+            if (val_1 && val_1.trim() !== '') {
+                this.memberList = this.memberList.map(function (member) { return member.filter(function (item) {
+                    return item.name.toLowerCase().includes(val_1.toLowerCase());
+                }); });
+            }
+        }
     };
-    ChatPage = __decorate([
+    MembersPage.prototype.memberDetails = function (member) {
+        this.navCtrl.push('MemberDetailsPage', { data: member });
+    };
+    MembersPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad MembersPage');
+    };
+    MembersPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-chat',template:/*ion-inline-start:"D:\epx_app\src\pages\chat\chat.html"*/'<!--\n  Generated template for the ChatPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>chat</ion-title>\n  </ion-navbar>\n</ion-header>\n \n\n<ion-content padding>\n  <div id="chatMessages">\n    <div *ngFor="let message of messages" [class]="message.specialMessage ? \'message special\' : \'message\'">\n        <div [class]="message.username == username ? \'innerMessage messageRight\' : \'innerMessage messageLeft\'">\n          <div class="username">{{ message.username}}</div>\n          <div class="messageContent">{{ message.message}}</div>\n        </div>\n    </div>\n  </div>\n</ion-content>\n<ion-footer>\n    <ion-toolbar>\n      <div class="footer">\n        <div class="elem">\n          <ion-input type="text" [(ngModel)]="message" placeholder="Type your message here"></ion-input>\n        </div>\n        <div class="elem">\n          <button ion-button icon-only (click)="sendMessage()"><ion-icon name="send"></ion-icon></button>\n        </div>\n    </div>\n    </ion-toolbar>\n\n</ion-footer>\n'/*ion-inline-end:"D:\epx_app\src\pages\chat\chat.html"*/,
+            selector: 'page-members',template:/*ion-inline-start:"D:\epx_app\src\pages\members\members.html"*/'<!--\n  Generated template for the MembersPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>MEMBERS</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Loading...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  \n  <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar>\n  <ion-list>\n    <ion-item-sliding *ngFor="let member of memberList  | async">\n      <ion-item >\n        <ion-avatar item-start>\n          <img [src]="member.avatar" (click)="memberDetails(member)">\n        </ion-avatar>\n        <p class="item-text">\n            <span class="strong ">{{member.name}}</span> is the\n            <span class="strong ">{{member.position}}</span> at\n            <span class="strong blue">{{member.company}}</span>, a\n            <span class="strong ">{{member.business_model}}</span> business in the\n            <span class="strong ">{{member.industry}}</span> industry with the\n            <span class="strong ">{{member.employee}}</span> employees.\n          </p>\n      </ion-item>\n      <ion-item-options side="left">\n        <button ion-button color="secondary">\n          <ion-icon name="text"></ion-icon>\n          Message\n        </button>\n        <!-- <button ion-button color="secondary">\n          <ion-icon name="call"></ion-icon>\n          Call\n        </button> -->\n      </ion-item-options>\n      <ion-item-options side="right">\n        <button ion-button color="primary" (click)="memberDetails(member)">\n          <ion-icon name="person"></ion-icon>\n          Profile\n        </button>\n      </ion-item-options>\n    </ion-item-sliding>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\members\members.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], ChatPage);
-    return ChatPage;
+    ], MembersPage);
+    return MembersPage;
 }());
 
-//# sourceMappingURL=chat.js.map
+//# sourceMappingURL=members.js.map
 
 /***/ })
 

@@ -26065,6 +26065,14 @@ page-member-details .business-logo {
   margin-top: 2em;
 }
 
+page-member-details .business-logo img {
+  max-width: 100%;
+  border: 0;
+  height: 150px;
+  width: 150px;
+  border-radius: 0px;
+}
+
 page-member-details .affiliates {
   border-top: solid 1px gray;
   margin-top: 2em;
@@ -26077,7 +26085,7 @@ page-member-details .crew img {
   height: 80px;
   width: 80px;
   margin: auto;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 page-member-details .vault img {
@@ -26086,7 +26094,7 @@ page-member-details .vault img {
 }
 
 page-member-details ion-card.card.card-md {
-  max-width: 150px;
+  width: 150px;
 }
 
 page-member-details ion-card.card.card-ios {
@@ -26304,9 +26312,9 @@ page-trip-details ion-col h1 {
 
 page-trip-details .swiper-slide img {
   width: auto;
-  max-width: 100%;
   height: 100%;
-  max-height: 100%;
+  -o-object-fit: fill;
+  object-fit: fill;
 }
 
 page-trip-details .slide-zoom {
@@ -26314,6 +26322,7 @@ page-trip-details .slide-zoom {
   display: block;
   width: 100%;
   height: 100%;
+  background: black;
 }
 
 page-trip-details .swiper-pagination-fraction, page-trip-details .swiper-pagination-custom, page-trip-details .swiper-container-horizontal > .swiper-pagination-bullets {
@@ -26437,14 +26446,19 @@ page-trip-details .tags .button-round {
 
 page-trip-details ion-card.card.card-md {
   width: 160px;
-  height: 220px;
+  height: 170px;
   margin: 5px;
 }
 
 page-trip-details ion-card.card.card-ios {
   width: 160px;
-  height: 220px;
+  height: 170px;
   margin: 5px;
+}
+
+page-trip-details ion-scroll.scroll-x {
+  min-height: 200px;
+  height: auto;
 }
 
 page-trip-details img.interested {
@@ -26473,6 +26487,127 @@ page-trip-filter .button-round {
 page-trip-filter ion-label {
   font-weight: 600;
   font-size: 110%;
+}
+
+page-trip-tags .card-content {
+  padding: 5px;
+}
+
+page-trip-tags ion-grid.grid {
+  padding: 0px;
+}
+
+page-trip-tags .btn-interested button {
+  padding: 0px;
+  margin: 0px;
+  font-size: 100%;
+}
+
+page-trip-tags .content-text {
+  padding: 3px 0px;
+}
+
+page-trip-tags .content-text .colored {
+  color: #15c534;
+  font-size: 115%;
+}
+
+page-trip-tags p.sm-text {
+  font-size: 90%;
+}
+
+page-trip-tags p.md-text {
+  font-size: 110%;
+  color: #ffffff;
+}
+
+page-trip-tags h3.content-text {
+  font-size: 130%;
+}
+
+page-trip-tags .top {
+  position: relative;
+  left: 10px;
+  top: 10px;
+}
+
+page-trip-tags .trip-image {
+  height: 220px;
+  width: 100%;
+  margin-bottom: -10px;
+}
+
+page-trip-tags .trip-image img {
+  width: 100%;
+  height: 100%;
+  margin-top: -50px;
+}
+
+page-trip-tags .list {
+  margin: 0px;
+}
+
+page-trip-tags .button-round {
+  border-radius: 64px;
+  padding: 0 1rem;
+  border-color: #ffffff;
+  color: #ffffff;
+  BACKGROUND: BLACK;
+  OPACITY: .5;
+}
+
+page-trip-tags .button-outline.activated {
+  background: transparent;
+  border-color: #488aff;
+  color: #488aff;
+  BACKGROUND: BLACK;
+  OPACITY: .5;
+}
+
+page-trip-tags button.disable-hover.bar-button.bar-button.bar-button-outline.bar-button-outline {
+  padding: 0px 10px;
+  height: 25px;
+  color: #488aff;
+  border-color: #488aff;
+}
+
+page-trip-tags h1.text-center {
+  text-align: center;
+  color: #050505;
+  font-family: sans-serif;
+}
+
+page-trip-tags button.disable-hover.button.button.button-default.button-default.button-block.button-block {
+  background: black;
+  width: 100px;
+  margin: auto;
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+page-trip-tags img.sashes {
+  position: relative;
+  height: 120px;
+  width: 130px;
+  bottom: 70px;
+  margin-bottom: -70px;
+}
+
+page-trip-tags .trip-meter p.sm-text.strong.white {
+  color: white;
+  margin-top: 30px;
+}
+
+page-trip-tags .trip-meter {
+  position: relative;
+  display: block;
+  bottom: 50px;
+  color: white;
+  height: 29px;
+  width: 58px;
+  float: right;
+  right: 0px;
+  text-align: center;
 }
 
 page-trips .card-content {
@@ -26517,10 +26652,15 @@ page-trips .top {
   top: 10px;
 }
 
-page-trips ion-card img {
-  display: block;
+page-trips .trip-image {
+  height: 220px;
   width: 100%;
-  height: 200px;
+  margin-bottom: -10px;
+}
+
+page-trips .trip-image img {
+  width: 100%;
+  height: 100%;
   margin-top: -50px;
 }
 
@@ -26564,6 +26704,31 @@ page-trips button.disable-hover.button.button.button-default.button-default.butt
   margin: auto;
   height: 30px;
   margin-bottom: 20px;
+}
+
+page-trips img.sashes {
+  position: relative;
+  height: 120px;
+  width: 130px;
+  bottom: 70px;
+  margin-bottom: -70px;
+}
+
+page-trips .trip-meter p.sm-text.strong.white {
+  color: white;
+  margin-top: 30px;
+}
+
+page-trips .trip-meter {
+  position: relative;
+  display: block;
+  bottom: 50px;
+  color: white;
+  height: 29px;
+  width: 58px;
+  float: right;
+  right: 0px;
+  text-align: center;
 }
 
 page-vault ion-item.item.item-block.item {

@@ -1,14 +1,14 @@
 webpackJsonp([1],{
 
-/***/ 469:
+/***/ 472:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultDetailsPageModule", function() { return VaultDetailsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultTagsPageModule", function() { return VaultTagsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault_details__ = __webpack_require__(487);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault_tags__ = __webpack_require__(493);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,36 +18,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var VaultDetailsPageModule = (function () {
-    function VaultDetailsPageModule() {
+var VaultTagsPageModule = (function () {
+    function VaultTagsPageModule() {
     }
-    VaultDetailsPageModule = __decorate([
+    VaultTagsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__vault_details__["a" /* VaultDetailsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__vault_tags__["a" /* VaultTagsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__vault_details__["a" /* VaultDetailsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__vault_tags__["a" /* VaultTagsPage */]),
             ],
         })
-    ], VaultDetailsPageModule);
-    return VaultDetailsPageModule;
+    ], VaultTagsPageModule);
+    return VaultTagsPageModule;
 }());
 
-//# sourceMappingURL=vault-details.module.js.map
+//# sourceMappingURL=vault-tags.module.js.map
 
 /***/ }),
 
-/***/ 487:
+/***/ 493:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VaultDetailsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VaultTagsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(284);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -59,52 +56,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-
-
 /**
- * Generated class for the VaultDetailsPage page.
+ * Generated class for the VaultTagsPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var VaultDetailsPage = (function () {
-    function VaultDetailsPage(loadingCtrl, epxProvider, cache, domSanitizer, navCtrl, navParams) {
-        this.loadingCtrl = loadingCtrl;
-        this.epxProvider = epxProvider;
-        this.cache = cache;
-        this.domSanitizer = domSanitizer;
+var VaultTagsPage = (function () {
+    function VaultTagsPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.isLoading = true;
-        var id = navParams.data.data.ID;
-        this.LoadDetails(id);
     }
-    VaultDetailsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad VaultDetailsPage');
+    VaultTagsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad VaultTagsPage');
     };
-    VaultDetailsPage.prototype.LoadDetails = function (id) {
-        var _this = this;
-        this.epxProvider.getVaultDetails(id).subscribe(function (data) {
-            _this.details = data;
-            _this.isLoading = false;
-            console.log('isLoading', _this.isLoading);
-        });
-    };
-    VaultDetailsPage = __decorate([
+    VaultTagsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-vault-details',template:/*ion-inline-start:"D:\epx_app\src\pages\vault-details\vault-details.html"*/'<!--\n  Generated template for the VaultDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Vault Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div class="content" *ngIf="!isLoading">\n    <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(details.embed_link)" *ngIf="details.vault_type == \'video\'"> </iframe>\n    <img [src]="details.embed_link" *ngIf="details.vault_type == \'ebook\'">\n    <div class="title">\n      <h2>{{details.title}}</h2>\n      <p class="md-text" *ngIf="details.vault_type != \'ebook\'">Length {{details.length}}</p>\n    </div>\n    <div class="content-text">\n      <ion-grid>\n        <ion-row>\n          <ion-col col-3>\n            <span class="md-text strong">Posted :</span>\n          </ion-col>\n          <ion-col col-9>\n            <span class="md-text">{{details.posted}}</span>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-3>\n            <span class="md-text strong">Category :</span>\n          </ion-col>\n          <ion-col col-9>\n            <p class="md-text blue" *ngFor="let item of details.category">{{item}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-3>\n            <span class="md-text strong">Skills :</span>\n          </ion-col>\n          <ion-col col-9 class="tags">\n            <button ion-button round outline small *ngFor="let item of details.tags">{{item}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n\n      <div class="underline"></div>\n\n      <ion-item>\n        <ion-avatar>\n          <img src="{{details.author_avatar}}">\n        </ion-avatar>\n        <br />\n        <p class="md-text text-center">Member Since: {{details.member_since}}</p>\n      </ion-item>\n      <br />\n      <p class="text-center md-text">\n        <span class="strong ">{{details.author_name}}</span> is the\n        <span class="strong ">{{details.position}}</span> at\n        <span class="strong blue">{{details.company}}</span>, a\n        <span class="strong ">{{details.business_model}}</span> business in the\n        <span class="strong ">{{details.industry}}</span> industry with the\n        <span class="strong ">{{details.employee}}</span> employees.\n      </p>\n      <br />\n      <p class="md-text text-center">\n        <strong>A bit about me,</strong> {{details.personal_description}}</p>\n      <p class="md-text text-center">\n        <strong>A brief description about my business,</strong> {{details.business_description}}</p>\n      <br />\n      <p class="md-text text-center strong">I\'m an expert in:</p>\n      <p class="md-text text-center">{{details.expert_in}}</p>\n      <br />\n      <p class="md-text text-center strong">I can also help you with:</p>\n      <p class="md-text text-center">{{details.help_with}}</p>\n      <br />\n      <p class="md-text text-center strong">I prefer:</p>\n      <p class="md-text text-center pre-line" [innerHTML]="item" *ngFor="let item of details.I_prefer"></p>\n      <br />\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\vault-details\vault-details.html"*/,
+            selector: 'page-vault-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\vault-tags\vault-tags.html"*/'<!--\n  Generated template for the VaultTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>vault-tags</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\vault-tags\vault-tags.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["c" /* DomSanitizer */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], VaultDetailsPage);
-    return VaultDetailsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], VaultTagsPage);
+    return VaultTagsPage;
 }());
 
-//# sourceMappingURL=vault-details.js.map
+//# sourceMappingURL=vault-tags.js.map
 
 /***/ })
 
