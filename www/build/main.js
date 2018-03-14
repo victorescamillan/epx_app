@@ -52,12 +52,16 @@ var EpxProvider = (function () {
         this.trips_filter_url = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
         // SOLO
         this.solo_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+        this.solo_infinite_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
         this.solo_filter_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
         // VAULT
         this.vault_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
+        this.vault_infinite_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&paged=';
+        this.vault_tag_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
         this.vault_details_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
         // MEMBERS
         this.members_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
+        this.member_infinite_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
         this.member_details_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
         // BUSINESS
         this.business_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
@@ -99,8 +103,26 @@ var EpxProvider = (function () {
             .map(this.extractData)
             .catch(this.catchError);
     };
+    EpxProvider.prototype.getSoloInfinite = function (tag) {
+        return this.httpClient.get(this.solo_infinite_url + tag)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
     EpxProvider.prototype.getVault = function () {
         return this.httpClient.get(this.vault_url)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.getVaultInfinite = function (page) {
+        return this.httpClient.get(this.vault_infinite_url + page)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.getVaultTags = function (tag) {
+        return this.httpClient.get(this.vault_tag_url + tag)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -113,6 +135,12 @@ var EpxProvider = (function () {
     };
     EpxProvider.prototype.getMembers = function () {
         return this.httpClient.get(this.members_url)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.getMembersInfinite = function (page) {
+        return this.httpClient.get(this.member_infinite_url + page)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -183,9 +211,10 @@ var EpxProvider = (function () {
     };
     EpxProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _b || Object])
     ], EpxProvider);
     return EpxProvider;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=epx.js.map
@@ -234,11 +263,11 @@ var map = {
 		16
 	],
 	"../pages/member-details/member-details.module": [
-		459,
+		458,
 		15
 	],
 	"../pages/members/members.module": [
-		458,
+		459,
 		14
 	],
 	"../pages/mentor/mentor.module": [
@@ -258,11 +287,11 @@ var map = {
 		10
 	],
 	"../pages/solo-tags/solo-tags.module": [
-		464,
+		465,
 		9
 	],
 	"../pages/solo/solo.module": [
-		465,
+		464,
 		8
 	],
 	"../pages/tabs/tabs.module": [
@@ -270,11 +299,11 @@ var map = {
 		7
 	],
 	"../pages/trip-details/trip-details.module": [
-		468,
+		467,
 		6
 	],
 	"../pages/trip-filter/trip-filter.module": [
-		467,
+		468,
 		5
 	],
 	"../pages/trip-tags/trip-tags.module": [
@@ -282,19 +311,19 @@ var map = {
 		4
 	],
 	"../pages/trips/trips.module": [
-		470,
+		473,
 		3
 	],
 	"../pages/vault-details/vault-details.module": [
-		471,
+		470,
 		2
 	],
 	"../pages/vault-tags/vault-tags.module": [
-		472,
+		471,
 		1
 	],
 	"../pages/vault/vault.module": [
-		473,
+		472,
 		0
 	]
 };
@@ -396,22 +425,22 @@ var AppModule = (function () {
                         { loadChildren: '../pages/business/business.module#BusinessPageModule', name: 'BusinessPage', segment: 'business', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-tags/vault-tags.module#VaultTagsPageModule', name: 'VaultTagsPage', segment: 'vault-tags', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_7_angularfire2__["a" /* AngularFireModule */].initializeApp(config),

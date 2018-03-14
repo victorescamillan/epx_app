@@ -80,5 +80,8 @@ export class MemberDetailsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad MemberDetailsPage');
   }
-
+  openBrowser(url){
+    console.log('company url:',url);
+    window.open(url,"_system");
+  }
 }

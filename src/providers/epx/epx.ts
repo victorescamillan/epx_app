@@ -20,7 +20,6 @@ export class EpxProvider {
   // LOGIN
   public login_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
   // TRIPS
-  
   public trips_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
   public trips_interest_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
@@ -29,13 +28,18 @@ export class EpxProvider {
   public trips_filter_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
   // SOLO
   public solo_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+  public solo_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
   public solo_filter_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
   
   // VAULT
   public vault_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
+  public vault_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&paged=';
+  public vault_tag_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
   public vault_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
+
   // MEMBERS
   public members_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
+  public member_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
   public member_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
   
   // BUSINESS
@@ -82,8 +86,26 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
+  getSoloInfinite(tag) {
+    return this.httpClient.get(this.solo_infinite_url + tag)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
   getVault() {
     return this.httpClient.get(this.vault_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getVaultInfinite(page) {
+    return this.httpClient.get(this.vault_infinite_url + page)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getVaultTags(tag) {
+    return this.httpClient.get(this.vault_tag_url + tag)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -96,6 +118,12 @@ export class EpxProvider {
   }
   getMembers() {
     return this.httpClient.get(this.members_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getMembersInfinite(page) {
+    return this.httpClient.get(this.member_infinite_url + page)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

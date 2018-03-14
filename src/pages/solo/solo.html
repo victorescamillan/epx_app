@@ -18,7 +18,7 @@
 
 <ion-content>
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Loading...">
+    <ion-refresher-content refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
   
@@ -66,7 +66,7 @@
               Tags :
             </ion-col>
             <ion-col col-10>
-              <button ion-button round outline small *ngFor="let tag of solo.product_tag">{{tag}}</button>
+              <button ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>
             </ion-col>
           </ion-row>
         </ion-grid>

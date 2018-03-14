@@ -120,7 +120,7 @@ export class TripDetailsPage {
     });
   }
   openBrowser(url){
-    window.open(url,"_blank");
+    window.open(url,"_system",);
   }
   tripByTags(tag){
     console.log('tag',tag);
@@ -144,6 +144,8 @@ export class TripDetailsPage {
 
     this.map.setCenter(position);
   }
+
+
   // loadMap(lat_value,long_value,location) {
   //   let mapOptions: GoogleMapOptions = {
   //     camera: {

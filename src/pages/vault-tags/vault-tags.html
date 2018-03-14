@@ -7,12 +7,33 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>vault-tags</ion-title>
+    <ion-title>{{tag | uppercase}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  
+  <ion-card *ngFor="let vault of vaultList | async">
+    <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}" >
+    <ion-card-content>
+      <h3 class="content-text xl-text strong blue">
+        {{vault.title | uppercase}}
+      </h3>
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{vault.author_avatar}}">
+        </ion-avatar>
+        <h2>
+          <strong>{{vault.author}}</strong> |
+          <span class="gray">{{vault.length}}</span>
+        </h2>
+        <p>{{vault.posted}}</p>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

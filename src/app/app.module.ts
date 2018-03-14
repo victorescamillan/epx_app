@@ -33,7 +33,6 @@ var config = {
   declarations: [
     MyApp,
     SearchMembersPipe,
-    
   ],
   imports: [
     BrowserModule,
@@ -43,7 +42,6 @@ var config = {
     HttpClientModule,
     IonicStorageModule.forRoot(),
     CacheModule.forRoot(),
-    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,7 +54,6 @@ var config = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EpxProvider,
     GoogleMaps,
-    
   ]
 })
 export class AppModule {}

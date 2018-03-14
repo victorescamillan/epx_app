@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Loading...">
+    <ion-refresher-content refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
   <br />
@@ -23,9 +23,9 @@
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   
-  <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar>
+  <!-- <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar> -->
   <ion-list>
-    <ion-item-sliding *ngFor="let member of memberList  | async">
+    <ion-item-sliding *ngFor="let member of members">
       <ion-item >
         <ion-avatar item-start>
           <img [src]="member.avatar" (click)="memberDetails(member)">
@@ -33,8 +33,8 @@
         <p class="item-text">
             <span class="strong ">{{member.name}}</span> is the
             <span class="strong ">{{member.position}}</span> at
-            <span class="strong blue">{{member.company}}</span>, a
-            <span class="strong ">{{member.business_model}}</span> business in the
+            <span class="strong blue" (click)="openBrowser(member.business_url)">{{member.company}}</span>, a
+            <span class="strong " >{{member.business_model}}</span> business in the
             <span class="strong ">{{member.industry}}</span> industry with the
             <span class="strong ">{{member.employee}}</span> employees.
           </p>
@@ -57,4 +57,7 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content  loadingText="Loading more members..." ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

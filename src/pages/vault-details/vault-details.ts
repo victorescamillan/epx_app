@@ -37,7 +37,14 @@ export class VaultDetailsPage {
   }
   openBrowser(url){
     console.log('company url:',url);
-    window.open(url,"_blank");
+    window.open(url,"_system");
+  }
+  memberDetails(member) {
+    this.navCtrl.push('MemberDetailsPage', { data: member });
+  }
+  vaultByTags(tag){
+    console.log('tag',tag);
+    this.navCtrl.push('VaultTagsPage',{data: tag});
   }
   LoadDetails(id) {
     this.epxProvider.getVaultDetails(id).subscribe(data => { //Get data from url/api

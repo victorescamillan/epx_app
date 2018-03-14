@@ -47,7 +47,7 @@
             <span class="md-text strong">Skills :</span>
           </ion-col>
           <ion-col col-9 class="tags">
-            <button ion-button round outline small *ngFor="let item of details.tags">{{item}}</button>
+            <button ion-button round outline small *ngFor="let item of details.tags" (click)="vaultByTags(item)">{{item}}</button>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -56,7 +56,7 @@
 
       <ion-item>
         <ion-avatar>
-          <img src="{{details.author_avatar}}">
+          <img src="{{details.author_avatar}}" (click)="memberDetails(details)">
         </ion-avatar>
         <br />
         <p class="md-text text-center">Member Since: {{details.member_since}}</p>

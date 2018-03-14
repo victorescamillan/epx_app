@@ -18,8 +18,13 @@ import { CacheService } from 'ionic-cache';
 export class MembersPage {
   memberList: Observable<any>;
   temp_memberList: Observable<any>;
+  members:any;
   isLoading: boolean = true;
   isRefresh: boolean = false;
+  page = 1;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
 
   constructor(
     private epxProvider: EpxProvider,
@@ -29,11 +34,11 @@ export class MembersPage {
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
-    this.LoadMembers();
+    // this.LoadMembers();
+    this.LoadMembersInfinite();
   }
 
   LoadMembers(refresher?) {
-
     let url = this.epxProvider.members_url;
     let ttl = 1000;
     let delay_type = 'all';
@@ -44,7 +49,7 @@ export class MembersPage {
       var members = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
 
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, members, groupKey,null, delay_type).subscribe(data => {
+        this.cache.loadFromDelayedObservable(url, members, groupKey, null, delay_type).subscribe(data => {
           this.memberList = Observable.of(data);
           refresher.complete();
         });
@@ -60,8 +65,41 @@ export class MembersPage {
       this.isRefresh = true;
     });
   }
+  LoadMembersInfinite(refresher?) {
+    let url = this.epxProvider.members_url;
+    let ttl = 1000;
+    let delay_type = 'all';
+    let groupKey = 'member-list';
+
+    this.epxProvider.getMembersInfinite(this.page).subscribe(data => { //Get data from url/api
+     
+      let members = data.members;
+      this.totalPage = data.number_of_page;
+      //this.members = Object.keys(members).map(key => members[key]); //Convert object to array since angular accepts array for iteration
+
+      //this.memberList = Observable.of(Object.keys(members).map(key => members[key])); //Convert object to array since angular accepts array for iteration
+      if (refresher) {
+        this.cache.loadFromDelayedObservable(url, Observable.of(members), groupKey,null, delay_type).subscribe(data => {
+          this.members = Object.keys(data).map(key => data[key]);
+          refresher.complete();
+        });
+      }
+      else {
+        this.cache.loadFromObservable(url, Observable.of(members), groupKey).subscribe(data => {
+          this.members = Object.keys(data).map(key => data[key]);
+          console.log('members:', members);
+          this.temp_memberList = data;
+        });
+      }
+
+      this.isLoading = false;
+      this.isRefresh = true;
+    });
+  }
+
   forceReload(refresher) {
-    this.LoadMembers(refresher);
+    // this.LoadMembers(refresher);
+    this.LoadMembersInfinite(refresher);
   }
 
   filterMembers(ev: any) {
@@ -80,6 +118,30 @@ export class MembersPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad MembersPage');
-  }
 
+  }
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+    this.page++;
+
+    this.epxProvider.getMembersInfinite(this.page).subscribe(data => { //Get data from url/api
+      let members = data.members;
+      let members_temp = Object.keys(members).map(key => members[key]);
+      //let new_members = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+      console.log('members',members);
+      
+      for (let i = 0; i < members_temp.length; i++) {
+        this.members.push(members_temp[i]);
+        console.log(data[i]);
+      }
+      
+      infiniteScroll.complete();
+      this.isLoading = false;
+      this.isRefresh = true;
+    });
+  }
+  openBrowser(url){
+    console.log('company url:',url);
+    window.open(url,"_system");
+  }
 }

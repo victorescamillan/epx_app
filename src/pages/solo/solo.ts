@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
-import { SoloDetailsPage } from '../solo-details/solo-details';
 
 @IonicPage()
 @Component({
@@ -58,5 +57,9 @@ export class SoloPage {
   //Pull to refresh page
   forceReload(refresher) {
     this.LoadSolo(refresher);
+  }
+  soloByTags(tag){
+    console.log('tag',tag);
+    this.navCtrl.push('SoloTagsPage',{data: tag});
   }
 }

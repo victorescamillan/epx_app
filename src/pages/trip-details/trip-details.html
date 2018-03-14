@@ -11,11 +11,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Loading">
-    </ion-refresher-content>
-  </ion-refresher>
-
   <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
@@ -138,7 +133,7 @@
       <p class="text-center md-text">
         <span class="strong blue">{{details.trip_leader.Trip_leader_name}}</span> is the
         <span class="strong blue">{{details.trip_leader.Trip_leader_position}}</span> at
-        <span class="strong blue">{{details.trip_leader.Trip_leader_company}}</span>, a
+        <span class="strong blue" (click)="openBrowser(details.trip_leader.Trip_leader_business_url)">{{details.trip_leader.Trip_leader_company}}</span>, a
         <span class="strong blue">{{details.trip_leader.Trip_leader_business_model}}</span> business in the
         <span class="strong blue">{{details.trip_leader.Trip_leader_industry}}</span> industry with the
         <span class="strong blue">{{details.trip_leader.Trip_leader_employee}}</span> employees.</p>

@@ -28,9 +28,8 @@ export class SoloDetailsPage {
     this.location = this.details.address;
     console.log('solo details',this.details);
   }
-  isNumber(value){
+ 
 
-  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SoloDetailsPage');
     this.initMap(this.lat, this.lng, this.location);

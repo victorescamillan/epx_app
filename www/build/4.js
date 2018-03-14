@@ -48,7 +48,6 @@ var TripTagsPageModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(284);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62,10 +61,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var TripTagsPage = (function () {
-    function TripTagsPage(cache, epxProvider, navCtrl, navParams) {
-        this.cache = cache;
+    function TripTagsPage(epxProvider, navCtrl, navParams) {
         this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
@@ -77,40 +74,20 @@ var TripTagsPage = (function () {
     }
     TripTagsPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad TripTagsPage');
-        this.LoadTrips(this.tag);
+        this.LoadTrips();
     };
-    TripTagsPage.prototype.LoadTrips = function (tag, refresher) {
+    TripTagsPage.prototype.LoadTrips = function () {
         var _this = this;
-        var url = this.epxProvider.trips_url;
-        var ttl = 1000;
-        var delay_type = 'all';
-        var groupKey = 'trip-list';
         this.epxProvider.getData('ID').then(function (id) {
             console.log('user id:', id);
-            _this.epxProvider.getTripTags(tag, id).subscribe(function (data) {
-                // let trips = Observable.of(Object.keys(data).map(key => data[key]));
+            _this.epxProvider.getTripTags(_this.tag, id).subscribe(function (data) {
                 _this.tripList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
                 console.log('trips by tag:', _this.tripList);
-                // if (refresher) {
-                //   this.cache.loadFromDelayedObservable(url, trips, groupKey, null, delay_type).subscribe(data => {
-                //     this.tripList = Observable.of(data);
-                //     refresher.complete();
-                //   });
-                // }
-                // else {
-                //   this.cache.loadFromObservable(url, trips, groupKey).subscribe(data => {
-                //     this.tripList = Observable.of(data);
-                //   });
-                // }
                 _this.isLoading = false;
                 _this.isRefresh = true;
                 _this.isInterested = false;
             });
         });
-    };
-    //Pull to refresh page
-    TripTagsPage.prototype.forceReload = function (refresher) {
-        this.LoadTrips(refresher);
     };
     //Interested
     TripTagsPage.prototype.interested = function (trip) {
@@ -134,10 +111,9 @@ var TripTagsPage = (function () {
     };
     TripTagsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trip-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/'<!--\n  Generated template for the TripTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Loading...">\n    </ion-refresher-content>\n  </ion-refresher>\n\n  <br />\n\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let trip of tripList | async">\n    <div class="trip-image">\n      <button ion-button round outline small class="top">{{trip.product_cat[0]}}</button>\n      <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n    </div>\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong>{{trip.title | uppercase}}</strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <ion-icon name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/,
+            selector: 'page-trip-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/'<!--\n  Generated template for the TripTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let trip of tripList | async">\n    <div class="trip-image">\n      <button ion-button round outline small class="top">{{trip.product_cat[0]}}</button>\n      <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n    </div>\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong>{{trip.title | uppercase}}</strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <ion-icon name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], TripTagsPage);
     return TripTagsPage;

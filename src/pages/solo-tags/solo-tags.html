@@ -7,12 +7,53 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>solo-tags</ion-title>
+    <ion-title>{{tag | uppercase}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <br />
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <!-- <ion-list>    
+    <ion-card *ngFor="let solo of soloList | async">
+      <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">
+      <ion-card-content>
+        <h3 class="content-text">
+          <strong>{{solo.title | uppercase}}</strong>
+        </h3>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-2>
+              Date :
+            </ion-col>
+            <ion-col col-10>
+              <p class="content-text">
+                <strong class="colored">Price: {{solo.price}}</strong>
+              </p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-2>
+              Date :
+            </ion-col>
+            <ion-col col-10>
+              <p class="sm-text">{{solo.start_date}}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-2>
+              Tags :
+            </ion-col>
+            <ion-col col-10>
+              <button ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ion-list> -->
 </ion-content>

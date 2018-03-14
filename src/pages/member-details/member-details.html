@@ -28,7 +28,7 @@
       <p class="sm-text">
         <span class="strong">{{details.name}}</span> is the
         <span class="strong">{{details.position}}</span> at
-        <span class="strong blue">{{details.company}}</span>, a
+        <span class="strong blue" (click)="openBrowser(details.business_url)">{{details.company}}</span>, a
         <span class="strong">{{details.business_model}}</span> business in the
         <span class="strong">{{details.industry}}</span> industry with the
         <span class="strong">{{details.employee}}</span> employees.</p>
