@@ -1,89 +1,27 @@
 {
   "project_info": {
-    "project_number": "462345808165",
-    "firebase_url": "https://phoenix-dev-181002.firebaseio.com",
-    "project_id": "phoenix-dev-181002",
-    "storage_bucket": "phoenix-dev-181002.appspot.com"
+    "project_number": "1035774532822",
+    "firebase_url": "https://thor-projects.firebaseio.com",
+    "project_id": "thor-projects",
+    "storage_bucket": "thor-projects.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:462345808165:android:e74ef6bcdcda99b1",
+        "mobilesdk_app_id": "1:1035774532822:android:7c5d2a6a15357462",
         "android_client_info": {
-          "package_name": "com.hpoutsourcing.EPX"
+          "package_name": "com.ideahubsolutionsinc.epx"
         }
       },
       "oauth_client": [
         {
-          "client_id": "462345808165-i1amqh4acjj5gihf99al27687tuevas4.apps.googleusercontent.com",
+          "client_id": "1035774532822-jo86ph2adf42j6j7don5brfl3nl4e5hs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyADYC_TnDx0_AFzI40Jc4NreCB3oVkocnk"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:462345808165:android:6f9f8ff8050f4aeb",
-        "android_client_info": {
-          "package_name": "com.hpoutsourcing.EPXStandard"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "462345808165-i1amqh4acjj5gihf99al27687tuevas4.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyADYC_TnDx0_AFzI40Jc4NreCB3oVkocnk"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:462345808165:android:764d2cb7da3280eb",
-        "android_client_info": {
-          "package_name": "io.ionic.starter"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "462345808165-i1amqh4acjj5gihf99al27687tuevas4.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyADYC_TnDx0_AFzI40Jc4NreCB3oVkocnk"
+          "current_key": "AIzaSyBUgrZaYK5xWAmb97cEyqJfOYYMjgNYwSc"
         }
       ],
       "services": {

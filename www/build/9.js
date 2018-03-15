@@ -1,6 +1,6 @@
 webpackJsonp([9],{
 
-/***/ 465:
+/***/ 466:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloTagsPageModule", function() { return SoloTagsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_tags__ = __webpack_require__(486);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_tags__ = __webpack_require__(487);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var SoloTagsPageModule = (function () {
 
 /***/ }),
 
-/***/ 486:
+/***/ 487:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90,10 +90,9 @@ var SoloTagsPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-solo-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\solo-tags\solo-tags.html"*/'<!--\n  Generated template for the SoloTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}" >\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <!-- <ion-list>    \n    <ion-card *ngFor="let solo of soloList | async">\n      <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">\n      <ion-card-content>\n        <h3 class="content-text">\n          <strong>{{solo.title | uppercase}}</strong>\n        </h3>\n        <ion-grid>\n          <ion-row>\n            <ion-col col-2>\n              Date :\n            </ion-col>\n            <ion-col col-10>\n              <p class="content-text">\n                <strong class="colored">Price: {{solo.price}}</strong>\n              </p>\n            </ion-col>\n          </ion-row>\n          <ion-row>\n            <ion-col col-2>\n              Date :\n            </ion-col>\n            <ion-col col-10>\n              <p class="sm-text">{{solo.start_date}}</p>\n            </ion-col>\n          </ion-row>\n          <ion-row>\n            <ion-col col-2>\n              Tags :\n            </ion-col>\n            <ion-col col-10>\n              <button ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>\n            </ion-col>\n          </ion-row>\n        </ion-grid>\n      </ion-card-content>\n    </ion-card>\n  </ion-list> -->\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\solo-tags\solo-tags.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], SoloTagsPage);
     return SoloTagsPage;
-    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=solo-tags.js.map

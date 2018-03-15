@@ -1,6 +1,6 @@
 webpackJsonp([16],{
 
-/***/ 457:
+/***/ 456:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageModule", function() { return LoginPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(477);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var LoginPageModule = (function () {
 
 /***/ }),
 
-/***/ 478:
+/***/ 477:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46,6 +46,7 @@ var LoginPageModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_push__ = __webpack_require__(139);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,20 +59,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-// import { Push, PushObject, PushOptions } from '@ionic-native/push';
+
 //phonegap-plugin-push
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 var LoginPage = (function () {
-    function LoginPage(
-        // private push:Push,
-        epxProvider, loadingCtrl, navCtrl, navParams, alertCtrl) {
+    // username: string = '';
+    // password: string = '';
+    function LoginPage(push, epxProvider, loadingCtrl, navCtrl, navParams, alertCtrl) {
         // this.push.hasPermission()
         //   .then((res: any) => {
+        this.push = push;
         this.epxProvider = epxProvider;
         this.loadingCtrl = loadingCtrl;
         this.navCtrl = navCtrl;
@@ -79,10 +75,8 @@ var LoginPage = (function () {
         this.alertCtrl = alertCtrl;
         // username: string='jaylord.lagud.hpo@gmail.com';
         // password: string='jaylord.lagud.hpo@gmail.com';
-        // username: string='stan.lee@hpoutsourcinginc.com';
-        // password: string='VzOo$)dl';
-        this.username = '';
-        this.password = '';
+        this.username = 'stan.lee@hpoutsourcinginc.com';
+        this.password = 'VzOo$)dl';
         //     if (res.isEnabled) {
         //       console.log('We have permission to send push notifications');
         //       this.initPush();
@@ -91,27 +85,28 @@ var LoginPage = (function () {
         //     }
         //   });
     }
-    // initPush(){
-    //   const options: any = {
-    //     android: {},
-    //     ios: {
-    //         alert: 'true',
-    //         badge: true,
-    //         sound: 'false'
-    //     },
-    //     windows: {},
-    //     browser: {
-    //         pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-    //     }
-    //  };
-    //   const pushObject: PushObject = this.push.init(options);
-    //   pushObject.on('notification').subscribe((notification: any) => {
-    //     console.log('Received a notification', notification)
-    //     this.presentConfirm(notification.title,notification.message);
-    //   });
-    //   pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
-    //   pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-    // }
+    LoginPage.prototype.initPush = function () {
+        var _this = this;
+        var options = {
+            android: {},
+            ios: {
+                alert: 'true',
+                badge: true,
+                sound: 'false'
+            },
+            windows: {},
+            browser: {
+                pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+            }
+        };
+        var pushObject = this.push.init(options);
+        pushObject.on('notification').subscribe(function (notification) {
+            console.log('Received a notification', notification);
+            _this.presentConfirm(notification.title, notification.message);
+        });
+        pushObject.on('registration').subscribe(function (registration) { return console.log('Device registered', registration); });
+        pushObject.on('error').subscribe(function (error) { return console.error('Error with Push plugin', error); });
+    };
     LoginPage.prototype.presentLoadingDefault = function () {
         var _this = this;
         var loading = this.loadingCtrl.create({
@@ -188,7 +183,8 @@ var LoginPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-login',template:/*ion-inline-start:"D:\epx_app\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!-- <ion-header>\n\n  <ion-navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n -->\n <ion-content padding>\n  <div class="logo">\n    <img src="assets/imgs/epx_logo_colored.png" alt="epx logo">\n    <h1>Welcome Back!</h1>\n    <h1>New Adventure Await!</h1>\n  </div>\n  <div class="login-item">\n    <ion-item>\n    <ion-label floating>Username</ion-label>\n      <ion-input [(ngModel)]="username" type="text"></ion-input>\n    </ion-item>\n    <ion-item>\n    <ion-label floating>Password</ion-label>\n    <ion-input [(ngModel)]="password"  type="password"></ion-input>\n  </ion-item>\n</div>\n  <button ion-button round outline block (click)="loginUser()">Login</button>\n \n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\login\login.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__ionic_native_push__["a" /* Push */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
     ], LoginPage);

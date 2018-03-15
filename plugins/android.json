@@ -16,6 +16,9 @@
       "ANDROID_SUPPORT_V4_VERSION": "24.1.0",
       "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
     },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
+    },
     "cordova-plugin-ionic-keyboard": {
       "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
     },
@@ -31,7 +34,8 @@
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
     },
-    "cordova-plugin-inappbrowser": {
+    "phonegap-plugin-push": {
+      "FCM_VERSION": "11.6.2",
       "PACKAGE_NAME": "com.ideahubsolutionsinc.epx"
     }
   },

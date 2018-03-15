@@ -93,6 +93,7 @@ ext {
 // PLUGIN GRADLE EXTENSIONS START
 apply from: "../cordova-plugin-googlemaps/epx-build-extras.gradle"
 apply from: "../cordova-plugin-googlemaps/epx-tbxml-android.gradle"
+apply from: "../phonegap-plugin-push/epx-push.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
@@ -264,6 +265,9 @@ dependencies {
     compile "com.google.android.gms:play-services-maps:11.8.0"
     compile "com.google.android.gms:play-services-location:11.8.0"
     compile "com.android.support:support-core-utils:24.1.0"
+    compile "com.android.support:support-v13:26.+"
+    compile "me.leolin:ShortcutBadger:1.1.17@aar"
+    compile "com.google.firebase:firebase-messaging:11.6.2"
     // SUB-PROJECT DEPENDENCIES END
 }
 
