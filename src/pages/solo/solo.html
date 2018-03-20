@@ -21,7 +21,7 @@
     <ion-refresher-content refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
-  
+
   <!-- <ion-buttons>
     <button ion-button block icon-end (click)="showFilter()">
       Filter
@@ -29,48 +29,48 @@
     </button>
   </ion-buttons> -->
   <br />
-  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
 
-  <!-- <ion-list [virtualScroll]="(soloList | async)" [approxItemHeight]="'200px'"> -->
-  <ion-list>
-    <!-- <ion-card *virtualItem="let solo"> -->
-    <ion-card *ngFor="let solo of soloList | async">
-      <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">
-      <ion-card-content>
-        <h3 class="content-text">
-          <strong>{{solo.title | uppercase}}</strong>
-        </h3>
-        <ion-grid>
-          <ion-row>
-            <ion-col col-2>
-              Date :
-            </ion-col>
-            <ion-col col-10>
-              <p class="content-text">
-                <strong class="colored">Price: {{solo.price}}</strong>
-              </p>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col col-2>
-              Date :
-            </ion-col>
-            <ion-col col-10>
-              <p class="sm-text">{{solo.start_date}}</p>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col col-2>
-              Tags :
-            </ion-col>
-            <ion-col col-10>
-              <button ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </ion-list>
+  <ion-card *ngFor="let solo of soloList">
+    <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">
+    <ion-card-content>
+      <h3 class="content-text">
+        <strong>{{solo.title | uppercase}}</strong>
+      </h3>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-2>
+            Date :
+          </ion-col>
+          <ion-col col-10>
+            <p class="content-text">
+              <strong class="colored">Price: {{solo.price}}</strong>
+            </p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-2>
+            Date :
+          </ion-col>
+          <ion-col col-10>
+            <p class="sm-text">{{solo.start_date}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-2>
+            Tags :
+          </ion-col>
+          <ion-col col-10>
+            <button ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingText="Loading more business..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

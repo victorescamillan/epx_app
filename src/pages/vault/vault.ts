@@ -78,7 +78,7 @@ export class VaultPage {
     this.epxProvider.getVaultInfinite(this.page).subscribe(data => { //Get data from url/api
       let vault = data.vaults;
       let vault_temp = Object.keys(vault).map(key => vault[key]);
-      //let new_members = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+      
       for (let i = 0; i < vault_temp.length; i++) {
         this.vaultList.push(vault_temp[i]);
         console.log(data[i]);

@@ -45,7 +45,7 @@ export class MembersPage {
     let groupKey = 'member-list';
 
     this.epxProvider.getMembers().subscribe(data => { //Get data from url/api
-
+      this.totalPage = data.number_of_page;
       var members = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
 
       if (refresher) {

@@ -29,18 +29,18 @@ export class MyApp {
           this.rootPage = 'LoginPage';
         }
       })
-      if(platform.is('cordova')){
-        this.push.hasPermission()
-        .then((res: any) => {
-          if (res.isEnabled) {
-            console.log('We have permission to send push notifications');
-            this.initPush();
-          } else {
-            console.log('We do not have permission to send push notifications');
-          }
-        });
-      }
-      
+      // if(platform.is('cordova')){
+       
+      // }
+      this.push.hasPermission()
+      .then((res: any) => {
+        if (res.isEnabled) {
+          console.log('We have permission to send push notifications');
+          this.initPush();
+        } else {
+          console.log('We do not have permission to send push notifications');
+        }
+      });
       statusBar.overlaysWebView(true);
       splashScreen.hide();
     });
@@ -49,25 +49,23 @@ export class MyApp {
   initPush() {
     const options: PushOptions = {
       android: {
-        senderID: '1035774532822'
       },
       ios: {
         alert: 'true',
         badge: true,
         sound: 'false'
       },
-      // windows: {},
-      // browser: {
-      //   pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-      // }
+      windows: {},
+      browser: {
+        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+      }
     };
 
     const pushObject: PushObject = this.push.init(options);
 
-
     pushObject.on('notification').subscribe((notification: any) => {
       console.log('Received a notification', notification)
-      // this.presentConfirm(notification.title,notification.message);
+      this.presentConfirm(notification.title,notification.message);
     });
 
     pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));

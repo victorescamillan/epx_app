@@ -128,7 +128,6 @@ var VaultPage = (function () {
         this.epxProvider.getVaultInfinite(this.page).subscribe(function (data) {
             var vault = data.vaults;
             var vault_temp = Object.keys(vault).map(function (key) { return vault[key]; });
-            //let new_members = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
             for (var i = 0; i < vault_temp.length; i++) {
                 _this.vaultList.push(vault_temp[i]);
                 console.log(data[i]);

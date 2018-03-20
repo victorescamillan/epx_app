@@ -24,7 +24,7 @@
     "@ionic-native/geolocation": "^4.5.3",
     "@ionic-native/google-maps": "^4.5.3",
     "@ionic-native/in-app-browser": "^4.5.3",
-    "@ionic-native/push": "^4.5.3",
+    "@ionic-native/push": "^4.6.0",
     "@ionic-native/splash-screen": "4.4.0",
     "@ionic-native/status-bar": "4.4.0",
     "@ionic/pro": "1.0.17",
@@ -69,10 +69,7 @@
       },
       "cordova-sqlite-storage": {},
       "cordova-plugin-inappbrowser": {},
-      "phonegap-plugin-push": {
-        "SENDER_ID": "1035774532822",
-        "FCM_VERSION": "11.6.2"
-      }
+      "phonegap-plugin-push": {}
     },
     "platforms": []
   }

@@ -20,11 +20,11 @@
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <ion-searchbar placeholder="Search Business" showCancelButton color="danger" (ionInput)="filterBusiness($event)"></ion-searchbar>
+  <!-- <ion-searchbar placeholder="Search Business" showCancelButton color="danger" (ionInput)="filterBusiness($event)"></ion-searchbar> -->
 
-  <ion-card *ngFor="let business of businessList | async" (click)="businessDetails(business)">
+  <ion-card *ngFor="let business of businessList" (click)="businessDetails(business)">
     <div class="business-logo">
-      <img [src]="business.business_logo"  />
+      <img [src]="business.business_logo" />
     </div>
     <div class="content-text">
       <div class="card-title">{{business.business_name}}</div>
@@ -32,5 +32,7 @@
       <div class="card-subtitle">{{business.business_industry}}</div>
     </div>
   </ion-card>
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingText="Loading more business..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

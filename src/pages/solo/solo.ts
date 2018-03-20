@@ -11,9 +11,13 @@ import { CacheService } from 'ionic-cache';
 })
 export class SoloPage {
 
-  soloList: Observable<any>;
+  soloList: any;
   isLoading: boolean = true;
   isRefresh: boolean = false;
+  page = 1;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
   constructor(
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
@@ -38,28 +42,50 @@ export class SoloPage {
     let delay_type = 'all';
     let groupKey = 'solo-list';
 
-    this.epxProvider.getsolo().subscribe(data => { //Get data from url/api
-      var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-      console.log('solo list', solo);
+    this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
+      //var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+
       if (refresher) {
-        this.soloList = this.cache.loadFromDelayedObservable(url, solo, groupKey,null,delay_type);
-        this.soloList.subscribe(data => {
+        this.cache.loadFromDelayedObservable(url, Observable.of(data), groupKey, null, delay_type).subscribe(data => {
+          this.soloList = Object.keys(data).map(key => data[key]);
           refresher.complete();
         });
       }
       else {
-        this.soloList = this.cache.loadFromObservable(url, solo, groupKey);
+        this.cache.loadFromObservable(url, Observable.of(data), groupKey).subscribe(data => {
+          this.soloList = Object.keys(data).map(key => data[key]);
+          console.log('solo list', data);
+        });
       }
       this.isLoading = false;
       this.isRefresh = true;
     });
   }
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+    this.page++;
+
+    this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
+      let solo = data;
+      let temp = Object.keys(solo).map(key => solo[key]);
+
+      for (let i = 0; i < temp.length; i++) {
+        this.soloList.push(temp[i]);
+        console.log(data[i]);
+      }
+
+      infiniteScroll.complete();
+      this.isLoading = false;
+      this.isRefresh = true;
+    });
+  }
+
   //Pull to refresh page
   forceReload(refresher) {
     this.LoadSolo(refresher);
   }
-  soloByTags(tag){
-    console.log('tag',tag);
-    this.navCtrl.push('SoloTagsPage',{data: tag});
+  soloByTags(tag) {
+    console.log('tag', tag);
+    this.navCtrl.push('SoloTagsPage', { data: tag });
   }
 }

@@ -28,7 +28,8 @@ export class EpxProvider {
   public trips_filter_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
   // SOLO
   public solo_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
-  public solo_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+  public solo_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
+  public solo_tag_url: string = '';
   public solo_filter_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
   
   // VAULT
@@ -44,6 +45,7 @@ export class EpxProvider {
   
   // BUSINESS
   public business_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
+  public business_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
   public business_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
   
   constructor(private storage: Storage, private httpClient: HttpClient) {
@@ -86,8 +88,14 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getSoloInfinite(tag) {
+  getSoloTags(tag) {
     return this.httpClient.get(this.solo_infinite_url + tag)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getSoloInfinite(page) {
+    return this.httpClient.get(this.solo_infinite_url + page)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -136,6 +144,12 @@ export class EpxProvider {
   }
   getBusiness() {
     return this.httpClient.get(this.business_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getBusinessInfinite(page) {
+    return this.httpClient.get(this.business_infinite_url + page)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

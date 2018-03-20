@@ -1,6 +1,6 @@
 webpackJsonp([9],{
 
-/***/ 466:
+/***/ 463:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloTagsPageModule", function() { return SoloTagsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_tags__ = __webpack_require__(487);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_tags__ = __webpack_require__(484);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var SoloTagsPageModule = (function () {
 
 /***/ }),
 
-/***/ 487:
+/***/ 484:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -69,6 +69,7 @@ var SoloTagsPage = (function () {
         this.isLoading = true;
         this.isRefresh = false;
         this.tag = navParams.data.data;
+        console.log('tag', this.tag);
     }
     SoloTagsPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad SoloTagsPage');
@@ -79,7 +80,7 @@ var SoloTagsPage = (function () {
     };
     SoloTagsPage.prototype.LoadSolo = function (refresher) {
         var _this = this;
-        this.epxProvider.getSoloInfinite(this.tag).subscribe(function (data) {
+        this.epxProvider.getSoloTags(this.tag).subscribe(function (data) {
             var solo = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(Object.keys(data).map(function (key) { return data[key]; })); //Convert object to array since angular accepts array for iteration
             console.log('solo list', solo);
             _this.isLoading = false;

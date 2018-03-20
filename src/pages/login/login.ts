@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { Platform,IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { stagger } from '@angular/core/src/animation/dsl';
-
 import { ChatPage } from '../chat/chat';
 import { EpxProvider } from '../../providers/epx/epx';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
-
-//phonegap-plugin-push
-
 
 @IonicPage()
 @Component({
@@ -22,59 +17,9 @@ export class LoginPage {
   // username: string = '';
   // password: string = '';
   constructor(
-    private push:Push,
     private epxProvider: EpxProvider,
     private loadingCtrl: LoadingController,
     public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-
-    // this.push.hasPermission()
-    //   .then((res: any) => {
-
-    //     if (res.isEnabled) {
-    //       console.log('We have permission to send push notifications');
-    //       this.initPush();
-    //     } else {
-    //       console.log('We do not have permission to send push notifications');
-    //     }
-    //   });
-  }
-
-  initPush(){
-    const options: any = {
-      android: {},
-      ios: {
-          alert: 'true',
-          badge: true,
-          sound: 'false'
-      },
-      windows: {},
-      browser: {
-          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-      }
-   };
-
-    const pushObject: PushObject = this.push.init(options);
-
-
-    pushObject.on('notification').subscribe((notification: any) => {
-      console.log('Received a notification', notification)
-      this.presentConfirm(notification.title,notification.message);
-    });
-
-    pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
-
-    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
-  }
-  presentLoadingDefault() {
-    let loading = this.loadingCtrl.create({
-      content: 'Logging in...',
-      dismissOnPageChange: true
-    });
-
-    loading.present().then(() => {
-      this.loginUser();
-    });
-
   }
 
   presentConfirm(title: string, message: string) {

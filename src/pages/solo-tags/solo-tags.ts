@@ -16,6 +16,7 @@ export class SoloTagsPage {
 
   constructor(private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.tag = navParams.data.data;
+    console.log('tag',this.tag);
   }
 
   ionViewDidLoad() {
@@ -26,7 +27,7 @@ export class SoloTagsPage {
     this.navCtrl.push('SoloDetailsPage', { data: solo });
   }
   LoadSolo(refresher?) {
-    this.epxProvider.getSoloInfinite(this.tag).subscribe(data => { //Get data from url/api
+    this.epxProvider.getSoloTags(this.tag).subscribe(data => { //Get data from url/api
       var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
       console.log('solo list', solo);
      

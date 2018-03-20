@@ -16,10 +16,14 @@ import { CacheService } from 'ionic-cache';
   templateUrl: 'business.html',
 })
 export class BusinessPage {
-  businessList: Observable<any>;
+  businessList: any;
   temp_businessList: Observable<any>;
   isLoading: boolean = true;
   isRefresh: boolean = false;
+  page = 1;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
 
   constructor(
     private epxProvider: EpxProvider,
@@ -38,20 +42,22 @@ export class BusinessPage {
     let delay_type = 'all';
     let groupKey = 'business-list';
 
-    this.epxProvider.getBusiness().subscribe(data => { //Get data from url/api
+    this.epxProvider.getBusinessInfinite(this.page).subscribe(data => { //Get data from url/api
 
-      var business = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-
+      // var business = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+      this.totalPage = data.number_of_page;
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, business, groupKey,null, delay_type).subscribe(data => {
-          this.businessList = Observable.of(data);
+        this.cache.loadFromDelayedObservable(url, Observable.of(data), groupKey,null, delay_type).subscribe(data => {
+          this.businessList = Object.keys(data).map(key => data[key]); 
+          console.log('business:',data);
           refresher.complete();
         });
       }
       else {
-        this.cache.loadFromObservable(url, business, groupKey).subscribe(data => {
-          this.businessList = Observable.of(data);
-          this.temp_businessList = Observable.of(data);
+        this.cache.loadFromObservable(url, Observable.of(data), groupKey).subscribe(data => {
+          this.businessList = Object.keys(data).map(key => data[key]); 
+          console.log('business:',data);
+          // this.temp_businessList = Observable.of(data);
         });
       }
       this.isLoading = false;
@@ -61,7 +67,24 @@ export class BusinessPage {
   forceReload(refresher) {
     this.LoadBusiness(refresher);
   }
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+    this.page++;
 
+    this.epxProvider.getBusinessInfinite(this.page).subscribe(data => { //Get data from url/api
+      let business = data;
+      let temp = Object.keys(business).map(key => business[key]);
+      
+      for (let i = 0; i < temp.length; i++) {
+        this.businessList.push(temp[i]);
+        console.log(data[i]);
+      }
+      
+      infiniteScroll.complete();
+      this.isLoading = false;
+      this.isRefresh = true;
+    });
+  }
   filterBusiness(ev: any) {
     if (!this.isLoading) {
       this.businessList = this.temp_businessList;
