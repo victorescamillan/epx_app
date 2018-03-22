@@ -30,17 +30,17 @@ export class MyApp {
         }
       })
       // if(platform.is('cordova')){
-       
+
       // }
       this.push.hasPermission()
-      .then((res: any) => {
-        if (res.isEnabled) {
-          console.log('We have permission to send push notifications');
-          this.initPush();
-        } else {
-          console.log('We do not have permission to send push notifications');
-        }
-      });
+        .then((res: any) => {
+          if (res.isEnabled) {
+            console.log('We have permission to send push notifications');
+            this.initPush();
+          } else {
+            console.log('We do not have permission to send push notifications');
+          }
+        });
       statusBar.overlaysWebView(true);
       splashScreen.hide();
     });
@@ -49,6 +49,7 @@ export class MyApp {
   initPush() {
     const options: PushOptions = {
       android: {
+        senderID: '1035774532822'
       },
       ios: {
         alert: 'true',
@@ -63,34 +64,21 @@ export class MyApp {
 
     const pushObject: PushObject = this.push.init(options);
 
+
     pushObject.on('notification').subscribe((notification: any) => {
-      console.log('Received a notification', notification)
-      this.presentConfirm(notification.title,notification.message);
+      console.log('Received a notification', notification);
+      this.showAlert(notification.title,notification.message);
     });
 
     pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
 
     pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
   }
-  presentConfirm(title: string, message: string) {
+  showAlert(title,message) {
     let alert = this.alertCtrl.create({
       title: title,
-      message: message,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Okay',
-          handler: () => {
-            console.log('Buy clicked');
-          }
-        }
-      ]
+      subTitle: message,
+      buttons: ['OK']
     });
     alert.present();
   }

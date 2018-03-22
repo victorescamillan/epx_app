@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { stagger } from '@angular/core/src/animation/dsl';
 import { ChatPage } from '../chat/chat';
 import { EpxProvider } from '../../providers/epx/epx';
+
 
 @IonicPage()
 @Component({
@@ -12,37 +13,14 @@ import { EpxProvider } from '../../providers/epx/epx';
 export class LoginPage {
   // username: string='jaylord.lagud.hpo@gmail.com';
   // password: string='jaylord.lagud.hpo@gmail.com';
-  username: string='stan.lee@hpoutsourcinginc.com';
-  password: string='VzOo$)dl';
+  username: string = 'stan.lee@hpoutsourcinginc.com';
+  password: string = 'VzOo$)dl';
   // username: string = '';
   // password: string = '';
   constructor(
     private epxProvider: EpxProvider,
     private loadingCtrl: LoadingController,
     public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-  }
-
-  presentConfirm(title: string, message: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      message: message,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Okay',
-          handler: () => {
-            console.log('Buy clicked');
-          }
-        }
-      ]
-    });
-    alert.present();
   }
 
   showAlert(title: string, message: string) {

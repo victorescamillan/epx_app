@@ -4,7 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 // import { Geolocation } from '@ionic-native/geolocation';
-import { GoogleMaps } from '@ionic-native/google-maps';
+// import { GoogleMaps } from '@ionic-native/google-maps';
 
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -16,9 +16,6 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {IonicStorageModule} from '@ionic/storage';
 import { CacheModule } from 'ionic-cache';
-import { SearchMembersPipe } from '../pipes/search-members/search-members';
-
-
 
 var config = {
   apiKey: "AIzaSyD9l4jYr1CsW9LRaDWrwkcjc79amz97_JA",
@@ -32,7 +29,6 @@ var config = {
 @NgModule({
   declarations: [
     MyApp,
-    SearchMembersPipe,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +49,7 @@ var config = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EpxProvider,
-    GoogleMaps,
+    // GoogleMaps,
   ]
 })
 export class AppModule {}
