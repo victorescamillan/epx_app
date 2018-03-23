@@ -312,11 +312,11 @@ var map = {
 		7
 	],
 	"../pages/trip-details/trip-details.module": [
-		467,
+		468,
 		6
 	],
 	"../pages/trip-filter/trip-filter.module": [
-		468,
+		467,
 		5
 	],
 	"../pages/trip-tags/trip-tags.module": [
@@ -443,8 +443,8 @@ var AppModule = (function () {
                         { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
@@ -521,18 +521,18 @@ var MyApp = (function () {
                     _this.rootPage = 'LoginPage';
                 }
             });
-            // if(platform.is('cordova')){
-            // }
-            _this.push.hasPermission()
-                .then(function (res) {
-                if (res.isEnabled) {
-                    console.log('We have permission to send push notifications');
-                    _this.initPush();
-                }
-                else {
-                    console.log('We do not have permission to send push notifications');
-                }
-            });
+            if (platform.is('cordova')) {
+                _this.push.hasPermission()
+                    .then(function (res) {
+                    if (res.isEnabled) {
+                        console.log('We have permission to send push notifications');
+                        _this.initPush();
+                    }
+                    else {
+                        console.log('We do not have permission to send push notifications');
+                    }
+                });
+            }
             statusBar.overlaysWebView(true);
             splashScreen.hide();
         });

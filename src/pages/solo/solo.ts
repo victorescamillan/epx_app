@@ -44,7 +44,8 @@ export class SoloPage {
 
     this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
       //var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-
+      this.totalPage = data.number_of_page;
+      console.log('totalPage',this.totalPage);
       if (refresher) {
         this.cache.loadFromDelayedObservable(url, Observable.of(data), groupKey, null, delay_type).subscribe(data => {
           this.soloList = Object.keys(data).map(key => data[key]);

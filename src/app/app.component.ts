@@ -29,10 +29,8 @@ export class MyApp {
           this.rootPage = 'LoginPage';
         }
       })
-      // if(platform.is('cordova')){
-
-      // }
-      this.push.hasPermission()
+      if(platform.is('cordova')){
+        this.push.hasPermission()
         .then((res: any) => {
           if (res.isEnabled) {
             console.log('We have permission to send push notifications');
@@ -41,6 +39,8 @@ export class MyApp {
             console.log('We do not have permission to send push notifications');
           }
         });
+      }
+      
       statusBar.overlaysWebView(true);
       splashScreen.hide();
     });
