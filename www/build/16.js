@@ -59,8 +59,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var LoginPage = (function () {
-    // username: string = '';
-    // password: string = '';
     function LoginPage(epxProvider, loadingCtrl, navCtrl, navParams, alertCtrl) {
         this.epxProvider = epxProvider;
         this.loadingCtrl = loadingCtrl;
@@ -69,8 +67,10 @@ var LoginPage = (function () {
         this.alertCtrl = alertCtrl;
         // username: string='jaylord.lagud.hpo@gmail.com';
         // password: string='jaylord.lagud.hpo@gmail.com';
-        this.username = 'stan.lee@hpoutsourcinginc.com';
-        this.password = 'VzOo$)dl';
+        // username: string = 'stan.lee@hpoutsourcinginc.com';
+        // password: string = 'VzOo$)dl';
+        this.username = '';
+        this.password = '';
     }
     LoginPage.prototype.showAlert = function (title, message) {
         var alert = this.alertCtrl.create({

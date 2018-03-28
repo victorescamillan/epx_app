@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\epx_app\platforms\android\libs"><file name="sqlite-connector.jar" path="D:\epx_app\platforms\android\libs\sqlite-connector.jar"/><file name="sqlite-native-driver.jar" path="D:\epx_app\platforms\android\libs\sqlite-native-driver.jar"/></source></dataSet><dataSet config="debug"><source path="D:\epx_app\platforms\android\src\debug\jniLibs"/></dataSet></merger>

@@ -18,35 +18,36 @@ import { CacheService } from "ionic-cache";
 export class EpxProvider {
 
   // LOGIN
-  public login_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
+  public login_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
   // TRIPS
-  public trips_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
-  public trips_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
-  public trips_interest_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
-  public trips_tags_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
+  public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
+  public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
+  public trips_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
+  public trips_interest_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
+  public trips_tags_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
 
-  public trips_filter_url: string = 'http://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
+  public trips_filter_url: string = 'https://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
   // SOLO
-  public solo_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
-  public solo_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
+  public solo_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+  public solo_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
   public solo_tag_url: string = '';
-  public solo_filter_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
+  public solo_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
   
   // VAULT
-  public vault_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
-  public vault_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&paged=';
-  public vault_tag_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
-  public vault_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
+  public vault_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
+  public vault_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&paged=';
+  public vault_tag_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
+  public vault_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
 
   // MEMBERS
-  public members_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
-  public member_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
-  public member_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
+  public members_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
+  public member_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
+  public member_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
   
   // BUSINESS
-  public business_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
-  public business_infinite_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
-  public business_details_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
+  public business_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
+  public business_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
+  public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
   
   constructor(private storage: Storage, private httpClient: HttpClient) {
   }
@@ -59,6 +60,12 @@ export class EpxProvider {
   }
   getTrips(user_id) {
     return this.httpClient.get(this.trips_url + user_id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getTripsInfinite(user_id,page) {
+    return this.httpClient.get(this.trips_infinite_url + user_id + '&list_size=10&page_no=' + page)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

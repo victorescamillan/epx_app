@@ -33,15 +33,7 @@
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <!-- <ion-card >
-    <ion-card-content>
-      <canvas #doughnutCanvas></canvas>
-    </ion-card-content>
-  </ion-card> -->
-  <!-- <ion-list [virtualScroll]="(tripList | async)" [approxItemHeight]="'200px'"> -->
-  <!-- <ion-list> -->
-  <!-- <ion-card *virtualItem="let trip"> -->
-  <ion-card *ngFor="let trip of tripList | async">
+  <ion-card *ngFor="let trip of tripList">
     <div class="trip-image" (click)="tripDetails(trip)">
       <button ion-button round outline small class="top">{{trip.product_cat}}</button>
       <img src="{{trip.thumbnail}}" >
@@ -50,7 +42,6 @@
         <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>
       </div>
     </div>
-    <!-- <canvas #doughnutCanvas></canvas> -->
     <ion-card-content>
       <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>
       <h3 class="content-text">
@@ -66,6 +57,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <!-- </ion-list> -->
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content loadingText="Loading more trips..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content> 

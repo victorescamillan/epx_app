@@ -14,7 +14,7 @@ import { Chart } from 'chart.js';
 export class TripsPage {
   @ViewChild('doughnutCanvas') doughnutCanvas: ElementRef;
   doughnutChart: any;
-  tripList: Observable<any>;
+  tripList: any;
   trip: any;
   selectedTrips;
   is_interested: boolean = false;
@@ -23,6 +23,10 @@ export class TripsPage {
   isLoading: boolean = true;
   isRefresh: boolean = false;
   isInterested: boolean = false;
+  page = 1;
+  perPage = 0;
+  totalData = 0;
+  totalPage = 0;
   constructor(
     private httpClient: HttpClient,
     private cache: CacheService,
@@ -62,19 +66,20 @@ export class TripsPage {
     let groupKey = 'trip-list';
 
     this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
-      this.epxProvider.getTrips(user_id).subscribe(data => { //Get data from url/api
-
-        let trips = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+      this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from url/api
+        this.totalPage = data.number_of_page;
+        console.log('Infinite trips',data.data);
+        let trips = Observable.of(data.data); //Convert object to array since angular accepts array for iteration
 
         if (refresher) {
           this.cache.loadFromDelayedObservable(url, trips, groupKey, null, delay_type).subscribe(data => {
-            this.tripList = Observable.of(data);
+            this.tripList = Object.keys(data).map(key => data[key]);
             refresher.complete();
           });
         }
         else {
           this.cache.loadFromObservable(url, trips, groupKey).subscribe(data => {
-            this.tripList = Observable.of(data);
+            this.tripList = Object.keys(data).map(key => data[key]);
           });
         }
         
@@ -158,10 +163,24 @@ export class TripsPage {
     this.trip = trip;
     this.navCtrl.push('TripDetailsPage', { data: trip });
   }
-  // ionViewWillLeave(){
-  //   // console.log('trip',this.trip);
-  //   this.epxProvider.getTripDetails(this.trip.ID).subscribe(data => {
-  //     this.epxProvider.saveData('trip_details',data);
-  //   });
-  // }
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+    this.page++;
+
+    this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
+      this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from url/api
+        let trips = data.data;
+        let temp = Object.keys(trips).map(key => trips[key]);
+  
+        for (let i = 0; i < temp.length; i++) {
+          this.tripList.push(temp[i]);
+          console.log(data[i]);
+        }
+  
+        infiniteScroll.complete();
+        this.isLoading = false;
+        this.isRefresh = true;
+      });
+    });
+  }
 }
