@@ -37,7 +37,6 @@ declare const google;
 export class TripDetailsPage {
   details: any;
   whos_interested: any;
-  
   whos_going: any;
   trip_leader: any;
   map_info: any;
@@ -54,7 +53,7 @@ export class TripDetailsPage {
   isLoading: boolean = true;
   isInterested: boolean;
   visibleState = 'visible';
-  sashes_image:any;
+  sashes_image: any;
   constructor(
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
@@ -62,9 +61,12 @@ export class TripDetailsPage {
     private platform: Platform,
     // public geolocation: Geolocation,
     public navCtrl: NavController, public navParams: NavParams) {
+
     var details = navParams.data.data;
+    console.log('trip param:', details);
+    
     this.isInterested = details.trip_interested.interested;
-    console.log('trip details:', details);
+
     this.trip_id = details.ID;
     this.sashes_image = details.sashes_image;
     this.location = details.map_info.map_address;
@@ -75,11 +77,11 @@ export class TripDetailsPage {
     this.loadTripDetails(this.trip_id);
     console.log('ionViewDidLoad TripDetailsPage');
   }
- 
+
   // ionViewWillUnload(){
   //   this.epxProvider.removeData('trip_details');
   // }
-  
+
   memberDetails(member) {
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
@@ -92,10 +94,10 @@ export class TripDetailsPage {
     this.epxProvider.getData('ID').then(user_id => {
       this.epxProvider.getTripInterest(this.trip_id, user_id).subscribe(res => {
         this.isInterested = res.interest;
-        if(res.interest){
+        if (res.interest) {
           this.details.number_of_interested++;
         }
-        else{
+        else {
           this.details.number_of_interested--;
         }
         console.log('interest result:', res);
@@ -107,10 +109,10 @@ export class TripDetailsPage {
     this.epxProvider.getTripDetails(this.trip_id).subscribe(data => {
       this.details = data;
       console.log('trip details: ', data);
-      
+      console.log('trip gallery: ', data.trip_gallery.length);
       let interested = this.details.whos_interested;
       this.whos_interested = Object.keys(interested).map(key => interested[key]);
-      
+
       let going = this.details.whos_going;
       this.whos_going = Object.keys(going).map(key => going[key]);
 
@@ -119,15 +121,15 @@ export class TripDetailsPage {
       this.isLoading = false;
     });
   }
-  openBrowser(url){
-    window.open(url,"_system",);
+  openBrowser(url) {
+    window.open(url, "_system", );
   }
-  tripByTags(tag){
-    console.log('tag',tag);
-    this.navCtrl.push('TripTagsPage',{data: tag});
+  tripByTags(tag) {
+    console.log('tag', tag);
+    this.navCtrl.push('TripTagsPage', { data: tag });
   }
   //cordova-plugin-googlemaps
-  
+
   initMap(lat, long, location) {
     let position = { lat: lat, lng: long }
     this.map = new google.maps.Map(this.mapElement.nativeElement, {

@@ -1,3 +1,26 @@
 page-solo-tags {
-
+    button.disable-hover.button.button.button-default.button-default.button-block.button-block {
+        background: black;
+        width: 100px;
+        margin: auto;
+        height: 30px;
+        margin-bottom: 20px;
+    }
+    ion-card img {
+        display: block;
+        width: 100%;
+        height: 200px;
+    }
+    button.disable-hover.button.button.button-outline.button-outline.button-round.button-round.button-small.button-small {
+        padding: 0px 10px;
+        height: 20px;
+        color: #488aff;
+        border-color: #488aff;
+    }
+    ion-grid.grid {
+        padding: 0px;
+    }
+    ion-col.col {
+        padding: 3px 0px;
+    }
 }

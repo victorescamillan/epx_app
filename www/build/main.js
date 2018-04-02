@@ -54,7 +54,7 @@ var EpxProvider = (function () {
         // SOLO
         this.solo_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
         this.solo_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
-        this.solo_tag_url = '';
+        this.solo_tag_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-tags-with-pagination&user_id=';
         this.solo_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
         // VAULT
         this.vault_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
@@ -112,8 +112,8 @@ var EpxProvider = (function () {
             .map(this.extractData)
             .catch(this.catchError);
     };
-    EpxProvider.prototype.getSoloTags = function (tag) {
-        return this.httpClient.get(this.solo_infinite_url + tag)
+    EpxProvider.prototype.getSoloTags = function (user_id, page, tag) {
+        return this.httpClient.get(this.solo_tag_url + user_id + '&paged=' + page + '&tags=' + tag)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -232,10 +232,9 @@ var EpxProvider = (function () {
     };
     EpxProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _b || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
     ], EpxProvider);
     return EpxProvider;
-    var _a, _b;
 }());
 
 //# sourceMappingURL=epx.js.map
@@ -288,11 +287,11 @@ var map = {
 		15
 	],
 	"../pages/members/members.module": [
-		459,
+		460,
 		14
 	],
 	"../pages/mentor/mentor.module": [
-		460,
+		459,
 		13
 	],
 	"../pages/menu/menu.module": [
@@ -443,8 +442,8 @@ var AppModule = (function () {
                         { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },

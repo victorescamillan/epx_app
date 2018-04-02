@@ -30,7 +30,7 @@ export class EpxProvider {
   // SOLO
   public solo_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
   public solo_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
-  public solo_tag_url: string = '';
+  public solo_tag_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-tags-with-pagination&user_id=';
   public solo_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
   
   // VAULT
@@ -95,8 +95,8 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getSoloTags(tag) {
-    return this.httpClient.get(this.solo_infinite_url + tag)
+  getSoloTags(user_id, page, tag) {
+    return this.httpClient.get(this.solo_tag_url + user_id + '&paged=' + page + '&tags=' + tag)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
