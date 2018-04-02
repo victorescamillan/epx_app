@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, MenuController,Platform,AlertController } from 'ionic-angular';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { IonicPage, NavController, MenuController,Platform,AlertController, Events } from 'ionic-angular';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 /**
  * Generated class for the TabsPage tabs.
@@ -22,6 +22,8 @@ export class TabsPage {
 
   badgeCount = 0;
   constructor(
+    private detectorRef: ChangeDetectorRef,
+    private events: Events,
     private push: Push,
     platform: Platform,
     private alertCtrl: AlertController,
@@ -42,12 +44,13 @@ export class TabsPage {
   initPush() {
     const options: PushOptions = {
       android: {
-        senderID: '1035774532822'
+        senderID: '1035774532822',
       },
       ios: {
         alert: 'true',
         badge: true,
-        sound: 'false'
+        sound: 'false',
+
       },
       windows: {},
       browser: {
@@ -57,14 +60,22 @@ export class TabsPage {
 
     const pushObject: PushObject = this.push.init(options);
 
-    pushObject.on('notification').subscribe((notification: any) => {
+    pushObject.on('notification').subscribe((next:any) =>{
+      console.log('next response', next);
+    }, (notification: any) => {
       console.log('Received a notification', notification);
       let additionalData = notification.additionalData;
+      this.badgeCount = additionalData.new;
+      console.log('badge value',additionalData.new);
       switch(additionalData.target){
         case 'trips':
         {
-          this.badgeCount = additionalData.new;
-          this.showAlert(notification.title,notification.message);
+          // this.events.publish('cart:updated',badge_value => {
+           
+          //   console.log('badge value',badge_value);
+          // });
+          // this.detectorRef.detectChanges();
+          // this.showAlert(notification.title,notification.message);
           break;
         }
       }

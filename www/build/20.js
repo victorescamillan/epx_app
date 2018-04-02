@@ -27,7 +27,7 @@ var AssistPageModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_2__assist__["a" /* AssistPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__assist__["a" /* AssistPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__assist__["a" /* AssistPage */]),
             ],
         })
     ], AssistPageModule);
@@ -72,9 +72,9 @@ var AssistPage = (function () {
     };
     AssistPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-assist',template:/*ion-inline-start:"/Users/hpo-office/Documents/epx/epx_app/src/pages/assist/assist.html"*/'<!--\n  Generated template for the AssistPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Assist</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/hpo-office/Documents/epx/epx_app/src/pages/assist/assist.html"*/,
+            selector: 'page-assist',template:/*ion-inline-start:"D:\epx_app\src\pages\assist\assist.html"*/'<!--\n  Generated template for the AssistPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Assist</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\assist\assist.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], AssistPage);
     return AssistPage;
 }());

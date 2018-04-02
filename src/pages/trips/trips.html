@@ -7,11 +7,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>EXPLORE . EXPAND</ion-title>
-    <!-- <ion-buttons end>
+    <ion-buttons end>
       <button ion-button icon-only color="light" (click)="showFilter()">
         <ion-icon name="md-funnel"></ion-icon>
       </button>
-    </ion-buttons> -->
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content>
@@ -33,7 +33,7 @@
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <ion-card *ngFor="let trip of tripList">
+  <ion-card *ngFor="let trip of tripList" #tripCard>
     <div class="trip-image" (click)="tripDetails(trip)">
       <button ion-button round outline small class="top">{{trip.product_cat}}</button>
       <img src="{{trip.thumbnail}}" >

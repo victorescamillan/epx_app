@@ -25850,6 +25850,9 @@ page-business-details .owner-info {
 
 page-business-details .page-thumbnail img {
   height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-business-details .page-title {
@@ -26203,6 +26206,8 @@ page-solo-details img {
   max-width: 100%;
   border: 0;
   height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-solo-details div#title {
@@ -26237,6 +26242,10 @@ page-solo-details .price p {
 
 page-solo-details #map {
   height: 250px;
+}
+
+page-solo-details .solo-image {
+  height: 100%;
 }
 
 page-solo-tags button.disable-hover.button.button.button-default.button-default.button-block.button-block {
@@ -26342,8 +26351,8 @@ page-trip-details ion-col h1 {
 page-trip-details .swiper-slide img {
   width: auto;
   height: 100%;
-  -o-object-fit: fill;
-  object-fit: fill;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-trip-details .slide-zoom {
@@ -26830,6 +26839,8 @@ page-vault-details img {
   width: 100%;
   border: 0;
   height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
   margin: auto;
 }
 

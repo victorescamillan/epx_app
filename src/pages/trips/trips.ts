@@ -1,5 +1,5 @@
-import { Component, ViewChild, ViewChildren, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController } from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController, Content } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -13,6 +13,7 @@ import { Chart } from 'chart.js';
 })
 export class TripsPage {
   @ViewChild('doughnutCanvas') doughnutCanvas: ElementRef;
+  @ViewChild(Content) content: Content;
   doughnutChart: any;
   tripList: any;
   trip: any;
@@ -27,6 +28,7 @@ export class TripsPage {
   perPage = 0;
   totalData = 0;
   totalPage = 0;
+  pageVisit = 0;
   constructor(
     private httpClient: HttpClient,
     private cache: CacheService,
@@ -45,8 +47,9 @@ export class TripsPage {
   
   //Filter Page
   showFilter() {
-    let filterModal = this.modalCtrl.create('TripFilterPage');
-    filterModal.present();
+    // let filterModal = this.modalCtrl.create('TripFilterPage');
+    // filterModal.present();
+    this.content.scrollToTop();
   }
 
   logoutUser() {
@@ -72,8 +75,10 @@ export class TripsPage {
         let trips = Observable.of(data.data); //Convert object to array since angular accepts array for iteration
 
         if (refresher) {
-          this.cache.loadFromDelayedObservable(url, trips, groupKey, null, delay_type).subscribe(data => {
+          this.LoadTrips = null;
+          this.cache.loadFromDelayedObservable(url, trips, groupKey).subscribe(data => {
             this.tripList = Object.keys(data).map(key => data[key]);
+            console.log('Refresh',this.tripList);
             refresher.complete();
           });
         }
@@ -93,7 +98,6 @@ export class TripsPage {
   forceReload(refresher) {
     this.LoadTrips(refresher);
   }
-
 
   loadChart() {
     console.log('load chart: ', this.doughnutCanvas);
@@ -144,7 +148,15 @@ export class TripsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripsPage');
     this.LoadTrips();
+  
   }
+  // ionViewDidEnter(){
+  //   this.pageVisit++;
+  //   if(this.pageVisit > 1){
+  //     this.content.scrollToTop();
+  //   }
+  //   console.log('ionViewDidEnter', this.pageVisit);
+  // }
   presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,

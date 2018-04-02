@@ -55,7 +55,7 @@ export class SoloPage {
       else {
         this.cache.loadFromObservable(url, Observable.of(data), groupKey).subscribe(data => {
           this.soloList = Object.keys(data).map(key => data[key]);
-          console.log('solo list', data);
+          console.log('solo list', this.soloList );
         });
       }
       this.isLoading = false;
