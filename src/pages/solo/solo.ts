@@ -27,11 +27,11 @@ export class SoloPage {
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
-    this.LoadSolo();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SoloPage');
+    this.LoadSolo();
   }
   soloDetails(solo) {
     this.navCtrl.push('SoloDetailsPage', { data: solo });
@@ -45,15 +45,17 @@ export class SoloPage {
     this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
       //var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
       this.totalPage = data.number_of_page;
+      let solo = Observable.of(data.data);
       console.log('totalPage',this.totalPage);
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, Observable.of(data), groupKey, null, delay_type).subscribe(data => {
+        this.cache.loadFromDelayedObservable(url, solo, groupKey).subscribe(data => {
           this.soloList = Object.keys(data).map(key => data[key]);
           refresher.complete();
+          this.page = 0;
         });
       }
       else {
-        this.cache.loadFromObservable(url, Observable.of(data), groupKey).subscribe(data => {
+        this.cache.loadFromObservable(url, solo, groupKey).subscribe(data => {
           this.soloList = Object.keys(data).map(key => data[key]);
           console.log('solo list', this.soloList );
         });
@@ -67,7 +69,7 @@ export class SoloPage {
     this.page++;
 
     this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
-      let solo = data;
+      let solo = data.data;
       let temp = Object.keys(solo).map(key => solo[key]);
 
       for (let i = 0; i < temp.length; i++) {

@@ -7,11 +7,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>EXPLORE . EXPAND</ion-title>
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button icon-only color="light" (click)="showFilter()">
         <ion-icon name="md-funnel"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 <ion-content>
@@ -57,7 +57,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage">
     <ion-infinite-scroll-content loadingText="Loading more trips..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content> 

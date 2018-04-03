@@ -95,16 +95,18 @@ var BusinessPage = (function () {
         var groupKey = 'business-list';
         this.epxProvider.getBusinessInfinite(this.page).subscribe(function (data) {
             // var business = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+            var business = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.data);
             _this.totalPage = data.number_of_page;
             if (refresher) {
-                _this.cache.loadFromDelayedObservable(url, __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data), groupKey, null, delay_type).subscribe(function (data) {
+                _this.cache.loadFromDelayedObservable(url, business, groupKey).subscribe(function (data) {
                     _this.businessList = Object.keys(data).map(function (key) { return data[key]; });
                     console.log('business:', data);
                     refresher.complete();
+                    _this.page = 0;
                 });
             }
             else {
-                _this.cache.loadFromObservable(url, __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data), groupKey).subscribe(function (data) {
+                _this.cache.loadFromObservable(url, business, groupKey).subscribe(function (data) {
                     _this.businessList = Object.keys(data).map(function (key) { return data[key]; });
                     console.log('business:', data);
                     // this.temp_businessList = Observable.of(data);
@@ -122,7 +124,7 @@ var BusinessPage = (function () {
         console.log('Begin async operation');
         this.page++;
         this.epxProvider.getBusinessInfinite(this.page).subscribe(function (data) {
-            var business = data;
+            var business = data.data;
             var temp = Object.keys(business).map(function (key) { return business[key]; });
             for (var i = 0; i < temp.length; i++) {
                 _this.businessList.push(temp[i]);
@@ -152,7 +154,7 @@ var BusinessPage = (function () {
     };
     BusinessPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-business',template:/*ion-inline-start:"D:\epx_app\src\pages\business\business.html"*/'<!--\n  Generated template for the BusinessPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>BUSINESS</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="card-background-page">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <!-- <ion-searchbar placeholder="Search Business" showCancelButton color="danger" (ionInput)="filterBusiness($event)"></ion-searchbar> -->\n\n  <ion-card *ngFor="let business of businessList" (click)="businessDetails(business)">\n    <div class="business-logo">\n      <img [src]="business.business_logo" />\n    </div>\n    <div class="content-text">\n      <div class="card-title">{{business.business_name}}</div>\n      <div class="card-subtitle">{{business.member_name}}</div>\n      <div class="card-subtitle">{{business.business_industry}}</div>\n    </div>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more business..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\business\business.html"*/,
+            selector: 'page-business',template:/*ion-inline-start:"D:\epx_app\src\pages\business\business.html"*/'<!--\n  Generated template for the BusinessPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>BUSINESS</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="card-background-page">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <!-- <ion-searchbar placeholder="Search Business" showCancelButton color="danger" (ionInput)="filterBusiness($event)"></ion-searchbar> -->\n\n  <ion-card *ngFor="let business of businessList" (click)="businessDetails(business)">\n    <div class="business-logo">\n      <img [src]="business.business_logo" />\n    </div>\n    <div class="content-text">\n      <div class="card-title">{{business.business_name}}</div>\n      <div class="card-subtitle">{{business.member_name}}</div>\n      <div class="card-subtitle">{{business.business_industry}}</div>\n    </div>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page <= totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more business..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\business\business.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],

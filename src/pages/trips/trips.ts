@@ -41,7 +41,7 @@ export class TripsPage {
     // Set TTL to 12h
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
-    // cache.setOfflineInvalidate(false);
+    cache.setOfflineInvalidate(false);
   }
 
   
@@ -71,15 +71,13 @@ export class TripsPage {
     this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
       this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from url/api
         this.totalPage = data.number_of_page;
-        console.log('Infinite trips',data.data);
         let trips = Observable.of(data.data); //Convert object to array since angular accepts array for iteration
 
         if (refresher) {
-          this.LoadTrips = null;
           this.cache.loadFromDelayedObservable(url, trips, groupKey).subscribe(data => {
             this.tripList = Object.keys(data).map(key => data[key]);
-            console.log('Refresh',this.tripList);
             refresher.complete();
+            this.page = 0;
           });
         }
         else {
@@ -148,7 +146,6 @@ export class TripsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripsPage');
     this.LoadTrips();
-  
   }
   // ionViewDidEnter(){
   //   this.pageVisit++;
@@ -176,9 +173,8 @@ export class TripsPage {
     this.navCtrl.push('TripDetailsPage', { data: trip });
   }
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
     this.page++;
-
+    console.log('Begin async operation', this.page);
     this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
       this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from url/api
         let trips = data.data;

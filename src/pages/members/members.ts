@@ -49,9 +49,10 @@ export class MembersPage {
       var members = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
 
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, members, groupKey, null, delay_type).subscribe(data => {
+        this.cache.loadFromDelayedObservable(url, members, groupKey).subscribe(data => {
           this.memberList = Observable.of(data);
           refresher.complete();
+          this.page = 0;
         });
       }
       else {

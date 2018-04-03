@@ -48,18 +48,19 @@ export class VaultPage {
     this.epxProvider.getVaultInfinite(this.page).subscribe(data => { //Get data from url/api
 
       //var vault = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-      let vault = data.vaults;
+      let vault = Observable.of(data.vaults);
       this.totalPage = data.number_of_page;
       console.log('vault list', vault);
 
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, Observable.of(vault), groupKey, null, delay_type).subscribe(data =>{
+        this.cache.loadFromDelayedObservable(url, vault, groupKey).subscribe(data =>{
           this.vaultList = Object.keys(data).map(key => data[key]);
           refresher.complete();
+          this.page = 0;
         });
       }
       else {
-        this.cache.loadFromObservable(url, Observable.of(vault), groupKey).subscribe(data =>{
+        this.cache.loadFromObservable(url, vault, groupKey).subscribe(data =>{
           this.vaultList = Object.keys(data).map(key => data[key]);
         });
       }

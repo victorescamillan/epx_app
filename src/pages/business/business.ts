@@ -45,16 +45,18 @@ export class BusinessPage {
     this.epxProvider.getBusinessInfinite(this.page).subscribe(data => { //Get data from url/api
 
       // var business = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
+      let business = Observable.of(data.data);
       this.totalPage = data.number_of_page;
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, Observable.of(data), groupKey,null, delay_type).subscribe(data => {
+        this.cache.loadFromDelayedObservable(url, business, groupKey).subscribe(data => {
           this.businessList = Object.keys(data).map(key => data[key]); 
           console.log('business:',data);
           refresher.complete();
+          this.page = 0;
         });
       }
       else {
-        this.cache.loadFromObservable(url, Observable.of(data), groupKey).subscribe(data => {
+        this.cache.loadFromObservable(url, business, groupKey).subscribe(data => {
           this.businessList = Object.keys(data).map(key => data[key]); 
           console.log('business:',data);
           // this.temp_businessList = Observable.of(data);
@@ -72,7 +74,7 @@ export class BusinessPage {
     this.page++;
 
     this.epxProvider.getBusinessInfinite(this.page).subscribe(data => { //Get data from url/api
-      let business = data;
+      let business = data.data;
       let temp = Object.keys(business).map(key => business[key]);
       
       for (let i = 0; i < temp.length; i++) {
