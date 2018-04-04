@@ -38,12 +38,9 @@ export class SoloPage {
   }
   LoadSolo(refresher?) {
     let url = this.epxProvider.solo_url;
-    let ttl = 1000;
-    let delay_type = 'all';
     let groupKey = 'solo-list';
-
+    this.page = 1;
     this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
-      //var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
       this.totalPage = data.number_of_page;
       let solo = Observable.of(data.data);
       console.log('totalPage',this.totalPage);
@@ -51,13 +48,11 @@ export class SoloPage {
         this.cache.loadFromDelayedObservable(url, solo, groupKey).subscribe(data => {
           this.soloList = Object.keys(data).map(key => data[key]);
           refresher.complete();
-          this.page = 0;
         });
       }
       else {
         this.cache.loadFromObservable(url, solo, groupKey).subscribe(data => {
           this.soloList = Object.keys(data).map(key => data[key]);
-          console.log('solo list', this.soloList );
         });
       }
       this.isLoading = false;
@@ -66,20 +61,18 @@ export class SoloPage {
   }
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
-    this.page++;
-
-    this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
+    
+    this.epxProvider.getSoloInfinite(this.page + 1).subscribe(data => { //Get data from url/api
       let solo = data.data;
       let temp = Object.keys(solo).map(key => solo[key]);
-
       for (let i = 0; i < temp.length; i++) {
         this.soloList.push(temp[i]);
         console.log(data[i]);
       }
-
       infiniteScroll.complete();
       this.isLoading = false;
       this.isRefresh = true;
+      this.page++;
     });
   }
 

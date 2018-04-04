@@ -54,6 +54,7 @@ export class TripDetailsPage {
   isInterested: boolean;
   visibleState = 'visible';
   sashes_image: any;
+  gellery_length: number;
   constructor(
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
@@ -110,6 +111,7 @@ export class TripDetailsPage {
       this.details = data;
       console.log('trip details: ', data);
       console.log('trip gallery: ', data.trip_gallery.length);
+      this.gellery_length = Number(data.trip_gallery.length);
       let interested = this.details.whos_interested;
       this.whos_interested = Object.keys(interested).map(key => interested[key]);
 

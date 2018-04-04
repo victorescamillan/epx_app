@@ -1,14 +1,14 @@
 webpackJsonp([7],{
 
-/***/ 465:
+/***/ 467:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(135);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(486);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(488);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,14 +38,16 @@ var TabsPageModule = (function () {
 
 /***/ }),
 
-/***/ 486:
+/***/ 488:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(135);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular_util_util__ = __webpack_require__(3);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,15 +60,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-/**
- * Generated class for the TabsPage tabs.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
+
 var TabsPage = (function () {
-    function TabsPage(detectorRef, events, push, platform, alertCtrl, menuCtrl, navCtrl) {
+    function TabsPage(epxProvider, detectorRef, events, push, platform, alertCtrl, menuCtrl, navCtrl) {
         var _this = this;
+        this.epxProvider = epxProvider;
         this.detectorRef = detectorRef;
         this.events = events;
         this.push = push;
@@ -77,7 +76,10 @@ var TabsPage = (function () {
         this.vaultRoot = 'VaultPage';
         this.soloRoot = 'SoloPage';
         this.membersRoot = 'MembersPage';
-        this.badgeCount = 0;
+        this.tripBadge = 0;
+        this.soloBadge = 0;
+        this.vaultBadge = 0;
+        this.memberBadge = 0;
         if (platform.is('cordova')) {
             this.push.hasPermission()
                 .then(function (res) {
@@ -108,23 +110,56 @@ var TabsPage = (function () {
             }
         };
         var pushObject = this.push.init(options);
-        pushObject.on('notification').subscribe(function (next) {
-            console.log('next response', next);
-        }, function (notification) {
+        pushObject.on('notification').subscribe(function (notification) {
             console.log('Received a notification', notification);
             var additionalData = notification.additionalData;
-            _this.badgeCount = additionalData.new;
-            console.log('badge value', additionalData.new);
+            // this.events.publish('badge_update',badge_value => {
+            //   console.log('badge value',badge_value);
+            // });
+            console.log('badge value', additionalData.update);
             switch (additionalData.target) {
-                case 'trips':
+                case 'trip':
                     {
-                        // this.events.publish('cart:updated',badge_value => {
+                        // this.events.subscribe('badge_update',badge_value => {
                         //   console.log('badge value',badge_value);
                         // });
-                        // this.detectorRef.detectChanges();
                         // this.showAlert(notification.title,notification.message);
+                        var data = _this.epxProvider.getData('TRIP_BADGE');
+                        data.then(function (badge) {
+                            console.log('badge', badge);
+                            if (Object(__WEBPACK_IMPORTED_MODULE_4_ionic_angular_util_util__["j" /* isNumber */])(badge))
+                                console.log('number');
+                            else {
+                                console.log('not a number');
+                                _this.epxProvider.saveData('TRIP_BADGE', additionalData.update);
+                            }
+                        });
+                        console.log('trip', additionalData.update);
+                        _this.tripBadge = additionalData.update;
+                        _this.detectorRef.detectChanges();
                         break;
                     }
+                case 'solo': {
+                    console.log('solo', additionalData.update);
+                    _this.soloBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                case 'vault': {
+                    console.log('vault', additionalData.update);
+                    _this.vaultBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                case 'member': {
+                    console.log('member', additionalData.update);
+                    _this.memberBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                default: {
+                    _this.navCtrl.push('NotificationPage');
+                }
             }
         });
         pushObject.on('registration').subscribe(function (registration) { return console.log('Device registered', registration); });
@@ -143,9 +178,10 @@ var TabsPage = (function () {
     };
     TabsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{badgeCount > 0 ? badgeCount : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/
+            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
             __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__["a" /* Push */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],

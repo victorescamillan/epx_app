@@ -6,7 +6,9 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/catch'
 import { Storage } from '@ionic/storage';
-import { CacheService } from "ionic-cache";
+import { Network } from '@ionic-native/network';
+import { ToastController} from 'ionic-angular';
+// import { CacheService } from "ionic-cache";
 
 /*
   Generated class for the EpxProvider provider.
@@ -16,7 +18,6 @@ import { CacheService } from "ionic-cache";
 */
 @Injectable()
 export class EpxProvider {
-
   // LOGIN
   public login_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
   // TRIPS
@@ -49,9 +50,28 @@ export class EpxProvider {
   public business_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
   public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
   
-  constructor(private storage: Storage, private httpClient: HttpClient) {
+  constructor(private toastCtrl: ToastController, private network: Network, private storage: Storage, private httpClient: HttpClient) {
+    this.checkConnection();
+  }
+  checkConnection() {
+    this.network.onConnect().subscribe(data => {
+      console.log(data);      
+      this.displayNetworkUpdate(data.type);
+    },error => console.error(error));
+    this.network.onDisconnect().subscribe(data => {
+      console.log(data);
+      this.displayNetworkUpdate(data.type);
+    },error => console.error(error));
   }
 
+  displayNetworkUpdate(connectionState: string){
+    this.saveData('CONNECTION',connectionState);
+    let networkType = this.network.type;
+    this.toastCtrl.create({
+      message: 'You are now '+ connectionState +' via ' + networkType,
+      duration: 3000
+    }).present();
+  }
   getLogin(username, password) {
     return this.httpClient.get(this.login_url + 'username=' + username + '&password=' + password)
       .do(this.logResponse)
@@ -60,15 +80,15 @@ export class EpxProvider {
   }
   getTrips(user_id) {
     return this.httpClient.get(this.trips_url + user_id)
-      .do(this.logResponse)
-      .map(this.extractData)
-      .catch(this.catchError)
+    .do(this.logResponse)
+    .map(this.extractData)
+    .catch(this.catchError)
   }
   getTripsInfinite(user_id,page) {
     return this.httpClient.get(this.trips_infinite_url + user_id + '&list_size=10&page_no=' + page)
-      .do(this.logResponse)
-      .map(this.extractData)
-      .catch(this.catchError)
+    .do(this.logResponse)
+    .map(this.extractData)
+    .catch(this.catchError)
   }
   getTripDetails(id) {
     return this.httpClient.get(this.trips_details_url + id)

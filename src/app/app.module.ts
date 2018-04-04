@@ -16,6 +16,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {IonicStorageModule} from '@ionic/storage';
 import { CacheModule } from 'ionic-cache';
+import { Network } from '@ionic-native/network';
 
 var config = {
   apiKey: "AIzaSyD9l4jYr1CsW9LRaDWrwkcjc79amz97_JA",
@@ -49,6 +50,7 @@ var config = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EpxProvider,
+    Network,
     // GoogleMaps,
   ]
 })

@@ -1,17 +1,13 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, MenuController,Platform,AlertController, Events } from 'ionic-angular';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
-/**
- * Generated class for the TabsPage tabs.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { EpxProvider } from '../../providers/epx/epx';
+import { isNumber } from 'ionic-angular/util/util';
 
 @IonicPage()
 @Component({
   selector: 'page-tabs',
-  templateUrl: 'tabs.html'
+  templateUrl: 'tabs.html',  
 })
 export class TabsPage {
 
@@ -20,8 +16,12 @@ export class TabsPage {
   soloRoot = 'SoloPage'
   membersRoot = 'MembersPage'
 
-  badgeCount = 0;
+  tripBadge = 0;
+  soloBadge = 0;
+  vaultBadge = 0;
+  memberBadge = 0;
   constructor(
+    private epxProvider: EpxProvider,
     private detectorRef: ChangeDetectorRef,
     private events: Events,
     private push: Push,
@@ -60,23 +60,56 @@ export class TabsPage {
 
     const pushObject: PushObject = this.push.init(options);
 
-    pushObject.on('notification').subscribe((next:any) =>{
-      console.log('next response', next);
-    }, (notification: any) => {
+    pushObject.on('notification').subscribe((notification: any) => {
       console.log('Received a notification', notification);
       let additionalData = notification.additionalData;
-      this.badgeCount = additionalData.new;
-      console.log('badge value',additionalData.new);
+      // this.events.publish('badge_update',badge_value => {
+      //   console.log('badge value',badge_value);
+      // });
+      console.log('badge value',additionalData.update);
       switch(additionalData.target){
-        case 'trips':
+        case 'trip':
         {
-          // this.events.publish('cart:updated',badge_value => {
-           
+          // this.events.subscribe('badge_update',badge_value => {
           //   console.log('badge value',badge_value);
           // });
-          // this.detectorRef.detectChanges();
           // this.showAlert(notification.title,notification.message);
+          let data = this.epxProvider.getData('TRIP_BADGE');
+          data.then(badge => {
+            console.log('badge',badge);
+            if(isNumber(badge))
+            console.log('number')
+            else{
+              console.log('not a number')
+              this.epxProvider.saveData('TRIP_BADGE',additionalData.update);
+            }
+          });
+          console.log('trip',additionalData.update);
+          this.tripBadge = additionalData.update;
+          this.detectorRef.detectChanges();
+          
           break;
+        }
+        case 'solo':{
+          console.log('solo',additionalData.update);
+          this.soloBadge = additionalData.update;
+          this.detectorRef.detectChanges();
+          break;
+        }
+        case 'vault':{
+          console.log('vault',additionalData.update);
+          this.vaultBadge = additionalData.update;
+          this.detectorRef.detectChanges();
+          break;
+        }
+        case 'member':{
+          console.log('member',additionalData.update);
+          this.memberBadge = additionalData.update;
+          this.detectorRef.detectChanges();
+          break;
+        }
+        default:{
+          this.navCtrl.push('NotificationPage');
         }
       }
     

@@ -21,8 +21,6 @@ export class BusinessPage {
   isLoading: boolean = true;
   isRefresh: boolean = false;
   page = 1;
-  perPage = 0;
-  totalData = 0;
   totalPage = 0;
 
   constructor(
@@ -33,18 +31,18 @@ export class BusinessPage {
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
+  }
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad BusinessPage');
     this.LoadBusiness();
   }
   LoadBusiness(refresher?) {
-
     let url = this.epxProvider.business_url;
-    let ttl = 1000;
-    let delay_type = 'all';
+    // let ttl = 1000;
+    // let delay_type = 'all';
     let groupKey = 'business-list';
-
+    this.page = 1;
     this.epxProvider.getBusinessInfinite(this.page).subscribe(data => { //Get data from url/api
-
-      // var business = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
       let business = Observable.of(data.data);
       this.totalPage = data.number_of_page;
       if (refresher) {
@@ -52,7 +50,6 @@ export class BusinessPage {
           this.businessList = Object.keys(data).map(key => data[key]); 
           console.log('business:',data);
           refresher.complete();
-          this.page = 0;
         });
       }
       else {
@@ -71,9 +68,7 @@ export class BusinessPage {
   }
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
-    this.page++;
-
-    this.epxProvider.getBusinessInfinite(this.page).subscribe(data => { //Get data from url/api
+    this.epxProvider.getBusinessInfinite(this.page + 1).subscribe(data => { //Get data from url/api
       let business = data.data;
       let temp = Object.keys(business).map(key => business[key]);
       
@@ -85,6 +80,7 @@ export class BusinessPage {
       infiniteScroll.complete();
       this.isLoading = false;
       this.isRefresh = true;
+      this.page++;
     });
   }
   filterBusiness(ev: any) {
@@ -102,8 +98,6 @@ export class BusinessPage {
   businessDetails(business) {
     this.navCtrl.push('BusinessDetailsPage', { data: business });
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad BusinessPage');
-  }
+  
 
 }

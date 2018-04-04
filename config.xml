@@ -95,4 +95,5 @@
     <plugin name="phonegap-plugin-push" spec="^2.0.0">
         <variable name="SENDER_ID" value="1035774532822" />
     </plugin>
+    <plugin name="cordova-plugin-network-information" spec="~2.0.1" />
 </widget>

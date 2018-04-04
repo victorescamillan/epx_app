@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -21,46 +21,38 @@ export class VaultPage {
   totalPage = 0;
 
   constructor(
-    public domSanitizer: DomSanitizer,
-    private loadingCtrl: LoadingController,
-    private epxProvider: EpxProvider,
-    private cache: CacheService,
-    public navCtrl: NavController, public navParams: NavParams) {
+    private loadingCtrl: LoadingController, private epxProvider: EpxProvider, private cache: CacheService, private navCtrl: NavController) {
     // Set TTL to 12h
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
-    this.LoadVault();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultPage');
+    this.LoadVault();
   }
   vaultDetails(vault) {
     this.navCtrl.push('VaultDetailsPage', { data: vault });
   }
   LoadVault(refresher?) {
-    let url = this.epxProvider.vault_url;
-    let ttl = 1000;
-    let delay_type = 'all';
+    let url = this.epxProvider.vault_infinite_url;
+    // let ttl = 1000;
+    // let delay_type = 'all';
     let groupKey = 'vault-list';
-
+    this.page = 1;
     this.epxProvider.getVaultInfinite(this.page).subscribe(data => { //Get data from url/api
-
-      //var vault = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
       let vault = Observable.of(data.vaults);
       this.totalPage = data.number_of_page;
       console.log('vault list', vault);
-
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, vault, groupKey).subscribe(data =>{
+        this.cache.loadFromDelayedObservable(url, vault, groupKey).subscribe(data => {
           this.vaultList = Object.keys(data).map(key => data[key]);
           refresher.complete();
-          this.page = 0;
         });
       }
       else {
-        this.cache.loadFromObservable(url, vault, groupKey).subscribe(data =>{
+        this.cache.loadFromObservable(url, vault, groupKey).subscribe(data => {
           this.vaultList = Object.keys(data).map(key => data[key]);
         });
       }
@@ -74,20 +66,18 @@ export class VaultPage {
   }
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
-    this.page++;
-
-    this.epxProvider.getVaultInfinite(this.page).subscribe(data => { //Get data from url/api
+    
+    this.epxProvider.getVaultInfinite(this.page + 1).subscribe(data => { //Get data from url/api
       let vault = data.vaults;
-      let vault_temp = Object.keys(vault).map(key => vault[key]);
-      
-      for (let i = 0; i < vault_temp.length; i++) {
-        this.vaultList.push(vault_temp[i]);
-        console.log(data[i]);
+      let temp = Object.keys(vault).map(key => vault[key]);
+      for (let i = 0; i < temp.length; i++) {
+        this.vaultList.push(temp[i]);
       }
-      
       infiniteScroll.complete();
       this.isLoading = false;
       this.isRefresh = true;
+      this.page++;
+    console.log('current page: ', this.page);
     });
   }
 }

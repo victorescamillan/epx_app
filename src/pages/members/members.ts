@@ -16,7 +16,7 @@ import { CacheService } from 'ionic-cache';
   templateUrl: 'members.html',
 })
 export class MembersPage {
-  memberList: Observable<any>;
+  memberList: any;
   temp_memberList: Observable<any>;
   members:any;
   isLoading: boolean = true;
@@ -34,53 +34,20 @@ export class MembersPage {
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
-    // this.LoadMembers();
-    this.LoadMembersInfinite();
   }
-
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad MembersPage');
+    this.LoadMembers();
+  }
   LoadMembers(refresher?) {
     let url = this.epxProvider.members_url;
-    let ttl = 1000;
-    let delay_type = 'all';
     let groupKey = 'member-list';
-
-    this.epxProvider.getMembers().subscribe(data => { //Get data from url/api
-      this.totalPage = data.number_of_page;
-      var members = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-
-      if (refresher) {
-        this.cache.loadFromDelayedObservable(url, members, groupKey).subscribe(data => {
-          this.memberList = Observable.of(data);
-          refresher.complete();
-          this.page = 0;
-        });
-      }
-      else {
-        this.cache.loadFromObservable(url, members, groupKey).subscribe(data => {
-          this.memberList = Observable.of(data);
-          this.temp_memberList = Observable.of(data);
-          // console.log('member list', data);
-        });
-      }
-      this.isLoading = false;
-      this.isRefresh = true;
-    });
-  }
-  LoadMembersInfinite(refresher?) {
-    let url = this.epxProvider.members_url;
-    let ttl = 1000;
-    let delay_type = 'all';
-    let groupKey = 'member-list';
-
+    this.page = 1;
     this.epxProvider.getMembersInfinite(this.page).subscribe(data => { //Get data from url/api
-     
       let members = data.members;
       this.totalPage = data.number_of_page;
-      //this.members = Object.keys(members).map(key => members[key]); //Convert object to array since angular accepts array for iteration
-
-      //this.memberList = Observable.of(Object.keys(members).map(key => members[key])); //Convert object to array since angular accepts array for iteration
       if (refresher) {
-        this.cache.loadFromDelayedObservable(url, Observable.of(members), groupKey,null, delay_type).subscribe(data => {
+        this.cache.loadFromDelayedObservable(url, Observable.of(members), groupKey).subscribe(data => {
           this.members = Object.keys(data).map(key => data[key]);
           refresher.complete();
         });
@@ -100,7 +67,7 @@ export class MembersPage {
 
   forceReload(refresher) {
     // this.LoadMembers(refresher);
-    this.LoadMembersInfinite(refresher);
+    this.LoadMembers(refresher);
   }
 
   filterMembers(ev: any) {
@@ -117,28 +84,19 @@ export class MembersPage {
   memberDetails(member) {
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MembersPage');
-
-  }
+ 
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
-    this.page++;
-
-    this.epxProvider.getMembersInfinite(this.page).subscribe(data => { //Get data from url/api
+    this.epxProvider.getMembersInfinite(this.page + 1).subscribe(data => { //Get data from url/api
       let members = data.members;
-      let members_temp = Object.keys(members).map(key => members[key]);
-      //let new_members = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-      console.log('members',members);
-      
-      for (let i = 0; i < members_temp.length; i++) {
-        this.members.push(members_temp[i]);
-        console.log(data[i]);
+      let temp = Object.keys(members).map(key => members[key]);
+      for (let i = 0; i < temp.length; i++) {
+        this.members.push(temp[i]);
       }
-      
       infiniteScroll.complete();
       this.isLoading = false;
       this.isRefresh = true;
+      this.page++;
     });
   }
   openBrowser(url){
