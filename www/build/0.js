@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultPageModule", function() { return VaultPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault__ = __webpack_require__(496);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var VaultPageModule = (function () {
 
 /***/ }),
 
-/***/ 495:
+/***/ 496:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90,28 +90,59 @@ var VaultPage = (function () {
     VaultPage.prototype.LoadVault = function (refresher) {
         var _this = this;
         var url = this.epxProvider.vault_infinite_url;
-        // let ttl = 1000;
-        // let delay_type = 'all';
+        var ttl = 60 * 60 * 12;
+        var delay_type = 'all';
         var groupKey = 'vault-list';
         this.page = 1;
-        this.epxProvider.getVaultInfinite(this.page).subscribe(function (data) {
-            var vault = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.vaults);
-            _this.totalPage = data.number_of_page;
-            console.log('vault list', vault);
-            if (refresher) {
-                _this.cache.loadFromDelayedObservable(url, vault, groupKey).subscribe(function (data) {
-                    _this.vaultList = Object.keys(data).map(function (key) { return data[key]; });
-                    refresher.complete();
-                });
-            }
-            else {
-                _this.cache.loadFromObservable(url, vault, groupKey).subscribe(function (data) {
-                    _this.vaultList = Object.keys(data).map(function (key) { return data[key]; });
-                });
-            }
-            _this.isLoading = false;
-            _this.isRefresh = true;
-        });
+        var connected = this.epxProvider.isConnected();
+        console.log('connected: ', connected);
+        if (connected) {
+            this.epxProvider.getVaultInfinite(this.page).subscribe(function (data) {
+                var vault = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.vaults);
+                _this.totalPage = data.number_of_page;
+                console.log('vault list', vault);
+                if (refresher) {
+                    _this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type).subscribe(function (data) {
+                        _this.vaultList = Object.keys(data).map(function (key) { return data[key]; });
+                        refresher.complete();
+                    });
+                }
+                else {
+                    _this.cache.loadFromObservable(url, vault, groupKey).subscribe(function (data) {
+                        _this.vaultList = Object.keys(data).map(function (key) { return data[key]; });
+                    });
+                }
+                _this.isLoading = false;
+                _this.isRefresh = true;
+            }, function (error) {
+                console.log(error);
+                refresher.complete();
+            });
+        }
+        else {
+            this.epxProvider.getData(url).then(function (data) {
+                if (data != null) {
+                    var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
+                    console.log('offline data: ', offline_data);
+                    if (refresher) {
+                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(function (data) {
+                            _this.vaultList = data;
+                            refresher.complete();
+                        });
+                    }
+                    else {
+                        _this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(function (data) {
+                            _this.vaultList = data;
+                        });
+                    }
+                    _this.isLoading = false;
+                    _this.isRefresh = true;
+                }
+                else {
+                    console.log('offline data: ', data);
+                }
+            });
+        }
     };
     //Pull to refresh page
     VaultPage.prototype.forceReload = function (refresher) {
@@ -131,6 +162,10 @@ var VaultPage = (function () {
             _this.isRefresh = true;
             _this.page++;
             console.log('current page: ', _this.page);
+        }, function (error) {
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
         });
     };
     VaultPage = __decorate([

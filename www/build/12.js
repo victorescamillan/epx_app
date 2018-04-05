@@ -5,10 +5,10 @@ webpackJsonp([12],{
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuPageModule", function() { return MenuPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationPageModule", function() { return NotificationPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__menu__ = __webpack_require__(483);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__notification__ = __webpack_require__(484);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var MenuPageModule = (function () {
-    function MenuPageModule() {
+var NotificationPageModule = (function () {
+    function NotificationPageModule() {
     }
-    MenuPageModule = __decorate([
+    NotificationPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__menu__["a" /* MenuPage */],
+                __WEBPACK_IMPORTED_MODULE_2__notification__["a" /* NotificationPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__menu__["a" /* MenuPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__notification__["a" /* NotificationPage */]),
             ],
         })
-    ], MenuPageModule);
-    return MenuPageModule;
+    ], NotificationPageModule);
+    return NotificationPageModule;
 }());
 
-//# sourceMappingURL=menu.module.js.map
+//# sourceMappingURL=notification.module.js.map
 
 /***/ }),
 
-/***/ 483:
+/***/ 484:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MenuPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -57,71 +56,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-var MenuPage = (function () {
-    function MenuPage(alertCtrl, epxProvider, navCtrl, navParams) {
-        var _this = this;
-        this.alertCtrl = alertCtrl;
-        this.epxProvider = epxProvider;
+/**
+ * Generated class for the NotificationPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var NotificationPage = (function () {
+    function NotificationPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.rootPage = 'TabsPage';
-        this.pages = [
-            { title: 'Business', pageName: 'BusinessPage', tabComponent: 'BusinessPage', index: 0, icon: 'briefcase' },
-            { title: 'Member Assist', pageName: 'AssistPage', tabComponent: 'AssistPage', index: 1, icon: 'hand' },
-            { title: 'Mentor Match', pageName: 'MentorPage', tabComponent: 'MentorPage', index: 2, icon: 'phone-portrait' },
-            { title: 'Notification', pageName: 'NotificationPage', tabComponent: 'NotificationPage', index: 3, icon: 'notifications' },
-        ];
-        this.epxProvider.getData('name').then(function (name) {
-            _this.name = name;
-        });
     }
-    MenuPage.prototype.openPage = function (p) {
-        this.navCtrl.push(p.pageName);
+    NotificationPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad NotificationPage');
     };
-    MenuPage.prototype.isActive = function (p) {
-    };
-    MenuPage.prototype.logoutUser = function () {
-        this.epxProvider.clearUser();
-        this.navCtrl.setRoot('LoginPage');
-    };
-    MenuPage.prototype.showPrompt = function () {
-        var _this = this;
-        var prompt = this.alertCtrl.create({
-            title: 'Logout',
-            message: "Do you want to continue logout?",
-            buttons: [
-                {
-                    text: 'Cancel',
-                    handler: function (data) {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: 'Okay',
-                    handler: function (data) {
-                        _this.logoutUser();
-                        console.log('Saved clicked');
-                    }
-                }
-            ]
-        });
-        prompt.present();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Nav */])
-    ], MenuPage.prototype, "nav", void 0);
-    MenuPage = __decorate([
+    NotificationPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-menu',template:/*ion-inline-start:"D:\epx_app\src\pages\menu\menu.html"*/'<ion-menu [content]="content" side="left">\n  <ion-header class="menu-header">\n    <!-- <ion-navbar>\n      <ion-title>menu</ion-title>\n    </ion-navbar> -->\n    <!-- <div class="user-info">\n      {{name}}\n    </div> -->\n  </ion-header>\n  <ion-content class="menu-content">\n    <div class="user-info">\n        <p>{{name}}</p>\n    </div>\n    <ion-list>\n      <ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">\n        <ion-icon name="{{p.icon}}" item-start></ion-icon>\n        {{p.title}}\n      </ion-item>\n      <ion-item  (click)="showPrompt()">\n          <ion-icon name="md-exit" item-start></ion-icon>\n          Logout\n        </ion-item>\n    </ion-list>\n  </ion-content>\n</ion-menu>\n\n<!-- <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> -->\n<ion-nav id="nav" #content [root]="rootPage"></ion-nav>'/*ion-inline-end:"D:\epx_app\src\pages\menu\menu.html"*/,
+            selector: 'page-notification',template:/*ion-inline-start:"D:\epx_app\src\pages\notification\notification.html"*/'<!--\n  Generated template for the NotificationPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Notification</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\notification\notification.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], MenuPage);
-    return MenuPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], NotificationPage);
+    return NotificationPage;
 }());
 
-//# sourceMappingURL=menu.js.map
+//# sourceMappingURL=notification.js.map
 
 /***/ })
 

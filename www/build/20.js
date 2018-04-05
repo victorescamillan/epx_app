@@ -1,14 +1,14 @@
 webpackJsonp([20],{
 
-/***/ 454:
+/***/ 456:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AssistPageModule", function() { return AssistPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BusinessDetailsPageModule", function() { return BusinessDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__assist__ = __webpack_require__(475);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__business_details__ = __webpack_require__(478);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,33 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var AssistPageModule = (function () {
-    function AssistPageModule() {
+var BusinessDetailsPageModule = (function () {
+    function BusinessDetailsPageModule() {
     }
-    AssistPageModule = __decorate([
+    BusinessDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__assist__["a" /* AssistPage */],
+                __WEBPACK_IMPORTED_MODULE_2__business_details__["a" /* BusinessDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__assist__["a" /* AssistPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__business_details__["a" /* BusinessDetailsPage */]),
             ],
         })
-    ], AssistPageModule);
-    return AssistPageModule;
+    ], BusinessDetailsPageModule);
+    return BusinessDetailsPageModule;
 }());
 
-//# sourceMappingURL=assist.module.js.map
+//# sourceMappingURL=business-details.module.js.map
 
 /***/ }),
 
-/***/ 475:
+/***/ 478:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssistPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BusinessDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -56,30 +57,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 /**
- * Generated class for the AssistPage page.
+ * Generated class for the BusinessDetailsPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var AssistPage = (function () {
-    function AssistPage(navCtrl, navParams) {
+var BusinessDetailsPage = (function () {
+    function BusinessDetailsPage(epxProvider, navCtrl, navParams) {
+        this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.isLoading = true;
+        var id = navParams.data.data.ID;
+        this.loadBusinessDetails(id);
     }
-    AssistPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad AssistPage');
+    BusinessDetailsPage.prototype.loadBusinessDetails = function (id) {
+        var _this = this;
+        this.epxProvider.getBusinessDetails(id).subscribe(function (data) {
+            _this.details = data;
+            console.log('business details:', _this.details);
+            _this.isLoading = false;
+        });
     };
-    AssistPage = __decorate([
+    BusinessDetailsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad BusinessDetailsPage');
+    };
+    BusinessDetailsPage.prototype.memberDetails = function (member) {
+        this.navCtrl.push('MemberDetailsPage', { data: member });
+    };
+    BusinessDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-assist',template:/*ion-inline-start:"D:\epx_app\src\pages\assist\assist.html"*/'<!--\n  Generated template for the AssistPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Assist</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\assist\assist.html"*/,
+            selector: 'page-business-details',template:/*ion-inline-start:"D:\epx_app\src\pages\business-details\business-details.html"*/'<!--\n  Generated template for the BusinessDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Business Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <div class="page-thumbnail" *ngIf="!isLoading">\n    <img class="business-logo" [src]="details.page_thumbnail">\n    <div class="page-title">\n      <h2 class="md-text">{{details.business_name}}</h2>\n    </div>\n  </div>\n  <div class="business-content" *ngIf="!isLoading">\n\n    <img class="business-logo" [src]="details.business_logo">\n    <h4>Business Name:</h4>\n    <p class="md-text">{{details.business_name}}</p>\n\n    <h4>Business Description:</h4>\n    <p class="md-text pre-line" [innerHTML]="details.business_description"></p>\n\n    <h4>Target Customers:</h4>\n    <p class="md-text">{{details.target_customers}}</p>\n\n    <h4>Benefits Delivered:</h4>\n    <p class="md-text pre-line" [innerHTML]="details.benefits_delivered"></p>\n\n    <h4>Where I can use help:</h4>\n    <p class="md-text" >{{details.business_name}}</p>\n\n    <h4>Target Customers:</h4>\n    <p class="md-text">{{details.target_customers}}</p>\n\n    <div class="owner-info">\n      <img class="owner-thumbnail" [src]="details.avatar" (click)="memberDetails(details)">\n      <h1>{{details.member_name}}</h1>\n      <p class="md-text">{{details.member_position}}</p>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\business-details\business-details.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], AssistPage);
-    return AssistPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], BusinessDetailsPage);
+    return BusinessDetailsPage;
 }());
 
-//# sourceMappingURL=assist.js.map
+//# sourceMappingURL=business-details.js.map
 
 /***/ })
 

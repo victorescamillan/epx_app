@@ -1,4 +1,4 @@
-webpackJsonp([21],{
+webpackJsonp([22],{
 
 /***/ 136:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -67,6 +67,7 @@ var EpxProvider = (function () {
         this.vault_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
         this.vault_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&paged=';
         this.vault_tag_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
+        this.vault_category_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
         this.vault_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
         // MEMBERS
         this.members_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
@@ -78,6 +79,10 @@ var EpxProvider = (function () {
         this.business_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
         this.checkConnection();
     }
+    EpxProvider.prototype.isConnected = function () {
+        var connection_type = this.network.type;
+        return connection_type !== 'unknown' && connection_type !== 'none';
+    };
     EpxProvider.prototype.checkConnection = function () {
         var _this = this;
         this.network.onConnect().subscribe(function (data) {
@@ -110,20 +115,10 @@ var EpxProvider = (function () {
             .catch(this.catchError);
     };
     EpxProvider.prototype.getTripsInfinite = function (user_id, page) {
-        var _this = this;
-        var result;
-        this.getData('CONNECTION').then(function (data) {
-            if (data === 'offline') {
-                result = null;
-            }
-            else {
-                result = _this.httpClient.get(_this.trips_infinite_url + user_id + '&list_size=10&page_no=' + page)
-                    .do(_this.logResponse)
-                    .map(_this.extractData)
-                    .catch(_this.catchError);
-            }
-        });
-        return result;
+        return this.httpClient.get(this.trips_infinite_url + user_id + '&list_size=10&page_no=' + page)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
     };
     EpxProvider.prototype.getTripDetails = function (id) {
         return this.httpClient.get(this.trips_details_url + id)
@@ -175,6 +170,12 @@ var EpxProvider = (function () {
     };
     EpxProvider.prototype.getVaultTags = function (tag) {
         return this.httpClient.get(this.vault_tag_url + tag)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.getVaultCategory = function (category) {
+        return this.httpClient.get(this.vault_category_url + category)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -301,78 +302,82 @@ webpackEmptyAsyncContext.id = 149;
 var map = {
 	"../pages/assist/assist.module": [
 		454,
-		20
+		21
 	],
 	"../pages/business-details/business-details.module": [
+		456,
+		20
+	],
+	"../pages/business/business.module": [
 		455,
 		19
 	],
-	"../pages/business/business.module": [
-		456,
-		18
-	],
 	"../pages/chat/chat.module": [
 		457,
-		17
+		18
 	],
 	"../pages/login/login.module": [
-		458,
-		16
+		459,
+		17
 	],
 	"../pages/member-details/member-details.module": [
-		460,
-		15
+		463,
+		16
 	],
 	"../pages/members/members.module": [
-		459,
-		14
+		458,
+		15
 	],
 	"../pages/mentor/mentor.module": [
+		460,
+		14
+	],
+	"../pages/menu/menu.module": [
 		461,
 		13
 	],
-	"../pages/menu/menu.module": [
+	"../pages/notification/notification.module": [
 		462,
 		12
 	],
-	"../pages/notification/notification.module": [
-		466,
+	"../pages/solo-details/solo-details.module": [
+		467,
 		11
 	],
-	"../pages/solo-details/solo-details.module": [
-		463,
+	"../pages/solo-tags/solo-tags.module": [
+		465,
 		10
 	],
-	"../pages/solo-tags/solo-tags.module": [
+	"../pages/solo/solo.module": [
 		464,
 		9
 	],
-	"../pages/solo/solo.module": [
-		465,
+	"../pages/tabs/tabs.module": [
+		466,
 		8
 	],
-	"../pages/tabs/tabs.module": [
-		467,
+	"../pages/trip-details/trip-details.module": [
+		468,
 		7
 	],
-	"../pages/trip-details/trip-details.module": [
-		471,
+	"../pages/trip-filter/trip-filter.module": [
+		470,
 		6
 	],
-	"../pages/trip-filter/trip-filter.module": [
-		468,
+	"../pages/trip-tags/trip-tags.module": [
+		469,
 		5
 	],
-	"../pages/trip-tags/trip-tags.module": [
-		470,
+	"../pages/trips/trips.module": [
+		471,
 		4
 	],
-	"../pages/trips/trips.module": [
-		469,
+	"../pages/vault-category/vault-category.module": [
+		472,
 		3
 	],
 	"../pages/vault-details/vault-details.module": [
-		472,
+		475,
 		2
 	],
 	"../pages/vault-tags/vault-tags.module": [
@@ -476,26 +481,27 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["f" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
                     links: [
                         { loadChildren: '../pages/assist/assist.module#AssistPageModule', name: 'AssistPage', segment: 'assist', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/business-details/business-details.module#BusinessDetailsPageModule', name: 'BusinessDetailsPage', segment: 'business-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/business/business.module#BusinessPageModule', name: 'BusinessPage', segment: 'business', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/business-details/business-details.module#BusinessDetailsPageModule', name: 'BusinessDetailsPage', segment: 'business-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-tags/vault-tags.module#VaultTagsPageModule', name: 'VaultTagsPage', segment: 'vault-tags', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_6_angularfire2__["a" /* AngularFireModule */].initializeApp(config),

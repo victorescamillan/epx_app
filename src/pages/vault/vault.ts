@@ -37,28 +37,60 @@ export class VaultPage {
   }
   LoadVault(refresher?) {
     let url = this.epxProvider.vault_infinite_url;
-    // let ttl = 1000;
-    // let delay_type = 'all';
+    let ttl = 60 * 60 * 12;
+    let delay_type = 'all';
     let groupKey = 'vault-list';
     this.page = 1;
-    this.epxProvider.getVaultInfinite(this.page).subscribe(data => { //Get data from url/api
-      let vault = Observable.of(data.vaults);
-      this.totalPage = data.number_of_page;
-      console.log('vault list', vault);
-      if (refresher) {
-        this.cache.loadFromDelayedObservable(url, vault, groupKey).subscribe(data => {
-          this.vaultList = Object.keys(data).map(key => data[key]);
-          refresher.complete();
-        });
-      }
-      else {
-        this.cache.loadFromObservable(url, vault, groupKey).subscribe(data => {
-          this.vaultList = Object.keys(data).map(key => data[key]);
-        });
-      }
-      this.isLoading = false;
-      this.isRefresh = true;
-    });
+    let connected = this.epxProvider.isConnected();
+    console.log('connected: ', connected);
+    if (connected) {
+      this.epxProvider.getVaultInfinite(this.page).subscribe(data => { //Get data from url/api
+        let vault = Observable.of(data.vaults);
+        this.totalPage = data.number_of_page;
+        console.log('vault list', vault);
+        if (refresher) {
+          this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type).subscribe(data => {
+            this.vaultList = Object.keys(data).map(key => data[key]);
+            refresher.complete();
+          });
+        }
+        else {
+          this.cache.loadFromObservable(url, vault, groupKey).subscribe(data => {
+            this.vaultList = Object.keys(data).map(key => data[key]);
+          });
+        }
+        this.isLoading = false;
+        this.isRefresh = true;
+      }, error => {
+        console.log(error);
+        refresher.complete();
+      });
+    }
+    else {
+      this.epxProvider.getData(url).then(data => {
+        if(data != null){
+          let offline_data = Observable.of(data.value);
+          console.log('offline data: ', offline_data);
+          if (refresher) {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+              this.vaultList = data;
+              refresher.complete();
+            });
+          }
+          else {
+            this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(data => {
+              this.vaultList = data;
+            });
+          }
+          this.isLoading = false;
+          this.isRefresh = true;
+        }
+        else{
+          console.log('offline data: ', data);
+        }
+      });
+    }
+    
   }
   //Pull to refresh page
   forceReload(refresher) {
@@ -66,7 +98,6 @@ export class VaultPage {
   }
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
-    
     this.epxProvider.getVaultInfinite(this.page + 1).subscribe(data => { //Get data from url/api
       let vault = data.vaults;
       let temp = Object.keys(vault).map(key => vault[key]);
@@ -77,7 +108,11 @@ export class VaultPage {
       this.isLoading = false;
       this.isRefresh = true;
       this.page++;
-    console.log('current page: ', this.page);
+      console.log('current page: ', this.page);
+    }, error => {
+      infiniteScroll.complete();
+      this.isLoading = false;
+      this.isRefresh = true;
     });
   }
 }

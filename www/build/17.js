@@ -1,14 +1,14 @@
 webpackJsonp([17],{
 
-/***/ 457:
+/***/ 459:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatPageModule", function() { return ChatPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageModule", function() { return LoginPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__chat__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(481);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ChatPageModule = (function () {
-    function ChatPageModule() {
+var LoginPageModule = (function () {
+    function LoginPageModule() {
     }
-    ChatPageModule = __decorate([
+    LoginPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__chat__["a" /* ChatPage */],
+                __WEBPACK_IMPORTED_MODULE_2__login__["a" /* LoginPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__chat__["a" /* ChatPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__login__["a" /* LoginPage */]),
             ],
         })
-    ], ChatPageModule);
-    return ChatPageModule;
+    ], LoginPageModule);
+    return LoginPageModule;
 }());
 
-//# sourceMappingURL=chat.module.js.map
+//# sourceMappingURL=login.module.js.map
 
 /***/ }),
 
-/***/ 478:
+/***/ 481:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,60 +58,72 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-/**
- * Generated class for the ChatPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var ChatPage = (function () {
-    function ChatPage(db, navCtrl, navParams) {
-        var _this = this;
-        this.db = db;
+var LoginPage = (function () {
+    function LoginPage(epxProvider, loadingCtrl, navCtrl, navParams, alertCtrl) {
+        this.epxProvider = epxProvider;
+        this.loadingCtrl = loadingCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.alertCtrl = alertCtrl;
+        // username: string='jaylord.lagud.hpo@gmail.com';
+        // password: string='jaylord.lagud.hpo@gmail.com';
+        // username: string = 'stan.lee@hpoutsourcinginc.com';
+        // password: string = 'VzOo$)dl';
         this.username = '';
-        this.message = '';
-        this.messages = [];
-        this.username = this.navParams.get('username');
-        this._chatSubscription = db.list('chat').valueChanges().subscribe(function (data) {
-            _this.messages = data;
-        });
+        this.password = '';
     }
-    ChatPage.prototype.sendMessage = function () {
-        this.db.list('/chat').push({
-            username: this.username,
-            message: this.message
-        }).then(function () {
+    LoginPage.prototype.showAlert = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['OK']
         });
-        this.message = '';
+        alert.present();
     };
-    ChatPage.prototype.ionViewWillLeave = function () {
-        console.log('user is about to go.');
-        this._chatSubscription.unsubscribe();
-        this.db.list('/chat').push({
-            specialMessage: true,
-            message: this.username + ' has left the room'
+    LoginPage.prototype.loginUser = function () {
+        var _this = this;
+        var loading = this.loadingCtrl.create({
+            content: 'Logging in...',
+            dismissOnPageChange: true
+        });
+        loading.present().then(function () {
+            if (/^[a-zA-Z0-9@.]+$/.test(_this.username)) {
+                _this.epxProvider.getLogin(_this.username, _this.password).subscribe(function (result) {
+                    if (result.authentication) {
+                        _this.username = '';
+                        _this.password = '';
+                        _this.epxProvider.saveData('ID', result.ID);
+                        _this.epxProvider.saveData('name', result.name);
+                        _this.epxProvider.saveData('authentication', result.authentication);
+                        _this.navCtrl.setRoot('MenuPage');
+                    }
+                    else {
+                        _this.showAlert('Login Failed', 'Invalid username or password');
+                        loading.dismiss();
+                    }
+                });
+            }
+            else {
+                _this.showAlert('Error', 'Invalid username');
+                loading.dismiss();
+            }
         });
     };
-    ChatPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ChatPage');
-        this.db.list('/chat').push({
-            specialMessage: true,
-            message: this.username + ' has joined the room'
-        });
+    LoginPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad LoginPage');
     };
-    ChatPage = __decorate([
+    LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-chat',template:/*ion-inline-start:"D:\epx_app\src\pages\chat\chat.html"*/'<!--\n  Generated template for the ChatPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>chat</ion-title>\n  </ion-navbar>\n</ion-header>\n \n\n<ion-content padding>\n  <div id="chatMessages">\n    <div *ngFor="let message of messages" [class]="message.specialMessage ? \'message special\' : \'message\'">\n        <div [class]="message.username == username ? \'innerMessage messageRight\' : \'innerMessage messageLeft\'">\n          <div class="username">{{ message.username}}</div>\n          <div class="messageContent">{{ message.message}}</div>\n        </div>\n    </div>\n  </div>\n</ion-content>\n<ion-footer>\n    <ion-toolbar>\n      <div class="footer">\n        <div class="elem">\n          <ion-input type="text" [(ngModel)]="message" placeholder="Type your message here"></ion-input>\n        </div>\n        <div class="elem">\n          <button ion-button icon-only (click)="sendMessage()"><ion-icon name="send"></ion-icon></button>\n        </div>\n    </div>\n    </ion-toolbar>\n\n</ion-footer>\n'/*ion-inline-end:"D:\epx_app\src\pages\chat\chat.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"D:\epx_app\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!-- <ion-header>\n\n  <ion-navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n -->\n <ion-content padding>\n  <div class="logo">\n    <img src="assets/imgs/epx_logo_colored.png" alt="epx logo">\n    <h1>Welcome Back!</h1>\n    <h1>New Adventure Await!</h1>\n  </div>\n  <div class="login-item">\n    <ion-item>\n    <ion-label floating>Username</ion-label>\n      <ion-input [(ngModel)]="username" type="text"></ion-input>\n    </ion-item>\n    <ion-item>\n    <ion-label floating>Password</ion-label>\n    <ion-input [(ngModel)]="password"  type="password"></ion-input>\n  </ion-item>\n</div>\n  <button ion-button round outline block (click)="loginUser()">Login</button>\n \n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\login\login.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], ChatPage);
-    return ChatPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
+    ], LoginPage);
+    return LoginPage;
 }());
 
-//# sourceMappingURL=chat.js.map
+//# sourceMappingURL=login.js.map
 
 /***/ })
 

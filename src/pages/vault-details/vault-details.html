@@ -25,6 +25,9 @@
       <p class="md-text" *ngIf="details.vault_type != 'ebook'">Length {{details.length}}</p>
     </div>
     <div class="content-text">
+      <div class="descrip">
+        <p class="sm-text pre-line" [innerHtml]="details.description"></p>
+      </div>
       <ion-grid>
         <ion-row>
           <ion-col col-3>
@@ -39,7 +42,7 @@
             <span class="md-text strong">Category :</span>
           </ion-col>
           <ion-col col-9>
-            <p class="md-text blue" *ngFor="let item of details.category">{{item}}</p>
+            <p class="md-text blue" *ngFor="let item of details.category" (click)="vaultByCategory(item)">{{item}}</p>
           </ion-col>
         </ion-row>
         <ion-row>

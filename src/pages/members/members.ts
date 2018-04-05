@@ -40,29 +40,63 @@ export class MembersPage {
     this.LoadMembers();
   }
   LoadMembers(refresher?) {
-    let url = this.epxProvider.members_url;
+    let url = this.epxProvider.member_infinite_url;
+    let ttl = 60 * 60 * 12;
+    let delay_type = 'all';
     let groupKey = 'member-list';
     this.page = 1;
-    this.epxProvider.getMembersInfinite(this.page).subscribe(data => { //Get data from url/api
-      let members = data.members;
-      this.totalPage = data.number_of_page;
-      if (refresher) {
-        this.cache.loadFromDelayedObservable(url, Observable.of(members), groupKey).subscribe(data => {
-          this.members = Object.keys(data).map(key => data[key]);
+    let connected = this.epxProvider.isConnected();
+    console.log('connected: ', connected);
+    if(connected){
+      this.epxProvider.getMembersInfinite(this.page).subscribe(data => { //Get data from url/api
+        let members = Observable.of(data.members);
+        this.totalPage = data.number_of_page;
+        if (refresher) {
+          this.cache.loadFromDelayedObservable(url, members, groupKey, ttl, delay_type).subscribe(data => {
+            this.members = Object.keys(data).map(key => data[key]);
+            refresher.complete();
+          });
+        }
+        else {
+          this.cache.loadFromObservable(url, members, groupKey).subscribe(data => {
+            this.members = Object.keys(data).map(key => data[key]);
+            console.log('members:', members);
+            this.temp_memberList = data;
+          });
+        }
+        this.isLoading = false;
+        this.isRefresh = true;
+      },error => {
+        console.log(error);
+        refresher.complete();
+      });
+    }
+    else{
+      this.epxProvider.getData(url).then(data => {
+        if(data != null){
+          let offline_data = Observable.of(data.value);
+          console.log('offline data: ', offline_data);
+          if (refresher) {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+              this.memberList = data;
+              refresher.complete();
+            });
+          }
+          else {
+            this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(data => {
+              this.memberList = data;
+            });
+          }
+          this.isLoading = false;
+          this.isRefresh = true;
+        }
+        else{
+          console.log('offline data: ', data);
           refresher.complete();
-        });
-      }
-      else {
-        this.cache.loadFromObservable(url, Observable.of(members), groupKey).subscribe(data => {
-          this.members = Object.keys(data).map(key => data[key]);
-          console.log('members:', members);
-          this.temp_memberList = data;
-        });
-      }
-
-      this.isLoading = false;
-      this.isRefresh = true;
-    });
+        }
+      });
+    }
+   
   }
 
   forceReload(refresher) {
@@ -97,6 +131,10 @@ export class MembersPage {
       this.isLoading = false;
       this.isRefresh = true;
       this.page++;
+    },error => {
+      infiniteScroll.complete();
+      this.isLoading = false;
+      this.isRefresh = true;
     });
   }
   openBrowser(url){

@@ -29,7 +29,7 @@
     <div class="content-text">
       <div class="card-title">{{business.business_name}}</div>
       <div class="card-subtitle">{{business.member_name}}</div>
-      <div class="card-subtitle">{{business.business_industry}}</div>
+      <div class="card-subtitle pre-line" [innerHTML]="business.business_industry"></div>
     </div>
   </ion-card>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">

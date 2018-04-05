@@ -38,6 +38,7 @@ export class EpxProvider {
   public vault_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
   public vault_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&paged=';
   public vault_tag_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
+  public vault_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
   public vault_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
 
   // MEMBERS
@@ -52,6 +53,10 @@ export class EpxProvider {
   
   constructor(private toastCtrl: ToastController, private network: Network, private storage: Storage, private httpClient: HttpClient) {
     this.checkConnection();
+  }
+  isConnected(): boolean{
+    let connection_type = this.network.type;
+    return connection_type !== 'unknown' && connection_type !== 'none'; 
   }
   checkConnection() {
     this.network.onConnect().subscribe(data => {
@@ -141,6 +146,12 @@ export class EpxProvider {
   }
   getVaultTags(tag) {
     return this.httpClient.get(this.vault_tag_url + tag)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getVaultCategory(category) {
+    return this.httpClient.get(this.vault_category_url + category)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

@@ -1,14 +1,14 @@
 webpackJsonp([8],{
 
-/***/ 465:
+/***/ 466:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloPageModule", function() { return SoloPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(486);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(488);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,37 +18,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var SoloPageModule = (function () {
-    function SoloPageModule() {
+var TabsPageModule = (function () {
+    function TabsPageModule() {
     }
-    SoloPageModule = __decorate([
+    TabsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__solo__["a" /* SoloPage */],
+                __WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__solo__["a" /* SoloPage */]),
-            ],
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */]),
+            ]
         })
-    ], SoloPageModule);
-    return SoloPageModule;
+    ], TabsPageModule);
+    return TabsPageModule;
 }());
 
-//# sourceMappingURL=solo.module.js.map
+//# sourceMappingURL=tabs.module.js.map
 
 /***/ }),
 
-/***/ 486:
+/***/ 488:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SoloPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62,93 +60,128 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var SoloPage = (function () {
-    function SoloPage(loadingCtrl, epxProvider, cache, navCtrl, navParams) {
-        this.loadingCtrl = loadingCtrl;
+var TabsPage = (function () {
+    function TabsPage(epxProvider, detectorRef, events, push, platform, alertCtrl, menuCtrl, navCtrl) {
+        var _this = this;
         this.epxProvider = epxProvider;
-        this.cache = cache;
+        this.detectorRef = detectorRef;
+        this.events = events;
+        this.push = push;
+        this.alertCtrl = alertCtrl;
+        this.menuCtrl = menuCtrl;
         this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.isLoading = true;
-        this.isRefresh = false;
-        this.page = 1;
-        this.perPage = 0;
-        this.totalData = 0;
-        this.totalPage = 0;
-        // Set TTL to 12h
-        cache.setDefaultTTL(60 * 60 * 12);
-        // Keep our cached results when device is offline!
-        cache.setOfflineInvalidate(false);
+        this.tripsRoot = 'TripsPage';
+        this.vaultRoot = 'VaultPage';
+        this.soloRoot = 'SoloPage';
+        this.membersRoot = 'MembersPage';
+        this.tripBadge = 0;
+        this.soloBadge = 0;
+        this.vaultBadge = 0;
+        this.memberBadge = 0;
+        if (platform.is('cordova')) {
+            this.push.hasPermission()
+                .then(function (res) {
+                if (res.isEnabled) {
+                    console.log('We have permission to send push notifications');
+                    _this.initPush();
+                }
+                else {
+                    console.log('We do not have permission to send push notifications');
+                }
+            });
+        }
     }
-    SoloPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad SoloPage');
-        this.LoadSolo();
-    };
-    SoloPage.prototype.soloDetails = function (solo) {
-        this.navCtrl.push('SoloDetailsPage', { data: solo });
-    };
-    SoloPage.prototype.LoadSolo = function (refresher) {
+    TabsPage.prototype.initPush = function () {
         var _this = this;
-        var url = this.epxProvider.solo_url;
-        var groupKey = 'solo-list';
-        this.page = 1;
-        this.epxProvider.getSoloInfinite(this.page).subscribe(function (data) {
-            _this.totalPage = data.number_of_page;
-            var solo = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.data);
-            console.log('totalPage', _this.totalPage);
-            if (refresher) {
-                _this.cache.loadFromDelayedObservable(url, solo, groupKey).subscribe(function (data) {
-                    _this.soloList = Object.keys(data).map(function (key) { return data[key]; });
-                    refresher.complete();
-                });
+        var options = {
+            android: {
+                senderID: '1035774532822',
+            },
+            ios: {
+                alert: 'true',
+                badge: true,
+                sound: 'false',
+            },
+            windows: {},
+            browser: {
+                pushServiceURL: 'http://push.api.phonegap.com/v1/push'
             }
-            else {
-                _this.cache.loadFromObservable(url, solo, groupKey).subscribe(function (data) {
-                    _this.soloList = Object.keys(data).map(function (key) { return data[key]; });
-                });
+        };
+        var pushObject = this.push.init(options);
+        pushObject.on('notification').subscribe(function (notification) {
+            console.log('Received a notification', notification);
+            var additionalData = notification.additionalData;
+            // this.events.publish('badge_update',badge_value => {
+            //   console.log('badge value',badge_value);
+            // });
+            console.log('badge value', additionalData.update);
+            switch (additionalData.target) {
+                case 'trip':
+                    {
+                        // this.events.subscribe('badge_update',badge_value => {
+                        //   console.log('badge value',badge_value);
+                        // });
+                        // this.showAlert(notification.title,notification.message);
+                        _this.epxProvider.saveData('TRIP_UPDATE', additionalData.update);
+                        console.log('trip', additionalData.update);
+                        _this.tripBadge = additionalData.update;
+                        _this.detectorRef.detectChanges();
+                        break;
+                    }
+                case 'solo': {
+                    console.log('solo', additionalData.update);
+                    _this.soloBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                case 'vault': {
+                    console.log('vault', additionalData.update);
+                    _this.vaultBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                case 'member': {
+                    console.log('member', additionalData.update);
+                    _this.memberBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                default: {
+                    _this.navCtrl.push('NotificationPage');
+                }
             }
-            _this.isLoading = false;
-            _this.isRefresh = true;
         });
+        pushObject.on('registration').subscribe(function (registration) { return console.log('Device registered', registration); });
+        pushObject.on('error').subscribe(function (error) { return console.error('Error with Push plugin', error); });
     };
-    SoloPage.prototype.doInfinite = function (infiniteScroll) {
-        var _this = this;
-        console.log('Begin async operation');
-        this.epxProvider.getSoloInfinite(this.page + 1).subscribe(function (data) {
-            var solo = data.data;
-            var temp = Object.keys(solo).map(function (key) { return solo[key]; });
-            for (var i = 0; i < temp.length; i++) {
-                _this.soloList.push(temp[i]);
-                console.log(data[i]);
-            }
-            infiniteScroll.complete();
-            _this.isLoading = false;
-            _this.isRefresh = true;
-            _this.page++;
+    TabsPage.prototype.showAlert = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['OK']
         });
+        alert.present();
     };
-    //Pull to refresh page
-    SoloPage.prototype.forceReload = function (refresher) {
-        this.LoadSolo(refresher);
+    TabsPage.prototype.openSideMenu = function () {
+        this.menuCtrl.toggle();
     };
-    SoloPage.prototype.soloByTags = function (tag) {
-        console.log('tag', tag);
-        this.navCtrl.push('SoloTagsPage', { data: tag });
-    };
-    SoloPage = __decorate([
+    TabsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-solo',template:/*ion-inline-start:"D:\epx_app\src\pages\solo\solo.html"*/'<!--\n  Generated template for the SoloPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>SOLO</ion-title>\n    <!-- <h1 class="text-center">\n        <strong>SOLO</strong>\n      </h1> -->\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n\n  <!-- <ion-buttons>\n    <button ion-button block icon-end (click)="showFilter()">\n      Filter\n      <ion-icon name="search"></ion-icon>\n    </button>\n  </ion-buttons> -->\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let solo of soloList">\n    <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">\n    <ion-card-content>\n      <h3 class="content-text">\n        <strong>{{solo.title | uppercase}}</strong>\n      </h3>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="content-text">\n              <strong class="colored">Price: {{solo.price}}</strong>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="sm-text">{{solo.start_date}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Tags :\n          </ion-col>\n          <ion-col col-10>\n            <button ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more solo..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo\solo.html"*/,
+            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], SoloPage);
-    return SoloPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
+            __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__["a" /* Push */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* MenuController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]])
+    ], TabsPage);
+    return TabsPage;
 }());
 
-//# sourceMappingURL=solo.js.map
+//# sourceMappingURL=tabs.js.map
 
 /***/ })
 

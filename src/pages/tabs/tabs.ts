@@ -63,27 +63,16 @@ export class TabsPage {
     pushObject.on('notification').subscribe((notification: any) => {
       console.log('Received a notification', notification);
       let additionalData = notification.additionalData;
-      // this.events.publish('badge_update',badge_value => {
-      //   console.log('badge value',badge_value);
-      // });
+     
       console.log('badge value',additionalData.update);
       switch(additionalData.target){
         case 'trip':
         {
-          // this.events.subscribe('badge_update',badge_value => {
+          // this.events.subscribe('TRIP_UPDATE',badge_value => {
           //   console.log('badge value',badge_value);
           // });
           // this.showAlert(notification.title,notification.message);
-          let data = this.epxProvider.getData('TRIP_BADGE');
-          data.then(badge => {
-            console.log('badge',badge);
-            if(isNumber(badge))
-            console.log('number')
-            else{
-              console.log('not a number')
-              this.epxProvider.saveData('TRIP_BADGE',additionalData.update);
-            }
-          });
+          this.epxProvider.saveData('TRIP_UPDATE',additionalData.update);
           console.log('trip',additionalData.update);
           this.tripBadge = additionalData.update;
           this.detectorRef.detectChanges();

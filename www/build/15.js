@@ -1,14 +1,14 @@
 webpackJsonp([15],{
 
-/***/ 460:
+/***/ 458:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MemberDetailsPageModule", function() { return MemberDetailsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MembersPageModule", function() { return MembersPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__member_details__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__members__ = __webpack_require__(480);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,37 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var MemberDetailsPageModule = (function () {
-    function MemberDetailsPageModule() {
+var MembersPageModule = (function () {
+    function MembersPageModule() {
     }
-    MemberDetailsPageModule = __decorate([
+    MembersPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__member_details__["a" /* MemberDetailsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__members__["a" /* MembersPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__member_details__["a" /* MemberDetailsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__members__["a" /* MembersPage */]),
             ],
         })
-    ], MemberDetailsPageModule);
-    return MemberDetailsPageModule;
+    ], MembersPageModule);
+    return MembersPageModule;
 }());
 
-//# sourceMappingURL=member-details.module.js.map
+//# sourceMappingURL=members.module.js.map
 
 /***/ }),
 
-/***/ 481:
+/***/ 480:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MemberDetailsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MembersPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(286);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,84 +61,147 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 /**
- * Generated class for the MemberDetailsPage page.
+ * Generated class for the MembersPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var MemberDetailsPage = (function () {
-    function MemberDetailsPage(epxProvider, navCtrl, navParams) {
+var MembersPage = (function () {
+    function MembersPage(epxProvider, cache, navCtrl, navParams) {
         this.epxProvider = epxProvider;
+        this.cache = cache;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.isLoading = true;
-        this.hasCrews = false;
-        this.hasCurrent = false;
-        this.hasPast = false;
-        console.log('member details: ', navParams.data);
-        var param = navParams.data.data;
-        console.log('member id:', param.ID);
-        this.loadMemberDetails(param.ID);
+        this.isRefresh = false;
+        this.page = 1;
+        this.perPage = 0;
+        this.totalData = 0;
+        this.totalPage = 0;
+        // Set TTL to 12h
+        cache.setDefaultTTL(60 * 60 * 12);
+        // Keep our cached results when device is offline!
+        cache.setOfflineInvalidate(false);
     }
-    MemberDetailsPage.prototype.loadMemberDetails = function (id) {
+    MembersPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad MembersPage');
+        this.LoadMembers();
+    };
+    MembersPage.prototype.LoadMembers = function (refresher) {
         var _this = this;
-        this.epxProvider.getMemberDetails(id).subscribe(function (data) {
-            _this.details = data;
-            var crews = _this.details.crews;
-            if (crews != null) {
-                _this.member_crews = Object.keys(crews).map(function (keys) { return crews[keys]; });
-                if (_this.member_crews.length > 0) {
-                    _this.hasCrews = true;
+        var url = this.epxProvider.member_infinite_url;
+        var ttl = 60 * 60 * 12;
+        var delay_type = 'all';
+        var groupKey = 'member-list';
+        this.page = 1;
+        var connected = this.epxProvider.isConnected();
+        console.log('connected: ', connected);
+        if (connected) {
+            this.epxProvider.getMembersInfinite(this.page).subscribe(function (data) {
+                var members = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.members);
+                _this.totalPage = data.number_of_page;
+                if (refresher) {
+                    _this.cache.loadFromDelayedObservable(url, members, groupKey, ttl, delay_type).subscribe(function (data) {
+                        _this.members = Object.keys(data).map(function (key) { return data[key]; });
+                        refresher.complete();
+                    });
                 }
-                console.log('crews: ', _this.member_crews);
-            }
-            var current = _this.details.current_trips;
-            if (current != null) {
-                _this.current_trips = Object.keys(current).map(function (keys) { return current[keys]; });
-                console.log('current trips: ', _this.current_trips);
-                if (_this.current_trips.length > 0) {
-                    _this.hasCurrent = true;
+                else {
+                    _this.cache.loadFromObservable(url, members, groupKey).subscribe(function (data) {
+                        _this.members = Object.keys(data).map(function (key) { return data[key]; });
+                        console.log('members:', members);
+                        _this.temp_memberList = data;
+                    });
                 }
-            }
-            var past = _this.details.past_trips;
-            if (past != null) {
-                _this.past_trips = Object.keys(past).map(function (keys) { return past[keys]; });
-                console.log('past trips: ', _this.past_trips);
-                if (_this.past_trips.length > 0) {
-                    _this.hasPast = true;
+                _this.isLoading = false;
+                _this.isRefresh = true;
+            }, function (error) {
+                console.log(error);
+                refresher.complete();
+            });
+        }
+        else {
+            this.epxProvider.getData(url).then(function (data) {
+                if (data != null) {
+                    var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
+                    console.log('offline data: ', offline_data);
+                    if (refresher) {
+                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(function (data) {
+                            _this.memberList = data;
+                            refresher.complete();
+                        });
+                    }
+                    else {
+                        _this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(function (data) {
+                            _this.memberList = data;
+                        });
+                    }
+                    _this.isLoading = false;
+                    _this.isRefresh = true;
                 }
-            }
-            _this.isLoading = false;
-        });
+                else {
+                    console.log('offline data: ', data);
+                    refresher.complete();
+                }
+            });
+        }
     };
-    //Navigate to Trip Details
-    MemberDetailsPage.prototype.tripDetails = function (trip) {
-        console.log('trip details:', trip);
-        this.navCtrl.push('TripDetailsPage', { data: trip });
+    MembersPage.prototype.forceReload = function (refresher) {
+        // this.LoadMembers(refresher);
+        this.LoadMembers(refresher);
     };
-    //Navigate to Member Details
-    MemberDetailsPage.prototype.memberDetails = function (member) {
-        console.log('member details:', member);
+    MembersPage.prototype.filterMembers = function (ev) {
+        if (!this.isLoading) {
+            this.memberList = this.temp_memberList;
+            var val_1 = ev.target.value;
+            if (val_1 && val_1.trim() !== '') {
+                this.memberList = this.memberList.map(function (member) { return member.filter(function (item) {
+                    return item.name.toLowerCase().includes(val_1.toLowerCase());
+                }); });
+            }
+        }
+    };
+    MembersPage.prototype.memberDetails = function (member) {
         this.navCtrl.push('MemberDetailsPage', { data: member });
     };
-    MemberDetailsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad MemberDetailsPage');
+    MembersPage.prototype.doInfinite = function (infiniteScroll) {
+        var _this = this;
+        console.log('Begin async operation');
+        this.epxProvider.getMembersInfinite(this.page + 1).subscribe(function (data) {
+            var members = data.members;
+            var temp = Object.keys(members).map(function (key) { return members[key]; });
+            for (var i = 0; i < temp.length; i++) {
+                _this.members.push(temp[i]);
+            }
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
+            _this.page++;
+        }, function (error) {
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
+        });
     };
-    MemberDetailsPage.prototype.openBrowser = function (url) {
+    MembersPage.prototype.openBrowser = function (url) {
         console.log('company url:', url);
         window.open(url, "_system");
     };
-    MemberDetailsPage = __decorate([
+    MembersPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-member-details',template:/*ion-inline-start:"D:\epx_app\src\pages\member-details\member-details.html"*/'<!--\n  Generated template for the MemberDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div class="member-content" *ngIf="!isLoading">\n    <div class="member-info">\n      <img [src]="details.avatar">\n      <h2>{{details.name}}</h2>\n      <p>Member Since:</p>\n      <p>{{details.member_since}}</p>\n    </div>\n    <div class="about">\n      <p class="sm-text">\n        <span class="strong">{{details.name}}</span> is the\n        <span class="strong">{{details.position}}</span> at\n        <span class="strong blue" (click)="openBrowser(details.business_url)">{{details.company}}</span>, a\n        <span class="strong">{{details.business_model}}</span> business in the\n        <span class="strong">{{details.industry}}</span> industry with the\n        <span class="strong">{{details.employee}}</span> employees.</p>\n\n      <p class="sm-text">\n        <span class="strong break">A bit more about me, </span> {{details.personal_description}}\n      </p>\n\n      <p class="sm-text">\n        <span class="strong break">I\'m an expert in, </span> {{details.expert_in}}\n      </p>\n\n      <p class="sm-text">\n        <span class="strong break">I can also help you with, </span> {{details.help_with}}\n      </p>\n    </div>\n\n    <div class="business-info">\n      <div class="business-logo">\n        <img [src]="details.business.business_logo">\n      </div>\n      <p class="sm-text">\n        <span class="strong">A brief description about my business, </span> {{details.business.description}}\n      </p>\n      <p class="sm-text strong">I Prefer:</p>\n      <p class="sm-text pre-line" [innerHTML]="item" *ngFor="let item of details.I_prefer"></p>\n    </div>\n    <div class="affiliates">\n      <div class="crew" *ngIf="hasCrews">\n        <h4>{{details.name}}\'s Crew</h4>\n        <ion-scroll scrollX="true">\n          <ion-card *ngFor="let item of member_crews" (click)="memberDetails(item)">\n            <img class="interested" [src]="item.avatar" />\n            <ion-card-content>\n              <p class="text-center md-text strong">{{item.name}}</p>\n              <p class="text-center sm-text">Member Since:</p>\n              <p class="text-center sm-text">{{item.member_since}}</p>\n            </ion-card-content>\n          </ion-card>\n        </ion-scroll>\n      </div>\n      <div class="vault" *ngIf="hasCurrent || hasPast">\n        <h4>{{details.name}}\'s Vault Videos</h4>\n        <div class="current-trips" *ngIf="hasCurrent">\n          <p class="md-text text-center strong">Current Trips</p>\n          <ion-scroll scrollX="true">\n            <ion-card *ngFor="let trip of current_trips">\n              <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n              <ion-card-content>\n                <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>\n                <h3 class="content-text">\n                  <strong>{{trip.title | uppercase}}</strong>\n                </h3>\n                <p class="content-text">\n                  <strong class="price">{{trip.price}}</strong> Trip Fee</p>\n              </ion-card-content>\n            </ion-card>\n          </ion-scroll>   \n        </div>\n        <div class="past-trips">\n          <p class="md-text text-center strong">Past Trips</p>\n          <ion-scroll scrollX="true">\n            <ion-card *ngFor="let trip of past_trips">\n              <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n              <ion-card-content>\n                <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>\n                <h3 class="content-text">\n                  <strong>{{trip.title | uppercase}}</strong>\n                </h3>\n                <p class="content-text">\n                  <strong class="price">{{trip.price}}</strong> Trip Fee</p>\n              </ion-card-content>\n            </ion-card>\n          </ion-scroll>\n        </div>\n      </div>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\member-details\member-details.html"*/,
+            selector: 'page-members',template:/*ion-inline-start:"D:\epx_app\src\pages\members\members.html"*/'<!--\n  Generated template for the MembersPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>MEMBERS</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  \n  <!-- <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar> -->\n  <ion-list>\n    <ion-item-sliding *ngFor="let member of members">\n      <ion-item >\n        <ion-avatar item-start>\n          <img [src]="member.avatar" (click)="memberDetails(member)">\n        </ion-avatar>\n        <p class="item-text">\n            <span class="strong ">{{member.name}}</span> is the\n            <span class="strong ">{{member.position}}</span> at\n            <span class="strong blue" (click)="openBrowser(member.business_url)">{{member.company}}</span>, a\n            <span class="strong " >{{member.business_model}}</span> business in the\n            <span class="strong ">{{member.industry}}</span> industry with the\n            <span class="strong ">{{member.employee}}</span> employees.\n          </p>\n      </ion-item>\n      <ion-item-options side="left">\n        <button ion-button color="secondary">\n          <ion-icon name="text"></ion-icon>\n          Message\n        </button>\n        <!-- <button ion-button color="secondary">\n          <ion-icon name="call"></ion-icon>\n          Call\n        </button> -->\n      </ion-item-options>\n      <ion-item-options side="right">\n        <button ion-button color="primary" (click)="memberDetails(member)">\n          <ion-icon name="person"></ion-icon>\n          Profile\n        </button>\n      </ion-item-options>\n    </ion-item-sliding>\n  </ion-list>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content  loadingText="Loading more members..." ></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\members\members.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], MemberDetailsPage);
-    return MemberDetailsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], MembersPage);
+    return MembersPage;
 }());
 
-//# sourceMappingURL=member-details.js.map
+//# sourceMappingURL=members.js.map
 
 /***/ })
 

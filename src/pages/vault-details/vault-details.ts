@@ -46,11 +46,14 @@ export class VaultDetailsPage {
     console.log('tag',tag);
     this.navCtrl.push('VaultTagsPage',{data: tag});
   }
+  vaultByCategory(category){
+    this.navCtrl.push('VaultCategoryPage',{data: category});
+  }
   LoadDetails(id) {
     this.epxProvider.getVaultDetails(id).subscribe(data => { //Get data from url/api
       this.details = data;
       this.isLoading = false;
-      console.log('isLoading', this.isLoading);
+      console.log('details', this.details);
     });
   }
 }

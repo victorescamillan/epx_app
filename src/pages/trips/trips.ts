@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController, Content, InfiniteScroll } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController, Content, InfiniteScroll, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -25,17 +25,11 @@ export class TripsPage {
   isRefresh: boolean = false;
   isInterested: boolean = false;
   page = 1;
-  perPage = 0;
-  totalData = 0;
   totalPage = 0;
-  pageVisit = 0;
-  constructor(private cache: CacheService, public alertCtrl: AlertController, private toastCtrl: ToastController, public modalCtrl: ModalController, private loadingCtrl: LoadingController, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
-    // Set TTL to 12h
-    cache.setDefaultTTL(60 * 60 * 12);
+  constructor(private events: Events, private cache: CacheService, public alertCtrl: AlertController, private toastCtrl: ToastController, public modalCtrl: ModalController, private loadingCtrl: LoadingController, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
   }
-
 
   //Filter Page
   showFilter() {
@@ -56,31 +50,63 @@ export class TripsPage {
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
     let url = this.epxProvider.trips_infinite_url;
-    // let ttl = 1000;
-    // let delay_type = 'all';
+    let ttl = 60 * 60 * 12;
+    let delay_type = 'all';
     let groupKey = 'trip-list';
     this.page = 1;
-    this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
-      this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from url/api
-        console.log('result:', data);
-        this.totalPage = data.number_of_page;
-        let trips = Observable.of(data.data); //Convert object to array since angular accepts array for iteration
-        if (refresher) {
-          this.cache.loadFromDelayedObservable(url, trips, groupKey).subscribe(data => {
-            this.tripList = Object.keys(data).map(key => data[key]);
-            refresher.complete();
-          });
+    let connected = this.epxProvider.isConnected();
+    console.log('connected: ', connected);
+    if (connected) {
+      this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
+        this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from url/api
+          this.totalPage = data.number_of_page;
+          let trips = Observable.of(data.data);
+          if (refresher) {
+            this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(data => {
+              this.tripList = Object.keys(data).map(key => data[key]);
+              refresher.complete();
+            });
+          }
+          else {
+            this.cache.loadFromObservable(url, trips, groupKey).subscribe(data => {
+              this.tripList = Object.keys(data).map(key => data[key]);
+            });
+          }
+          this.isLoading = false;
+          this.isRefresh = true;
+          this.isInterested = false;
+        }, error => {
+          console.log(error);
+          refresher.complete();
+        });
+      });
+    }
+    else {
+      this.epxProvider.getData(url).then(data => {
+        if (data != null) {
+
+          let offline_data = Observable.of(data.value);
+          console.log('offline data: ', offline_data);
+          if (refresher) {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+              this.tripList = data;
+              refresher.complete();
+            });
+          }
+          else {
+            this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(data => {
+              this.tripList = data;
+            });
+          }
+          this.isLoading = false;
+          this.isRefresh = true;
+          this.isInterested = false;
         }
         else {
-          this.cache.loadFromObservable(url, trips, groupKey).subscribe(data => {
-            this.tripList = Object.keys(data).map(key => data[key]);
-          });
+          console.log('offline data: ', data);
         }
-        this.isLoading = false;
-        this.isRefresh = true;
-        this.isInterested = false;
       });
-    });
+    }
   }
   //Pull to refresh page
   forceReload(refresher) {
@@ -137,13 +163,17 @@ export class TripsPage {
     console.log('ionViewDidLoad TripsPage');
     this.LoadTrips();
   }
-  // ionViewDidEnter(){
-  //   this.pageVisit++;
-  //   if(this.pageVisit > 1){
-  //     this.content.scrollToTop();
-  //   }
-  //   console.log('ionViewDidEnter', this.pageVisit);
-  // }
+  ionViewDidEnter() {
+    this.epxProvider.getData('TRIP_UPDATE').then(res => {
+      console.log('update',res);
+      if (res != null) {
+        this.content.scrollToTop().then(() => {
+          console.log('Load Trips');
+          // this.events.publish('TRIP_UPDATE', 'test');
+        });
+      }
+    });
+  }
 
   presentToast(message: string) {
     let toast = this.toastCtrl.create({
@@ -164,19 +194,23 @@ export class TripsPage {
     this.navCtrl.push('TripDetailsPage', { data: trip });
   }
   doInfinite(infiniteScroll) {
-    console.log('Begin async operation : infiniteScroll');
+    console.log('Begin async operation');
     this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
-      this.epxProvider.getTripsInfinite(user_id, this.page  + 1).subscribe(data => { //Get data from url/api
+      this.epxProvider.getTripsInfinite(user_id, this.page + 1).subscribe(data => { //Get data from url/api
         let trips = data.data;
         let temp = Object.keys(trips).map(key => trips[key]);
         for (let i = 0; i < temp.length; i++) {
           this.tripList.push(temp[i]);
         }
-        infiniteScroll.complete();
         this.isLoading = false;
         this.isRefresh = true;
+        infiniteScroll.complete();
         this.page++;
         console.log('current page: ', this.page);
+      }, error => {
+        this.isLoading = false;
+        this.isRefresh = true;
+        infiniteScroll.complete();
       });
     });
   }

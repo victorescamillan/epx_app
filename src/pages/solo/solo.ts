@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
+import { error } from '@firebase/database/dist/esm/src/core/util/util';
 
 @IonicPage()
 @Component({
@@ -37,31 +38,66 @@ export class SoloPage {
     this.navCtrl.push('SoloDetailsPage', { data: solo });
   }
   LoadSolo(refresher?) {
-    let url = this.epxProvider.solo_url;
+    let url = this.epxProvider.solo_infinite_url;
+    let ttl = 60 * 60 * 12;
+    let delay_type = 'all';
     let groupKey = 'solo-list';
     this.page = 1;
-    this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
-      this.totalPage = data.number_of_page;
-      let solo = Observable.of(data.data);
-      console.log('totalPage',this.totalPage);
-      if (refresher) {
-        this.cache.loadFromDelayedObservable(url, solo, groupKey).subscribe(data => {
-          this.soloList = Object.keys(data).map(key => data[key]);
+    let connected = this.epxProvider.isConnected();
+    console.log('connected: ', connected);
+    if(connected){
+      this.epxProvider.getSoloInfinite(this.page).subscribe(data => { //Get data from url/api
+        this.totalPage = data.number_of_page;
+        let solo = Observable.of(data.data);
+        console.log('totalPage',this.totalPage);
+        if (refresher) {
+          this.cache.loadFromDelayedObservable(url, solo, groupKey, ttl, delay_type).subscribe(data => {
+            this.soloList = Object.keys(data).map(key => data[key]);
+            refresher.complete();
+          });
+        }
+        else {
+          this.cache.loadFromObservable(url, solo, groupKey).subscribe(data => {
+            this.soloList = Object.keys(data).map(key => data[key]);
+          });
+        }
+        this.isLoading = false;
+        this.isRefresh = true;
+      },error => {
+        console.log(error);
+        refresher.complete();
+      });
+    }
+    else{
+      this.epxProvider.getData(url).then(data => {
+        if(data != null){
+          let offline_data = Observable.of(data.value);
+          console.log('offline data: ', offline_data);
+          if (refresher) {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+              this.soloList = data;
+              refresher.complete();
+            });
+          }
+          else {
+            this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(data => {
+              this.soloList = data;
+            });
+          }
+          this.isLoading = false;
+          this.isRefresh = true;
+        }
+        else{
+          console.log('offline data: ', data);
           refresher.complete();
-        });
-      }
-      else {
-        this.cache.loadFromObservable(url, solo, groupKey).subscribe(data => {
-          this.soloList = Object.keys(data).map(key => data[key]);
-        });
-      }
-      this.isLoading = false;
-      this.isRefresh = true;
-    });
+        }
+      });
+    }
+   
   }
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
-    
+
     this.epxProvider.getSoloInfinite(this.page + 1).subscribe(data => { //Get data from url/api
       let solo = data.data;
       let temp = Object.keys(solo).map(key => solo[key]);
@@ -73,6 +109,10 @@ export class SoloPage {
       this.isLoading = false;
       this.isRefresh = true;
       this.page++;
+    },error => {
+      infiniteScroll.complete();
+      this.isLoading = false;
+      this.isRefresh = true;
     });
   }
 
