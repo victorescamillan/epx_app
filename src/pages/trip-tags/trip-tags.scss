@@ -2,7 +2,6 @@ page-trip-tags {
     .card-content {
         padding: 5px;
     }
-    
     ion-grid.grid {
         padding: 0px;
     }
@@ -36,12 +35,23 @@ page-trip-tags {
     .trip-image {
         height: 220px;
         width: 100%;
-        margin-bottom: -10px;
+        background: #747576;
     }
     .trip-image img{
         width: 100%;
+        margin-left: auto;
+        margin-right: auto; 
         height: 100%;
-        margin-top: -50px;
+        margin-top: -35px;
+        object-fit: cover;
+    }
+    img.sashes {
+        position: relative;
+        margin-left: 0px;
+        height: 120px;
+        width: 120px;
+        bottom: 85px;
+        margin-bottom: -85px;
     }
     .list {
         margin: 0px;
@@ -79,13 +89,7 @@ page-trip-tags {
         height: 30px;
         margin-bottom: 20px;
     }
-    img.sashes {
-        position: relative;
-        height: 120px;
-        width: 130px;
-        bottom: 70px;
-        margin-bottom: -70px;
-    }
+  
     .trip-meter p.sm-text.strong.white {
         color: white;
         margin-top: 30px;
@@ -100,6 +104,5 @@ page-trip-tags {
         float: right;
         right: 0px;
         text-align: center;
-        // padding-right: 30px;
     }
 }

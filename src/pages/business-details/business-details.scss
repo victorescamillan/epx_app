@@ -29,8 +29,10 @@ page-business-details {
         width: 100%;
     }
     .business-content img.business-logo{
-        height: 70%;
-        width: 70%;
+        height: auto;
+        width: auto;
+        max-width: 180px;
+        max-height: 180px;
     }
     .page-thumbnail {
         height: 100%;

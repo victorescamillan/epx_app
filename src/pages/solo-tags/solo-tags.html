@@ -20,7 +20,10 @@
   </div>
 
   <ion-card *ngFor="let solo of soloList">
-    <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">
+    <div class="solo-image">
+      <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">
+    </div>
+
     <ion-card-content>
       <h3 class="content-text">
         <strong>{{solo.title | uppercase}}</strong>
@@ -49,7 +52,7 @@
             Tags :
           </ion-col>
           <ion-col col-10>
-            <button ion-button round outline small *ngFor="let tag of solo.product_tag" >{{tag}}</button>
+            <button ion-button round outline small *ngFor="let tag of solo.product_tag">{{tag}}</button>
           </ion-col>
         </ion-row>
       </ion-grid>

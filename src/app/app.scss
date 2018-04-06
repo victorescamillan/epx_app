@@ -31,10 +31,28 @@
 .blue{
     color: color($colors,primary);
 }
-
+.primary{
+    color: color($colors,primary);
+}
+.danger{
+    color: red;
+}
+//Button Alignment
+.btn-right{
+    float: right;
+}
+.btn-left{
+    float: left;
+}
 //Text Alignment
 .text-center{
     text-align: center;
+}
+.center{
+    text-align: center;
+}
+.right{
+    text-align: end;
 }
 .pre-line{
     white-space: pre-line!important;
@@ -46,6 +64,9 @@ p.strong{
     font-weight: bold;
 }
 //Text Size
+.small{
+    font-size: 90%;
+}
 .sm-text{
     font-size: 110%;
 }

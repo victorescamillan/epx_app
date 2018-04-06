@@ -1,14 +1,14 @@
 webpackJsonp([1],{
 
-/***/ 473:
+/***/ 458:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultTagsPageModule", function() { return VaultTagsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordPageModule", function() { return ForgotPasswordPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault_tags__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forgot_password__ = __webpack_require__(482);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,36 +18,54 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var VaultTagsPageModule = (function () {
-    function VaultTagsPageModule() {
+var ForgotPasswordPageModule = (function () {
+    function ForgotPasswordPageModule() {
     }
-    VaultTagsPageModule = __decorate([
+    ForgotPasswordPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__vault_tags__["a" /* VaultTagsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__forgot_password__["a" /* ForgotPasswordPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__vault_tags__["a" /* VaultTagsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__forgot_password__["a" /* ForgotPasswordPage */]),
             ],
         })
-    ], VaultTagsPageModule);
-    return VaultTagsPageModule;
+    ], ForgotPasswordPageModule);
+    return ForgotPasswordPageModule;
 }());
 
-//# sourceMappingURL=vault-tags.module.js.map
+//# sourceMappingURL=forgot-password.module.js.map
 
 /***/ }),
 
-/***/ 495:
+/***/ 477:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VaultTagsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return regexValidators; });
+// The Angular email validator accepts an email like "rob@example", perhaps because "rob@localhost" could be valid.
+// The pureEmail regex does not accept "ryan@example" as a valid email address, which I think is a good thing.
+// See: EMAIL_REGEXP from https://github.com/angular/angular.js/blob/ffb6b2fb56d9ffcb051284965dd538629ea9687a/src/ng/directive/input.js#L16
+var PURE_EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// Passwords should be at least 8 characters long and should contain one number, one character and one special character.
+var PASSWORD_REGEXP = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+var regexValidators = {
+    email: PURE_EMAIL_REGEXP,
+    password: PASSWORD_REGEXP
+};
+//# sourceMappingURL=validator.js.map
+
+/***/ }),
+
+/***/ 482:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgotPasswordPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validators_validator__ = __webpack_require__(477);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62,47 +80,59 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 /**
- * Generated class for the VaultTagsPage page.
+ * Generated class for the ForgotPasswordPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var VaultTagsPage = (function () {
-    function VaultTagsPage(epxProvider, navCtrl, navParams) {
-        this.epxProvider = epxProvider;
+var ForgotPasswordPage = (function () {
+    function ForgotPasswordPage(formBuilder, alertCtrl, navCtrl, navParams) {
+        this.formBuilder = formBuilder;
+        this.alertCtrl = alertCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.isLoading = true;
-        this.isRefresh = false;
-        console.log('data:', navParams.data);
-        this.tag = navParams.data.data;
-    }
-    VaultTagsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad VaultTagsPage');
-        this.LoadVault();
-    };
-    VaultTagsPage.prototype.LoadVault = function () {
-        var _this = this;
-        this.epxProvider.getVaultTags(this.tag).subscribe(function (data) {
-            _this.vaultList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(Object.keys(data).map(function (key) { return data[key]; })); //Convert object to array since angular accepts array for iteration
-            // console.log('vault list', vault);
-            _this.isLoading = false;
-            _this.isRefresh = true;
+        this.formGroup = formBuilder.group({
+            email: ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].compose([
+                    __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].pattern(__WEBPACK_IMPORTED_MODULE_3__validators_validator__["a" /* regexValidators */].email),
+                    __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required
+                ])]
         });
+        this.email = this.formGroup.controls['email'];
+    }
+    ForgotPasswordPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ForgotPasswordPage');
     };
-    VaultTagsPage.prototype.vaultDetails = function (vault) {
-        this.navCtrl.push('VaultDetailsPage', { data: vault });
+    ForgotPasswordPage.prototype.requestPassword = function () {
+        // if (/^[a-zA-Z0-9@.]+$/.test(this.email)) {
+        //   // this.navCtrl.pop();
+        //   console.log('request sent.')
+        // }
+        // else{
+        //   console.log('invalid email')
+        //   this.showAlert('Invalid','Input the correct email.')
+        // }
     };
-    VaultTagsPage = __decorate([
+    ForgotPasswordPage.prototype.showAlert = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['OK']
+        });
+        alert.present();
+    };
+    ForgotPasswordPage.prototype.closePage = function () {
+        this.navCtrl.pop();
+    };
+    ForgotPasswordPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-vault-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\vault-tags\vault-tags.html"*/'<!--\n  Generated template for the VaultTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}" >\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  \n  <ion-card *ngFor="let vault of vaultList | async">\n    <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == \'video\' ? \'video\' : \'pdf\'}}" >\n    <ion-card-content>\n      <h3 class="content-text xl-text strong blue">\n        {{vault.title | uppercase}}\n      </h3>\n      <ion-item>\n        <ion-avatar item-start>\n          <img src="{{vault.author_avatar}}">\n        </ion-avatar>\n        <h2>\n          <strong>{{vault.author}}</strong> |\n          <span class="gray">{{vault.length}}</span>\n        </h2>\n        <p>{{vault.posted}}</p>\n      </ion-item>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\vault-tags\vault-tags.html"*/,
+            selector: 'page-forgot-password',template:/*ion-inline-start:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/'<!--\n  Generated template for the ForgotPasswordPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Forgot Password</ion-title>\n    <ion-buttons right>\n        <button ion-button icon-end (click)="closePage()">\n          Close\n          <ion-icon name="close-circle"></ion-icon>\n        </button>\n      </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <div class="container">\n    <h1 class="xxl-text strong center primary">Forgot your password?</h1>\n    <p class="md-text center">Input your email to request password reset.</p>\n    <form [formGroup]="formGroup">\n      <ion-item>\n        <ion-label floating>Input your email</ion-label>\n        <ion-input type="email" formControlName="email" name="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email.hasError(\'required\') && email.touched">Email is required.</p>\n      <button ion-button round outline [disabled]="!formGroup.valid" class="btn-right" (click)="requestPassword()">Send &nbsp;&nbsp;\n        <ion-icon name="send"></ion-icon>\n      </button>\n    </form>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], VaultTagsPage);
-    return VaultTagsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], ForgotPasswordPage);
+    return ForgotPasswordPage;
 }());
 
-//# sourceMappingURL=vault-tags.js.map
+//# sourceMappingURL=forgot-password.js.map
 
 /***/ })
 

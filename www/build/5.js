@@ -1,14 +1,14 @@
 webpackJsonp([5],{
 
-/***/ 469:
+/***/ 473:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripTagsPageModule", function() { return TripTagsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultCategoryPageModule", function() { return VaultCategoryPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_tags__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault_category__ = __webpack_require__(497);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,36 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TripTagsPageModule = (function () {
-    function TripTagsPageModule() {
+var VaultCategoryPageModule = (function () {
+    function VaultCategoryPageModule() {
     }
-    TripTagsPageModule = __decorate([
+    VaultCategoryPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__trip_tags__["a" /* TripTagsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__vault_category__["a" /* VaultCategoryPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_tags__["a" /* TripTagsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__vault_category__["a" /* VaultCategoryPage */]),
             ],
         })
-    ], TripTagsPageModule);
-    return TripTagsPageModule;
+    ], VaultCategoryPageModule);
+    return VaultCategoryPageModule;
 }());
 
-//# sourceMappingURL=trip-tags.module.js.map
+//# sourceMappingURL=vault-category.module.js.map
 
 /***/ }),
 
-/***/ 491:
+/***/ 497:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripTagsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VaultCategoryPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -60,66 +58,73 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var TripTagsPage = (function () {
-    function TripTagsPage(epxProvider, navCtrl, navParams) {
+/**
+ * Generated class for the VaultCategoryPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var VaultCategoryPage = (function () {
+    function VaultCategoryPage(epxProvider, navCtrl, navParams) {
         this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.isLoading = true;
         this.isRefresh = false;
-        this.isInterested = false;
-        this.tag = navParams.data.data;
-        console.log('tag:', this.tag);
+        this.page = 1;
+        this.totalPage = 0;
+        console.log('data:', navParams.data);
+        this.category = navParams.data.data;
     }
-    TripTagsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad TripTagsPage');
-        this.LoadTrips();
+    VaultCategoryPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad VaultCategoryPage');
+        this.LoadVault();
     };
-    TripTagsPage.prototype.LoadTrips = function () {
+    VaultCategoryPage.prototype.LoadVault = function () {
         var _this = this;
-        this.epxProvider.getData('ID').then(function (id) {
-            console.log('user id:', id);
-            _this.epxProvider.getTripTags(_this.tag, id).subscribe(function (data) {
-                _this.tripList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
-                console.log('trips by tag:', _this.tripList);
-                _this.isLoading = false;
-                _this.isRefresh = true;
-                _this.isInterested = false;
-            });
+        this.epxProvider.getVaultCategory(this.category).subscribe(function (data) {
+            _this.totalPage = data.number_of_page;
+            _this.vaultList = data.vaults;
+            console.log('vault list', _this.vaultList);
+            _this.isLoading = false;
+            _this.isRefresh = true;
+        }, function (error) {
+            console.log(error);
         });
     };
-    //Interested
-    TripTagsPage.prototype.interested = function (trip) {
+    VaultCategoryPage.prototype.vaultDetails = function (vault) {
+        this.navCtrl.push('VaultDetailsPage', { data: vault });
+    };
+    VaultCategoryPage.prototype.doInfinite = function (infiniteScroll) {
         var _this = this;
-        this.epxProvider.getData('ID').then(function (user_id) {
-            if (trip.trip_interested.interested) {
-                trip.trip_interested.interested = false;
+        console.log('Begin async operation');
+        this.epxProvider.getVaultCategory(this.page + 1).subscribe(function (data) {
+            var vault = data.vaults;
+            var temp = Object.keys(vault).map(function (key) { return vault[key]; });
+            for (var i = 0; i < temp.length; i++) {
+                _this.vaultList.push(temp[i]);
             }
-            else {
-                trip.trip_interested.interested = true;
-            }
-            _this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(function (res) {
-                trip.trip_interested.interested = res.interest;
-                console.log('interest result:', res);
-            });
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
+            _this.page++;
+            console.log('current page: ', _this.page);
+        }, function (error) {
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
         });
     };
-    TripTagsPage.prototype.tripDetails = function (trip) {
-        // this.trip = trip;
-        this.navCtrl.push('TripDetailsPage', { data: trip });
-    };
-    TripTagsPage = __decorate([
+    VaultCategoryPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trip-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/'<!--\n  Generated template for the TripTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let trip of tripList | async">\n    <div class="trip-image">\n      <button ion-button round outline small class="top">{{trip.product_cat[0]}}</button>\n      <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n    </div>\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong>{{trip.title | uppercase}}</strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <ion-icon name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/,
+            selector: 'page-vault-category',template:/*ion-inline-start:"D:\epx_app\src\pages\vault-category\vault-category.html"*/'<!--\n  Generated template for the VaultCategoryPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{category | uppercase}}</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let vault of vaultList">\n    <div class="vault-image">\n      <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == \'video\' ? \'video\' : \'pdf\'}}">\n    </div>\n    <ion-card-content>\n      <h3 class="content-text xl-text strong blue">\n        {{vault.title | uppercase}}\n      </h3>\n      <ion-item>\n        <ion-avatar item-start>\n          <img src="{{vault.author_avatar}}">\n        </ion-avatar>\n        <h2>\n          <strong>{{vault.author}}</strong> |\n          <span class="gray">{{vault.length}}</span>\n        </h2>\n        <p>{{vault.posted}}</p>\n      </ion-item>\n    </ion-card-content>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more vaults..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\vault-category\vault-category.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], TripTagsPage);
-    return TripTagsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], VaultCategoryPage);
+    return VaultCategoryPage;
 }());
 
-//# sourceMappingURL=trip-tags.js.map
+//# sourceMappingURL=vault-category.js.map
 
 /***/ })
 

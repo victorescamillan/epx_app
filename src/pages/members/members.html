@@ -35,7 +35,7 @@
             <span class="strong ">{{member.position}}</span> at
             <span class="strong blue" (click)="openBrowser(member.business_url)">{{member.company}}</span>, a
             <span class="strong " >{{member.business_model}}</span> business in the
-            <span class="strong ">{{member.industry}}</span> industry with the
+            <span class="strong pre-line" [innerHtml]="member.industry"></span> industry with the
             <span class="strong ">{{member.employee}}</span> employees.
           </p>
       </ion-item>

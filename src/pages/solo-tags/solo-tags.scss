@@ -6,10 +6,14 @@ page-solo-tags {
         height: 30px;
         margin-bottom: 20px;
     }
-    ion-card img {
-        display: block;
+    .solo-image {
         width: 100%;
         height: 200px;
+    }
+    ion-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     button.disable-hover.button.button.button-outline.button-outline.button-round.button-round.button-small.button-small {
         padding: 0px 10px;

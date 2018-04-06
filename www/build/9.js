@@ -1,14 +1,14 @@
 webpackJsonp([9],{
 
-/***/ 464:
+/***/ 469:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloPageModule", function() { return SoloPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripDetailsPageModule", function() { return TripDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(486);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_details__ = __webpack_require__(493);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,37 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var SoloPageModule = (function () {
-    function SoloPageModule() {
+var TripDetailsPageModule = (function () {
+    function TripDetailsPageModule() {
     }
-    SoloPageModule = __decorate([
+    TripDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__solo__["a" /* SoloPage */],
+                __WEBPACK_IMPORTED_MODULE_2__trip_details__["a" /* TripDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__solo__["a" /* SoloPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_details__["a" /* TripDetailsPage */]),
             ],
         })
-    ], SoloPageModule);
-    return SoloPageModule;
+    ], TripDetailsPageModule);
+    return TripDetailsPageModule;
 }());
 
-//# sourceMappingURL=solo.module.js.map
+//# sourceMappingURL=trip-details.module.js.map
 
 /***/ }),
 
-/***/ 486:
+/***/ 493:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SoloPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(286);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -61,132 +58,113 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
-var SoloPage = (function () {
-    function SoloPage(loadingCtrl, epxProvider, cache, navCtrl, navParams) {
+var TripDetailsPage = (function () {
+    function TripDetailsPage(loadingCtrl, epxProvider, 
+        // private googleMaps: GoogleMaps,
+        platform, 
+        // public geolocation: Geolocation,
+        navCtrl, navParams) {
         this.loadingCtrl = loadingCtrl;
         this.epxProvider = epxProvider;
-        this.cache = cache;
+        this.platform = platform;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.isLoading = true;
-        this.isRefresh = false;
-        this.page = 1;
-        this.perPage = 0;
-        this.totalData = 0;
-        this.totalPage = 0;
-        // Set TTL to 12h
-        cache.setDefaultTTL(60 * 60 * 12);
-        // Keep our cached results when device is offline!
-        cache.setOfflineInvalidate(false);
+        this.visibleState = 'visible';
+        var details = navParams.data.data;
+        console.log('trip param:', details);
+        this.isInterested = details.trip_interested.interested;
+        this.trip_id = details.ID;
+        this.sashes_image = details.sashes_image;
+        this.location = details.map_info.map_address;
+        this.lat = Number(details.map_info.map_latitude);
+        this.lng = Number(details.map_info.map_longitude);
     }
-    SoloPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad SoloPage');
-        this.LoadSolo();
+    TripDetailsPage.prototype.ionViewDidLoad = function () {
+        this.loadTripDetails(this.trip_id);
+        console.log('ionViewDidLoad TripDetailsPage');
     };
-    SoloPage.prototype.soloDetails = function (solo) {
-        this.navCtrl.push('SoloDetailsPage', { data: solo });
-    };
-    SoloPage.prototype.LoadSolo = function (refresher) {
-        var _this = this;
-        var url = this.epxProvider.solo_infinite_url;
-        var ttl = 60 * 60 * 12;
-        var delay_type = 'all';
-        var groupKey = 'solo-list';
-        this.page = 1;
-        var connected = this.epxProvider.isConnected();
-        console.log('connected: ', connected);
-        if (connected) {
-            this.epxProvider.getSoloInfinite(this.page).subscribe(function (data) {
-                _this.totalPage = data.number_of_page;
-                var solo = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.data);
-                console.log('totalPage', _this.totalPage);
-                if (refresher) {
-                    _this.cache.loadFromDelayedObservable(url, solo, groupKey, ttl, delay_type).subscribe(function (data) {
-                        _this.soloList = Object.keys(data).map(function (key) { return data[key]; });
-                        refresher.complete();
-                    });
-                }
-                else {
-                    _this.cache.loadFromObservable(url, solo, groupKey).subscribe(function (data) {
-                        _this.soloList = Object.keys(data).map(function (key) { return data[key]; });
-                    });
-                }
-                _this.isLoading = false;
-                _this.isRefresh = true;
-            }, function (error) {
-                console.log(error);
-                refresher.complete();
-            });
-        }
-        else {
-            this.epxProvider.getData(url).then(function (data) {
-                if (data != null) {
-                    var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
-                    console.log('offline data: ', offline_data);
-                    if (refresher) {
-                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(function (data) {
-                            _this.soloList = data;
-                            refresher.complete();
-                        });
-                    }
-                    else {
-                        _this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(function (data) {
-                            _this.soloList = data;
-                        });
-                    }
-                    _this.isLoading = false;
-                    _this.isRefresh = true;
-                }
-                else {
-                    console.log('offline data: ', data);
-                    refresher.complete();
-                }
-            });
-        }
-    };
-    SoloPage.prototype.doInfinite = function (infiniteScroll) {
-        var _this = this;
-        console.log('Begin async operation');
-        this.epxProvider.getSoloInfinite(this.page + 1).subscribe(function (data) {
-            var solo = data.data;
-            var temp = Object.keys(solo).map(function (key) { return solo[key]; });
-            for (var i = 0; i < temp.length; i++) {
-                _this.soloList.push(temp[i]);
-                console.log(data[i]);
-            }
-            infiniteScroll.complete();
-            _this.isLoading = false;
-            _this.isRefresh = true;
-            _this.page++;
-        }, function (error) {
-            infiniteScroll.complete();
-            _this.isLoading = false;
-            _this.isRefresh = true;
-        });
+    // ionViewWillUnload(){
+    //   this.epxProvider.removeData('trip_details');
+    // }
+    TripDetailsPage.prototype.memberDetails = function (member) {
+        this.navCtrl.push('MemberDetailsPage', { data: member });
     };
     //Pull to refresh page
-    SoloPage.prototype.forceReload = function (refresher) {
-        this.LoadSolo(refresher);
+    TripDetailsPage.prototype.forceReload = function (refresher) {
+        this.loadTripDetails(refresher);
     };
-    SoloPage.prototype.soloByTags = function (tag) {
+    //Interested
+    TripDetailsPage.prototype.interested = function () {
+        var _this = this;
+        this.epxProvider.getData('ID').then(function (user_id) {
+            _this.epxProvider.getTripInterest(_this.trip_id, user_id).subscribe(function (res) {
+                _this.isInterested = res.interest;
+                if (res.interest) {
+                    _this.details.number_of_interested++;
+                }
+                else {
+                    _this.details.number_of_interested--;
+                }
+                console.log('interest result:', res);
+            });
+        });
+    };
+    //get trip details
+    TripDetailsPage.prototype.loadTripDetails = function (refresher) {
+        var _this = this;
+        this.epxProvider.getTripDetails(this.trip_id).subscribe(function (data) {
+            _this.details = data;
+            console.log('trip details: ', data);
+            console.log('trip gallery: ', data.trip_gallery.length);
+            _this.gellery_length = Number(data.trip_gallery.length);
+            var interested = _this.details.whos_interested;
+            _this.whos_interested = Object.keys(interested).map(function (key) { return interested[key]; });
+            var going = _this.details.whos_going;
+            _this.whos_going = Object.keys(going).map(function (key) { return going[key]; });
+            _this.initMap(_this.lat, _this.lng, _this.location);
+            _this.isLoading = false;
+        });
+    };
+    TripDetailsPage.prototype.openBrowser = function (url) {
+        window.open(url, "_system");
+    };
+    TripDetailsPage.prototype.tripByTags = function (tag) {
         console.log('tag', tag);
-        this.navCtrl.push('SoloTagsPage', { data: tag });
+        this.navCtrl.push('TripTagsPage', { data: tag });
     };
-    SoloPage = __decorate([
+    //cordova-plugin-googlemaps
+    TripDetailsPage.prototype.initMap = function (lat, long, location) {
+        var position = { lat: lat, lng: long };
+        this.map = new google.maps.Map(this.mapElement.nativeElement, {
+            zoom: 15,
+            center: position,
+            mapTypeId: 'roadmap'
+        });
+        var marker = new google.maps.Marker({
+            position: position,
+            map: this.map,
+            title: location
+        });
+        this.map.setCenter(position);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('map'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+    ], TripDetailsPage.prototype, "mapElement", void 0);
+    TripDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-solo',template:/*ion-inline-start:"D:\epx_app\src\pages\solo\solo.html"*/'<!--\n  Generated template for the SoloPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>SOLO</ion-title>\n    <!-- <h1 class="text-center">\n        <strong>SOLO</strong>\n      </h1> -->\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n\n  <!-- <ion-buttons>\n    <button ion-button block icon-end (click)="showFilter()">\n      Filter\n      <ion-icon name="search"></ion-icon>\n    </button>\n  </ion-buttons> -->\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let solo of soloList">\n    <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">\n    <ion-card-content>\n      <h3 class="content-text">\n        <strong>{{solo.title | uppercase}}</strong>\n      </h3>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="content-text">\n              <strong class="colored">Price: {{solo.price}}</strong>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="sm-text">{{solo.start_date}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Tags :\n          </ion-col>\n          <ion-col col-10>\n            <button ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more solo..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo\solo.html"*/,
+            selector: 'page-trip-details',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-details\trip-details.html"*/'<!--\n  Generated template for the TripDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Trip Details</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div class="gallery" *ngIf="!isLoading">\n    <ion-slides loop="true" autoplay="3000" speed="1000" pager="true" *ngIf="details.trip_gallery.length > 1">\n      <ion-slide *ngFor="let img of details.trip_gallery">\n        <img src="{{img}}" />\n      </ion-slide>\n    </ion-slides>\n    <ion-slides *ngIf="details.trip_gallery.length <= 1">\n      <ion-slide *ngFor="let img of details.trip_gallery">\n        <img src="{{img}}" />\n      </ion-slide>\n    </ion-slides>\n  </div>\n  <div *ngIf="!isLoading">\n    <div class="content-text">\n      <p class="md-text white">ADVENTURE</p>\n      <p class="lg-text white">\n        <strong>{{details.title | uppercase}}</strong>\n      </p>\n    </div>\n    <div class="content-details">\n      <p class="sm-text pre-line" [innerHTML]="details.content"></p>\n      <br/>\n      <button ion-button round icon-right block outline (click)="interested()" *ngIf="sashes_image == \'\'">\n        {{isInterested ? "Interested" : "I\'m Interested"}}\n        <ion-icon name="{{isInterested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n      </button>\n\n      <ion-item>\n        <ion-avatar item-end>\n          <img class="coordinator" src="{{details.trip_coordinator.Trip_coordinator_avatar}}" (click)="memberDetails(details.trip_coordinator)">\n        </ion-avatar>\n        <h2>{{details.trip_coordinator.Trip_coordinator_name}}</h2>\n        <p>Trip Coordinator</p>\n      </ion-item>\n\n      <ion-grid>\n        <ion-row>\n          <ion-col class="left">\n            <h1>{{details.number_of_registered != null ? details.number_of_registered : 0}}</h1>\n            <p>registrations</p>\n          </ion-col>\n\n          <ion-col class="right">\n            <h1>{{details.number_of_interested != null ? details.number_of_interested : 0}}</h1>\n            <p>interested</p>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n\n      <ion-grid class="trip-duration">\n        <ion-row>\n          <ion-col col-4>\n            <p>Trip Duration</p>\n          </ion-col>\n          <ion-col col-8>\n            <p>\n              <span class="md-text black">{{details.Trip_duration}}</span>\n            </p>\n          </ion-col>\n        </ion-row>\n\n        <ion-row>\n          <ion-col col-4>\n            <p>Start Location</p>\n          </ion-col>\n          <ion-col col-8>\n            <p>\n              <span class="md-text black">{{details.Start_location}}</span>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-4>\n            <p>End Location</p>\n          </ion-col>\n          <ion-col col-8>\n            <p>\n              <span class="md-text black">{{details.End_location}}</span>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-4>\n            <p>Trip Themes</p>\n          </ion-col>\n          <ion-col col-8 class="tags">\n            <button ion-button round outline small *ngFor="let tag of details.product_tag" (click)="tripByTags(tag)">{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </div>\n    <div class="whos-interested" *ngIf="whos_interested.length > 0">\n      <h1 class="text-center black">Who\'s Interested</h1>\n\n      <ion-scroll scrollX="true">\n        <ion-card *ngFor="let member of whos_interested" (click)="memberDetails(member)">\n          <img class="interested" [src]="member.avatar" />\n          <ion-card-content>\n            <p class="text-center md-text strong">{{member.name}}</p>\n            <p class="text-center sm-text">{{member.date_registered}}</p>\n          </ion-card-content>\n        </ion-card>\n      </ion-scroll>\n\n    </div>\n  </div>\n  <div #map id="map"></div>\n  <div *ngIf="!isLoading">\n    <div class="trip-leader">\n      <ion-item>\n        <ion-avatar>\n          <img class="leader" src="{{details.trip_leader.Trip_leader_avatar}}" (click)="memberDetails(details.trip_leader)" />\n        </ion-avatar>\n        <p class="sm-text-important text-center black-important">EPX Trip Leader</p>\n        <p class="text-center gray">Member Since:</p>\n        <p class="text-center gray">{{details.trip_leader.Trip_leader_Member_since | date : "MMMM dd, yyyy"}}</p>\n      </ion-item>\n\n      <div class="leader-name">\n        <p class="strong text-center lg-text">Meet {{details.trip_leader.Trip_leader_name}}, Your Trip Leader</p>\n      </div>\n      <p class="text-center md-text">\n        <span class="strong blue">{{details.trip_leader.Trip_leader_name}}</span> is the\n        <span class="strong blue">{{details.trip_leader.Trip_leader_position}}</span> at\n        <span class="strong blue" (click)="openBrowser(details.trip_leader.Trip_leader_business_url)">{{details.trip_leader.Trip_leader_company}}</span>, a\n        <span class="strong blue">{{details.trip_leader.Trip_leader_business_model}}</span> business in the\n        <span class="strong blue">{{details.trip_leader.Trip_leader_industry}}</span> industry with the\n        <span class="strong blue">{{details.trip_leader.Trip_leader_employee}}</span> employees.</p>\n    </div>\n    <div class="whos-going" *ngIf="whos_going.length > 0">\n      <h1 class="text-center black">Who\'s Going</h1>\n      <ion-item *ngFor="let item of whos_going" >\n        <ion-avatar item-start>\n          <img class="going" src="{{item.avatar}}" (click)="memberDetails(item)">\n        </ion-avatar>\n        <p>\n          <span class="strong">{{item.name}}</span> is the\n          <span class="strong">{{item.position}}</span> at\n          <span class="strong blue" (click)="openBrowser(item.business_url)">{{item.company}}</span>, a\n          <span class="strong">{{item.business_model}}</span> in the\n          <span class="strong">{{item.industry}}</span> industry with the\n          <span class="strong">{{item.employee}}</span> employees.</p>\n      </ion-item>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trip-details\trip-details.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
             __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], SoloPage);
-    return SoloPage;
+    ], TripDetailsPage);
+    return TripDetailsPage;
 }());
 
-//# sourceMappingURL=solo.js.map
+//# sourceMappingURL=trip-details.js.map
 
 /***/ })
 

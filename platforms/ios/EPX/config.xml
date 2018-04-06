@@ -43,6 +43,9 @@
     <feature name="SQLitePlugin">
         <param name="ios-package" value="SQLitePlugin" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
     <name>EPX</name>
     <description>An awesome app for outdoor and events.</description>
     <author email="victor.e@ideahubsolutionsinc.com" href="http://ideahubsolutionsinc.com">ideahub IT Solutions Providers, Inc</author>
@@ -115,7 +118,4 @@
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="orientation" value="portrait" />
     <preference name="loadUrlTimeoutValue" value="700000" />
-    <feature name="NetworkStatus">
-        <param name="ios-package" value="CDVConnection" />
-    </feature>
 </widget>

@@ -1,14 +1,14 @@
 webpackJsonp([10],{
 
-/***/ 465:
+/***/ 468:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloTagsPageModule", function() { return SoloTagsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_tags__ = __webpack_require__(487);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(492);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var SoloTagsPageModule = (function () {
-    function SoloTagsPageModule() {
+var TabsPageModule = (function () {
+    function TabsPageModule() {
     }
-    SoloTagsPageModule = __decorate([
+    TabsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__solo_tags__["a" /* SoloTagsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__solo_tags__["a" /* SoloTagsPage */]),
-            ],
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */]),
+            ]
         })
-    ], SoloTagsPageModule);
-    return SoloTagsPageModule;
+    ], TabsPageModule);
+    return TabsPageModule;
 }());
 
-//# sourceMappingURL=solo-tags.module.js.map
+//# sourceMappingURL=tabs.module.js.map
 
 /***/ }),
 
-/***/ 487:
+/***/ 492:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SoloTagsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,69 +59,126 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var SoloTagsPage = (function () {
-    function SoloTagsPage(epxProvider, navCtrl, navParams) {
+
+var TabsPage = (function () {
+    function TabsPage(epxProvider, detectorRef, events, push, platform, alertCtrl, menuCtrl, navCtrl) {
+        var _this = this;
         this.epxProvider = epxProvider;
+        this.detectorRef = detectorRef;
+        this.events = events;
+        this.push = push;
+        this.alertCtrl = alertCtrl;
+        this.menuCtrl = menuCtrl;
         this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.isLoading = true;
-        this.isRefresh = false;
-        this.page = 1;
-        this.perPage = 0;
-        this.totalData = 0;
-        this.totalPage = 0;
-        this.tag = navParams.data.data;
-        console.log('tag', this.tag);
-    }
-    SoloTagsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad SoloTagsPage');
-        this.LoadSolo();
-    };
-    SoloTagsPage.prototype.soloDetails = function (solo) {
-        this.navCtrl.push('SoloDetailsPage', { data: solo });
-    };
-    SoloTagsPage.prototype.LoadSolo = function (refresher) {
-        var _this = this;
-        this.epxProvider.getData('ID').then(function (user_id) {
-            console.log('user id', user_id);
-            _this.epxProvider.getSoloTags(user_id, _this.page, _this.tag).subscribe(function (data) {
-                //var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-                _this.totalPage = data.number_of_page;
-                console.log('solo list', data);
-                _this.soloList = data.data;
-                _this.isLoading = false;
-                _this.isRefresh = true;
-            });
-        });
-    };
-    SoloTagsPage.prototype.doInfinite = function (infiniteScroll) {
-        var _this = this;
-        console.log('Begin async operation');
-        this.page++;
-        this.epxProvider.getData('ID').then(function (user_id) {
-            console.log('user id', user_id);
-            _this.epxProvider.getSoloTags(user_id, _this.page, _this.tag).subscribe(function (data) {
-                var solo = data.data;
-                for (var i = 0; i < solo.length; i++) {
-                    _this.soloList.push(solo[i]);
-                    console.log(solo[i]);
+        this.tripsRoot = 'TripsPage';
+        this.vaultRoot = 'VaultPage';
+        this.soloRoot = 'SoloPage';
+        this.membersRoot = 'MembersPage';
+        this.tripBadge = 0;
+        this.soloBadge = 0;
+        this.vaultBadge = 0;
+        this.memberBadge = 0;
+        if (platform.is('cordova')) {
+            this.push.hasPermission()
+                .then(function (res) {
+                if (res.isEnabled) {
+                    console.log('We have permission to send push notifications');
+                    _this.initPush();
                 }
-                infiniteScroll.complete();
-                _this.isLoading = false;
-                _this.isRefresh = true;
+                else {
+                    console.log('We do not have permission to send push notifications');
+                }
             });
+        }
+    }
+    TabsPage.prototype.initPush = function () {
+        var _this = this;
+        var options = {
+            android: {
+                senderID: '1035774532822',
+            },
+            ios: {
+                alert: 'true',
+                badge: true,
+                sound: 'false',
+            },
+            windows: {},
+            browser: {
+                pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+            }
+        };
+        var pushObject = this.push.init(options);
+        pushObject.on('notification').subscribe(function (notification) {
+            console.log('Received a notification', notification);
+            var additionalData = notification.additionalData;
+            console.log('badge value', additionalData.update);
+            switch (additionalData.target) {
+                case 'trip':
+                    {
+                        // this.events.subscribe('TRIP_UPDATE',badge_value => {
+                        //   console.log('badge value',badge_value);
+                        // });
+                        // this.showAlert(notification.title,notification.message);
+                        _this.epxProvider.saveData('TRIP_UPDATE', additionalData.update);
+                        console.log('trip', additionalData.update);
+                        _this.tripBadge = additionalData.update;
+                        _this.detectorRef.detectChanges();
+                        break;
+                    }
+                case 'solo': {
+                    console.log('solo', additionalData.update);
+                    _this.soloBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                case 'vault': {
+                    console.log('vault', additionalData.update);
+                    _this.vaultBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                case 'member': {
+                    console.log('member', additionalData.update);
+                    _this.memberBadge = additionalData.update;
+                    _this.detectorRef.detectChanges();
+                    break;
+                }
+                default: {
+                    _this.navCtrl.push('NotificationPage');
+                }
+            }
         });
+        pushObject.on('registration').subscribe(function (registration) { return console.log('Device registered', registration); });
+        pushObject.on('error').subscribe(function (error) { return console.error('Error with Push plugin', error); });
     };
-    SoloTagsPage = __decorate([
+    TabsPage.prototype.showAlert = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['OK']
+        });
+        alert.present();
+    };
+    TabsPage.prototype.openSideMenu = function () {
+        this.menuCtrl.toggle();
+    };
+    TabsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-solo-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\solo-tags\solo-tags.html"*/'<!--\n  Generated template for the SoloTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let solo of soloList">\n    <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">\n    <ion-card-content>\n      <h3 class="content-text">\n        <strong>{{solo.title | uppercase}}</strong>\n      </h3>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="content-text">\n              <strong class="colored">Price: {{solo.price}}</strong>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="sm-text">{{solo.start_date}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Tags :\n          </ion-col>\n          <ion-col col-10>\n            <button ion-button round outline small *ngFor="let tag of solo.product_tag" >{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-card-content>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more solo..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo-tags\solo-tags.html"*/,
+            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], SoloTagsPage);
-    return SoloTagsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
+            __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__["a" /* Push */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* MenuController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]])
+    ], TabsPage);
+    return TabsPage;
 }());
 
-//# sourceMappingURL=solo-tags.js.map
+//# sourceMappingURL=tabs.js.map
 
 /***/ })
 

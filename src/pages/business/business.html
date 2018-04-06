@@ -27,7 +27,7 @@
       <img [src]="business.business_logo" />
     </div>
     <div class="content-text">
-      <div class="card-title">{{business.business_name}}</div>
+      <div class="card-title">{{business.business_name | uppercase}}</div>
       <div class="card-subtitle">{{business.member_name}}</div>
       <div class="card-subtitle pre-line" [innerHTML]="business.business_industry"></div>
     </div>

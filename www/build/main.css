@@ -25698,8 +25698,32 @@ ion-navbar.toolbar {
   color: #2980b9;
 }
 
+.primary {
+  color: #2980b9;
+}
+
+.danger {
+  color: red;
+}
+
+.btn-right {
+  float: right;
+}
+
+.btn-left {
+  float: left;
+}
+
 .text-center {
   text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: end;
 }
 
 .pre-line {
@@ -25712,6 +25736,10 @@ p.strong {
 
 .strong {
   font-weight: bold;
+}
+
+.small {
+  font-size: 90%;
 }
 
 .sm-text {
@@ -25796,14 +25824,14 @@ page-business ion-card {
 }
 
 page-business .card-title {
-  font-size: 1.2em;
+  font-size: 1.3em;
   width: 100%;
   font-weight: bold;
-  color: black;
+  color: #2980b9;
 }
 
 page-business .card-subtitle {
-  font-size: 1.0em;
+  font-size: 1.1em;
   width: 100%;
   color: black;
 }
@@ -25813,23 +25841,23 @@ page-business ion-card.card.card {
 }
 
 page-business ion-card img {
-  display: block;
-  width: 180px;
-  height: 180px;
+  width: auto;
+  height: auto;
+  max-width: 180px;
+  max-height: 180px;
   margin: auto;
-  margin-top: 20px;
 }
 
 page-business ion-card .business-logo {
-  display: block;
+  padding-top: 20px;
   width: 100%;
   height: 200px;
-  text-align: center;
 }
 
 page-business .content-text {
   padding: 10px;
-  border-top: solid 1px gray;
+  border-top: solid 1px #d3d1d1;
+  height: 100px;
 }
 
 page-business-details .business-content {
@@ -25868,8 +25896,10 @@ page-business-details .page-title {
 }
 
 page-business-details .business-content img.business-logo {
-  height: 70%;
-  width: 70%;
+  height: auto;
+  width: auto;
+  max-width: 180px;
+  max-height: 180px;
 }
 
 page-business-details .page-thumbnail {
@@ -25985,6 +26015,19 @@ page-chat .message.special .innerMessage {
   background: transparent;
 }
 
+page-forgot-password .container {
+  padding-top: 50px;
+}
+
+page-forgot-password .btn-right {
+  float: right;
+  margin-top: 50px;
+}
+
+page-forgot-password .item-md {
+  padding-left: 0px;
+}
+
 page-login ion-spinner {
   width: 30px;
   height: 30px;
@@ -25999,7 +26042,7 @@ page-login img {
 
 page-login h1 {
   text-align: center;
-  color: #00395E;
+  color: #0071bc;
   letter-spacing: 2px;
   -webkit-margin-before: 0em;
   -webkit-margin-after: 0em;
@@ -26008,15 +26051,27 @@ page-login h1 {
 
 page-login .logo {
   padding: 10px;
-  margin-bottom: 20px;
-}
-
-page-login .button {
-  margin-top: 20px;
 }
 
 page-login ion-content.content {
   background-image: url(../assets/imgs/login_bg.jpg);
+}
+
+page-login .scroll-content {
+  padding: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 page-login ion-item.item.item-block.item-ios.item-input.item-label-floating.ng-valid.ng-dirty.ng-touched {
@@ -26030,6 +26085,15 @@ page-login .login-item {
 page-login .item {
   padding-left: 0px;
   background: transparent;
+}
+
+page-login ion-label#lbl-2, page-login ion-label#lbl-3 {
+  color: #3d3b3b;
+}
+
+page-login .btn-forgot {
+  margin-top: 1em;
+  background: #bcbaba;
 }
 
 page-member-details {
@@ -26181,10 +26245,16 @@ page-solo button.disable-hover.button.button.button-default.button-default.butto
   margin-bottom: 20px;
 }
 
-page-solo ion-card img {
-  display: block;
+page-solo .solo-image {
   width: 100%;
   height: 200px;
+}
+
+page-solo ion-card img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-solo button.disable-hover.button.button.button-outline.button-outline.button-round.button-round.button-small.button-small {
@@ -26256,10 +26326,16 @@ page-solo-tags button.disable-hover.button.button.button-default.button-default.
   margin-bottom: 20px;
 }
 
-page-solo-tags ion-card img {
-  display: block;
+page-solo-tags .solo-image {
   width: 100%;
   height: 200px;
+}
+
+page-solo-tags ion-card img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-solo-tags button.disable-hover.button.button.button-outline.button-outline.button-round.button-round.button-small.button-small {
@@ -26573,13 +26649,26 @@ page-trip-tags .top {
 page-trip-tags .trip-image {
   height: 220px;
   width: 100%;
-  margin-bottom: -10px;
+  background: #747576;
 }
 
 page-trip-tags .trip-image img {
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   height: 100%;
-  margin-top: -50px;
+  margin-top: -35px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+page-trip-tags img.sashes {
+  position: relative;
+  margin-left: 0px;
+  height: 120px;
+  width: 120px;
+  bottom: 85px;
+  margin-bottom: -85px;
 }
 
 page-trip-tags .list {
@@ -26622,14 +26711,6 @@ page-trip-tags button.disable-hover.button.button.button-default.button-default.
   margin: auto;
   height: 30px;
   margin-bottom: 20px;
-}
-
-page-trip-tags img.sashes {
-  position: relative;
-  height: 120px;
-  width: 130px;
-  bottom: 70px;
-  margin-bottom: -70px;
 }
 
 page-trip-tags .trip-meter p.sm-text.strong.white {
@@ -26694,13 +26775,26 @@ page-trips .top {
 page-trips .trip-image {
   height: 220px;
   width: 100%;
-  margin-bottom: -10px;
+  background: #747576;
 }
 
 page-trips .trip-image img {
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   height: 100%;
-  margin-top: -50px;
+  margin-top: -35px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+page-trips img.sashes {
+  position: relative;
+  margin-left: 0px;
+  height: 120px;
+  width: 120px;
+  bottom: 85px;
+  margin-bottom: -85px;
 }
 
 page-trips .list {
@@ -26745,14 +26839,6 @@ page-trips button.disable-hover.button.button.button-default.button-default.butt
   margin-bottom: 20px;
 }
 
-page-trips img.sashes {
-  position: relative;
-  height: 120px;
-  width: 130px;
-  bottom: 70px;
-  margin-bottom: -70px;
-}
-
 page-trips .trip-meter p.sm-text.strong.white {
   color: white;
   margin-top: 30px;
@@ -26780,20 +26866,27 @@ page-vault h3.content-text.xl-text.strong.blue {
 }
 
 page-vault ion-card img.pdf {
-  display: block;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   margin: auto;
+  -o-object-fit: contain;
+  object-fit: contain;
 }
 
 page-vault ion-card img.video {
-  display: block;
   width: 100%;
-  height: 200px;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-vault .card-md + ion-card {
   margin-top: 0px;
+}
+
+page-vault .vault-image {
+  height: 200px;
+  width: 100%;
 }
 
 page-vault-category ion-item.item.item-block.item {
@@ -26806,20 +26899,27 @@ page-vault-category h3.content-text.xl-text.strong.blue {
 }
 
 page-vault-category ion-card img.pdf {
-  display: block;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   margin: auto;
+  -o-object-fit: contain;
+  object-fit: contain;
 }
 
 page-vault-category ion-card img.video {
-  display: block;
   width: 100%;
-  height: 200px;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-vault-category .card-md + ion-card {
   margin-top: 0px;
+}
+
+page-vault-category .vault-image {
+  height: 200px;
+  width: 100%;
 }
 
 page-vault-details .content iframe {
@@ -26908,18 +27008,25 @@ page-vault-tags h3.content-text.xl-text.strong.blue {
 }
 
 page-vault-tags ion-card img.pdf {
-  display: block;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   margin: auto;
+  -o-object-fit: contain;
+  object-fit: contain;
 }
 
 page-vault-tags ion-card img.video {
-  display: block;
   width: 100%;
-  height: 200px;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-vault-tags .card-md + ion-card {
   margin-top: 0px;
+}
+
+page-vault-tags .vault-image {
+  height: 200px;
+  width: 100%;
 }

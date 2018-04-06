@@ -9,48 +9,44 @@
   <ion-navbar>
     <!-- <ion-title>Search Trips</ion-title> -->
     <ion-buttons right>
-        
-        <button ion-button  icon-end (click)="closeFilter()">
-            Close
-          <ion-icon name="close-circle"></ion-icon>
-          
-        </button>
-        
-      </ion-buttons>
+      <button ion-button icon-end (click)="closeFilter()">
+        Close
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
   <h1 class="text-center">Search Trips</h1>
   <div class="select">
-      <ion-item>
-          <ion-label>Region</ion-label>
-          <ion-select [(ngModel)]="gaming">
-            <ion-option value="nes">Europe West</ion-option>
-            <ion-option value="n64">Central America</ion-option>
-            <ion-option value="ps">Africa</ion-option>
-            <ion-option value="genesis">USA</ion-option>
-            <ion-option value="saturn">East Asia</ion-option>
-            <ion-option value="snes">Carribean</ion-option>
-            <ion-option value="snes">South America</ion-option>
-          </ion-select>
-        </ion-item>
+    <ion-item>
+      <ion-label>Region</ion-label>
+      <ion-select [(ngModel)]="gaming">
+        <ion-option value="nes">Europe West</ion-option>
+        <ion-option value="n64">Central America</ion-option>
+        <ion-option value="ps">Africa</ion-option>
+        <ion-option value="genesis">USA</ion-option>
+        <ion-option value="saturn">East Asia</ion-option>
+        <ion-option value="snes">Carribean</ion-option>
+        <ion-option value="snes">South America</ion-option>
+      </ion-select>
+    </ion-item>
   </div>
   <div class="select">
-      <ion-item>
-          <ion-label>Trip Type</ion-label>
-          <ion-select [(ngModel)]="gaming">
-            <ion-option value="nes">Adventure</ion-option>
-            <ion-option value="n64">Beach</ion-option>
-            <ion-option value="ps">Food and Culture</ion-option>
-            <ion-option value="genesis">Nature</ion-option>
-            <ion-option value="saturn">Party</ion-option>
-            <ion-option value="snes">Sports</ion-option>
-            <ion-option value="snes">Thrill</ion-option>
-          </ion-select>
-        </ion-item>
+    <ion-item>
+      <ion-label>Trip Type</ion-label>
+      <ion-select [(ngModel)]="gaming">
+        <ion-option value="nes">Adventure</ion-option>
+        <ion-option value="n64">Beach</ion-option>
+        <ion-option value="ps">Food and Culture</ion-option>
+        <ion-option value="genesis">Nature</ion-option>
+        <ion-option value="saturn">Party</ion-option>
+        <ion-option value="snes">Sports</ion-option>
+        <ion-option value="snes">Thrill</ion-option>
+      </ion-select>
+    </ion-item>
   </div>
   <button ion-button round block outline>Update</button>
 </ion-content>

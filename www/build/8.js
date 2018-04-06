@@ -1,14 +1,14 @@
 webpackJsonp([8],{
 
-/***/ 466:
+/***/ 470:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripFilterPageModule", function() { return TripFilterPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(488);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_filter__ = __webpack_require__(494);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,35 +18,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TabsPageModule = (function () {
-    function TabsPageModule() {
+var TripFilterPageModule = (function () {
+    function TripFilterPageModule() {
     }
-    TabsPageModule = __decorate([
+    TripFilterPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__trip_filter__["a" /* TripFilterPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */]),
-            ]
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_filter__["a" /* TripFilterPage */]),
+            ],
         })
-    ], TabsPageModule);
-    return TabsPageModule;
+    ], TripFilterPageModule);
+    return TripFilterPageModule;
 }());
 
-//# sourceMappingURL=tabs.module.js.map
+//# sourceMappingURL=trip-filter.module.js.map
 
 /***/ }),
 
-/***/ 488:
+/***/ 494:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripFilterPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__ = __webpack_require__(288);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,130 +56,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-
-var TabsPage = (function () {
-    function TabsPage(epxProvider, detectorRef, events, push, platform, alertCtrl, menuCtrl, navCtrl) {
-        var _this = this;
-        this.epxProvider = epxProvider;
-        this.detectorRef = detectorRef;
-        this.events = events;
-        this.push = push;
-        this.alertCtrl = alertCtrl;
-        this.menuCtrl = menuCtrl;
+/**
+ * Generated class for the TripFilterPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var TripFilterPage = (function () {
+    function TripFilterPage(viewCtrl, navCtrl, navParams) {
+        this.viewCtrl = viewCtrl;
         this.navCtrl = navCtrl;
-        this.tripsRoot = 'TripsPage';
-        this.vaultRoot = 'VaultPage';
-        this.soloRoot = 'SoloPage';
-        this.membersRoot = 'MembersPage';
-        this.tripBadge = 0;
-        this.soloBadge = 0;
-        this.vaultBadge = 0;
-        this.memberBadge = 0;
-        if (platform.is('cordova')) {
-            this.push.hasPermission()
-                .then(function (res) {
-                if (res.isEnabled) {
-                    console.log('We have permission to send push notifications');
-                    _this.initPush();
-                }
-                else {
-                    console.log('We do not have permission to send push notifications');
-                }
-            });
-        }
+        this.navParams = navParams;
     }
-    TabsPage.prototype.initPush = function () {
-        var _this = this;
-        var options = {
-            android: {
-                senderID: '1035774532822',
-            },
-            ios: {
-                alert: 'true',
-                badge: true,
-                sound: 'false',
-            },
-            windows: {},
-            browser: {
-                pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-            }
-        };
-        var pushObject = this.push.init(options);
-        pushObject.on('notification').subscribe(function (notification) {
-            console.log('Received a notification', notification);
-            var additionalData = notification.additionalData;
-            // this.events.publish('badge_update',badge_value => {
-            //   console.log('badge value',badge_value);
-            // });
-            console.log('badge value', additionalData.update);
-            switch (additionalData.target) {
-                case 'trip':
-                    {
-                        // this.events.subscribe('badge_update',badge_value => {
-                        //   console.log('badge value',badge_value);
-                        // });
-                        // this.showAlert(notification.title,notification.message);
-                        _this.epxProvider.saveData('TRIP_UPDATE', additionalData.update);
-                        console.log('trip', additionalData.update);
-                        _this.tripBadge = additionalData.update;
-                        _this.detectorRef.detectChanges();
-                        break;
-                    }
-                case 'solo': {
-                    console.log('solo', additionalData.update);
-                    _this.soloBadge = additionalData.update;
-                    _this.detectorRef.detectChanges();
-                    break;
-                }
-                case 'vault': {
-                    console.log('vault', additionalData.update);
-                    _this.vaultBadge = additionalData.update;
-                    _this.detectorRef.detectChanges();
-                    break;
-                }
-                case 'member': {
-                    console.log('member', additionalData.update);
-                    _this.memberBadge = additionalData.update;
-                    _this.detectorRef.detectChanges();
-                    break;
-                }
-                default: {
-                    _this.navCtrl.push('NotificationPage');
-                }
-            }
-        });
-        pushObject.on('registration').subscribe(function (registration) { return console.log('Device registered', registration); });
-        pushObject.on('error').subscribe(function (error) { return console.error('Error with Push plugin', error); });
+    TripFilterPage.prototype.closeFilter = function () {
+        this.viewCtrl.dismiss();
     };
-    TabsPage.prototype.showAlert = function (title, message) {
-        var alert = this.alertCtrl.create({
-            title: title,
-            subTitle: message,
-            buttons: ['OK']
-        });
-        alert.present();
+    TripFilterPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad TripFilterPage');
     };
-    TabsPage.prototype.openSideMenu = function () {
-        this.menuCtrl.toggle();
-    };
-    TabsPage = __decorate([
+    TripFilterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
+            selector: 'page-trip-filter',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/'<!--\n  Generated template for the TripFilterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <!-- <ion-title>Search Trips</ion-title> -->\n    <ion-buttons right>\n      <button ion-button icon-end (click)="closeFilter()">\n        Close\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <h1 class="text-center">Search Trips</h1>\n  <div class="select">\n    <ion-item>\n      <ion-label>Region</ion-label>\n      <ion-select [(ngModel)]="gaming">\n        <ion-option value="nes">Europe West</ion-option>\n        <ion-option value="n64">Central America</ion-option>\n        <ion-option value="ps">Africa</ion-option>\n        <ion-option value="genesis">USA</ion-option>\n        <ion-option value="saturn">East Asia</ion-option>\n        <ion-option value="snes">Carribean</ion-option>\n        <ion-option value="snes">South America</ion-option>\n      </ion-select>\n    </ion-item>\n  </div>\n  <div class="select">\n    <ion-item>\n      <ion-label>Trip Type</ion-label>\n      <ion-select [(ngModel)]="gaming">\n        <ion-option value="nes">Adventure</ion-option>\n        <ion-option value="n64">Beach</ion-option>\n        <ion-option value="ps">Food and Culture</ion-option>\n        <ion-option value="genesis">Nature</ion-option>\n        <ion-option value="saturn">Party</ion-option>\n        <ion-option value="snes">Sports</ion-option>\n        <ion-option value="snes">Thrill</ion-option>\n      </ion-select>\n    </ion-item>\n  </div>\n  <button ion-button round block outline>Update</button>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
-            __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__["a" /* Push */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* MenuController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]])
-    ], TabsPage);
-    return TabsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], TripFilterPage);
+    return TripFilterPage;
 }());
 
-//# sourceMappingURL=tabs.js.map
+//# sourceMappingURL=trip-filter.js.map
 
 /***/ })
 

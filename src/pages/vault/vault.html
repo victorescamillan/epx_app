@@ -27,7 +27,9 @@
   <ion-list>
     <!-- <ion-card *virtualItem="let vault"> -->
     <ion-card *ngFor="let vault of vaultList">
-      <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}" >
+      <div class="vault-image">
+          <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}" >
+      </div>
       <ion-card-content>
         <h3 class="content-text xl-text strong blue">
           {{vault.title | uppercase}}

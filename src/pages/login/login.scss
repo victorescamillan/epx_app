@@ -1,11 +1,7 @@
 page-login {
-
-  
     ion-spinner {
       width: 30px;
       height: 30px;
-      // stroke: #1cebcf;
-      // fill: #1cebcf;
     }
     img {
       max-width: 50%;
@@ -15,7 +11,7 @@ page-login {
    }
    h1{
        text-align: center;
-       color:#00395E;
+       color:#0071bc;
        letter-spacing: 2px;
       -webkit-margin-before: 0em;
       -webkit-margin-after: 0em;
@@ -23,15 +19,21 @@ page-login {
    }
    .logo{
        padding: 10px;
-       margin-bottom:20px;
+    //    margin-bottom:20px;
    }
-   .button{
-    
-      margin-top: 20px;
-   }
+//    .button{
+//       margin-top: 20px;
+//       @include linear-gradient(bottom,$nighthawk);
+//    }
    ion-content.content {
-      background-image: url(../assets/imgs/login_bg.jpg);
+      background-image: url(../assets/imgs/login_bg.jpg);     
   }
+    .scroll-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
   ion-item.item.item-block.item-ios.item-input.item-label-floating.ng-valid.ng-dirty.ng-touched{
       background-color: transparent;
   }
@@ -48,5 +50,11 @@ page-login {
       padding-left: 0px;
       background: transparent;
   }
-
+    ion-label#lbl-2,ion-label#lbl-3 {
+        color: rgb(61, 59, 59)
+    }
+    .btn-forgot{
+        margin-top: 1em;
+        background: #bcbaba
+    }
 }

@@ -34,7 +34,9 @@
   </div>
 
   <ion-card *ngFor="let solo of soloList">
-    <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">
+    <div class="solo-image">
+        <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">
+    </div>
     <ion-card-content>
       <h3 class="content-text">
         <strong>{{solo.title | uppercase}}</strong>
