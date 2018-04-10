@@ -65,7 +65,7 @@
             Tags :
           </ion-col>
           <ion-col col-10>
-            <button ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>
+            <button class="btn-tags" ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>
           </ion-col>
         </ion-row>
       </ion-grid>

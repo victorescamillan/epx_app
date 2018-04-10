@@ -44,7 +44,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
   and Angular DI.
 */
 var EpxProvider = (function () {
-    function EpxProvider(toastCtrl, network, storage, httpClient) {
+    function EpxProvider(events, toastCtrl, network, storage, httpClient) {
+        this.events = events;
         this.toastCtrl = toastCtrl;
         this.network = network;
         this.storage = storage;
@@ -77,8 +78,31 @@ var EpxProvider = (function () {
         this.business_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
         this.business_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
         this.business_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
+        this.TRIP_BADGE = "TRIP_BADGE";
+        this.SOLO_BADGE = "SOLO_BADGE";
         this.checkConnection();
     }
+    EpxProvider.prototype.updateTripNotification = function (name) {
+        var _this = this;
+        this.saveData(name, 0).then(function () {
+            _this.events.publish(name, 0);
+        });
+    };
+    EpxProvider.prototype.getNotification = function () {
+        var _this = this;
+        this.getData(this.TRIP_BADGE).then(function (res) {
+            console.log('trip badge', res);
+            if (res != null && res > 0) {
+                _this.events.publish(_this.TRIP_BADGE, res);
+            }
+        });
+        this.getData(this.SOLO_BADGE).then(function (res) {
+            console.log('solo badge', res);
+            if (res != null && res > 0) {
+                _this.events.publish(_this.SOLO_BADGE, res);
+            }
+        });
+    };
     EpxProvider.prototype.isConnected = function () {
         var connection_type = this.network.type;
         return connection_type !== 'unknown' && connection_type !== 'none';
@@ -270,7 +294,7 @@ var EpxProvider = (function () {
     };
     EpxProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8_ionic_angular__["o" /* ToastController */], __WEBPACK_IMPORTED_MODULE_7__ionic_native_network__["a" /* Network */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8_ionic_angular__["c" /* Events */], __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["o" /* ToastController */], __WEBPACK_IMPORTED_MODULE_7__ionic_native_network__["a" /* Network */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
     ], EpxProvider);
     return EpxProvider;
 }());
@@ -329,43 +353,43 @@ var map = {
 		18
 	],
 	"../pages/members/members.module": [
-		461,
+		470,
 		17
 	],
 	"../pages/mentor/mentor.module": [
-		462,
+		461,
 		16
 	],
 	"../pages/menu/menu.module": [
-		463,
+		462,
 		15
 	],
 	"../pages/notification/notification.module": [
-		464,
+		467,
 		14
 	],
 	"../pages/solo-details/solo-details.module": [
-		465,
+		463,
 		13
 	],
 	"../pages/solo-tags/solo-tags.module": [
-		466,
+		464,
 		12
 	],
 	"../pages/solo/solo.module": [
-		467,
+		465,
 		11
 	],
 	"../pages/tabs/tabs.module": [
-		468,
+		466,
 		10
 	],
 	"../pages/trip-details/trip-details.module": [
-		469,
+		468,
 		9
 	],
 	"../pages/trip-filter/trip-filter.module": [
-		470,
+		469,
 		8
 	],
 	"../pages/trip-tags/trip-tags.module": [
@@ -491,16 +515,16 @@ var AppModule = (function () {
                         { loadChildren: '../pages/forgot-password/forgot-password.module#ForgotPasswordPageModule', name: 'ForgotPasswordPage', segment: 'forgot-password', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },

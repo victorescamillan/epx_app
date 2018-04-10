@@ -1,6 +1,6 @@
 webpackJsonp([10],{
 
-/***/ 468:
+/***/ 466:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(492);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(490);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TabsPageModule = (function () {
 
 /***/ }),
 
-/***/ 492:
+/***/ 490:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90,7 +90,20 @@ var TabsPage = (function () {
                 }
             });
         }
+        this.initEvents();
     }
+    //Hide badges when page is refreshed or updates was loaded.
+    TabsPage.prototype.initEvents = function () {
+        var _this = this;
+        this.events.subscribe(this.epxProvider.TRIP_BADGE, function (badge) {
+            console.log('badge value', badge);
+            _this.tripBadge = badge;
+        });
+        this.events.subscribe(this.epxProvider.SOLO_BADGE, function (badge) {
+            console.log('badge value', badge);
+            _this.soloBadge = badge;
+        });
+    };
     TabsPage.prototype.initPush = function () {
         var _this = this;
         var options = {
@@ -109,38 +122,25 @@ var TabsPage = (function () {
         };
         var pushObject = this.push.init(options);
         pushObject.on('notification').subscribe(function (notification) {
-            console.log('Received a notification', notification);
+            // console.log('Received a notification', notification);
             var additionalData = notification.additionalData;
-            console.log('badge value', additionalData.update);
             switch (additionalData.target) {
                 case 'trip':
                     {
-                        // this.events.subscribe('TRIP_UPDATE',badge_value => {
-                        //   console.log('badge value',badge_value);
-                        // });
-                        // this.showAlert(notification.title,notification.message);
-                        _this.epxProvider.saveData('TRIP_UPDATE', additionalData.update);
-                        console.log('trip', additionalData.update);
-                        _this.tripBadge = additionalData.update;
-                        _this.detectorRef.detectChanges();
+                        //Cache trip update count to make it accessible to other components.
+                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, additionalData.update).then(function (badge) {
+                            // console.log('result',badge);
+                            _this.tripBadge = badge;
+                            _this.detectorRef.detectChanges();
+                        });
                         break;
                     }
                 case 'solo': {
-                    console.log('solo', additionalData.update);
-                    _this.soloBadge = additionalData.update;
-                    _this.detectorRef.detectChanges();
-                    break;
-                }
-                case 'vault': {
-                    console.log('vault', additionalData.update);
-                    _this.vaultBadge = additionalData.update;
-                    _this.detectorRef.detectChanges();
-                    break;
-                }
-                case 'member': {
-                    console.log('member', additionalData.update);
-                    _this.memberBadge = additionalData.update;
-                    _this.detectorRef.detectChanges();
+                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, additionalData.update).then(function (badge) {
+                        // console.log('result',badge);
+                        _this.soloBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
                     break;
                 }
                 default: {

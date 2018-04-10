@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController, Content, InfiniteScroll, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
@@ -26,9 +26,10 @@ export class TripsPage {
   isInterested: boolean = false;
   page = 1;
   totalPage = 0;
-  constructor(private events: Events, private cache: CacheService, public alertCtrl: AlertController, private toastCtrl: ToastController, public modalCtrl: ModalController, private loadingCtrl: LoadingController, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private detectorRef: ChangeDetectorRef, private events: Events, private cache: CacheService, public alertCtrl: AlertController, private toastCtrl: ToastController, public modalCtrl: ModalController, private loadingCtrl: LoadingController, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
+    
   }
 
   //Filter Page
@@ -58,13 +59,14 @@ export class TripsPage {
     console.log('connected: ', connected);
     if (connected) {
       this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
-        this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from url/api
+        this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from server
           this.totalPage = data.number_of_page;
           let trips = Observable.of(data.data);
           if (refresher) {
             this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(data => {
               this.tripList = Object.keys(data).map(key => data[key]);
               refresher.complete();
+              this.epxProvider.updateTripNotification(this.epxProvider.TRIP_BADGE);
             });
           }
           else {
@@ -82,7 +84,7 @@ export class TripsPage {
       });
     }
     else {
-      this.epxProvider.getData(url).then(data => {
+      this.epxProvider.getData(url).then(data => { //Get data from local
         if (data != null) {
 
           let offline_data = Observable.of(data.value);
@@ -164,17 +166,19 @@ export class TripsPage {
     this.LoadTrips();
   }
   ionViewDidEnter() {
-    this.epxProvider.getData('TRIP_UPDATE').then(res => {
+    this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(res => {
       console.log('update',res);
-      if (res != null) {
+      if (res != null && res > 0) {
         this.content.scrollToTop().then(() => {
-          console.log('Load Trips');
-          // this.events.publish('TRIP_UPDATE', 'test');
+          this.epxProvider.updateTripNotification(this.epxProvider.TRIP_BADGE);
+          this.isLoading = true;
+          this.isRefresh = false;
+          this.LoadTrips();
         });
       }
     });
   }
-
+  
   presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,

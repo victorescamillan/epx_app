@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController, Events, Content } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -11,7 +11,7 @@ import { error } from '@firebase/database/dist/esm/src/core/util/util';
   templateUrl: 'solo.html',
 })
 export class SoloPage {
-
+  @ViewChild(Content) content: Content;
   soloList: any;
   isLoading: boolean = true;
   isRefresh: boolean = false;
@@ -20,16 +20,29 @@ export class SoloPage {
   totalData = 0;
   totalPage = 0;
   constructor(
+    private events:Events,
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {
-    // Set TTL to 12h
-    cache.setDefaultTTL(60 * 60 * 12);
+ 
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
+    
   }
-
+  ionViewDidEnter(){
+    this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(res => {
+      console.log('update',res);
+      if (res != null && res > 0) {
+        this.content.scrollToTop().then(() => {
+          this.epxProvider.updateTripNotification(this.epxProvider.SOLO_BADGE);
+          this.isLoading = true;
+          this.isRefresh = false;
+          this.LoadSolo();
+        });
+      }
+    });
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SoloPage');
     this.LoadSolo();
@@ -54,6 +67,7 @@ export class SoloPage {
           this.cache.loadFromDelayedObservable(url, solo, groupKey, ttl, delay_type).subscribe(data => {
             this.soloList = Object.keys(data).map(key => data[key]);
             refresher.complete();
+            this.epxProvider.updateTripNotification(this.epxProvider.SOLO_BADGE);
           });
         }
         else {

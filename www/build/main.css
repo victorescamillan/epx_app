@@ -25818,6 +25818,10 @@ ion-scroll.scroll-x {
   height: auto;
 }
 
+.btn-tags {
+  margin-top: -5px;
+}
+
 page-business ion-card {
   position: relative;
   text-align: center;
@@ -26028,6 +26032,20 @@ page-forgot-password .item-md {
   padding-left: 0px;
 }
 
+page-forgot-password img {
+  max-width: 100%;
+  border: 0;
+  height: 75%;
+  width: 75%;
+  display: block;
+  margin: auto;
+}
+
+page-forgot-password .xxl-text {
+  font-size: 180%;
+  margin-top: 0rem;
+}
+
 page-login ion-spinner {
   width: 30px;
   height: 30px;
@@ -26093,7 +26111,8 @@ page-login ion-label#lbl-2, page-login ion-label#lbl-3 {
 
 page-login .btn-forgot {
   margin-top: 1em;
-  background: #bcbaba;
+  background: #8e8a8a;
+  opacity: 0.8;
 }
 
 page-member-details {
@@ -26640,10 +26659,10 @@ page-trip-tags h3.content-text {
   font-size: 130%;
 }
 
-page-trip-tags .top {
-  position: relative;
-  left: 10px;
-  top: 10px;
+page-trip-tags .btn-category {
+  position: inherit;
+  margin-top: -410px;
+  margin-left: 10px;
 }
 
 page-trip-tags .trip-image {
@@ -26657,7 +26676,6 @@ page-trip-tags .trip-image img {
   margin-left: auto;
   margin-right: auto;
   height: 100%;
-  margin-top: -35px;
   -o-object-fit: cover;
   object-fit: cover;
 }
@@ -26667,8 +26685,8 @@ page-trip-tags img.sashes {
   margin-left: 0px;
   height: 120px;
   width: 120px;
-  bottom: 85px;
-  margin-bottom: -85px;
+  bottom: 120px;
+  margin-bottom: -120px;
 }
 
 page-trip-tags .list {
@@ -26766,10 +26784,10 @@ page-trips h3.content-text {
   font-size: 130%;
 }
 
-page-trips .top {
-  position: relative;
-  left: 10px;
-  top: 10px;
+page-trips .btn-category {
+  position: inherit;
+  margin-top: -410px;
+  margin-left: 10px;
 }
 
 page-trips .trip-image {
@@ -26783,7 +26801,6 @@ page-trips .trip-image img {
   margin-left: auto;
   margin-right: auto;
   height: 100%;
-  margin-top: -35px;
   -o-object-fit: cover;
   object-fit: cover;
 }
@@ -26793,8 +26810,8 @@ page-trips img.sashes {
   margin-left: 0px;
   height: 120px;
   width: 120px;
-  bottom: 85px;
-  margin-bottom: -85px;
+  bottom: 120px;
+  margin-bottom: -120px;
 }
 
 page-trips .list {

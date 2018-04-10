@@ -35,17 +35,20 @@
   </div>
   <ion-card *ngFor="let trip of tripList" #tripCard>
     <div class="trip-image" (click)="tripDetails(trip)">
-      <button ion-button round outline small class="top">{{trip.product_cat}}</button>
+      
       <img src="{{trip.thumbnail}}" >
+      
       <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != ''">
       <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">
         <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>
       </div>
+      <button ion-button round outline small class="btn-category">{{trip.product_cat}}</button>
     </div>
+   
     <ion-card-content>
       <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>
       <h3 class="content-text">
-        <strong>{{trip.title | uppercase}}</strong>
+        <strong class="pre-line" [innerHtml]="trip.title | uppercase"></strong>
       </h3>
       <p class="content-text">
         <strong class="colored">{{trip.price}}</strong> Trip Fee</p>

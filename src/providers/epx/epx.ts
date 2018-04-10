@@ -7,7 +7,7 @@ import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/catch'
 import { Storage } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
-import { ToastController} from 'ionic-angular';
+import { ToastController, Events} from 'ionic-angular';
 // import { CacheService } from "ionic-cache";
 
 /*
@@ -50,10 +50,19 @@ export class EpxProvider {
   public business_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
   public business_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
   public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
-  
-  constructor(private toastCtrl: ToastController, private network: Network, private storage: Storage, private httpClient: HttpClient) {
+
+  public TRIP_BADGE: string = "TRIP_BADGE";
+  public SOLO_BADGE: string = "SOLO_BADGE";
+
+  constructor(private events: Events, private toastCtrl: ToastController, private network: Network, private storage: Storage, private httpClient: HttpClient) {
     this.checkConnection();
   }
+  updateTripNotification(name){
+    this.saveData(name,0).then(() =>{
+      this.events.publish(name,0);
+    })
+  }
+  
   isConnected(): boolean{
     let connection_type = this.network.type;
     return connection_type !== 'unknown' && connection_type !== 'none'; 

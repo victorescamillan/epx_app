@@ -27,10 +27,10 @@ page-trips {
     h3.content-text {
         font-size: 130%;
     }
-    .top{
-        position: relative;
-        left: 10px;
-        top: 10px;
+    .btn-category{
+        position: inherit;
+        margin-top: -410px;
+        margin-left: 10px;
     }
     .trip-image {
         height: 220px;
@@ -42,7 +42,7 @@ page-trips {
         margin-left: auto;
         margin-right: auto; 
         height: 100%;
-        margin-top: -35px;
+        // margin-top: -28px;
         object-fit: cover;
     }
     img.sashes {
@@ -50,8 +50,8 @@ page-trips {
         margin-left: 0px;
         height: 120px;
         width: 120px;
-        bottom: 85px;
-        margin-bottom: -85px;
+        bottom: 120px;
+        margin-bottom: -120px;
     }
     .list {
         margin: 0px;
