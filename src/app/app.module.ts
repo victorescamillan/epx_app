@@ -17,6 +17,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {IonicStorageModule} from '@ionic/storage';
 import { CacheModule } from 'ionic-cache';
 import { Network } from '@ionic-native/network';
+import { OneSignal } from '@ionic-native/onesignal';
+
 
 var config = {
   apiKey: "AIzaSyD9l4jYr1CsW9LRaDWrwkcjc79amz97_JA",
@@ -46,6 +48,7 @@ var config = {
   ],
   providers: [
     Push,
+    OneSignal,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

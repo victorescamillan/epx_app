@@ -1,6 +1,6 @@
 webpackJsonp([10],{
 
-/***/ 468:
+/***/ 467:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(492);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(491);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,15 +38,16 @@ var TabsPageModule = (function () {
 
 /***/ }),
 
-/***/ 492:
+/***/ 491:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__ = __webpack_require__(289);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_onesignal__ = __webpack_require__(137);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -60,9 +61,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TabsPage = (function () {
-    function TabsPage(epxProvider, detectorRef, events, push, platform, alertCtrl, menuCtrl, navCtrl) {
+    function TabsPage(oneSignal, epxProvider, detectorRef, events, push, platform, alertCtrl, menuCtrl, navCtrl) {
         var _this = this;
+        this.oneSignal = oneSignal;
         this.epxProvider = epxProvider;
         this.detectorRef = detectorRef;
         this.events = events;
@@ -82,7 +85,7 @@ var TabsPage = (function () {
                 .then(function (res) {
                 if (res.isEnabled) {
                     console.log('We have permission to send push notifications');
-                    _this.initPush();
+                    _this.initOneSignal();
                 }
                 else {
                     console.log('We do not have permission to send push notifications');
@@ -104,6 +107,68 @@ var TabsPage = (function () {
             _this.soloBadge = badge;
         });
     };
+    TabsPage.prototype.initOneSignal = function () {
+        var _this = this;
+        this.oneSignal.startInit('e70b4949-f7fa-4c3b-adfc-9e4d1ac64782', '1035774532822');
+        this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
+        this.oneSignal.handleNotificationReceived().subscribe(function (data) {
+            // do something when notification is received
+            console.log('notificaiton received. ', data.payload);
+            var target = data.payload.additionalData.target;
+            var update = data.payload.additionalData.update;
+            console.log('target. ', target);
+            switch (target) {
+                case 'trip':
+                    {
+                        //Cache trip update count to make it accessible to other components.
+                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
+                            // console.log('result',badge);
+                            _this.tripBadge = badge;
+                            _this.detectorRef.detectChanges();
+                        });
+                        break;
+                    }
+                case 'solo': {
+                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
+                        // console.log('result',badge);
+                        _this.soloBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
+                    break;
+                }
+            }
+        });
+        this.oneSignal.handleNotificationOpened().subscribe(function (data) {
+            // do something when a notification is opened
+            console.log('notificaiton open. ', data);
+            var target = data.notification.payload.additionalData.target;
+            var update = data.notification.payload.additionalData.update;
+            switch (target) {
+                case 'trip':
+                    {
+                        //Cache trip update count to make it accessible to other components.
+                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
+                            // console.log('result',badge);
+                            _this.tripBadge = badge;
+                            _this.detectorRef.detectChanges();
+                        });
+                        break;
+                    }
+                case 'solo': {
+                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
+                        // console.log('result',badge);
+                        _this.soloBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
+                    break;
+                }
+                default: {
+                    _this.navCtrl.push('NotificationPage');
+                }
+            }
+        });
+        this.oneSignal.endInit();
+    };
     TabsPage.prototype.initPush = function () {
         var _this = this;
         var options = {
@@ -121,6 +186,7 @@ var TabsPage = (function () {
             }
         };
         var pushObject = this.push.init(options);
+        console.log('Push Object', pushObject);
         pushObject.on('notification').subscribe(function (notification) {
             console.log('Received a notification', notification);
             var additionalData = notification.additionalData;
@@ -171,7 +237,8 @@ var TabsPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__ionic_native_onesignal__["a" /* OneSignal */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
             __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__["a" /* Push */],

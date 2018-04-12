@@ -3,6 +3,7 @@ import { IonicPage, NavController, MenuController, Platform, AlertController, Ev
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { EpxProvider } from '../../providers/epx/epx';
 import { isNumber } from 'ionic-angular/util/util';
+import { OneSignal } from '@ionic-native/onesignal';
 
 @IonicPage()
 @Component({
@@ -20,6 +21,7 @@ export class TabsPage {
   soloBadge = 0;
   
   constructor(
+    private oneSignal: OneSignal,
     private epxProvider: EpxProvider,
     private detectorRef: ChangeDetectorRef,
     private events: Events,
@@ -34,8 +36,7 @@ export class TabsPage {
         .then((res: any) => {
           if (res.isEnabled) {
             console.log('We have permission to send push notifications');
-            this.initPush();
-            
+            this.initOneSignal();
           } else {
             console.log('We do not have permission to send push notifications');
           }
@@ -55,6 +56,71 @@ export class TabsPage {
       console.log('receive solo badge', badge);
       this.soloBadge = badge;
     });
+  }
+  initOneSignal(){
+    this.oneSignal.startInit('e70b4949-f7fa-4c3b-adfc-9e4d1ac64782', '1035774532822');
+
+    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
+
+    this.oneSignal.handleNotificationReceived().subscribe((data) => {
+      // do something when notification is received
+      console.log('notificaiton received. ',data.payload);
+      let target = data.payload.additionalData.target;
+      let update = data.payload.additionalData.update;
+      console.log('target. ',target);
+      switch (target) {
+        case 'trip':
+          {
+            //Cache trip update count to make it accessible to other components.
+            this.epxProvider.saveData(this.epxProvider.TRIP_BADGE, update).then(badge => {
+              // console.log('result',badge);
+              this.tripBadge = badge;
+              this.detectorRef.detectChanges();
+            });
+            break;
+          }
+        case 'solo': {
+          this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(badge => {
+            // console.log('result',badge);
+            this.soloBadge = badge;
+            this.detectorRef.detectChanges();
+          });
+          break;
+        }
+      }
+    });
+
+    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+      // do something when a notification is opened
+      console.log('notificaiton open. ',data);
+      let target = data.notification.payload.additionalData.target;
+      let update = data.notification.payload.additionalData.update;
+      switch (target) {
+        case 'trip':
+          {
+            //Cache trip update count to make it accessible to other components.
+            this.epxProvider.saveData(this.epxProvider.TRIP_BADGE, update).then(badge => {
+              // console.log('result',badge);
+              this.tripBadge = badge;
+              this.detectorRef.detectChanges();
+            });
+            break;
+          }
+        case 'solo': {
+          this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(badge => {
+            // console.log('result',badge);
+            this.soloBadge = badge;
+            this.detectorRef.detectChanges();
+          });
+          break;
+        }
+        default:{
+          this.navCtrl.push('NotificationPage');
+        }
+      }
+    });
+
+    this.oneSignal.endInit();
   }
   initPush() {
     const options: PushOptions = {
@@ -76,7 +142,7 @@ export class TabsPage {
 
     
     const pushObject: PushObject = this.push.init(options);
- 
+    console.log('Push Object', pushObject);
     pushObject.on('notification').subscribe((notification: any) => {
       console.log('Received a notification', notification);
       
