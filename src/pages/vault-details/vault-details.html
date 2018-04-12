@@ -21,7 +21,7 @@
     <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(details.embed_link)" *ngIf="details.vault_type == 'video'"> </iframe>
     <img [src]="details.embed_link" *ngIf="details.vault_type == 'ebook'">
     <div class="title">
-      <h2>{{details.title}}</h2>
+      <h2 class="pre-line" [innerHtml]="details.title"></h2>
       <p class="md-text" *ngIf="details.vault_type != 'ebook'">Length {{details.length}}</p>
     </div>
     <div class="content-text">

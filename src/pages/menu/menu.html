@@ -8,18 +8,21 @@
     </div> -->
   </ion-header>
   <ion-content class="menu-content">
+    <div class="menu-icon">
+      <img src="./assets/imgs/epx_logo_colored.png" />
+    </div>
     <div class="user-info">
-        <p>{{name}}</p>
+      <p>{{name | uppercase}}</p>
     </div>
     <ion-list>
       <ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon name="{{p.icon}}" item-start></ion-icon>
         {{p.title}}
       </ion-item>
-      <ion-item  (click)="showPrompt()">
-          <ion-icon name="md-exit" item-start></ion-icon>
-          Logout
-        </ion-item>
+      <ion-item (click)="showPrompt()">
+        <ion-icon name="md-exit" item-start></ion-icon>
+        Logout
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>

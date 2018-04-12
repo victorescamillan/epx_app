@@ -30,7 +30,7 @@
     <div class="content-text">
       <p class="md-text white">ADVENTURE</p>
       <p class="lg-text white">
-        <strong>{{details.title | uppercase}}</strong>
+        <strong class="pre-line" [innerHtml]="details.title | uppercase"></strong>
       </p>
     </div>
     <div class="content-details">
@@ -45,7 +45,7 @@
         <ion-avatar item-end>
           <img class="coordinator" src="{{details.trip_coordinator.Trip_coordinator_avatar}}" (click)="memberDetails(details.trip_coordinator)">
         </ion-avatar>
-        <h2>{{details.trip_coordinator.Trip_coordinator_name}}</h2>
+        <h2 class="primary">{{details.trip_coordinator.Trip_coordinator_name}}</h2>
         <p>Trip Coordinator</p>
       </ion-item>
 

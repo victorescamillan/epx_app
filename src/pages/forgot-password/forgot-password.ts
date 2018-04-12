@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { regexValidators} from '../validators/validator'
+import { EpxProvider } from '../../providers/epx/epx';
 
 /**
  * Generated class for the ForgotPasswordPage page.
@@ -18,10 +19,11 @@ import { regexValidators} from '../validators/validator'
 
 
 export class ForgotPasswordPage {
-  email:AbstractControl;
+  email_control:AbstractControl;
   formGroup: FormGroup;
+  email: string;
 
-  constructor(private formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private epxProvider: EpxProvider, private formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.formGroup = formBuilder.group({
       email:['',Validators.compose([
         Validators.pattern(regexValidators.email),
@@ -29,27 +31,35 @@ export class ForgotPasswordPage {
       ])]
     });
 
-    this.email = this.formGroup.controls['email'];
+    this.email_control = this.formGroup.controls['email'];
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ForgotPasswordPage');
   }
   requestPassword(){
-    // if (/^[a-zA-Z0-9@.]+$/.test(this.email)) {
-    //   // this.navCtrl.pop();
-    //   console.log('request sent.')
-    // }
-    // else{
-    //   console.log('invalid email')
-    //   this.showAlert('Invalid','Input the correct email.')
-    // }
+    console.log(this.email);
+    this.epxProvider.requestForgotPassword(this.email).subscribe(res => {
+      if(res.success){
+        this.showAlert('Email Sent',res.message, true);
+      }
+      else{
+        this.showAlert('Invalid',res.message, false);
+      }
+    });
   }
-  showAlert(title: string, message: string) {
+  showAlert(title: string, message: string, success: boolean) {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: message,
-      buttons: ['OK']
+      buttons: [{
+        text: 'Close',
+        handler : data => {
+          if(success){
+            this.navCtrl.pop();  
+          }
+        }
+      }]
     });
     alert.present();
   }

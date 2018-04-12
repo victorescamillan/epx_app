@@ -66,6 +66,7 @@ var regexValidators = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validators_validator__ = __webpack_require__(477);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -79,6 +80,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 /**
  * Generated class for the ForgotPasswordPage page.
  *
@@ -86,7 +88,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var ForgotPasswordPage = (function () {
-    function ForgotPasswordPage(formBuilder, alertCtrl, navCtrl, navParams) {
+    function ForgotPasswordPage(epxProvider, formBuilder, alertCtrl, navCtrl, navParams) {
+        this.epxProvider = epxProvider;
         this.formBuilder = formBuilder;
         this.alertCtrl = alertCtrl;
         this.navCtrl = navCtrl;
@@ -97,26 +100,36 @@ var ForgotPasswordPage = (function () {
                     __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required
                 ])]
         });
-        this.email = this.formGroup.controls['email'];
+        this.email_control = this.formGroup.controls['email'];
     }
     ForgotPasswordPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad ForgotPasswordPage');
     };
     ForgotPasswordPage.prototype.requestPassword = function () {
-        // if (/^[a-zA-Z0-9@.]+$/.test(this.email)) {
-        //   // this.navCtrl.pop();
-        //   console.log('request sent.')
-        // }
-        // else{
-        //   console.log('invalid email')
-        //   this.showAlert('Invalid','Input the correct email.')
-        // }
+        var _this = this;
+        console.log(this.email);
+        this.epxProvider.requestForgotPassword(this.email).subscribe(function (res) {
+            if (res.success) {
+                _this.showAlert('Email Sent', res.message, true);
+            }
+            else {
+                _this.showAlert('Invalid', res.message, false);
+            }
+        });
     };
-    ForgotPasswordPage.prototype.showAlert = function (title, message) {
+    ForgotPasswordPage.prototype.showAlert = function (title, message, success) {
+        var _this = this;
         var alert = this.alertCtrl.create({
             title: title,
             subTitle: message,
-            buttons: ['OK']
+            buttons: [{
+                    text: 'Close',
+                    handler: function (data) {
+                        if (success) {
+                            _this.navCtrl.pop();
+                        }
+                    }
+                }]
         });
         alert.present();
     };
@@ -125,9 +138,9 @@ var ForgotPasswordPage = (function () {
     };
     ForgotPasswordPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-forgot-password',template:/*ion-inline-start:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/'<!--\n  Generated template for the ForgotPasswordPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Forgot Password</ion-title>\n    <ion-buttons right>\n        <button ion-button icon-end (click)="closePage()">\n          Close\n          <ion-icon name="close-circle"></ion-icon>\n        </button>\n      </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <div class="container">\n    <img src="./assets/imgs/fogot_password_icon.png"/>\n    <h1 class="xxl-text strong center primary">Forgot your password?</h1>\n    <p class="md-text center">Input your email to request password reset.</p>\n    <form [formGroup]="formGroup">\n      <ion-item>\n        <ion-label floating>Input your email</ion-label>\n        <ion-input type="email" formControlName="email" name="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email.hasError(\'required\') && email.touched">Email is required.</p>\n      <button ion-button round outline [disabled]="!formGroup.valid" class="btn-right" (click)="requestPassword()">Send &nbsp;&nbsp;\n        <ion-icon name="send"></ion-icon>\n      </button>\n    </form>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/,
+            selector: 'page-forgot-password',template:/*ion-inline-start:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/'<!--\n  Generated template for the ForgotPasswordPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Forgot Password</ion-title>\n    <ion-buttons right>\n        <button ion-button icon-end (click)="closePage()">\n          Close\n          <ion-icon name="close-circle"></ion-icon>\n        </button>\n      </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <div class="container">\n    <img src="./assets/imgs/fogot_password_icon.png"/>\n    <h1 class="xxl-text strong center primary">Forgot your password?</h1>\n    <p class="md-text center">Input your email to request password reset.</p>\n    <form [formGroup]="formGroup">\n      <ion-item>\n        <ion-label floating>Input your email</ion-label>\n        <ion-input type="email" formControlName="email" [(ngModel)]="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email_control.hasError(\'required\') && email_control.touched">Email is required.</p>\n      <button ion-button round outline [disabled]="!formGroup.valid" class="btn-right" (click)="requestPassword()">Send &nbsp;&nbsp;\n        <ion-icon name="send"></ion-icon>\n      </button>\n    </form>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], ForgotPasswordPage);
     return ForgotPasswordPage;
 }());

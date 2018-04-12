@@ -18,8 +18,9 @@ import { ToastController, Events} from 'ionic-angular';
 */
 @Injectable()
 export class EpxProvider {
-  // LOGIN
+  // USER
   public login_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
+  public forgot_password_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
   // TRIPS
   public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
@@ -57,12 +58,26 @@ export class EpxProvider {
   constructor(private events: Events, private toastCtrl: ToastController, private network: Network, private storage: Storage, private httpClient: HttpClient) {
     this.checkConnection();
   }
+
   updateTripNotification(name){
     this.saveData(name,0).then(() =>{
       this.events.publish(name,0);
     })
   }
-  
+  getNotification(){
+    this.getData(this.TRIP_BADGE).then(badge => {
+      if (badge != null && badge > 0) {
+        console.log('trip badge: ',badge);
+        this.events.publish(this.TRIP_BADGE,badge);
+      }
+    });
+    this.getData(this.SOLO_BADGE).then(badge => {
+      if (badge != null && badge > 0) {
+        console.log('trip badge: ',badge);
+        this.events.publish(this.SOLO_BADGE,badge);
+      }
+    });
+  }
   isConnected(): boolean{
     let connection_type = this.network.type;
     return connection_type !== 'unknown' && connection_type !== 'none'; 
@@ -70,11 +85,11 @@ export class EpxProvider {
   checkConnection() {
     this.network.onConnect().subscribe(data => {
       console.log(data);      
-      this.displayNetworkUpdate(data.type);
+      // this.displayNetworkUpdate(data.type);
     },error => console.error(error));
     this.network.onDisconnect().subscribe(data => {
       console.log(data);
-      this.displayNetworkUpdate(data.type);
+      // this.displayNetworkUpdate(data.type);
     },error => console.error(error));
   }
 
@@ -88,6 +103,12 @@ export class EpxProvider {
   }
   getLogin(username, password) {
     return this.httpClient.get(this.login_url + 'username=' + username + '&password=' + password)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  requestForgotPassword(email) {
+    return this.httpClient.get(this.forgot_password_url + email)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

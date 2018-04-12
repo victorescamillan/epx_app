@@ -21,7 +21,7 @@
   <div class="page-thumbnail" *ngIf="!isLoading">
     <img class="business-logo" [src]="details.page_thumbnail">
     <div class="page-title">
-      <h2 class="md-text">{{details.business_name}}</h2>
+      <h2 class="md-text pre-line" [innerHtml]="details.business_name | uppercase"></h2>
     </div>
   </div>
   <div class="business-content" *ngIf="!isLoading">

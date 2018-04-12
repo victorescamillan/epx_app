@@ -8,28 +8,48 @@ page-menu {
     //     height: 150px;
     // }
     
-    // .menu-content{
-    //     top: 150px!important;
-    // }
+    .menu-content{
+        @include linear-gradient(right,$nighthawk);
+    }
     .user-info{
-        @include linear-gradient(left,$nighthawk);
-        height: 150px;
+        // @include linear-gradient(left,$nighthawk);
+        height: 160px;
         // position: absolute;
         // bottom: 20px;
         // left: 20px;
-        color: white;
+        color: #e4dede;
         font-weight: bold;
         font-size: 130%;
+        border-bottom: 1px solid #5d6164;
     }
     .user-info p{
         position: absolute;
-        top: 90px;
-        left: 10px;
+        top: 105px;
+        left: 20px;
+        width: 100%;
     }
     .item-inner {
         border-bottom: none!important;
     }
     .list > .item-block:last-child, .list > .item-wrapper:last-child .item-block {
         border-bottom: none;
+    }
+    .menu-icon img{
+        max-width: 100%;
+        border: 0;
+        position: absolute;
+        height: 23%;
+        width: 40%;
+        right: 50px;
+        bottom: 20px;
+    }
+   
+    .item-md, ion-item.item.item-block.item-ios{
+        color: #e4dede;
+        background: transparent;
+        border: none;
+    }
+    .list-md, .list-ios {
+        padding-top: 15px;
     }
 }

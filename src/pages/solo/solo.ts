@@ -31,15 +31,9 @@ export class SoloPage {
     
   }
   ionViewDidEnter(){
-    this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(res => {
-      console.log('update',res);
-      if (res != null && res > 0) {
-        this.content.scrollToTop().then(() => {
-          this.epxProvider.updateTripNotification(this.epxProvider.SOLO_BADGE);
-          this.isLoading = true;
-          this.isRefresh = false;
-          this.LoadSolo();
-        });
+    this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(badge => {
+      if (badge != null && badge > 0) {
+        this.events.publish(this.epxProvider.SOLO_BADGE,badge);
       }
     });
   }
@@ -67,7 +61,6 @@ export class SoloPage {
           this.cache.loadFromDelayedObservable(url, solo, groupKey, ttl, delay_type).subscribe(data => {
             this.soloList = Object.keys(data).map(key => data[key]);
             refresher.complete();
-            this.epxProvider.updateTripNotification(this.epxProvider.SOLO_BADGE);
           });
         }
         else {
@@ -77,6 +70,7 @@ export class SoloPage {
         }
         this.isLoading = false;
         this.isRefresh = true;
+        this.epxProvider.updateTripNotification(this.epxProvider.SOLO_BADGE);
       },error => {
         console.log(error);
         refresher.complete();

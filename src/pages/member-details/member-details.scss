@@ -4,6 +4,15 @@ page-member-details {
     }
     .member-info {
         text-align: center;
+        // background: #297eb6;
+        @include linear-gradient(bottom,$nighthawk);
+        padding: 1rem;
+        color: white;
+    }
+    .member-info img{
+        border-radius: 50%;
+        height: 50%;
+        width: 50%;
     }
     .member-content img {
         max-width: 100%;
@@ -11,6 +20,7 @@ page-member-details {
         border-radius: 50%;
         height: 120px;
         width: 120px;
+        object-fit: cover;
     }
     
     .member-info p {
@@ -50,14 +60,12 @@ page-member-details {
         border-radius: 0%;
         width: 100%;
     }
-    ion-card.card.card-md {
-        width: 150px;
-    }
-    ion-card.card.card-ios {
-        width: 160px;
+    .scroll-zoom-wrapper ion-card {
+        width: auto;
         margin: 5px;
-        padding: 0px;
+        padding: 0px 10px;
     }
+  
     ion-card-content.card-content.card-content-md {
         padding: 5px;
     }

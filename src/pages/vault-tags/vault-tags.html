@@ -24,8 +24,7 @@
     </div>
 
     <ion-card-content>
-      <h3 class="content-text xl-text strong blue">
-        {{vault.title | uppercase}}
+      <h3 class="content-text xl-text strong blue pre-line" [innerHtml]="vault.title | uppercase">
       </h3>
       <ion-item>
         <ion-avatar item-start>

@@ -5,7 +5,7 @@ page-business {
       }
     
       .card-title {
-        font-size: 1.3em;
+        font-size: 1.2em;
         width: 100%;
         font-weight: bold;
         color: color($colors, primary);
@@ -36,6 +36,9 @@ page-business {
         border-top: solid 1px #d3d1d1;
         height: 100px;
         // background: #2979ae;
-        
+    }
+    h2.gray.pre-line {
+        color: #7a7c7c;
+        font-weight: bold;
     }
 }

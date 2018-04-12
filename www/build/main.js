@@ -50,8 +50,9 @@ var EpxProvider = (function () {
         this.network = network;
         this.storage = storage;
         this.httpClient = httpClient;
-        // LOGIN
+        // USER
         this.login_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
+        this.forgot_password_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
         // TRIPS
         this.trips_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
         this.trips_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
@@ -90,16 +91,16 @@ var EpxProvider = (function () {
     };
     EpxProvider.prototype.getNotification = function () {
         var _this = this;
-        this.getData(this.TRIP_BADGE).then(function (res) {
-            console.log('trip badge', res);
-            if (res != null && res > 0) {
-                _this.events.publish(_this.TRIP_BADGE, res);
+        this.getData(this.TRIP_BADGE).then(function (badge) {
+            if (badge != null && badge > 0) {
+                console.log('trip badge: ', badge);
+                _this.events.publish(_this.TRIP_BADGE, badge);
             }
         });
-        this.getData(this.SOLO_BADGE).then(function (res) {
-            console.log('solo badge', res);
-            if (res != null && res > 0) {
-                _this.events.publish(_this.SOLO_BADGE, res);
+        this.getData(this.SOLO_BADGE).then(function (badge) {
+            if (badge != null && badge > 0) {
+                console.log('trip badge: ', badge);
+                _this.events.publish(_this.SOLO_BADGE, badge);
             }
         });
     };
@@ -108,14 +109,13 @@ var EpxProvider = (function () {
         return connection_type !== 'unknown' && connection_type !== 'none';
     };
     EpxProvider.prototype.checkConnection = function () {
-        var _this = this;
         this.network.onConnect().subscribe(function (data) {
             console.log(data);
-            _this.displayNetworkUpdate(data.type);
+            // this.displayNetworkUpdate(data.type);
         }, function (error) { return console.error(error); });
         this.network.onDisconnect().subscribe(function (data) {
             console.log(data);
-            _this.displayNetworkUpdate(data.type);
+            // this.displayNetworkUpdate(data.type);
         }, function (error) { return console.error(error); });
     };
     EpxProvider.prototype.displayNetworkUpdate = function (connectionState) {
@@ -128,6 +128,12 @@ var EpxProvider = (function () {
     };
     EpxProvider.prototype.getLogin = function (username, password) {
         return this.httpClient.get(this.login_url + 'username=' + username + '&password=' + password)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.requestForgotPassword = function (email) {
+        return this.httpClient.get(this.forgot_password_url + email)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -353,43 +359,43 @@ var map = {
 		18
 	],
 	"../pages/members/members.module": [
-		470,
+		461,
 		17
 	],
 	"../pages/mentor/mentor.module": [
-		461,
+		462,
 		16
 	],
 	"../pages/menu/menu.module": [
-		462,
+		463,
 		15
 	],
 	"../pages/notification/notification.module": [
-		467,
+		464,
 		14
 	],
 	"../pages/solo-details/solo-details.module": [
-		463,
+		465,
 		13
 	],
 	"../pages/solo-tags/solo-tags.module": [
-		464,
+		466,
 		12
 	],
 	"../pages/solo/solo.module": [
-		465,
+		467,
 		11
 	],
 	"../pages/tabs/tabs.module": [
-		466,
+		468,
 		10
 	],
 	"../pages/trip-details/trip-details.module": [
-		468,
+		469,
 		9
 	],
 	"../pages/trip-filter/trip-filter.module": [
-		469,
+		470,
 		8
 	],
 	"../pages/trip-tags/trip-tags.module": [
@@ -515,16 +521,16 @@ var AppModule = (function () {
                         { loadChildren: '../pages/forgot-password/forgot-password.module#ForgotPasswordPageModule', name: 'ForgotPasswordPage', segment: 'forgot-password', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },

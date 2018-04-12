@@ -1,6 +1,6 @@
 webpackJsonp([10],{
 
-/***/ 466:
+/***/ 468:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(490);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(492);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TabsPageModule = (function () {
 
 /***/ }),
 
-/***/ 490:
+/***/ 492:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67,6 +67,7 @@ var TabsPage = (function () {
         this.detectorRef = detectorRef;
         this.events = events;
         this.push = push;
+        this.platform = platform;
         this.alertCtrl = alertCtrl;
         this.menuCtrl = menuCtrl;
         this.navCtrl = navCtrl;
@@ -76,8 +77,6 @@ var TabsPage = (function () {
         this.membersRoot = 'MembersPage';
         this.tripBadge = 0;
         this.soloBadge = 0;
-        this.vaultBadge = 0;
-        this.memberBadge = 0;
         if (platform.is('cordova')) {
             this.push.hasPermission()
                 .then(function (res) {
@@ -91,16 +90,17 @@ var TabsPage = (function () {
             });
         }
         this.initEvents();
+        this.epxProvider.getNotification();
     }
     //Hide badges when page is refreshed or updates was loaded.
     TabsPage.prototype.initEvents = function () {
         var _this = this;
         this.events.subscribe(this.epxProvider.TRIP_BADGE, function (badge) {
-            console.log('badge value', badge);
+            console.log('receive trip badge', badge);
             _this.tripBadge = badge;
         });
         this.events.subscribe(this.epxProvider.SOLO_BADGE, function (badge) {
-            console.log('badge value', badge);
+            console.log('receive solo badge', badge);
             _this.soloBadge = badge;
         });
     };
@@ -122,30 +122,35 @@ var TabsPage = (function () {
         };
         var pushObject = this.push.init(options);
         pushObject.on('notification').subscribe(function (notification) {
-            // console.log('Received a notification', notification);
+            console.log('Received a notification', notification);
             var additionalData = notification.additionalData;
-            switch (additionalData.target) {
-                case 'trip':
-                    {
-                        //Cache trip update count to make it accessible to other components.
-                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, additionalData.update).then(function (badge) {
+            if (additionalData.foreground) {
+                switch (additionalData.target) {
+                    case 'trip':
+                        {
+                            //Cache trip update count to make it accessible to other components.
+                            _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, additionalData.update).then(function (badge) {
+                                // console.log('result',badge);
+                                _this.tripBadge = badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                            break;
+                        }
+                    case 'solo': {
+                        _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, additionalData.update).then(function (badge) {
                             // console.log('result',badge);
-                            _this.tripBadge = badge;
+                            _this.soloBadge = badge;
                             _this.detectorRef.detectChanges();
                         });
                         break;
                     }
-                case 'solo': {
-                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, additionalData.update).then(function (badge) {
-                        // console.log('result',badge);
-                        _this.soloBadge = badge;
-                        _this.detectorRef.detectChanges();
-                    });
-                    break;
+                    default: {
+                        _this.navCtrl.push('NotificationPage');
+                    }
                 }
-                default: {
-                    _this.navCtrl.push('NotificationPage');
-                }
+            }
+            else {
+                console.log('background');
             }
         });
         pushObject.on('registration').subscribe(function (registration) { return console.log('Device registered', registration); });

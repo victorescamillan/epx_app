@@ -118,7 +118,6 @@ var TripsPage = (function () {
                         _this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(function (data) {
                             _this.tripList = Object.keys(data).map(function (key) { return data[key]; });
                             refresher.complete();
-                            _this.epxProvider.updateTripNotification(_this.epxProvider.TRIP_BADGE);
                         });
                     }
                     else {
@@ -129,6 +128,7 @@ var TripsPage = (function () {
                     _this.isLoading = false;
                     _this.isRefresh = true;
                     _this.isInterested = false;
+                    _this.epxProvider.updateTripNotification(_this.epxProvider.TRIP_BADGE);
                 }, function (error) {
                     console.log(error);
                     refresher.complete();
@@ -217,16 +217,9 @@ var TripsPage = (function () {
     };
     TripsPage.prototype.ionViewDidEnter = function () {
         var _this = this;
-        this.epxProvider.getNotification();
-        this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(function (res) {
-            console.log('update', res);
-            if (res != null && res > 0) {
-                _this.content.scrollToTop().then(function () {
-                    _this.epxProvider.updateTripNotification(_this.epxProvider.TRIP_BADGE);
-                    _this.isLoading = true;
-                    _this.isRefresh = false;
-                    _this.LoadTrips();
-                });
+        this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(function (badge) {
+            if (badge != null && badge > 0) {
+                _this.events.publish(_this.epxProvider.TRIP_BADGE, badge);
             }
         });
     };

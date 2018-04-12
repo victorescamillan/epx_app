@@ -26,16 +26,16 @@
 
     <ion-card-content>
       <h3 class="content-text">
-        <strong>{{solo.title | uppercase}}</strong>
+        <strong class="pre-line" [innerHtml]="solo.title | uppercase"></strong>
       </h3>
       <ion-grid>
         <ion-row>
           <ion-col col-2>
-            Date :
+            Price : 
           </ion-col>
           <ion-col col-10>
             <p class="content-text">
-              <strong class="colored">Price: {{solo.price}}</strong>
+              <strong class="text-price">{{solo.price}}</strong>
             </p>
           </ion-col>
         </ion-row>
@@ -47,7 +47,7 @@
             <p class="sm-text">{{solo.start_date}}</p>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row *ngIf="solo.product_tag.length">
           <ion-col col-2>
             Tags :
           </ion-col>

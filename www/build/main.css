@@ -25706,6 +25706,10 @@ ion-navbar.toolbar {
   color: red;
 }
 
+.text-price {
+  color: #32db64;
+}
+
 .btn-right {
   float: right;
 }
@@ -25818,17 +25822,13 @@ ion-scroll.scroll-x {
   height: auto;
 }
 
-.btn-tags {
-  margin-top: -5px;
-}
-
 page-business ion-card {
   position: relative;
   text-align: center;
 }
 
 page-business .card-title {
-  font-size: 1.3em;
+  font-size: 1.2em;
   width: 100%;
   font-weight: bold;
   color: #2980b9;
@@ -25862,6 +25862,11 @@ page-business .content-text {
   padding: 10px;
   border-top: solid 1px #d3d1d1;
   height: 100px;
+}
+
+page-business h2.gray.pre-line {
+  color: #7a7c7c;
+  font-weight: bold;
 }
 
 page-business-details .business-content {
@@ -26125,6 +26130,20 @@ page-member-details .member-content {
 
 page-member-details .member-info {
   text-align: center;
+  /* fallback for old browsers */
+  background: #2980b9;
+  /* Chrome 10-25, Safari 5.1-6 */
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-gradient(linear, left top, left bottom, from(#2980b9), to(#2c3e50));
+  background: linear-gradient(to bottom, #2980b9, #2c3e50);
+  padding: 1rem;
+  color: white;
+}
+
+page-member-details .member-info img {
+  border-radius: 50%;
+  height: 50%;
+  width: 50%;
 }
 
 page-member-details .member-content img {
@@ -26133,6 +26152,8 @@ page-member-details .member-content img {
   border-radius: 50%;
   height: 120px;
   width: 120px;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 page-member-details .member-info p {
@@ -26179,14 +26200,10 @@ page-member-details .vault img {
   width: 100%;
 }
 
-page-member-details ion-card.card.card-md {
-  width: 150px;
-}
-
-page-member-details ion-card.card.card-ios {
-  width: 160px;
+page-member-details .scroll-zoom-wrapper ion-card {
+  width: auto;
   margin: 5px;
-  padding: 0px;
+  padding: 0px 10px;
 }
 
 page-member-details ion-card-content.card-content.card-content-md {
@@ -26229,23 +26246,28 @@ page-members .item-md ion-avatar ion-img, page-members .item-md ion-avatar img {
   height: 60px;
 }
 
-page-menu .user-info {
+page-menu .menu-content {
   /* fallback for old browsers */
   background: #2980b9;
   /* Chrome 10-25, Safari 5.1-6 */
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: -webkit-gradient(linear, right top, left top, from(#2980b9), to(#2c3e50));
-  background: linear-gradient(to left, #2980b9, #2c3e50);
-  height: 150px;
-  color: white;
+  background: -webkit-gradient(linear, left top, right top, from(#2980b9), to(#2c3e50));
+  background: linear-gradient(to right, #2980b9, #2c3e50);
+}
+
+page-menu .user-info {
+  height: 160px;
+  color: #e4dede;
   font-weight: bold;
   font-size: 130%;
+  border-bottom: 1px solid #5d6164;
 }
 
 page-menu .user-info p {
   position: absolute;
-  top: 90px;
-  left: 10px;
+  top: 105px;
+  left: 20px;
+  width: 100%;
 }
 
 page-menu .item-inner {
@@ -26254,6 +26276,26 @@ page-menu .item-inner {
 
 page-menu .list > .item-block:last-child, page-menu .list > .item-wrapper:last-child .item-block {
   border-bottom: none;
+}
+
+page-menu .menu-icon img {
+  max-width: 100%;
+  border: 0;
+  position: absolute;
+  height: 23%;
+  width: 40%;
+  right: 50px;
+  bottom: 20px;
+}
+
+page-menu .item-md, page-menu ion-item.item.item-block.item-ios {
+  color: #e4dede;
+  background: transparent;
+  border: none;
+}
+
+page-menu .list-md, page-menu .list-ios {
+  padding-top: 15px;
 }
 
 page-solo button.disable-hover.button.button.button-default.button-default.button-block.button-block {
@@ -26291,6 +26333,10 @@ page-solo ion-col.col {
   padding: 3px 0px;
 }
 
+page-solo .btn-tags {
+  margin-top: 0px;
+}
+
 page-solo-details img {
   max-width: 100%;
   border: 0;
@@ -26319,9 +26365,10 @@ page-solo-details .price {
   background: #32db64;
   font-size: 150%;
   padding: 15px 5px;
-  width: 200px;
+  width: 250px;
   margin: auto;
   color: white;
+  border-radius: 10px;
 }
 
 page-solo-details .price p {

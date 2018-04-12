@@ -66,7 +66,6 @@ export class TripsPage {
             this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(data => {
               this.tripList = Object.keys(data).map(key => data[key]);
               refresher.complete();
-              this.epxProvider.updateTripNotification(this.epxProvider.TRIP_BADGE);
             });
           }
           else {
@@ -77,6 +76,7 @@ export class TripsPage {
           this.isLoading = false;
           this.isRefresh = true;
           this.isInterested = false;
+          this.epxProvider.updateTripNotification(this.epxProvider.TRIP_BADGE);
         }, error => {
           console.log(error);
           refresher.complete();
@@ -166,15 +166,9 @@ export class TripsPage {
     this.LoadTrips();
   }
   ionViewDidEnter() {
-    this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(res => {
-      console.log('update',res);
-      if (res != null && res > 0) {
-        this.content.scrollToTop().then(() => {
-          this.epxProvider.updateTripNotification(this.epxProvider.TRIP_BADGE);
-          this.isLoading = true;
-          this.isRefresh = false;
-          this.LoadTrips();
-        });
+    this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(badge => {
+      if (badge != null && badge > 0) {
+        this.events.publish(this.epxProvider.TRIP_BADGE,badge);
       }
     });
   }

@@ -32,8 +32,8 @@
         </ion-avatar>
         <p class="item-text">
             <span class="strong ">{{member.name}}</span> is the
-            <span class="strong ">{{member.position}}</span> at
-            <span class="strong blue" (click)="openBrowser(member.business_url)">{{member.company}}</span>, a
+            <span class="strong " [innerHtml]="member.position"></span> at
+            <span class="strong blue" (click)="openBrowser(member.business_url)" [innerHtml]="member.company"></span>, a
             <span class="strong " >{{member.business_model}}</span> business in the
             <span class="strong pre-line" [innerHtml]="member.industry"></span> industry with the
             <span class="strong ">{{member.employee}}</span> employees.
