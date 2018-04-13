@@ -23,7 +23,7 @@ export class MenuPage {
     { title: 'Business', pageName: 'BusinessPage', tabComponent: 'BusinessPage', index: 0, icon: 'briefcase' },
     { title: 'Member Assist', pageName: 'AssistPage', tabComponent: 'AssistPage', index: 1, icon: 'hand' },
     { title: 'Mentor Match', pageName: 'MentorPage', tabComponent: 'MentorPage', index: 2, icon: 'phone-portrait' },
-    { title: 'Notification', pageName: 'NotificationPage', tabComponent: 'NotificationPage', index: 3, icon: 'notifications' },
+    { title: 'Settings', pageName: 'SettingsPage', tabComponent: 'SettingsPage', index: 3, icon: 'settings' },
   ]
 
   name: string;

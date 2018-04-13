@@ -18,9 +18,9 @@ import { ToastController, Events} from 'ionic-angular';
 */
 @Injectable()
 export class EpxProvider {
-  // USER
+  // LOGIN
   public login_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
-  public forgot_password_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
+  public forgot_password_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
   // TRIPS
   public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
@@ -37,7 +37,8 @@ export class EpxProvider {
   
   // VAULT
   public vault_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
-  public vault_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&paged=';
+  
+  public vault_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&list_size';
   public vault_tag_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
   public vault_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
   public vault_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
@@ -54,7 +55,7 @@ export class EpxProvider {
 
   public TRIP_BADGE: string = "TRIP_BADGE";
   public SOLO_BADGE: string = "SOLO_BADGE";
-
+  public PAGE_SIZE: number = 10;
   constructor(private events: Events, private toastCtrl: ToastController, private network: Network, private storage: Storage, private httpClient: HttpClient) {
     this.checkConnection();
   }
@@ -119,8 +120,8 @@ export class EpxProvider {
     .map(this.extractData)
     .catch(this.catchError)
   }
-  getTripsInfinite(user_id,page) {
-    return this.httpClient.get(this.trips_infinite_url + user_id + '&list_size=10&page_no=' + page)
+  getTripsInfinite(user_id,page,size) {
+    return this.httpClient.get(this.trips_infinite_url + user_id + '&list_size=' + size +'&page_no=' + page)
     .do(this.logResponse)
     .map(this.extractData)
     .catch(this.catchError)
@@ -168,8 +169,8 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getVaultInfinite(page) {
-    return this.httpClient.get(this.vault_infinite_url + page)
+  getVaultInfinite(list_size, page) {
+    return this.httpClient.get(this.vault_infinite_url + list_size + '&paged=' + page)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -262,16 +263,12 @@ export class EpxProvider {
       }
     });
   }
-  isLogin() {
-    return this.getData('ID').then(data => {
-      // console.log('login details', data);
-      // return data && data !== -1;
-      if (data == null) {
-        return false;
-      }
-      else {
-        return true;
-      }
+  isLogin(): boolean {
+    let res = true;
+    this.getData('ID').then(data => {
+      console.log('islogin',data);
+      res = (data == null);
     });
+    return res;
   }
 }

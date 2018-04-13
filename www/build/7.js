@@ -1,14 +1,14 @@
 webpackJsonp([7],{
 
-/***/ 471:
+/***/ 469:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripTagsPageModule", function() { return TripTagsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripFilterPageModule", function() { return TripFilterPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_tags__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_filter__ = __webpack_require__(494);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,36 +18,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TripTagsPageModule = (function () {
-    function TripTagsPageModule() {
+var TripFilterPageModule = (function () {
+    function TripFilterPageModule() {
     }
-    TripTagsPageModule = __decorate([
+    TripFilterPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__trip_tags__["a" /* TripTagsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__trip_filter__["a" /* TripFilterPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_tags__["a" /* TripTagsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_filter__["a" /* TripFilterPage */]),
             ],
         })
-    ], TripTagsPageModule);
-    return TripTagsPageModule;
+    ], TripFilterPageModule);
+    return TripFilterPageModule;
 }());
 
-//# sourceMappingURL=trip-tags.module.js.map
+//# sourceMappingURL=trip-filter.module.js.map
 
 /***/ }),
 
-/***/ 495:
+/***/ 494:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripTagsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripFilterPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -59,67 +56,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-
-var TripTagsPage = (function () {
-    function TripTagsPage(epxProvider, navCtrl, navParams) {
-        this.epxProvider = epxProvider;
+/**
+ * Generated class for the TripFilterPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var TripFilterPage = (function () {
+    function TripFilterPage(viewCtrl, navCtrl, navParams) {
+        this.viewCtrl = viewCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.isLoading = true;
-        this.isRefresh = false;
-        this.isInterested = false;
-        this.tag = navParams.data.data;
-        console.log('tag:', this.tag);
     }
-    TripTagsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad TripTagsPage');
-        this.LoadTrips();
+    TripFilterPage.prototype.closeFilter = function () {
+        this.viewCtrl.dismiss();
     };
-    TripTagsPage.prototype.LoadTrips = function () {
-        var _this = this;
-        this.epxProvider.getData('ID').then(function (id) {
-            console.log('user id:', id);
-            _this.epxProvider.getTripTags(_this.tag, id).subscribe(function (data) {
-                _this.tripList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
-                console.log('trips by tag:', _this.tripList);
-                _this.isLoading = false;
-                _this.isRefresh = true;
-                _this.isInterested = false;
-            });
-        });
+    TripFilterPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad TripFilterPage');
     };
-    //Interested
-    TripTagsPage.prototype.interested = function (trip) {
-        var _this = this;
-        this.epxProvider.getData('ID').then(function (user_id) {
-            if (trip.trip_interested.interested) {
-                trip.trip_interested.interested = false;
-            }
-            else {
-                trip.trip_interested.interested = true;
-            }
-            _this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(function (res) {
-                trip.trip_interested.interested = res.interest;
-                console.log('interest result:', res);
-            });
-        });
-    };
-    TripTagsPage.prototype.tripDetails = function (trip) {
-        // this.trip = trip;
-        this.navCtrl.push('TripDetailsPage', { data: trip });
-    };
-    TripTagsPage = __decorate([
+    TripFilterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trip-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/'<!--\n  Generated template for the TripTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let trip of tripList | async">\n    <div class="trip-image">\n      <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n      <button ion-button round outline small class="btn-category">{{trip.product_cat}}</button>\n    </div>\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n          <strong class="pre-line" [innerHtml]="trip.title | uppercase"></strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <ion-icon name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/,
+            selector: 'page-trip-filter',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/'<!--\n  Generated template for the TripFilterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <!-- <ion-title>Search Trips</ion-title> -->\n    <ion-buttons right>\n      <button ion-button icon-end (click)="closeFilter()">\n        Close\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <h1 class="text-center">Search Trips</h1>\n  <div class="select">\n    <ion-item>\n      <ion-label>Region</ion-label>\n      <ion-select [(ngModel)]="gaming">\n        <ion-option value="nes">Europe West</ion-option>\n        <ion-option value="n64">Central America</ion-option>\n        <ion-option value="ps">Africa</ion-option>\n        <ion-option value="genesis">USA</ion-option>\n        <ion-option value="saturn">East Asia</ion-option>\n        <ion-option value="snes">Carribean</ion-option>\n        <ion-option value="snes">South America</ion-option>\n      </ion-select>\n    </ion-item>\n  </div>\n  <div class="select">\n    <ion-item>\n      <ion-label>Trip Type</ion-label>\n      <ion-select [(ngModel)]="gaming">\n        <ion-option value="nes">Adventure</ion-option>\n        <ion-option value="n64">Beach</ion-option>\n        <ion-option value="ps">Food and Culture</ion-option>\n        <ion-option value="genesis">Nature</ion-option>\n        <ion-option value="saturn">Party</ion-option>\n        <ion-option value="snes">Sports</ion-option>\n        <ion-option value="snes">Thrill</ion-option>\n      </ion-select>\n    </ion-item>\n  </div>\n  <button ion-button round block outline>Update</button>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], TripTagsPage);
-    return TripTagsPage;
+    ], TripFilterPage);
+    return TripFilterPage;
 }());
 
-//# sourceMappingURL=trip-tags.js.map
+//# sourceMappingURL=trip-filter.js.map
 
 /***/ })
 

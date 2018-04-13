@@ -1,14 +1,14 @@
 webpackJsonp([10],{
 
-/***/ 467:
+/***/ 470:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloPageModule", function() { return SoloPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(495);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,36 +18,37 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TabsPageModule = (function () {
-    function TabsPageModule() {
+var SoloPageModule = (function () {
+    function SoloPageModule() {
     }
-    TabsPageModule = __decorate([
+    SoloPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__solo__["a" /* SoloPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */]),
-            ]
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__solo__["a" /* SoloPage */]),
+            ],
         })
-    ], TabsPageModule);
-    return TabsPageModule;
+    ], SoloPageModule);
+    return SoloPageModule;
 }());
 
-//# sourceMappingURL=tabs.module.js.map
+//# sourceMappingURL=solo.module.js.map
 
 /***/ }),
 
-/***/ 491:
+/***/ 495:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SoloPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__ = __webpack_require__(289);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_onesignal__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(286);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62,195 +63,143 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var TabsPage = (function () {
-    function TabsPage(oneSignal, epxProvider, detectorRef, events, push, platform, alertCtrl, menuCtrl, navCtrl) {
-        var _this = this;
-        this.oneSignal = oneSignal;
-        this.epxProvider = epxProvider;
-        this.detectorRef = detectorRef;
+var SoloPage = (function () {
+    function SoloPage(events, loadingCtrl, epxProvider, cache, navCtrl, navParams) {
         this.events = events;
-        this.push = push;
-        this.platform = platform;
-        this.alertCtrl = alertCtrl;
-        this.menuCtrl = menuCtrl;
+        this.loadingCtrl = loadingCtrl;
+        this.epxProvider = epxProvider;
+        this.cache = cache;
         this.navCtrl = navCtrl;
-        this.tripsRoot = 'TripsPage';
-        this.vaultRoot = 'VaultPage';
-        this.soloRoot = 'SoloPage';
-        this.membersRoot = 'MembersPage';
-        this.tripBadge = 0;
-        this.soloBadge = 0;
-        if (platform.is('cordova')) {
-            this.push.hasPermission()
-                .then(function (res) {
-                if (res.isEnabled) {
-                    console.log('We have permission to send push notifications');
-                    _this.initOneSignal();
+        this.navParams = navParams;
+        this.isLoading = true;
+        this.isRefresh = false;
+        this.page = 1;
+        this.perPage = 0;
+        this.totalData = 0;
+        this.totalPage = 0;
+        // Keep our cached results when device is offline!
+        cache.setOfflineInvalidate(false);
+    }
+    SoloPage.prototype.ionViewDidEnter = function () {
+        var _this = this;
+        this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(function (badge) {
+            if (badge != null && badge > 0) {
+                _this.events.publish(_this.epxProvider.SOLO_BADGE, badge);
+            }
+        });
+    };
+    SoloPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SoloPage');
+        this.LoadSolo();
+    };
+    SoloPage.prototype.soloDetails = function (solo) {
+        this.navCtrl.push('SoloDetailsPage', { data: solo });
+    };
+    SoloPage.prototype.LoadSolo = function (refresher) {
+        var _this = this;
+        var url = this.epxProvider.solo_infinite_url;
+        var ttl = 60 * 60 * 12;
+        var delay_type = 'all';
+        var groupKey = 'solo-list';
+        this.page = 1;
+        var connected = this.epxProvider.isConnected();
+        console.log('connected: ', connected);
+        if (connected) {
+            this.epxProvider.getSoloInfinite(this.page).subscribe(function (data) {
+                _this.totalPage = data.number_of_page;
+                var solo = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.data);
+                console.log('totalPage', _this.totalPage);
+                if (refresher) {
+                    _this.cache.loadFromDelayedObservable(url, solo, groupKey, ttl, delay_type).subscribe(function (data) {
+                        _this.soloList = Object.keys(data).map(function (key) { return data[key]; });
+                        refresher.complete();
+                    });
                 }
                 else {
-                    console.log('We do not have permission to send push notifications');
+                    _this.cache.loadFromObservable(url, solo, groupKey).subscribe(function (data) {
+                        _this.soloList = Object.keys(data).map(function (key) { return data[key]; });
+                    });
+                }
+                _this.isLoading = false;
+                _this.isRefresh = true;
+                _this.epxProvider.updateTripNotification(_this.epxProvider.SOLO_BADGE);
+            }, function (error) {
+                console.log(error);
+                refresher.complete();
+            });
+        }
+        else {
+            this.epxProvider.getData(url).then(function (data) {
+                if (data != null) {
+                    var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
+                    console.log('offline data: ', offline_data);
+                    if (refresher) {
+                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(function (data) {
+                            _this.soloList = data;
+                            refresher.complete();
+                        });
+                    }
+                    else {
+                        _this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(function (data) {
+                            _this.soloList = data;
+                        });
+                    }
+                    _this.isLoading = false;
+                    _this.isRefresh = true;
+                }
+                else {
+                    console.log('offline data: ', data);
+                    refresher.complete();
                 }
             });
         }
-        this.initEvents();
-        this.epxProvider.getNotification();
-    }
-    //Hide badges when page is refreshed or updates was loaded.
-    TabsPage.prototype.initEvents = function () {
+    };
+    SoloPage.prototype.doInfinite = function (infiniteScroll) {
         var _this = this;
-        this.events.subscribe(this.epxProvider.TRIP_BADGE, function (badge) {
-            console.log('receive trip badge', badge);
-            _this.tripBadge = badge;
-        });
-        this.events.subscribe(this.epxProvider.SOLO_BADGE, function (badge) {
-            console.log('receive solo badge', badge);
-            _this.soloBadge = badge;
+        console.log('Begin async operation');
+        this.epxProvider.getSoloInfinite(this.page + 1).subscribe(function (data) {
+            var solo = data.data;
+            var temp = Object.keys(solo).map(function (key) { return solo[key]; });
+            for (var i = 0; i < temp.length; i++) {
+                _this.soloList.push(temp[i]);
+                console.log(data[i]);
+            }
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
+            _this.page++;
+        }, function (error) {
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
         });
     };
-    TabsPage.prototype.initOneSignal = function () {
-        var _this = this;
-        this.oneSignal.startInit('e70b4949-f7fa-4c3b-adfc-9e4d1ac64782', '1035774532822');
-        this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
-        this.oneSignal.handleNotificationReceived().subscribe(function (data) {
-            // do something when notification is received
-            console.log('notificaiton received. ', data.payload);
-            var target = data.payload.additionalData.target;
-            var update = data.payload.additionalData.update;
-            console.log('target. ', target);
-            switch (target) {
-                case 'trip':
-                    {
-                        //Cache trip update count to make it accessible to other components.
-                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
-                            // console.log('result',badge);
-                            _this.tripBadge = badge;
-                            _this.detectorRef.detectChanges();
-                        });
-                        break;
-                    }
-                case 'solo': {
-                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
-                        // console.log('result',badge);
-                        _this.soloBadge = badge;
-                        _this.detectorRef.detectChanges();
-                    });
-                    break;
-                }
-            }
-        });
-        this.oneSignal.handleNotificationOpened().subscribe(function (data) {
-            // do something when a notification is opened
-            console.log('notificaiton open. ', data);
-            var target = data.notification.payload.additionalData.target;
-            var update = data.notification.payload.additionalData.update;
-            switch (target) {
-                case 'trip':
-                    {
-                        //Cache trip update count to make it accessible to other components.
-                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
-                            // console.log('result',badge);
-                            _this.tripBadge = badge;
-                            _this.detectorRef.detectChanges();
-                        });
-                        break;
-                    }
-                case 'solo': {
-                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
-                        // console.log('result',badge);
-                        _this.soloBadge = badge;
-                        _this.detectorRef.detectChanges();
-                    });
-                    break;
-                }
-                default: {
-                    _this.navCtrl.push('NotificationPage');
-                }
-            }
-        });
-        this.oneSignal.endInit();
+    //Pull to refresh page
+    SoloPage.prototype.forceReload = function (refresher) {
+        this.LoadSolo(refresher);
     };
-    TabsPage.prototype.initPush = function () {
-        var _this = this;
-        var options = {
-            android: {
-                senderID: '1035774532822',
-            },
-            ios: {
-                alert: 'true',
-                badge: true,
-                sound: 'false',
-            },
-            windows: {},
-            browser: {
-                pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-            }
-        };
-        var pushObject = this.push.init(options);
-        console.log('Push Object', pushObject);
-        pushObject.on('notification').subscribe(function (notification) {
-            console.log('Received a notification', notification);
-            var additionalData = notification.additionalData;
-            if (additionalData.foreground) {
-                switch (additionalData.target) {
-                    case 'trip':
-                        {
-                            //Cache trip update count to make it accessible to other components.
-                            _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, additionalData.update).then(function (badge) {
-                                // console.log('result',badge);
-                                _this.tripBadge = badge;
-                                _this.detectorRef.detectChanges();
-                            });
-                            break;
-                        }
-                    case 'solo': {
-                        _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, additionalData.update).then(function (badge) {
-                            // console.log('result',badge);
-                            _this.soloBadge = badge;
-                            _this.detectorRef.detectChanges();
-                        });
-                        break;
-                    }
-                    default: {
-                        _this.navCtrl.push('NotificationPage');
-                    }
-                }
-            }
-            else {
-                console.log('background');
-            }
-        });
-        pushObject.on('registration').subscribe(function (registration) { return console.log('Device registered', registration); });
-        pushObject.on('error').subscribe(function (error) { return console.error('Error with Push plugin', error); });
+    SoloPage.prototype.soloByTags = function (tag) {
+        console.log('tag', tag);
+        this.navCtrl.push('SoloTagsPage', { data: tag });
     };
-    TabsPage.prototype.showAlert = function (title, message) {
-        var alert = this.alertCtrl.create({
-            title: title,
-            subTitle: message,
-            buttons: ['OK']
-        });
-        alert.present();
-    };
-    TabsPage.prototype.openSideMenu = function () {
-        this.menuCtrl.toggle();
-    };
-    TabsPage = __decorate([
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
+    ], SoloPage.prototype, "content", void 0);
+    SoloPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
+            selector: 'page-solo',template:/*ion-inline-start:"D:\epx_app\src\pages\solo\solo.html"*/'<!--\n  Generated template for the SoloPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>SOLO</ion-title>\n    <!-- <h1 class="text-center">\n        <strong>SOLO</strong>\n      </h1> -->\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n\n  <!-- <ion-buttons>\n    <button ion-button block icon-end (click)="showFilter()">\n      Filter\n      <ion-icon name="search"></ion-icon>\n    </button>\n  </ion-buttons> -->\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let solo of soloList">\n    <div class="solo-image">\n        <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">\n    </div>\n    <ion-card-content>\n      <h2 class="content-text">\n        <strong class="pre-line" [innerHtml]="solo.title | uppercase"></strong>\n      </h2>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            Price : \n          </ion-col>\n          <ion-col col-10>\n            <p class="content-text">\n              <strong class="text-price">{{solo.price}}</strong>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="sm-text">{{solo.start_date}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row *ngIf="solo.product_tag.length">\n          <ion-col col-2>\n            Tags :\n          </ion-col>\n          <ion-col col-10>\n            <button class="btn-tags" ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more solo..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo\solo.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__ionic_native_onesignal__["a" /* OneSignal */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
-            __WEBPACK_IMPORTED_MODULE_2__ionic_native_push__["a" /* Push */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* MenuController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]])
-    ], TabsPage);
-    return TabsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], SoloPage);
+    return SoloPage;
 }());
 
-//# sourceMappingURL=tabs.js.map
+//# sourceMappingURL=solo.js.map
 
 /***/ })
 

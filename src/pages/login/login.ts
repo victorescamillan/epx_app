@@ -29,7 +29,7 @@ export class LoginPage {
     public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
       this.formGroup = formBuilder.group({
         email:['',Validators.compose([
-          Validators.pattern(regexValidators.email),
+          // Validators.pattern(regexValidators.email),
           Validators.required
         ])],
         password:['',Validators.required]
@@ -56,8 +56,9 @@ export class LoginPage {
     loading.present().then(() => {
       this.epxProvider.getLogin(this.username, this.password).subscribe(result => {
         if (result.authentication) {
-          this.username = '';
-          this.password = '';
+          // this.username = '';
+          // this.password = '';
+          console.log('user id',result.ID);
           this.epxProvider.saveData('ID', result.ID);
           this.epxProvider.saveData('name', result.name);
           this.epxProvider.saveData('authentication', result.authentication);

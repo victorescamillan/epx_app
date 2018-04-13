@@ -59,7 +59,7 @@ export class TripsPage {
     console.log('connected: ', connected);
     if (connected) {
       this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
-        this.epxProvider.getTripsInfinite(user_id, this.page).subscribe(data => { //Get data from server
+        this.epxProvider.getTripsInfinite(user_id, this.page, this.epxProvider.PAGE_SIZE).subscribe(data => { //Get data from server
           this.totalPage = data.number_of_page;
           let trips = Observable.of(data.data);
           if (refresher) {
@@ -194,7 +194,7 @@ export class TripsPage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
     this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
-      this.epxProvider.getTripsInfinite(user_id, this.page + 1).subscribe(data => { //Get data from url/api
+      this.epxProvider.getTripsInfinite(user_id, this.page + 1, this.epxProvider.PAGE_SIZE).subscribe(data => { //Get data from url/api
         let trips = data.data;
         let temp = Object.keys(trips).map(key => trips[key]);
         for (let i = 0; i < temp.length; i++) {

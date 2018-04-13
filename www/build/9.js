@@ -1,14 +1,14 @@
 webpackJsonp([9],{
 
-/***/ 469:
+/***/ 467:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripDetailsPageModule", function() { return TripDetailsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_details__ = __webpack_require__(493);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(492);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TripDetailsPageModule = (function () {
-    function TripDetailsPageModule() {
+var TabsPageModule = (function () {
+    function TabsPageModule() {
     }
-    TripDetailsPageModule = __decorate([
+    TabsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__trip_details__["a" /* TripDetailsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_details__["a" /* TripDetailsPage */]),
-            ],
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__tabs__["a" /* TabsPage */]),
+            ]
         })
-    ], TripDetailsPageModule);
-    return TripDetailsPageModule;
+    ], TabsPageModule);
+    return TabsPageModule;
 }());
 
-//# sourceMappingURL=trip-details.module.js.map
+//# sourceMappingURL=tabs.module.js.map
 
 /***/ }),
 
-/***/ 493:
+/***/ 492:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripDetailsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_onesignal__ = __webpack_require__(288);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,113 +59,134 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var TripDetailsPage = (function () {
-    function TripDetailsPage(loadingCtrl, epxProvider, 
-        // private googleMaps: GoogleMaps,
-        platform, 
-        // public geolocation: Geolocation,
-        navCtrl, navParams) {
-        this.loadingCtrl = loadingCtrl;
+
+var TabsPage = (function () {
+    function TabsPage(oneSignal, epxProvider, detectorRef, events, platform, alertCtrl, menuCtrl, navCtrl) {
+        this.oneSignal = oneSignal;
         this.epxProvider = epxProvider;
+        this.detectorRef = detectorRef;
+        this.events = events;
         this.platform = platform;
+        this.alertCtrl = alertCtrl;
+        this.menuCtrl = menuCtrl;
         this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.isLoading = true;
-        this.visibleState = 'visible';
-        var details = navParams.data.data;
-        console.log('trip param:', details);
-        this.isInterested = details.trip_interested.interested;
-        this.trip_id = details.ID;
-        this.sashes_image = details.sashes_image;
-        this.location = details.map_info.map_address;
-        this.lat = Number(details.map_info.map_latitude);
-        this.lng = Number(details.map_info.map_longitude);
+        this.tripsRoot = 'TripsPage';
+        this.vaultRoot = 'VaultPage';
+        this.soloRoot = 'SoloPage';
+        this.membersRoot = 'MembersPage';
+        this.tripBadge = 0;
+        this.soloBadge = 0;
+        if (platform.is('cordova')) {
+            this.initOneSignal();
+            this.initEvents();
+            this.epxProvider.getNotification();
+        }
     }
-    TripDetailsPage.prototype.ionViewDidLoad = function () {
-        this.loadTripDetails(this.trip_id);
-        console.log('ionViewDidLoad TripDetailsPage');
-    };
-    // ionViewWillUnload(){
-    //   this.epxProvider.removeData('trip_details');
-    // }
-    TripDetailsPage.prototype.memberDetails = function (member) {
-        this.navCtrl.push('MemberDetailsPage', { data: member });
-    };
-    //Pull to refresh page
-    TripDetailsPage.prototype.forceReload = function (refresher) {
-        this.loadTripDetails(refresher);
-    };
-    //Interested
-    TripDetailsPage.prototype.interested = function () {
+    //Hide badges when page is refreshed or updates was loaded.
+    TabsPage.prototype.initEvents = function () {
         var _this = this;
+        this.events.subscribe(this.epxProvider.TRIP_BADGE, function (badge) {
+            console.log('receive trip badge', badge);
+            _this.tripBadge = badge;
+        });
+        this.events.subscribe(this.epxProvider.SOLO_BADGE, function (badge) {
+            console.log('receive solo badge', badge);
+            _this.soloBadge = badge;
+        });
+    };
+    TabsPage.prototype.initOneSignal = function () {
+        var _this = this;
+        this.oneSignal.startInit('e70b4949-f7fa-4c3b-adfc-9e4d1ac64782', '1035774532822');
         this.epxProvider.getData('ID').then(function (user_id) {
-            _this.epxProvider.getTripInterest(_this.trip_id, user_id).subscribe(function (res) {
-                _this.isInterested = res.interest;
-                if (res.interest) {
-                    _this.details.number_of_interested++;
+            _this.oneSignal.sendTag('user_id', user_id);
+        });
+        this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
+        this.oneSignal.handleNotificationReceived().subscribe(function (data) {
+            // do something when notification is received
+            console.log('notificaiton received. ', data);
+            var target = data.payload.additionalData.target;
+            var update = data.payload.additionalData.update;
+            console.log('target. ', target);
+            switch (target) {
+                case 'trip':
+                    {
+                        //Cache trip update count to make it accessible to other components.
+                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
+                            // console.log('result',badge);
+                            _this.tripBadge = badge;
+                            _this.detectorRef.detectChanges();
+                        });
+                        break;
+                    }
+                case 'solo': {
+                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
+                        // console.log('result',badge);
+                        _this.soloBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
+                    break;
                 }
-                else {
-                    _this.details.number_of_interested--;
+            }
+        });
+        this.oneSignal.handleNotificationOpened().subscribe(function (data) {
+            // do something when a notification is opened
+            console.log('notificaiton open. ', data);
+            var target = data.notification.payload.additionalData.target;
+            var update = data.notification.payload.additionalData.update;
+            switch (target) {
+                case 'trip':
+                    {
+                        //Cache trip update count to make it accessible to other components.
+                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
+                            // console.log('result',badge);
+                            _this.tripBadge = badge;
+                            _this.detectorRef.detectChanges();
+                        });
+                        break;
+                    }
+                case 'solo': {
+                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
+                        // console.log('result',badge);
+                        _this.soloBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
+                    break;
                 }
-                console.log('interest result:', res);
-            });
+                default: {
+                    _this.navCtrl.push('NotificationPage');
+                }
+            }
         });
+        this.oneSignal.endInit();
     };
-    //get trip details
-    TripDetailsPage.prototype.loadTripDetails = function (refresher) {
-        var _this = this;
-        this.epxProvider.getTripDetails(this.trip_id).subscribe(function (data) {
-            _this.details = data;
-            console.log('trip details: ', data);
-            console.log('trip gallery: ', data.trip_gallery.length);
-            _this.gellery_length = Number(data.trip_gallery.length);
-            var interested = _this.details.whos_interested;
-            _this.whos_interested = Object.keys(interested).map(function (key) { return interested[key]; });
-            var going = _this.details.whos_going;
-            _this.whos_going = Object.keys(going).map(function (key) { return going[key]; });
-            _this.initMap(_this.lat, _this.lng, _this.location);
-            _this.isLoading = false;
+    TabsPage.prototype.showAlert = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['OK']
         });
+        alert.present();
     };
-    TripDetailsPage.prototype.openBrowser = function (url) {
-        window.open(url, "_system");
+    TabsPage.prototype.openSideMenu = function () {
+        this.menuCtrl.toggle();
     };
-    TripDetailsPage.prototype.tripByTags = function (tag) {
-        console.log('tag', tag);
-        this.navCtrl.push('TripTagsPage', { data: tag });
-    };
-    //cordova-plugin-googlemaps
-    TripDetailsPage.prototype.initMap = function (lat, long, location) {
-        var position = { lat: lat, lng: long };
-        this.map = new google.maps.Map(this.mapElement.nativeElement, {
-            zoom: 15,
-            center: position,
-            mapTypeId: 'roadmap'
-        });
-        var marker = new google.maps.Marker({
-            position: position,
-            map: this.map,
-            title: location
-        });
-        this.map.setCenter(position);
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('map'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
-    ], TripDetailsPage.prototype, "mapElement", void 0);
-    TripDetailsPage = __decorate([
+    TabsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trip-details',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-details\trip-details.html"*/'<!--\n  Generated template for the TripDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Trip Details</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div class="gallery" *ngIf="!isLoading">\n    <ion-slides loop="true" autoplay="3000" speed="1000" pager="true" *ngIf="details.trip_gallery.length > 1">\n      <ion-slide *ngFor="let img of details.trip_gallery">\n        <img src="{{img}}" />\n      </ion-slide>\n    </ion-slides>\n    <ion-slides *ngIf="details.trip_gallery.length <= 1">\n      <ion-slide *ngFor="let img of details.trip_gallery">\n        <img src="{{img}}" />\n      </ion-slide>\n    </ion-slides>\n  </div>\n  <div *ngIf="!isLoading">\n    <div class="content-text">\n      <p class="md-text white">ADVENTURE</p>\n      <p class="lg-text white">\n        <strong class="pre-line" [innerHtml]="details.title | uppercase"></strong>\n      </p>\n    </div>\n    <div class="content-details">\n      <p class="sm-text pre-line" [innerHTML]="details.content"></p>\n      <br/>\n      <button ion-button round icon-right block outline (click)="interested()" *ngIf="sashes_image == \'\'">\n        {{isInterested ? "Interested" : "I\'m Interested"}}\n        <ion-icon name="{{isInterested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n      </button>\n\n      <ion-item>\n        <ion-avatar item-end>\n          <img class="coordinator" src="{{details.trip_coordinator.Trip_coordinator_avatar}}" (click)="memberDetails(details.trip_coordinator)">\n        </ion-avatar>\n        <h2 class="primary">{{details.trip_coordinator.Trip_coordinator_name}}</h2>\n        <p>Trip Coordinator</p>\n      </ion-item>\n\n      <ion-grid>\n        <ion-row>\n          <ion-col class="left">\n            <h1>{{details.number_of_registered != null ? details.number_of_registered : 0}}</h1>\n            <p>registrations</p>\n          </ion-col>\n\n          <ion-col class="right">\n            <h1>{{details.number_of_interested != null ? details.number_of_interested : 0}}</h1>\n            <p>interested</p>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n\n      <ion-grid class="trip-duration">\n        <ion-row>\n          <ion-col col-4>\n            <p>Trip Duration</p>\n          </ion-col>\n          <ion-col col-8>\n            <p>\n              <span class="md-text black">{{details.Trip_duration}}</span>\n            </p>\n          </ion-col>\n        </ion-row>\n\n        <ion-row>\n          <ion-col col-4>\n            <p>Start Location</p>\n          </ion-col>\n          <ion-col col-8>\n            <p>\n              <span class="md-text black">{{details.Start_location}}</span>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-4>\n            <p>End Location</p>\n          </ion-col>\n          <ion-col col-8>\n            <p>\n              <span class="md-text black">{{details.End_location}}</span>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-4>\n            <p>Trip Themes</p>\n          </ion-col>\n          <ion-col col-8 class="tags">\n            <button ion-button round outline small *ngFor="let tag of details.product_tag" (click)="tripByTags(tag)">{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </div>\n    <div class="whos-interested" *ngIf="whos_interested.length > 0">\n      <h1 class="text-center black">Who\'s Interested</h1>\n\n      <ion-scroll scrollX="true">\n        <ion-card *ngFor="let member of whos_interested" (click)="memberDetails(member)">\n          <img class="interested" [src]="member.avatar" />\n          <ion-card-content>\n            <p class="text-center md-text strong">{{member.name}}</p>\n            <p class="text-center sm-text">{{member.date_registered}}</p>\n          </ion-card-content>\n        </ion-card>\n      </ion-scroll>\n\n    </div>\n  </div>\n  <div #map id="map"></div>\n  <div *ngIf="!isLoading">\n    <div class="trip-leader">\n      <ion-item>\n        <ion-avatar>\n          <img class="leader" src="{{details.trip_leader.Trip_leader_avatar}}" (click)="memberDetails(details.trip_leader)" />\n        </ion-avatar>\n        <p class="sm-text-important text-center black-important">EPX Trip Leader</p>\n        <p class="text-center gray">Member Since:</p>\n        <p class="text-center gray">{{details.trip_leader.Trip_leader_Member_since | date : "MMMM dd, yyyy"}}</p>\n      </ion-item>\n\n      <div class="leader-name">\n        <p class="strong text-center lg-text">Meet {{details.trip_leader.Trip_leader_name}}, Your Trip Leader</p>\n      </div>\n      <p class="text-center md-text">\n        <span class="strong blue">{{details.trip_leader.Trip_leader_name}}</span> is the\n        <span class="strong blue">{{details.trip_leader.Trip_leader_position}}</span> at\n        <span class="strong blue" (click)="openBrowser(details.trip_leader.Trip_leader_business_url)">{{details.trip_leader.Trip_leader_company}}</span>, a\n        <span class="strong blue">{{details.trip_leader.Trip_leader_business_model}}</span> business in the\n        <span class="strong blue">{{details.trip_leader.Trip_leader_industry}}</span> industry with the\n        <span class="strong blue">{{details.trip_leader.Trip_leader_employee}}</span> employees.</p>\n    </div>\n    <div class="whos-going" *ngIf="whos_going.length > 0">\n      <h1 class="text-center black">Who\'s Going</h1>\n      <ion-item *ngFor="let item of whos_going" >\n        <ion-avatar item-start>\n          <img class="going" src="{{item.avatar}}" (click)="memberDetails(item)">\n        </ion-avatar>\n        <p>\n          <span class="strong">{{item.name}}</span> is the\n          <span class="strong">{{item.position}}</span> at\n          <span class="strong blue" (click)="openBrowser(item.business_url)">{{item.company}}</span>, a\n          <span class="strong">{{item.business_model}}</span> in the\n          <span class="strong">{{item.industry}}</span> industry with the\n          <span class="strong">{{item.employee}}</span> employees.</p>\n      </ion-item>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trip-details\trip-details.html"*/,
+            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__ionic_native_onesignal__["a" /* OneSignal */],
             __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], TripDetailsPage);
-    return TripDetailsPage;
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* MenuController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]])
+    ], TabsPage);
+    return TabsPage;
 }());
 
-//# sourceMappingURL=trip-details.js.map
+//# sourceMappingURL=tabs.js.map
 
 /***/ })
 

@@ -10,7 +10,6 @@ import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { EpxProvider } from '../providers/epx/epx';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -47,7 +46,6 @@ var config = {
     MyApp,
   ],
   providers: [
-    Push,
     OneSignal,
     StatusBar,
     SplashScreen,

@@ -1,14 +1,14 @@
 webpackJsonp([12],{
 
-/***/ 466:
+/***/ 465:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloTagsPageModule", function() { return SoloTagsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloDetailsPageModule", function() { return SoloDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_tags__ = __webpack_require__(490);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_details__ = __webpack_require__(490);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,23 +18,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var SoloTagsPageModule = (function () {
-    function SoloTagsPageModule() {
+var SoloDetailsPageModule = (function () {
+    function SoloDetailsPageModule() {
     }
-    SoloTagsPageModule = __decorate([
+    SoloDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__solo_tags__["a" /* SoloTagsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__solo_details__["a" /* SoloDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__solo_tags__["a" /* SoloTagsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__solo_details__["a" /* SoloDetailsPage */]),
             ],
         })
-    ], SoloTagsPageModule);
-    return SoloTagsPageModule;
+    ], SoloDetailsPageModule);
+    return SoloDetailsPageModule;
 }());
 
-//# sourceMappingURL=solo-tags.module.js.map
+//# sourceMappingURL=solo-details.module.js.map
 
 /***/ }),
 
@@ -42,10 +42,9 @@ var SoloTagsPageModule = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SoloTagsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SoloDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -57,70 +56,48 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-var SoloTagsPage = (function () {
-    function SoloTagsPage(epxProvider, navCtrl, navParams) {
-        this.epxProvider = epxProvider;
+var SoloDetailsPage = (function () {
+    function SoloDetailsPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.isLoading = true;
-        this.isRefresh = false;
-        this.page = 1;
-        this.perPage = 0;
-        this.totalData = 0;
-        this.totalPage = 0;
-        this.tag = navParams.data.data;
-        console.log('tag', this.tag);
+        this.details = navParams.data.data;
+        this.lat = Number(this.details.latitude);
+        this.lng = Number(this.details.longitude);
+        this.location = this.details.address;
+        console.log('solo details', this.details);
     }
-    SoloTagsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad SoloTagsPage');
-        this.LoadSolo();
+    SoloDetailsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SoloDetailsPage');
+        this.initMap(this.lat, this.lng, this.location);
     };
-    SoloTagsPage.prototype.soloDetails = function (solo) {
-        this.navCtrl.push('SoloDetailsPage', { data: solo });
-    };
-    SoloTagsPage.prototype.LoadSolo = function (refresher) {
-        var _this = this;
-        this.epxProvider.getData('ID').then(function (user_id) {
-            console.log('user id', user_id);
-            _this.epxProvider.getSoloTags(user_id, _this.page, _this.tag).subscribe(function (data) {
-                //var solo = Observable.of(Object.keys(data).map(key => data[key])); //Convert object to array since angular accepts array for iteration
-                _this.totalPage = data.number_of_page;
-                console.log('solo list', data);
-                _this.soloList = data.data;
-                _this.isLoading = false;
-                _this.isRefresh = true;
-            });
+    SoloDetailsPage.prototype.initMap = function (lat, long, location) {
+        var position = { lat: lat, lng: long };
+        this.map = new google.maps.Map(this.mapElement.nativeElement, {
+            zoom: 15,
+            center: position,
+            mapTypeId: 'roadmap'
         });
-    };
-    SoloTagsPage.prototype.doInfinite = function (infiniteScroll) {
-        var _this = this;
-        console.log('Begin async operation');
-        this.page++;
-        this.epxProvider.getData('ID').then(function (user_id) {
-            console.log('user id', user_id);
-            _this.epxProvider.getSoloTags(user_id, _this.page, _this.tag).subscribe(function (data) {
-                var solo = data.data;
-                for (var i = 0; i < solo.length; i++) {
-                    _this.soloList.push(solo[i]);
-                    console.log(solo[i]);
-                }
-                infiniteScroll.complete();
-                _this.isLoading = false;
-                _this.isRefresh = true;
-            });
+        var marker = new google.maps.Marker({
+            position: position,
+            map: this.map,
+            title: location
         });
+        this.map.setCenter(position);
     };
-    SoloTagsPage = __decorate([
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('map'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+    ], SoloDetailsPage.prototype, "mapElement", void 0);
+    SoloDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-solo-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\solo-tags\solo-tags.html"*/'<!--\n  Generated template for the SoloTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let solo of soloList">\n    <div class="solo-image">\n      <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">\n    </div>\n\n    <ion-card-content>\n      <h3 class="content-text">\n        <strong class="pre-line" [innerHtml]="solo.title | uppercase"></strong>\n      </h3>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            Price : \n          </ion-col>\n          <ion-col col-10>\n            <p class="content-text">\n              <strong class="text-price">{{solo.price}}</strong>\n            </p>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="sm-text">{{solo.start_date}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row *ngIf="solo.product_tag.length">\n          <ion-col col-2>\n            Tags :\n          </ion-col>\n          <ion-col col-10>\n            <button ion-button round outline small *ngFor="let tag of solo.product_tag">{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-card-content>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more solo..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo-tags\solo-tags.html"*/,
+            selector: 'page-solo-details',template:/*ion-inline-start:"D:\epx_app\src\pages\solo-details\solo-details.html"*/'<!--\n  Generated template for the SoloDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Solo Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n  <div class="solo-image">\n    <img src="{{details.thumbnail}}" />\n  </div>\n  <div id="title">\n    <p class="pre-line" [innerHTML]="details.title"></p>\n  </div>\n  <div class="content-text">\n    <p class="pre-line sm-text" [innerHTML]="details.content"></p>\n\n    <div class="other-details">\n      <p class="text-center xxl-text">Trip Fee</p>\n      <div class="price">\n        <p class="text-center xxl-text">{{details.price}}</p>\n      </div>\n      <p class="text-center xxl-text strong">Date</p>\n      <p class="text-center xxl-text">{{details.start_date}}</p>\n\n      <p class="text-center xxl-text strong">Location</p>\n      <p class="text-center xxl-text">{{details.address}}</p>\n    </div>\n  </div>\n  <div #map id="map"></div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo-details\solo-details.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], SoloTagsPage);
-    return SoloTagsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], SoloDetailsPage);
+    return SoloDetailsPage;
 }());
 
-//# sourceMappingURL=solo-tags.js.map
+//# sourceMappingURL=solo-details.js.map
 
 /***/ })
 
