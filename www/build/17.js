@@ -70,7 +70,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var MembersPage = (function () {
-    function MembersPage(epxProvider, cache, navCtrl, navParams) {
+    function MembersPage(events, epxProvider, cache, navCtrl, navParams) {
+        this.events = events;
         this.epxProvider = epxProvider;
         this.cache = cache;
         this.navCtrl = navCtrl;
@@ -118,6 +119,7 @@ var MembersPage = (function () {
                 }
                 _this.isLoading = false;
                 _this.isRefresh = true;
+                _this.epxProvider.updateNotification(_this.epxProvider.MEMBER_BADGE);
             }, function (error) {
                 console.log(error);
                 refresher.complete();
@@ -148,6 +150,15 @@ var MembersPage = (function () {
                 }
             });
         }
+    };
+    //Show badge if there is an update
+    MembersPage.prototype.ionViewDidEnter = function () {
+        var _this = this;
+        this.epxProvider.getData(this.epxProvider.MEMBER_BADGE).then(function (badge) {
+            if (badge != null && badge > 0) {
+                _this.events.publish(_this.epxProvider.MEMBER_BADGE, badge);
+            }
+        });
     };
     MembersPage.prototype.forceReload = function (refresher) {
         // this.LoadMembers(refresher);
@@ -194,7 +205,8 @@ var MembersPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-members',template:/*ion-inline-start:"D:\epx_app\src\pages\members\members.html"*/'<!--\n  Generated template for the MembersPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>MEMBERS</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  \n  <!-- <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar> -->\n  <ion-list>\n    <ion-item-sliding *ngFor="let member of members">\n      <ion-item >\n        <ion-avatar item-start>\n          <img [src]="member.avatar" (click)="memberDetails(member)">\n        </ion-avatar>\n        <p class="item-text">\n            <span class="strong ">{{member.name}}</span> is the\n            <span class="strong " [innerHtml]="member.position"></span> at\n            <span class="strong blue" (click)="openBrowser(member.business_url)" [innerHtml]="member.company"></span>, a\n            <span class="strong " >{{member.business_model}}</span> business in the\n            <span class="strong pre-line" [innerHtml]="member.industry"></span> industry with the\n            <span class="strong ">{{member.employee}}</span> employees.\n          </p>\n      </ion-item>\n      <ion-item-options side="left">\n        <button ion-button color="secondary">\n          <ion-icon name="text"></ion-icon>\n          Message\n        </button>\n        <!-- <button ion-button color="secondary">\n          <ion-icon name="call"></ion-icon>\n          Call\n        </button> -->\n      </ion-item-options>\n      <ion-item-options side="right">\n        <button ion-button color="primary" (click)="memberDetails(member)">\n          <ion-icon name="person"></ion-icon>\n          Profile\n        </button>\n      </ion-item-options>\n    </ion-item-sliding>\n  </ion-list>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content  loadingText="Loading more members..." ></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\members\members.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], MembersPage);

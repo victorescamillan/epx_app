@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -21,6 +21,7 @@ export class VaultPage {
   totalPage = 0;
 
   constructor(
+    private events: Events,
     private loadingCtrl: LoadingController, private epxProvider: EpxProvider, private cache: CacheService, private navCtrl: NavController) {
     // Set TTL to 12h
     cache.setDefaultTTL(60 * 60 * 12);
@@ -61,6 +62,7 @@ export class VaultPage {
         }
         this.isLoading = false;
         this.isRefresh = true;
+        this.epxProvider.updateNotification(this.epxProvider.VAULT_BADGE);
       }, error => {
         console.log(error);
         refresher.complete();
@@ -90,7 +92,14 @@ export class VaultPage {
         }
       });
     }
-    
+  }
+  //Show badge if there is an update
+  ionViewDidEnter() {
+    this.epxProvider.getData(this.epxProvider.VAULT_BADGE).then(badge => {
+      if (badge != null && badge > 0) {
+        this.events.publish(this.epxProvider.VAULT_BADGE,badge);
+      }
+    });
   }
   //Pull to refresh page
   forceReload(refresher) {

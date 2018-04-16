@@ -56,4 +56,12 @@ export class VaultDetailsPage {
       console.log('details', this.details);
     });
   }
+  helpfulURL(url){
+    if(url == ""){
+      this.epxProvider.toastMessage('Invalid URL.');
+      return;
+    }
+    console.log('company url:',url);
+    window.open(url,"_system");
+  }
 }

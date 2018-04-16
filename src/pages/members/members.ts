@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -27,6 +27,7 @@ export class MembersPage {
   totalPage = 0;
 
   constructor(
+    private events: Events,
     private epxProvider: EpxProvider,
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {
@@ -66,6 +67,7 @@ export class MembersPage {
         }
         this.isLoading = false;
         this.isRefresh = true;
+        this.epxProvider.updateNotification(this.epxProvider.MEMBER_BADGE);
       },error => {
         console.log(error);
         refresher.complete();
@@ -98,7 +100,14 @@ export class MembersPage {
     }
    
   }
-
+ //Show badge if there is an update
+ ionViewDidEnter(){
+  this.epxProvider.getData(this.epxProvider.MEMBER_BADGE).then(badge => {
+    if (badge != null && badge > 0) {
+      this.events.publish(this.epxProvider.MEMBER_BADGE,badge);
+    }
+  });
+}
   forceReload(refresher) {
     // this.LoadMembers(refresher);
     this.LoadMembers(refresher);

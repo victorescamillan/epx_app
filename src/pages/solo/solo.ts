@@ -30,6 +30,7 @@ export class SoloPage {
     cache.setOfflineInvalidate(false);
     
   }
+  //Show badge if there is an update
   ionViewDidEnter(){
     this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(badge => {
       if (badge != null && badge > 0) {
@@ -70,7 +71,7 @@ export class SoloPage {
         }
         this.isLoading = false;
         this.isRefresh = true;
-        this.epxProvider.updateTripNotification(this.epxProvider.SOLO_BADGE);
+        this.epxProvider.updateNotification(this.epxProvider.SOLO_BADGE);
       },error => {
         console.log(error);
         refresher.complete();

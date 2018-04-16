@@ -76,7 +76,7 @@ export class TripsPage {
           this.isLoading = false;
           this.isRefresh = true;
           this.isInterested = false;
-          this.epxProvider.updateTripNotification(this.epxProvider.TRIP_BADGE);
+          this.epxProvider.updateNotification(this.epxProvider.TRIP_BADGE);
         }, error => {
           console.log(error);
           refresher.complete();
@@ -165,6 +165,7 @@ export class TripsPage {
     console.log('ionViewDidLoad TripsPage');
     this.LoadTrips();
   }
+  //Show badge if there is an update
   ionViewDidEnter() {
     this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(badge => {
       if (badge != null && badge > 0) {

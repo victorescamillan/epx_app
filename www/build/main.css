@@ -27049,11 +27049,20 @@ page-vault-details .content-text .item ion-avatar ion-img, page-vault-details .i
   height: 100px;
 }
 
-page-vault-details .tags .button-round {
+page-vault-details .button-round {
   border-radius: 10px;
   padding: 0 1.0rem;
   height: 20px;
   margin: 1px;
+}
+
+page-vault-details .tags.row {
+  margin-top: -15px;
+}
+
+page-vault-details .url.row span, page-vault-details .tags.row span {
+  display: block;
+  margin-top: 3px;
 }
 
 page-vault-details .underline {

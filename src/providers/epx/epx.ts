@@ -55,12 +55,19 @@ export class EpxProvider {
 
   public TRIP_BADGE: string = "TRIP_BADGE";
   public SOLO_BADGE: string = "SOLO_BADGE";
+  public VAULT_BADGE: string = "VAULT_BADGE";
+  public MEMBER_BADGE: string = "MEMBER_BADGE";
+  public USER_TAGS: string = "USER_TAGS";
+  // public SETTING_NOTIFICATION: string = "SETTING_NOTIFICATION";
+  public MEMBER_NOTIFICATION: string = "MEMBER_NOTIFICATION";
+  public VAULT_NOTIFICATION: string = "VAULT_NOTIFICATION";
+
   public PAGE_SIZE: number = 10;
   constructor(private events: Events, private toastCtrl: ToastController, private network: Network, private storage: Storage, private httpClient: HttpClient) {
     this.checkConnection();
   }
 
-  updateTripNotification(name){
+  updateNotification(name){
     this.saveData(name,0).then(() =>{
       this.events.publish(name,0);
     })
@@ -95,13 +102,19 @@ export class EpxProvider {
   }
 
   displayNetworkUpdate(connectionState: string){
-    this.saveData('CONNECTION',connectionState);
     let networkType = this.network.type;
     this.toastCtrl.create({
       message: 'You are now '+ connectionState +' via ' + networkType,
       duration: 3000
     }).present();
   }
+  toastMessage(message: string){
+    this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    }).present();
+  }
+
   getLogin(username, password) {
     return this.httpClient.get(this.login_url + 'username=' + username + '&password=' + password)
       .do(this.logResponse)

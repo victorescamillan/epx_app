@@ -1,6 +1,6 @@
 webpackJsonp([9],{
 
-/***/ 467:
+/***/ 469:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(492);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(494);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TabsPageModule = (function () {
 
 /***/ }),
 
-/***/ 492:
+/***/ 494:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76,15 +76,17 @@ var TabsPage = (function () {
         this.membersRoot = 'MembersPage';
         this.tripBadge = 0;
         this.soloBadge = 0;
+        this.vaultBadge = 0;
+        this.memberBadge = 0;
         if (platform.is('cordova')) {
             this.initOneSignal();
             this.initEvents();
             this.epxProvider.getNotification();
         }
     }
-    //Hide badges when page is refreshed or updates was loaded.
     TabsPage.prototype.initEvents = function () {
         var _this = this;
+        //Hide badges when page is refreshed or updates was loaded.
         this.events.subscribe(this.epxProvider.TRIP_BADGE, function (badge) {
             console.log('receive trip badge', badge);
             _this.tripBadge = badge;
@@ -93,12 +95,40 @@ var TabsPage = (function () {
             console.log('receive solo badge', badge);
             _this.soloBadge = badge;
         });
+        this.events.subscribe(this.epxProvider.VAULT_BADGE, function (badge) {
+            console.log('receive solo badge', badge);
+            _this.vaultBadge = badge;
+        });
+        this.events.subscribe(this.epxProvider.MEMBER_BADGE, function (badge) {
+            console.log('receive solo badge', badge);
+            _this.memberBadge = badge;
+        });
+        //Update notification tags.
+        this.events.subscribe(this.epxProvider.MEMBER_NOTIFICATION, function (value) {
+            _this.oneSignal.sendTag('member_added', value);
+            _this.epxProvider.saveData(_this.epxProvider.MEMBER_NOTIFICATION, value);
+        });
+        this.events.subscribe(this.epxProvider.VAULT_NOTIFICATION, function (value) {
+            _this.oneSignal.sendTag('vault_added', value);
+            _this.epxProvider.saveData(_this.epxProvider.VAULT_NOTIFICATION, value);
+        });
     };
     TabsPage.prototype.initOneSignal = function () {
         var _this = this;
         this.oneSignal.startInit('e70b4949-f7fa-4c3b-adfc-9e4d1ac64782', '1035774532822');
-        this.epxProvider.getData('ID').then(function (user_id) {
-            _this.oneSignal.sendTag('user_id', user_id);
+        this.oneSignal.getTags().then(function (data) {
+            console.log('tags', data);
+            if (data.user_id != null) {
+                _this.epxProvider.saveData(_this.epxProvider.MEMBER_NOTIFICATION, data.member_added);
+                _this.epxProvider.saveData(_this.epxProvider.VAULT_NOTIFICATION, data.vault_added);
+            }
+            else {
+                _this.epxProvider.getData('ID').then(function (user_id) {
+                    _this.oneSignal.sendTag('user_id', user_id);
+                    _this.oneSignal.sendTag('member_added', 'true');
+                    _this.oneSignal.sendTag('vault_added', 'true');
+                });
+            }
         });
         this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
         this.oneSignal.handleNotificationReceived().subscribe(function (data) {
@@ -112,7 +142,6 @@ var TabsPage = (function () {
                     {
                         //Cache trip update count to make it accessible to other components.
                         _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
-                            // console.log('result',badge);
                             _this.tripBadge = badge;
                             _this.detectorRef.detectChanges();
                         });
@@ -120,8 +149,21 @@ var TabsPage = (function () {
                     }
                 case 'solo': {
                     _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
-                        // console.log('result',badge);
                         _this.soloBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
+                    break;
+                }
+                case 'vault': {
+                    _this.epxProvider.saveData(_this.epxProvider.VAULT_BADGE, update).then(function (badge) {
+                        _this.vaultBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
+                    break;
+                }
+                case 'member': {
+                    _this.epxProvider.saveData(_this.epxProvider.MEMBER_BADGE, update).then(function (badge) {
+                        _this.memberBadge = badge;
                         _this.detectorRef.detectChanges();
                     });
                     break;
@@ -138,7 +180,6 @@ var TabsPage = (function () {
                     {
                         //Cache trip update count to make it accessible to other components.
                         _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
-                            // console.log('result',badge);
                             _this.tripBadge = badge;
                             _this.detectorRef.detectChanges();
                         });
@@ -146,14 +187,24 @@ var TabsPage = (function () {
                     }
                 case 'solo': {
                     _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
-                        // console.log('result',badge);
                         _this.soloBadge = badge;
                         _this.detectorRef.detectChanges();
                     });
                     break;
                 }
-                default: {
-                    _this.navCtrl.push('NotificationPage');
+                case 'vault': {
+                    _this.epxProvider.saveData(_this.epxProvider.VAULT_BADGE, update).then(function (badge) {
+                        _this.vaultBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
+                    break;
+                }
+                case 'member': {
+                    _this.epxProvider.saveData(_this.epxProvider.MEMBER_BADGE, update).then(function (badge) {
+                        _this.memberBadge = badge;
+                        _this.detectorRef.detectChanges();
+                    });
+                    break;
                 }
             }
         });

@@ -51,11 +51,18 @@ page-vault-details {
         width: 100px;
         height: 100px;
     }
-    .tags .button-round {
+    .button-round {
         border-radius: 10px;
         padding: 0 1.0rem;
         height: 20px;
         margin: 1px;
+    }
+    .tags.row {
+        margin-top: -15px;
+    }
+    .url.row span,.tags.row span{
+        display: block;
+        margin-top: 3px;
     }
     .underline {
         height: 1px;

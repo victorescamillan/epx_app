@@ -21,7 +21,7 @@
     <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(details.embed_link)" *ngIf="details.vault_type == 'video'"> </iframe>
     <img [src]="details.embed_link" *ngIf="details.vault_type == 'ebook'">
     <div class="title">
-      <h2 class="pre-line" [innerHtml]="details.title"></h2>
+      <h2 class="pre-line" [innerHtml]="details.title | uppercase"></h2>
       <p class="md-text" *ngIf="details.vault_type != 'ebook'">Length {{details.length}}</p>
     </div>
     <div class="content-text">
@@ -30,29 +30,37 @@
       </div>
       <ion-grid>
         <ion-row>
-          <ion-col col-3>
-            <span class="md-text strong">Posted :</span>
+          <ion-col col-4>
+            <span class="sm-text strong">Posted :</span>
           </ion-col>
-          <ion-col col-9>
+          <ion-col col-8>
             <span class="md-text">{{details.posted}}</span>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col col-3>
-            <span class="md-text strong">Category :</span>
+          <ion-col col-4>
+            <span class="sm-text strong">Category :</span>
           </ion-col>
-          <ion-col col-9>
+          <ion-col col-8>
             <p class="md-text blue" *ngFor="let item of details.category" (click)="vaultByCategory(item)">{{item}}</p>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col col-3>
-            <span class="md-text strong">Skills :</span>
+        <ion-row class="tags">
+          <ion-col col-4>
+            <span class="sm-text strong">Skills :</span>
           </ion-col>
-          <ion-col col-9 class="tags">
-            <button ion-button round outline small *ngFor="let item of details.tags" (click)="vaultByTags(item)">{{item}}</button>
+          <ion-col col-8 >
+            <button ion-button round outline small  *ngFor="let item of details.tags" (click)="vaultByTags(item)">{{item}}</button>
           </ion-col>
         </ion-row>
+        <ion-row class="url">
+            <ion-col col-4>
+              <span class="sm-text strong">Helpful URLs :</span>
+            </ion-col>
+            <ion-col col-8 >
+              <button ion-button round outline small color="secondary" *ngFor="let item of details.helpful_link; let i = index" (click)="helpfulURL(item)">Link {{i + 1}}</button>
+            </ion-col>
+          </ion-row>
       </ion-grid>
 
       <div class="underline"></div>
