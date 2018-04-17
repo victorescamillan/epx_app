@@ -27,6 +27,8 @@ page-login {
 //    }
    ion-content.content {
       background-image: url(../assets/imgs/login_bg.jpg);     
+      background-repeat: no-repeat;
+      background-size: cover;
   }
     .scroll-content {
     padding: 16px;
