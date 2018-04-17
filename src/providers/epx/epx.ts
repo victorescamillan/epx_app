@@ -276,12 +276,5 @@ export class EpxProvider {
       }
     });
   }
-  isLogin(): boolean {
-    let res = true;
-    this.getData('ID').then(data => {
-      console.log('islogin',data);
-      res = (data == null);
-    });
-    return res;
-  }
+  
 }

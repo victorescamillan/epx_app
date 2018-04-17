@@ -19,12 +19,15 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      if (this.epxProvider.isLogin()) {
-        this.rootPage = 'MenuPage';
-      }
-      else {
-        this.rootPage = 'LoginPage';
-      }
+      this.epxProvider.getData('ID').then(res => {
+        console.log('user id: ', res);
+        if(res != null){
+          this.rootPage = 'MenuPage';
+        }
+        else {
+          this.rootPage = 'LoginPage';
+        }
+      });
       statusBar.overlaysWebView(true);
       splashScreen.hide();
     });
