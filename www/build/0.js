@@ -1,6 +1,6 @@
 webpackJsonp([0],{
 
-/***/ 457:
+/***/ 458:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordPageModule", function() { return ForgotPasswordPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forgot_password__ = __webpack_require__(481);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forgot_password__ = __webpack_require__(482);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var ForgotPasswordPageModule = (function () {
 
 /***/ }),
 
-/***/ 481:
+/***/ 482:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46,7 +46,7 @@ var ForgotPasswordPageModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validators_validator__ = __webpack_require__(482);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validators_validator__ = __webpack_require__(483);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -75,6 +75,7 @@ var ForgotPasswordPage = (function () {
         this.alertCtrl = alertCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.tap = 0;
         this.formGroup = formBuilder.group({
             email: ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].compose([
                     __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].pattern(__WEBPACK_IMPORTED_MODULE_3__validators_validator__["a" /* regexValidators */].email),
@@ -89,17 +90,21 @@ var ForgotPasswordPage = (function () {
     ForgotPasswordPage.prototype.requestPassword = function () {
         var _this = this;
         console.log(this.email);
-        this.epxProvider.requestForgotPassword(this.email).subscribe(function (res) {
-            if (res.success) {
-                _this.showAlert('Email Sent', res.message, true);
-            }
-            else {
-                _this.showAlert('Invalid', res.message, false);
-            }
-        });
+        this.tap++;
+        if (this.tap <= 1) {
+            this.epxProvider.requestForgotPassword(this.email).subscribe(function (res) {
+                if (res.success) {
+                    _this.showAlert('Email Sent', res.message, true);
+                }
+                else {
+                    _this.showAlert('Invalid', res.message, false);
+                }
+            });
+        }
     };
     ForgotPasswordPage.prototype.showAlert = function (title, message, success) {
         var _this = this;
+        this.tap = 0;
         var alert = this.alertCtrl.create({
             title: title,
             subTitle: message,
@@ -130,7 +135,7 @@ var ForgotPasswordPage = (function () {
 
 /***/ }),
 
-/***/ 482:
+/***/ 483:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

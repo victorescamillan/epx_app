@@ -22,7 +22,7 @@ export class ForgotPasswordPage {
   email_control:AbstractControl;
   formGroup: FormGroup;
   email: string;
-
+  tap: number = 0;
   constructor(private epxProvider: EpxProvider, private formBuilder: FormBuilder, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
     this.formGroup = formBuilder.group({
       email:['',Validators.compose([
@@ -39,16 +39,20 @@ export class ForgotPasswordPage {
   }
   requestPassword(){
     console.log(this.email);
-    this.epxProvider.requestForgotPassword(this.email).subscribe(res => {
-      if(res.success){
-        this.showAlert('Email Sent',res.message, true);
-      }
-      else{
-        this.showAlert('Invalid',res.message, false);
-      }
-    });
+    this.tap++;
+    if(this.tap <= 1){
+      this.epxProvider.requestForgotPassword(this.email).subscribe(res => {
+        if(res.success){
+          this.showAlert('Email Sent',res.message, true);
+        }
+        else{
+          this.showAlert('Invalid',res.message, false);
+        }
+      });
+    }
   }
   showAlert(title: string, message: string, success: boolean) {
+    this.tap = 0;
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: message,
