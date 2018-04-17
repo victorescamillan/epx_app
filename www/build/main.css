@@ -26152,8 +26152,6 @@ page-member-details .member-content img {
   border-radius: 50%;
   height: 120px;
   width: 120px;
-  -o-object-fit: cover;
-  object-fit: cover;
 }
 
 page-member-details .member-info p {
@@ -26203,7 +26201,8 @@ page-member-details .vault img {
 page-member-details .scroll-zoom-wrapper ion-card {
   width: auto;
   margin: 5px;
-  padding: 0px 10px;
+  padding: 0px;
+  max-width: 220px;
 }
 
 page-member-details ion-card-content.card-content.card-content-md {

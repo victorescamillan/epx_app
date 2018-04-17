@@ -58,7 +58,7 @@
               <span class="sm-text strong">Helpful URLs :</span>
             </ion-col>
             <ion-col col-8 >
-              <button ion-button round outline small color="secondary" *ngFor="let item of details.helpful_link; let i = index" (click)="helpfulURL(item)">Link {{i + 1}}</button>
+              <button ion-button round outline small  *ngFor="let item of details.helpful_link; let i = index" (click)="helpfulURL(item)">Link {{i + 1}}</button>
             </ion-col>
           </ion-row>
       </ion-grid>

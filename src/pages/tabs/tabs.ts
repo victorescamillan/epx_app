@@ -70,7 +70,7 @@ export class TabsPage {
 
   }
   initOneSignal() {
-    this.oneSignal.startInit('e70b4949-f7fa-4c3b-adfc-9e4d1ac64782', '1035774532822');
+    this.oneSignal.startInit('13cedc03-fa5f-4f96-ba81-3ed7f3698052', '188374332009');
     this.oneSignal.getTags().then(data => {
       console.log('tags', data);
       if (data.user_id != null) {

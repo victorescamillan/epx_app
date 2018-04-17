@@ -1,6 +1,6 @@
 webpackJsonp([19],{
 
-/***/ 458:
+/***/ 456:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageModule", function() { return LoginPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(482);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(480);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var LoginPageModule = (function () {
 
 /***/ }),
 
-/***/ 482:
+/***/ 480:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -149,7 +149,7 @@ var LoginPage = (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"D:\epx_app\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!-- <ion-header>\n\n  <ion-navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n -->\n<ion-content padding>\n  <div class="logo">\n    <img src="assets/imgs/epx_logo_colored.png" alt="epx logo">\n    <h1>Welcome Back!</h1>\n    <h1>New Adventure Await!</h1>\n  </div>\n  <form [formGroup]="formGroup">\n    <div class="login-item">\n      <ion-item>\n        <ion-label floating>Username</ion-label>\n        <ion-input [(ngModel)]="username" formControlName="email" type="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email_validation.hasError(\'required\') && email_validation.touched">Username is required.</p>\n      <ion-item>\n        <ion-label floating>Password</ion-label>\n        <ion-input [(ngModel)]="password" formControlName="password" type="password"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="password_validation.hasError(\'required\') && password_validation.touched">Password is required.</p>\n    </div>\n    <br/>\n    <button ion-button round block [disabled]="!formGroup.valid" (click)="loginUser()">Login</button>\n    \n    <button ion-button round block color="light" class="btn-forgot" (click)="forgotPassword()">Forgot your password?</button>\n  </form>\n\n\n  <!-- <p class="md-text center primary" (click)="forgotPassword()">Forgot your password?</p> -->\n\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\login\login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"D:\epx_app\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!-- <ion-header>\n\n  <ion-navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n -->\n<ion-content padding>\n  <div class="logo">\n    <img src="assets/imgs/epx_logo_colored.png" alt="epx logo">\n    <h1>Welcome Back!</h1>\n    <h1>New Adventures Await!</h1>\n  </div>\n  <form [formGroup]="formGroup">\n    <div class="login-item">\n      <ion-item>\n        <ion-label floating>Username</ion-label>\n        <ion-input [(ngModel)]="username" formControlName="email" type="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email_validation.hasError(\'required\') && email_validation.touched">Username is required.</p>\n      <ion-item>\n        <ion-label floating>Password</ion-label>\n        <ion-input [(ngModel)]="password" formControlName="password" type="password"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="password_validation.hasError(\'required\') && password_validation.touched">Password is required.</p>\n    </div>\n    <br/>\n    <button ion-button round block [disabled]="!formGroup.valid" (click)="loginUser()">Login</button>\n    \n    <button ion-button round block color="light" class="btn-forgot" (click)="forgotPassword()">Forgot your password?</button>\n  </form>\n\n\n  <!-- <p class="md-text center primary" (click)="forgotPassword()">Forgot your password?</p> -->\n\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\login\login.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
             __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
