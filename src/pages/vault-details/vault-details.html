@@ -75,7 +75,7 @@
       <br />
       <p class="text-center md-text">
         <span class="strong ">{{details.author_name}}</span> is the
-        <span class="strong ">{{details.position}}</span> at
+        <span class="strong " [innerHtml]="details.position"></span> at
         <span class="strong blue" (click)="openBrowser(details.company_url)">{{details.company}}</span>, a
         <span class="strong ">{{details.business_model}}</span> business in the
         <span class="strong ">{{details.industry}}</span> industry with the

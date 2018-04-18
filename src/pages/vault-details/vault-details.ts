@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
+import { DocumentViewer } from '@ionic-native/document-viewer';
 /**
  * Generated class for the VaultDetailsPage page.
  *
@@ -22,6 +23,7 @@ export class VaultDetailsPage {
   isLoading: boolean = true;
 
   constructor(
+    private document: DocumentViewer,
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     private cache: CacheService,
@@ -62,6 +64,6 @@ export class VaultDetailsPage {
       return;
     }
     console.log('company url:',url);
-    window.open(url,"_system");
+    window.open(url,"_self",);
   }
 }

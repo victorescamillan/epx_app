@@ -13,40 +13,40 @@
 </ion-header>
 
 
-<ion-content overflow-scroll="true">
+<ion-content>
   <ion-refresher (ionRefresh)="forceReload($event)">
     <ion-refresher-content refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
   <br />
-  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}" >
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  
+
   <!-- <ion-list [virtualScroll]="(vaultList | async)" [approxItemHeight]="'20px'"> -->
-  <ion-list>
-    <!-- <ion-card *virtualItem="let vault"> -->
-    <ion-card *ngFor="let vault of vaultList">
-      <div class="vault-image">
-          <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}" >
-      </div>
-      <ion-card-content>
-        <h3 class="content-text xl-text strong blue pre-line" [innerHtml]="vault.title | uppercase">
-        </h3>
-        <ion-item>
-          <ion-avatar item-start>
-            <img src="{{vault.author_avatar}}">
-          </ion-avatar>
-          <h2>
-            <strong>{{vault.author}}</strong> |
-            <span class="gray">{{vault.length}}</span>
-          </h2>
-          <p>{{vault.posted}}</p>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-  </ion-list>
+
+  <!-- <ion-card *virtualItem="let vault"> -->
+  <ion-card *ngFor="let vault of vaultList">
+    <div class="vault-image">
+      <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}">
+    </div>
+    <ion-card-content>
+      <h3 class="content-text xl-text strong blue pre-line" [innerHtml]="vault.title | uppercase">
+      </h3>
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{vault.author_avatar}}">
+        </ion-avatar>
+        <h2>
+          <strong>{{vault.author}}</strong> |
+          <span class="gray">{{vault.length}}</span>
+        </h2>
+        <p>{{vault.posted}}</p>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
-    <ion-infinite-scroll-content  loadingText="Loading more vaults..." ></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingText="Loading more vaults..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Events, Content } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -16,6 +16,7 @@ import { CacheService } from 'ionic-cache';
   templateUrl: 'members.html',
 })
 export class MembersPage {
+  @ViewChild(Content) content: Content;
   memberList: any;
   temp_memberList: Observable<any>;
   members:any;
@@ -31,8 +32,7 @@ export class MembersPage {
     private epxProvider: EpxProvider,
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {
-    // Set TTL to 12h
-    cache.setDefaultTTL(60 * 60 * 12);
+    
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
   }
@@ -42,8 +42,8 @@ export class MembersPage {
   }
   LoadMembers(refresher?) {
     let url = this.epxProvider.member_infinite_url;
-    let ttl = 60 * 60 * 12;
-    let delay_type = 'all';
+    let ttl = this.epxProvider.TTL;
+    let delay_type = this.epxProvider.DELAY_TYPE;
     let groupKey = 'member-list';
     this.page = 1;
     let connected = this.epxProvider.isConnected();
@@ -149,5 +149,14 @@ export class MembersPage {
   openBrowser(url){
     console.log('company url:',url);
     window.open(url,"_system");
+  }
+  ionSelected() {
+    console.log('member selected',this.content.scrollTop);
+    if (this.content.scrollTop > 100) {
+      this.content.scrollToTop();
+    }
+    else {
+      this.LoadMembers();
+    }
   }
 }

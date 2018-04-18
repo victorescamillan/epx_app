@@ -25786,9 +25786,25 @@ p.strong {
 #indicator ion-spinner {
   position: relative;
   display: block;
-  width: 50px;
-  height: 50px;
-  margin: auto;
+  width: 45px;
+  height: 45px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+}
+
+ion-spinner.process {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin-left: 10px;
+  margin-right: auto;
+  border-radius: 50%;
+}
+
+.spinner-md-crescent circle, .spinner-ios-crescent circle {
+  stroke: #297aaf;
 }
 
 .hide-indicator {
@@ -25818,7 +25834,7 @@ ion-header {
 }
 
 ion-scroll.scroll-x {
-  min-height: 250px;
+  min-height: 220px;
   height: auto;
 }
 
@@ -26234,6 +26250,25 @@ page-member-details p.date-text {
 page-member-details .price {
   color: #15c534;
   font-size: 115%;
+}
+
+page-member-details h4.content-text {
+  position: relative;
+  margin-top: -20px;
+  padding: 5px;
+  background: black;
+  color: white;
+  opacity: .6;
+}
+
+page-member-details .vault-video ion-item {
+  padding: 0px;
+}
+
+page-member-details .vault .author img {
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
 }
 
 page-members p.item-text {
@@ -26919,6 +26954,10 @@ page-trips .trip-meter {
   float: right;
   right: 0px;
   text-align: center;
+}
+
+page-trips .toolbar-title-ios {
+  font-size: 1.4rem;
 }
 
 page-vault ion-item.item.item-block.item {

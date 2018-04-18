@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Platform, LoadingController } from
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { StatusBar } from '@ionic-native/status-bar';
+
 // import { trigger, state, style, transition, animate,keyframes } from '@angular/animations'
 
 // import { Geolocation } from '@ionic-native/geolocation';
@@ -52,10 +53,12 @@ export class TripDetailsPage {
   lng: number;
   isLoading: boolean = true;
   isInterested: boolean;
+  isTapped: boolean = false;
   visibleState = 'visible';
   sashes_image: any;
   gellery_length: number;
-  constructor(
+  
+  constructor(    
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     // private googleMaps: GoogleMaps,
@@ -67,6 +70,7 @@ export class TripDetailsPage {
     console.log('trip param:', details);
     
     this.isInterested = details.trip_interested.interested;
+    
 
     this.trip_id = details.ID;
     this.sashes_image = details.sashes_image;
@@ -92,9 +96,11 @@ export class TripDetailsPage {
   }
   //Interested
   interested() {
+    this.isTapped = true;
     this.epxProvider.getData('ID').then(user_id => {
       this.epxProvider.getTripInterest(this.trip_id, user_id).subscribe(res => {
         this.isInterested = res.interest;
+        this.isTapped = false;
         if (res.interest) {
           this.details.number_of_interested++;
         }

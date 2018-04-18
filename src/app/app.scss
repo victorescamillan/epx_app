@@ -104,10 +104,26 @@ p.strong{
 #indicator ion-spinner {
     position: relative;
     display: block;
-    width: 50px;
-    height: 50px;
-    margin: auto;
-    
+    width: 45px;
+    height: 45px;
+    margin-left: auto;
+    margin-right: auto;
+    // background: white;
+    border-radius: 50%;
+}
+ion-spinner.process {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    margin-right: auto;
+    // background: white;
+    border-radius: 50%;    
+}
+   
+.spinner-md-crescent circle, .spinner-ios-crescent circle{
+    stroke: #297aaf;
 }
 .hide-indicator {
     display: none;
@@ -132,8 +148,10 @@ ion-header {
     display: -webkit-inline-box;
 }
 ion-scroll.scroll-x {
-    min-height: 250px;
+    min-height: 220px;
     height: auto;
 }
+
+
 
 

@@ -21,12 +21,24 @@ export class TripsPage {
   is_interested: boolean = false;
   id: any;
   date: string = new Date().toLocaleString();
-  isLoading: boolean = true;
-  isRefresh: boolean = false;
+  isLoading: boolean;
+  isRefresh: boolean;
   isInterested: boolean = false;
+  isInterested_Temp: boolean = false;
+
   page = 1;
   totalPage = 0;
-  constructor(private detectorRef: ChangeDetectorRef, private events: Events, private cache: CacheService, public alertCtrl: AlertController, private toastCtrl: ToastController, public modalCtrl: ModalController, private loadingCtrl: LoadingController, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private detectorRef: ChangeDetectorRef, 
+    private events: Events, 
+    private cache: CacheService, 
+    public alertCtrl: AlertController, 
+    private toastCtrl: ToastController, 
+    public modalCtrl: ModalController, 
+    private loadingCtrl: LoadingController, 
+    private epxProvider: EpxProvider, 
+    public navCtrl: NavController, 
+    public navParams: NavParams) {
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
     
@@ -50,9 +62,11 @@ export class TripsPage {
 
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
+    this.isLoading = true;
+    this.isRefresh = false;
     let url = this.epxProvider.trips_infinite_url;
-    let ttl = 60 * 60 * 12;
-    let delay_type = 'all';
+    let ttl = this.epxProvider.TTL;
+    let delay_type = this.epxProvider.DELAY_TYPE;
     let groupKey = 'trip-list';
     this.page = 1;
     let connected = this.epxProvider.isConnected();
@@ -115,48 +129,19 @@ export class TripsPage {
     this.LoadTrips(refresher);
   }
 
-  loadChart() {
-    console.log('load chart: ', this.doughnutCanvas);
-    // this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
-    //   type: 'doughnut',
-    //   rotation: 5,
-    //   data: {
-    //     labels: ["Occupied", "Vacant"],
-    //     datasets: [{
-    //       label: '# of Votes',
-    //       data: [30,5],
-    //       backgroundColor: [
-    //         'rgba(255, 99, 132, 0.9)',
-    //         'rgba(54, 162, 235, 0.2)',
-    //         // 'rgba(255, 206, 86, 0.2)',
-    //         // 'rgba(75, 192, 192, 0.2)',
-    //         // 'rgba(153, 102, 255, 0.2)',
-    //         // 'rgba(255, 159, 64, 0.2)'
-    //       ],
-    //       hoverBackgroundColor: [
-    //         "#FF6384",
-    //         "#36A2EB",
-    //         // "#FFCE56",
-    //         // "#FF6384",
-    //         // "#36A2EB",
-    //         // "#FFCE56"
-    //       ],
-
-    //     }]
-    //   }
-    // });
-  }
   //Interested
   interested(trip) {
     this.epxProvider.getData('ID').then(user_id => {
-      if (trip.trip_interested.interested) {
-        trip.trip_interested.interested = false;
-      }
-      else {
-        trip.trip_interested.interested = true;
-      }
+      // if (trip.trip_interested.interested) {
+      //   trip.trip_interested.interested = false;
+      // }
+      // else {
+      //   trip.trip_interested.interested = true;
+      // }
+      trip.trip_interested.isTapped = true;
       this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(res => {
         trip.trip_interested.interested = res.interest;
+        trip.trip_interested.isTapped = false;
         console.log('interest result:', res);
       });
     });
@@ -212,5 +197,14 @@ export class TripsPage {
         infiniteScroll.complete();
       });
     });
+  }
+  ionSelected() {
+    console.log('trip selected',);
+    if(this.content.scrollTop > 100){
+      this.content.scrollToTop();
+    }
+    else{
+      this.LoadTrips();
+    }
   }
 }

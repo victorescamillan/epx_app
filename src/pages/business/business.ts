@@ -27,8 +27,6 @@ export class BusinessPage {
     private epxProvider: EpxProvider,
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {
-    // Set TTL to 12h
-    cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
   }
@@ -38,8 +36,8 @@ export class BusinessPage {
   }
   LoadBusiness(refresher?) {
     let url = this.epxProvider.business_infinite_url;
-    let ttl = 60 * 60 * 12;
-    let delay_type = 'all';
+    let ttl = this.epxProvider.TTL;
+    let delay_type = this.epxProvider.DELAY_TYPE;
     let groupKey = 'business-list';
     this.page = 1;
     let connected = this.epxProvider.isConnected();

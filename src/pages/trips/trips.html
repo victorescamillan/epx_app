@@ -33,7 +33,7 @@
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <ion-card *ngFor="let trip of tripList" #tripCard>
+  <ion-card *ngFor="let trip of tripList">
     <div class="trip-image" (click)="tripDetails(trip)">
       
       <img src="{{trip.thumbnail}}" >
@@ -55,7 +55,9 @@
       <div class="btn-interested" *ngIf="trip.sashes_image == ''">
         <button ion-button icon-right clear small (click)="interested(trip)">
           <div>{{trip.trip_interested.interested ? "Interested" : "I'm Interested"}}</div>
-          <ion-icon name="{{trip.trip_interested.interested ? 'heart' : 'heart-outline'}}"></ion-icon>
+          <!-- <div>{{trip.trip_interested.interested}}</div> -->
+          <ion-icon *ngIf="!trip.trip_interested.isTapped" name="{{trip.trip_interested.interested ? 'heart' : 'heart-outline'}}"></ion-icon>
+          <ion-spinner *ngIf="trip.trip_interested.isTapped" class="process" name="crescent"></ion-spinner>
         </button>
       </div>
     </ion-card-content>

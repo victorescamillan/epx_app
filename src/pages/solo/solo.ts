@@ -13,8 +13,8 @@ import { error } from '@firebase/database/dist/esm/src/core/util/util';
 export class SoloPage {
   @ViewChild(Content) content: Content;
   soloList: any;
-  isLoading: boolean = true;
-  isRefresh: boolean = false;
+  isLoading: boolean;
+  isRefresh: boolean;
   page = 1;
   perPage = 0;
   totalData = 0;
@@ -46,9 +46,11 @@ export class SoloPage {
     this.navCtrl.push('SoloDetailsPage', { data: solo });
   }
   LoadSolo(refresher?) {
+    this.isLoading = true;
+    this.isRefresh = false;
     let url = this.epxProvider.solo_infinite_url;
-    let ttl = 60 * 60 * 12;
-    let delay_type = 'all';
+    let ttl = this.epxProvider.TTL;
+    let delay_type = this.epxProvider.DELAY_TYPE;
     let groupKey = 'solo-list';
     this.page = 1;
     let connected = this.epxProvider.isConnected();
@@ -104,6 +106,7 @@ export class SoloPage {
     }
    
   }
+  //Pagination
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
 
@@ -124,13 +127,22 @@ export class SoloPage {
       this.isRefresh = true;
     });
   }
-
   //Pull to refresh page
   forceReload(refresher) {
     this.LoadSolo(refresher);
   }
+  //Tags
   soloByTags(tag) {
     console.log('tag', tag);
     this.navCtrl.push('SoloTagsPage', { data: tag });
+  }
+  ionSelected() {
+    console.log('solo selected', this.content.scrollTop);
+    if(this.content.scrollTop > 100){
+      this.content.scrollToTop();
+    }
+    else{
+      this.LoadSolo();
+    }
   }
 }

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, LoadingController, Events } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, LoadingController, Events, Content } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -12,9 +12,10 @@ import { DomSanitizer } from '@angular/platform-browser'
   templateUrl: 'vault.html',
 })
 export class VaultPage {
+  @ViewChild(Content) content: Content;
   vaultList: any;
-  isLoading: boolean = true;
-  isRefresh: boolean = false;
+  isLoading: boolean;
+  isRefresh: boolean;
   page = 1;
   perPage = 0;
   totalData = 0;
@@ -22,7 +23,10 @@ export class VaultPage {
 
   constructor(
     private events: Events,
-    private loadingCtrl: LoadingController, private epxProvider: EpxProvider, private cache: CacheService, private navCtrl: NavController) {
+    private loadingCtrl: LoadingController, 
+    private epxProvider: EpxProvider, 
+    private cache: CacheService, 
+    private navCtrl: NavController) {
     // Set TTL to 12h
     cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
@@ -37,9 +41,12 @@ export class VaultPage {
     this.navCtrl.push('VaultDetailsPage', { data: vault });
   }
   LoadVault(refresher?) {
+    this.isLoading = true;
+    this.isRefresh = false;
+
     let url = this.epxProvider.vault_infinite_url;
-    let ttl = 60 * 60 * 12;
-    let delay_type = 'all';
+    let ttl = this.epxProvider.TTL;
+    let delay_type = this.epxProvider.DELAY_TYPE;
     let groupKey = 'vault-list';
     this.page = 1;
     let connected = this.epxProvider.isConnected();
@@ -123,5 +130,14 @@ export class VaultPage {
       this.isLoading = false;
       this.isRefresh = true;
     });
+  }
+  ionSelected() {
+    console.log('vault selected',);
+    if(this.content.scrollTop > 100){
+      this.content.scrollToTop();
+    }
+    else{
+      this.LoadVault();
+    }
   }
 }

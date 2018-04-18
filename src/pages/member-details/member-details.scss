@@ -92,6 +92,24 @@ page-member-details {
         color: #15c534;
         font-size: 115%;
     }
+    h4.content-text {
+        position: relative;
+        margin-top: -20px;
+        padding: 5px;
+        background: black;
+        color: white;
+        opacity: .6;
+    }
+    .vault-video ion-item{
+        padding: 0px;
+    }
+    
+    .vault .author img {
+        border-radius: 50%;
+        height: 35px;
+        width: 35px;
+    }
+
     // ion-row.row {
     //     display: -webkit-inline-box;
     // }

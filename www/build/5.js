@@ -1,6 +1,6 @@
 webpackJsonp([5],{
 
-/***/ 473:
+/***/ 474:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripsPageModule", function() { return TripsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(499);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TripsPageModule = (function () {
 
 /***/ }),
 
-/***/ 498:
+/***/ 499:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77,9 +77,8 @@ var TripsPage = (function () {
         this.navParams = navParams;
         this.is_interested = false;
         this.date = new Date().toLocaleString();
-        this.isLoading = true;
-        this.isRefresh = false;
         this.isInterested = false;
+        this.isInterested_Temp = false;
         this.page = 1;
         this.totalPage = 0;
         // Keep our cached results when device is offline!
@@ -102,9 +101,11 @@ var TripsPage = (function () {
     //Get Trips List and show indicator
     TripsPage.prototype.LoadTrips = function (refresher) {
         var _this = this;
+        this.isLoading = true;
+        this.isRefresh = false;
         var url = this.epxProvider.trips_infinite_url;
-        var ttl = 60 * 60 * 12;
-        var delay_type = 'all';
+        var ttl = this.epxProvider.TTL;
+        var delay_type = this.epxProvider.DELAY_TYPE;
         var groupKey = 'trip-list';
         this.page = 1;
         var connected = this.epxProvider.isConnected();
@@ -165,48 +166,20 @@ var TripsPage = (function () {
     TripsPage.prototype.forceReload = function (refresher) {
         this.LoadTrips(refresher);
     };
-    TripsPage.prototype.loadChart = function () {
-        console.log('load chart: ', this.doughnutCanvas);
-        // this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
-        //   type: 'doughnut',
-        //   rotation: 5,
-        //   data: {
-        //     labels: ["Occupied", "Vacant"],
-        //     datasets: [{
-        //       label: '# of Votes',
-        //       data: [30,5],
-        //       backgroundColor: [
-        //         'rgba(255, 99, 132, 0.9)',
-        //         'rgba(54, 162, 235, 0.2)',
-        //         // 'rgba(255, 206, 86, 0.2)',
-        //         // 'rgba(75, 192, 192, 0.2)',
-        //         // 'rgba(153, 102, 255, 0.2)',
-        //         // 'rgba(255, 159, 64, 0.2)'
-        //       ],
-        //       hoverBackgroundColor: [
-        //         "#FF6384",
-        //         "#36A2EB",
-        //         // "#FFCE56",
-        //         // "#FF6384",
-        //         // "#36A2EB",
-        //         // "#FFCE56"
-        //       ],
-        //     }]
-        //   }
-        // });
-    };
     //Interested
     TripsPage.prototype.interested = function (trip) {
         var _this = this;
         this.epxProvider.getData('ID').then(function (user_id) {
-            if (trip.trip_interested.interested) {
-                trip.trip_interested.interested = false;
-            }
-            else {
-                trip.trip_interested.interested = true;
-            }
+            // if (trip.trip_interested.interested) {
+            //   trip.trip_interested.interested = false;
+            // }
+            // else {
+            //   trip.trip_interested.interested = true;
+            // }
+            trip.trip_interested.isTapped = true;
             _this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(function (res) {
                 trip.trip_interested.interested = res.interest;
+                trip.trip_interested.isTapped = false;
                 console.log('interest result:', res);
             });
         });
@@ -262,6 +235,15 @@ var TripsPage = (function () {
             });
         });
     };
+    TripsPage.prototype.ionSelected = function () {
+        console.log('trip selected');
+        if (this.content.scrollTop > 100) {
+            this.content.scrollToTop();
+        }
+        else {
+            this.LoadTrips();
+        }
+    };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('doughnutCanvas'),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
@@ -272,9 +254,18 @@ var TripsPage = (function () {
     ], TripsPage.prototype, "content", void 0);
     TripsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trips',template:/*ion-inline-start:"D:\epx_app\src\pages\trips\trips.html"*/'<!-- <!--\n  Generated template for the TripsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>EXPLORE . EXPAND. EVOLVE.</ion-title>\n    <!-- <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="showFilter()">\n        <ion-icon name="md-funnel"></ion-icon>\n      </button>\n    </ion-buttons> -->\n  </ion-navbar>\n</ion-header>\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <!-- <h1 class="text-center">\n    <strong>EXPLORE . EXPAND</strong>\n  </h1> -->\n  <!-- <ion-buttons>\n    <button ion-button block icon-end (click)="showFilter()">\n      Filter\n      <ion-icon name="search"></ion-icon>\n    </button>\n  </ion-buttons> -->\n  <br />\n\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let trip of tripList" #tripCard>\n    <div class="trip-image" (click)="tripDetails(trip)">\n      \n      <img src="{{trip.thumbnail}}" >\n      \n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n      <button ion-button round outline small class="btn-category">{{trip.product_cat}} </button>\n    </div>\n   \n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong class="pre-line" [innerHtml]="trip.title | uppercase"></strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <ion-icon name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more trips..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content> '/*ion-inline-end:"D:\epx_app\src\pages\trips\trips.html"*/,
+            selector: 'page-trips',template:/*ion-inline-start:"D:\epx_app\src\pages\trips\trips.html"*/'<!-- <!--\n  Generated template for the TripsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>EXPLORE . EXPAND. EVOLVE.</ion-title>\n    <!-- <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="showFilter()">\n        <ion-icon name="md-funnel"></ion-icon>\n      </button>\n    </ion-buttons> -->\n  </ion-navbar>\n</ion-header>\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <!-- <h1 class="text-center">\n    <strong>EXPLORE . EXPAND</strong>\n  </h1> -->\n  <!-- <ion-buttons>\n    <button ion-button block icon-end (click)="showFilter()">\n      Filter\n      <ion-icon name="search"></ion-icon>\n    </button>\n  </ion-buttons> -->\n  <br />\n\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let trip of tripList">\n    <div class="trip-image" (click)="tripDetails(trip)">\n      \n      <img src="{{trip.thumbnail}}" >\n      \n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n      <button ion-button round outline small class="btn-category">{{trip.product_cat}} </button>\n    </div>\n   \n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong class="pre-line" [innerHtml]="trip.title | uppercase"></strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <!-- <div>{{trip.trip_interested.interested}}</div> -->\n          <ion-icon *ngIf="!trip.trip_interested.isTapped" name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n          <ion-spinner *ngIf="trip.trip_interested.isTapped" class="process" name="crescent"></ion-spinner>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more trips..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content> '/*ion-inline-end:"D:\epx_app\src\pages\trips\trips.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */], __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
+            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], TripsPage);
     return TripsPage;
 }());

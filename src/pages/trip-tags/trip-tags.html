@@ -16,7 +16,7 @@
     <ion-spinner name="crescent"></ion-spinner>
   </div>
 
-  <ion-card *ngFor="let trip of tripList | async">
+  <ion-card *ngFor="let trip of tripList | async" #tripCard>
     <div class="trip-image">
       <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">
       <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != ''">

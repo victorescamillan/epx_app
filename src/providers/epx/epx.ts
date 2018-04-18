@@ -57,10 +57,10 @@ export class EpxProvider {
   public SOLO_BADGE: string = "SOLO_BADGE";
   public VAULT_BADGE: string = "VAULT_BADGE";
   public MEMBER_BADGE: string = "MEMBER_BADGE";
-  public USER_TAGS: string = "USER_TAGS";
-  // public SETTING_NOTIFICATION: string = "SETTING_NOTIFICATION";
   public MEMBER_NOTIFICATION: string = "MEMBER_NOTIFICATION";
   public VAULT_NOTIFICATION: string = "VAULT_NOTIFICATION";
+  public DELAY_TYPE: string = "all";
+  public TTL: number = 60 * 60 * 12;
 
   public PAGE_SIZE: number = 10;
   constructor(private events: Events, private toastCtrl: ToastController, private network: Network, private storage: Storage, private httpClient: HttpClient) {

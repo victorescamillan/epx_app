@@ -38,7 +38,8 @@
       <br/>
       <button ion-button round icon-right block outline (click)="interested()" *ngIf="sashes_image == ''">
         {{isInterested ? "Interested" : "I'm Interested"}}
-        <ion-icon name="{{isInterested ? 'heart' : 'heart-outline'}}"></ion-icon>
+        <ion-icon *ngIf="!isTapped" name="{{isInterested ? 'heart' : 'heart-outline'}}"></ion-icon>
+        <ion-spinner *ngIf="isTapped" class="process" name="crescent"></ion-spinner>
       </button>
 
       <ion-item>

@@ -20,9 +20,11 @@ export class MemberDetailsPage {
   member_crews: any;
   current_trips: any;
   past_trips: any;
+  vault_video: any;
   hasCrews: boolean = false;
   hasCurrent: boolean = false;
   hasPast: boolean = false;
+  hasVideo: boolean = false;
 
   constructor(private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
     console.log('member details: ', navParams.data);
@@ -62,6 +64,15 @@ export class MemberDetailsPage {
           this.hasPast = true;
         }
       }
+
+      let video = this.details.vault;
+      if(video != null){
+        this.vault_video = Object.keys(video).map(key => video[key]);
+        console.log('vault video: ', this.vault_video);
+        if(this.vault_video.length > 0){
+          this.hasVideo = true;
+        }
+      }
       this.isLoading = false;
     });
   }
@@ -83,5 +94,8 @@ export class MemberDetailsPage {
   openBrowser(url){
     console.log('company url:',url);
     window.open(url,"_system");
+  }
+  vaultDetails(vault) {
+    this.navCtrl.push('VaultDetailsPage', { data: vault });
   }
 }

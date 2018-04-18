@@ -71,8 +71,31 @@
             </ion-card>
           </ion-scroll>
         </div>
-        <div class="vault" *ngIf="hasCurrent || hasPast">
-          <h4>{{details.name}}'s Vault Videos</h4>
+        <div class="vault">
+          <div class="vault-video" *ngIf="hasVideo">
+            <p class="md-text text-center strong">{{details.name}}'s Vault Videos</p>
+            <ion-scroll scrollX="true">
+              <ion-card *ngFor="let vault of vault_video">
+                <img src="{{vault.thumbnail}}" (click)="vaultDetails(vault)">
+                <h4 class="content-text">
+                  <strong [innerHtml]="vault.title | uppercase"></strong>
+                </h4>
+                <ion-card-content>
+                  <ion-item class="author">
+                    <ion-avatar item-start>
+                      <img src="{{vault.author_avatar}}">
+                    </ion-avatar>
+                    <p class="sm-text">
+                      <strong>{{vault.author}}</strong> |
+                      <span class="gray">{{vault.length}}</span>
+                    </p>
+                    <p>{{vault.posted}}</p>
+                  </ion-item>
+                </ion-card-content>
+              </ion-card>
+            </ion-scroll>
+          </div>
+
           <div class="current-trips" *ngIf="hasCurrent">
             <p class="md-text text-center strong">Current Trips</p>
             <ion-scroll scrollX="true">
