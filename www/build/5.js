@@ -77,8 +77,9 @@ var TripsPage = (function () {
         this.navParams = navParams;
         this.is_interested = false;
         this.date = new Date().toLocaleString();
+        this.isLoading = false;
+        this.isRefresh = true;
         this.isInterested = false;
-        this.isInterested_Temp = false;
         this.page = 1;
         this.totalPage = 0;
         // Keep our cached results when device is offline!
@@ -101,8 +102,6 @@ var TripsPage = (function () {
     //Get Trips List and show indicator
     TripsPage.prototype.LoadTrips = function (refresher) {
         var _this = this;
-        this.isLoading = true;
-        this.isRefresh = false;
         var url = this.epxProvider.trips_infinite_url;
         var ttl = this.epxProvider.TTL;
         var delay_type = this.epxProvider.DELAY_TYPE;
@@ -240,9 +239,9 @@ var TripsPage = (function () {
         if (this.content.scrollTop > 100) {
             this.content.scrollToTop();
         }
-        else {
-            this.LoadTrips();
-        }
+        // else{
+        //   this.LoadTrips();
+        // }
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('doughnutCanvas'),

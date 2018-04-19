@@ -14,8 +14,8 @@ import { DomSanitizer } from '@angular/platform-browser'
 export class VaultPage {
   @ViewChild(Content) content: Content;
   vaultList: any;
-  isLoading: boolean;
-  isRefresh: boolean;
+  isLoading: boolean = false;
+  isRefresh: boolean = true;
   page = 1;
   perPage = 0;
   totalData = 0;
@@ -41,9 +41,6 @@ export class VaultPage {
     this.navCtrl.push('VaultDetailsPage', { data: vault });
   }
   LoadVault(refresher?) {
-    this.isLoading = true;
-    this.isRefresh = false;
-
     let url = this.epxProvider.vault_infinite_url;
     let ttl = this.epxProvider.TTL;
     let delay_type = this.epxProvider.DELAY_TYPE;
@@ -136,8 +133,6 @@ export class VaultPage {
     if(this.content.scrollTop > 100){
       this.content.scrollToTop();
     }
-    else{
-      this.LoadVault();
-    }
+  
   }
 }

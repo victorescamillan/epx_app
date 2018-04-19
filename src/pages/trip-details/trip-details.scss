@@ -199,5 +199,10 @@ page-trip-details {
         margin: auto;
         margin-top: 20px;
     }
-    
+    .button-round-md,.button-round-ios {
+        border-radius: 64px;
+        padding: 0 2.6rem;
+        display: block;
+        margin: auto;
+    }
 }

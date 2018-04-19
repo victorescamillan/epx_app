@@ -99,6 +99,7 @@ export class TripDetailsPage {
     this.isTapped = true;
     this.epxProvider.getData('ID').then(user_id => {
       this.epxProvider.getTripInterest(this.trip_id, user_id).subscribe(res => {
+        this.navParams.data.data.trip_interested.interested = res.interest;
         this.isInterested = res.interest;
         this.isTapped = false;
         if (res.interest) {

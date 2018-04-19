@@ -13,8 +13,8 @@ import { error } from '@firebase/database/dist/esm/src/core/util/util';
 export class SoloPage {
   @ViewChild(Content) content: Content;
   soloList: any;
-  isLoading: boolean;
-  isRefresh: boolean;
+  isLoading: boolean = false;
+  isRefresh: boolean = true;
   page = 1;
   perPage = 0;
   totalData = 0;
@@ -46,8 +46,6 @@ export class SoloPage {
     this.navCtrl.push('SoloDetailsPage', { data: solo });
   }
   LoadSolo(refresher?) {
-    this.isLoading = true;
-    this.isRefresh = false;
     let url = this.epxProvider.solo_infinite_url;
     let ttl = this.epxProvider.TTL;
     let delay_type = this.epxProvider.DELAY_TYPE;
@@ -140,9 +138,6 @@ export class SoloPage {
     console.log('solo selected', this.content.scrollTop);
     if(this.content.scrollTop > 100){
       this.content.scrollToTop();
-    }
-    else{
-      this.LoadSolo();
     }
   }
 }

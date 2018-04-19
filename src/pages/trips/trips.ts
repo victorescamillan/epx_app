@@ -21,10 +21,9 @@ export class TripsPage {
   is_interested: boolean = false;
   id: any;
   date: string = new Date().toLocaleString();
-  isLoading: boolean;
-  isRefresh: boolean;
+  isLoading: boolean = false;
+  isRefresh: boolean = true;
   isInterested: boolean = false;
-  isInterested_Temp: boolean = false;
 
   page = 1;
   totalPage = 0;
@@ -62,8 +61,7 @@ export class TripsPage {
 
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
-    this.isLoading = true;
-    this.isRefresh = false;
+  
     let url = this.epxProvider.trips_infinite_url;
     let ttl = this.epxProvider.TTL;
     let delay_type = this.epxProvider.DELAY_TYPE;
@@ -203,8 +201,8 @@ export class TripsPage {
     if(this.content.scrollTop > 100){
       this.content.scrollToTop();
     }
-    else{
-      this.LoadTrips();
-    }
+    // else{
+    //   this.LoadTrips();
+    // }
   }
 }

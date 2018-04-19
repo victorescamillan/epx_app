@@ -39,7 +39,7 @@ page-member-details {
     .business-logo img {
         max-width: 100%;
         border: 0;
-        height: 150px;
+        height: auto;
         width: 150px;
         border-radius: 0px;
     }
@@ -68,7 +68,6 @@ page-member-details {
     }
   
     ion-card-content.card-content.card-content-md {
-        
         padding: 5px;
     }
     ion-grid.grid {
@@ -76,7 +75,16 @@ page-member-details {
     }
     ion-card.card.card-md {
         margin: 5px;
-        
+    }
+    .crew .scroll-zoom-wrapper ion-card{
+        padding: 0px 10px;
+    }
+    .crew .sm-text{
+        font-size: 100%;
+        color: gray;
+    }
+    .crew h3.text-center{
+        font-size: 1.6rem;
     }
     ion-card-content.card-content.card-content-ios {
         padding: 5px;
@@ -92,13 +100,21 @@ page-member-details {
         color: #15c534;
         font-size: 115%;
     }
-    h4.content-text {
+    .vault-title {
         position: relative;
-        margin-top: -20px;
+        margin-top: -32px;
         padding: 5px;
         background: black;
         color: white;
         opacity: .6;
+    }
+    .vault-title h3 {
+        color: white;
+    }
+    .vault h3{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .vault-video ion-item{
         padding: 0px;
@@ -109,14 +125,5 @@ page-member-details {
         height: 35px;
         width: 35px;
     }
-
-    // ion-row.row {
-    //     display: -webkit-inline-box;
-    // }
    
-  
-    /* Hide ion-content scrollbar */
-//   ::-webkit-scrollbar{
-//     display:none;
-//   }
 }

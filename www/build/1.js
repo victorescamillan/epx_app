@@ -70,6 +70,8 @@ var VaultPage = (function () {
         this.epxProvider = epxProvider;
         this.cache = cache;
         this.navCtrl = navCtrl;
+        this.isLoading = false;
+        this.isRefresh = true;
         this.page = 1;
         this.perPage = 0;
         this.totalData = 0;
@@ -88,8 +90,6 @@ var VaultPage = (function () {
     };
     VaultPage.prototype.LoadVault = function (refresher) {
         var _this = this;
-        this.isLoading = true;
-        this.isRefresh = false;
         var url = this.epxProvider.vault_infinite_url;
         var ttl = this.epxProvider.TTL;
         var delay_type = this.epxProvider.DELAY_TYPE;
@@ -183,9 +183,6 @@ var VaultPage = (function () {
         console.log('vault selected');
         if (this.content.scrollTop > 100) {
             this.content.scrollToTop();
-        }
-        else {
-            this.LoadVault();
         }
     };
     __decorate([

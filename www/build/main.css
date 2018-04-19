@@ -25798,8 +25798,8 @@ ion-spinner.process {
   display: block;
   width: 18px;
   height: 18px;
+  margin: auto;
   margin-left: 10px;
-  margin-right: auto;
   border-radius: 50%;
 }
 
@@ -26138,10 +26138,6 @@ page-login .btn-forgot {
   opacity: 0.8;
 }
 
-page-member-details {
-  /* Hide ion-content scrollbar */
-}
-
 page-member-details .member-content {
   padding: 1em;
 }
@@ -26191,7 +26187,7 @@ page-member-details .business-logo {
 page-member-details .business-logo img {
   max-width: 100%;
   border: 0;
-  height: 150px;
+  height: auto;
   width: 150px;
   border-radius: 0px;
 }
@@ -26235,6 +26231,19 @@ page-member-details ion-card.card.card-md {
   margin: 5px;
 }
 
+page-member-details .crew .scroll-zoom-wrapper ion-card {
+  padding: 0px 10px;
+}
+
+page-member-details .crew .sm-text {
+  font-size: 100%;
+  color: gray;
+}
+
+page-member-details .crew h3.text-center {
+  font-size: 1.6rem;
+}
+
 page-member-details ion-card-content.card-content.card-content-ios {
   padding: 5px;
 }
@@ -26252,13 +26261,23 @@ page-member-details .price {
   font-size: 115%;
 }
 
-page-member-details h4.content-text {
+page-member-details .vault-title {
   position: relative;
-  margin-top: -20px;
+  margin-top: -32px;
   padding: 5px;
   background: black;
   color: white;
   opacity: .6;
+}
+
+page-member-details .vault-title h3 {
+  color: white;
+}
+
+page-member-details .vault h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 page-member-details .vault-video ion-item {
@@ -26370,6 +26389,12 @@ page-solo ion-col.col {
 }
 
 page-solo .btn-tags {
+  margin-top: 0px;
+}
+
+page-solo h3.text-price {
+  color: #32db64;
+  font-size: 1.9rem;
   margin-top: 0px;
 }
 
@@ -26684,6 +26709,13 @@ page-trip-details img.interested {
   width: 80px;
   margin: auto;
   margin-top: 20px;
+}
+
+page-trip-details .button-round-md, page-trip-details .button-round-ios {
+  border-radius: 64px;
+  padding: 0 2.6rem;
+  display: block;
+  margin: auto;
 }
 
 page-trip-filter .text-center {

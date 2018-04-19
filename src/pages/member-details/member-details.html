@@ -64,9 +64,9 @@
             <ion-card *ngFor="let item of member_crews" (click)="memberDetails(item)">
               <img class="interested" [src]="item.avatar" />
               <ion-card-content>
-                <p class="text-center md-text strong">{{item.name}}</p>
-                <p class="text-center sm-text">Member Since:</p>
-                <p class="text-center sm-text">{{item.member_since}}</p>
+                <h3 class="text-center"><strong>{{item.name}}</strong></h3>
+                <div class="text-center sm-text">Member Since:</div>
+                <div class="text-center sm-text">{{item.member_since}}</div>
               </ion-card-content>
             </ion-card>
           </ion-scroll>
@@ -77,15 +77,15 @@
             <ion-scroll scrollX="true">
               <ion-card *ngFor="let vault of vault_video">
                 <img src="{{vault.thumbnail}}" (click)="vaultDetails(vault)">
-                <h4 class="content-text">
-                  <strong [innerHtml]="vault.title | uppercase"></strong>
-                </h4>
+                <div class="vault-title">
+                  <h3><strong [innerHtml]="vault.title | uppercase"></strong></h3>
+                </div>
                 <ion-card-content>
                   <ion-item class="author">
                     <ion-avatar item-start>
                       <img src="{{vault.author_avatar}}">
                     </ion-avatar>
-                    <p class="sm-text">
+                    <p class="sm-text strong">
                       <strong>{{vault.author}}</strong> |
                       <span class="gray">{{vault.length}}</span>
                     </p>
@@ -103,10 +103,10 @@
                 <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">
                 <ion-card-content>
                   <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>
-                  <h3 class="content-text">
+                  <h3>
                     <strong>{{trip.title | uppercase}}</strong>
                   </h3>
-                  <p class="content-text">
+                  <p>
                     <strong class="price">{{trip.price}}</strong> Trip Fee</p>
                 </ion-card-content>
               </ion-card>
@@ -119,10 +119,10 @@
                 <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">
                 <ion-card-content>
                   <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>
-                  <h3 class="content-text">
+                  <h3>
                     <strong>{{trip.title | uppercase}}</strong>
                   </h3>
-                  <p class="content-text">
+                  <p>
                     <strong class="price">{{trip.price}}</strong> Trip Fee</p>
                 </ion-card-content>
               </ion-card>
