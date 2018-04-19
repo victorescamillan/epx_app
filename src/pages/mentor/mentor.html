@@ -14,5 +14,25 @@
 
 
 <ion-content padding>
+  <p class="sm-text">Every business needs help and as a member of EPX you have access to some of the most brilliant minds in business commited
+    to helping you accelerate success. Simply choose one skill you need help with and provide some detail below.</p>
+  <p class="sm-text">You will be notified by email when another member with that expertise is ready to engage!</p>
 
+  <ion-list radio-group>
+    <ion-list-header>
+      SKILLS:
+    </ion-list-header>
+    <ion-item *ngFor="let item of skillList,">
+      <ion-label>{{item}}</ion-label>
+      <ion-radio *ngIf="skillQty === 1" [value]="item"></ion-radio>
+      <ion-checkbox *ngIf="skillQty > 1"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <p class="info strong">Provide details on where you need help (500 characters)</p>
+  <form [formGroup]="formGroup">
+    <textarea #myInput id="myInput" rows="1" formControlName="details" [maxLength]="maxChar" (keyup)="resize()" [(ngModel)]="details"></textarea>
+    <p class="info"><strong>{{maxChar - consumeChar}}</strong> character left</p>
+    <button ion-button round outline  [disabled]="!formGroup.valid">Submit</button>
+  </form>
+ 
 </ion-content>

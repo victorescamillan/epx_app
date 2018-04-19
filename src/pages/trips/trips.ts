@@ -21,8 +21,8 @@ export class TripsPage {
   is_interested: boolean = false;
   id: any;
   date: string = new Date().toLocaleString();
-  isLoading: boolean = false;
-  isRefresh: boolean = true;
+  isLoading: boolean = true;
+  isRefresh: boolean = false;
   isInterested: boolean = false;
 
   page = 1;

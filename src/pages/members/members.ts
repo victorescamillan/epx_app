@@ -20,8 +20,8 @@ export class MembersPage {
   memberList: any;
   temp_memberList: Observable<any>;
   members:any;
-  isLoading: boolean = false;
-  isRefresh: boolean = true;
+  isLoading: boolean = true;
+  isRefresh: boolean = false;
   page = 1;
   perPage = 0;
   totalData = 0;
@@ -155,6 +155,5 @@ export class MembersPage {
     if (this.content.scrollTop > 100) {
       this.content.scrollToTop();
     }
-    
   }
 }

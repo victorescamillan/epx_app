@@ -13,8 +13,8 @@ import { error } from '@firebase/database/dist/esm/src/core/util/util';
 export class SoloPage {
   @ViewChild(Content) content: Content;
   soloList: any;
-  isLoading: boolean = false;
-  isRefresh: boolean = true;
+  isLoading: boolean = true;
+  isRefresh: boolean = false;
   page = 1;
   perPage = 0;
   totalData = 0;

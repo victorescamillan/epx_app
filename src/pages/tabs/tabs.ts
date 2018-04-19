@@ -11,6 +11,7 @@ import { OneSignal } from '@ionic-native/onesignal';
 })
 export class TabsPage {
 
+  mentorRoot = 'MentorPage'
   tripsRoot = 'TripsPage'
   vaultRoot = 'VaultPage'
   soloRoot = 'SoloPage'
@@ -37,8 +38,6 @@ export class TabsPage {
       this.epxProvider.getNotification();
     }
   }
-
-
   initEvents() {
     //Hide badges when page is refreshed or updates was loaded.
     this.events.subscribe(this.epxProvider.TRIP_BADGE, badge => {
@@ -169,7 +168,6 @@ export class TabsPage {
 
     this.oneSignal.endInit();
   }
-
   showAlert(title, message) {
     let alert = this.alertCtrl.create({
       title: title,

@@ -14,8 +14,8 @@ import { DomSanitizer } from '@angular/platform-browser'
 export class VaultPage {
   @ViewChild(Content) content: Content;
   vaultList: any;
-  isLoading: boolean = false;
-  isRefresh: boolean = true;
+  isLoading: boolean = true;
+  isRefresh: boolean = false;
   page = 1;
   perPage = 0;
   totalData = 0;

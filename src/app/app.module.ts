@@ -17,7 +17,6 @@ import {IonicStorageModule} from '@ionic/storage';
 import { CacheModule } from 'ionic-cache';
 import { Network } from '@ionic-native/network';
 import { OneSignal } from '@ionic-native/onesignal';
-import { DocumentViewer } from '@ionic-native/document-viewer';
 
 
 var config = {
@@ -47,7 +46,6 @@ var config = {
     MyApp,
   ],
   providers: [
-    DocumentViewer,
     OneSignal,
     StatusBar,
     SplashScreen,

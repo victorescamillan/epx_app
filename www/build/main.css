@@ -26301,6 +26301,36 @@ page-members .item-md ion-avatar ion-img, page-members .item-md ion-avatar img {
   height: 60px;
 }
 
+page-mentor .list-header-md, page-mentor .list-header-ios {
+  padding-left: 0px;
+}
+
+page-mentor ion-list-header ion-label {
+  color: #2a5a7d;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+page-mentor ion-item ion-label {
+  color: black;
+}
+
+page-mentor #myInput {
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  border: solid 1px silver;
+}
+
+page-mentor .info {
+  color: gray;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 5px;
+  font-size: 90%;
+}
+
 page-menu .menu-content {
   /* fallback for old browsers */
   background: #2980b9;
