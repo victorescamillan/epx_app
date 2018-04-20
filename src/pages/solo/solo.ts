@@ -74,7 +74,7 @@ export class SoloPage {
         this.epxProvider.updateNotification(this.epxProvider.SOLO_BADGE);
       },error => {
         console.log(error);
-        refresher.complete();
+        this.epxProvider.toastMessage('Internal Server Error!')
       });
     }
     else{

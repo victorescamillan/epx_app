@@ -25838,6 +25838,22 @@ ion-scroll.scroll-x {
   height: auto;
 }
 
+page-assist ion-col.col {
+  padding: 0px;
+}
+
+page-assist .sm-text {
+  font-size: 85%;
+}
+
+page-assist .sm-text.created.row {
+  margin-top: 10px;
+}
+
+page-assist .button-small-md, page-assist .button-small-ios {
+  margin-top: 15px;
+}
+
 page-business ion-card {
   position: relative;
   text-align: center;
@@ -26329,6 +26345,14 @@ page-mentor .info {
   -webkit-margin-before: 0px;
   -webkit-margin-after: 5px;
   font-size: 90%;
+}
+
+page-mentor .button-round.button-round-md, page-mentor .button-round.button-round-ios {
+  float: right;
+}
+
+page-mentor .list-header-ios {
+  border-bottom: none;
 }
 
 page-menu .menu-content {

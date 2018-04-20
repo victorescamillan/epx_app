@@ -30,9 +30,9 @@
   </ion-list>
   <p class="info strong">Provide details on where you need help (500 characters)</p>
   <form [formGroup]="formGroup">
-    <textarea #myInput id="myInput" rows="1" formControlName="details" [maxLength]="maxChar" (keyup)="resize()" [(ngModel)]="details"></textarea>
+    <textarea #myInput id="myInput" rows="5" formControlName="details" [maxLength]="maxChar" (keyup)="resizeInput()" [(ngModel)]="details"></textarea>
     <p class="info"><strong>{{maxChar - consumeChar}}</strong> character left</p>
-    <button ion-button round outline  [disabled]="!formGroup.valid">Submit</button>
+    <button ion-button round outline  [disabled]="!formGroup.valid" (click)="presentAlert()">Submit</button>
   </form>
  
 </ion-content>

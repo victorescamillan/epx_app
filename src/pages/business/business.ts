@@ -63,7 +63,7 @@ export class BusinessPage {
         this.isRefresh = true;
       }, error => {
         console.log(error);
-        refresher.complete();
+        this.epxProvider.toastMessage('Internal Server Error!')
       });
     }
     else {

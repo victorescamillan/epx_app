@@ -24,5 +24,10 @@ page-mentor {
         -webkit-margin-after: 5px;
         font-size: 90%
     }
-    
+    .button-round.button-round-md,.button-round.button-round-ios  {
+        float: right;
+    }
+    .list-header-ios{
+        border-bottom: none;
+    }
 }

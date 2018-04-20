@@ -1,6 +1,6 @@
 webpackJsonp([5],{
 
-/***/ 473:
+/***/ 477:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripsPageModule", function() { return TripsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(502);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TripsPageModule = (function () {
 
 /***/ }),
 
-/***/ 498:
+/***/ 502:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77,8 +77,8 @@ var TripsPage = (function () {
         this.navParams = navParams;
         this.is_interested = false;
         this.date = new Date().toLocaleString();
-        this.isLoading = false;
-        this.isRefresh = true;
+        this.isLoading = true;
+        this.isRefresh = false;
         this.isInterested = false;
         this.page = 1;
         this.totalPage = 0;
@@ -131,7 +131,8 @@ var TripsPage = (function () {
                     _this.epxProvider.updateNotification(_this.epxProvider.TRIP_BADGE);
                 }, function (error) {
                     console.log(error);
-                    refresher.complete();
+                    // refresher.complete();
+                    _this.epxProvider.toastMessage('Internal Server Error!');
                 });
             });
         }

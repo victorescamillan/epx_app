@@ -69,7 +69,7 @@ export class VaultPage {
         this.epxProvider.updateNotification(this.epxProvider.VAULT_BADGE);
       }, error => {
         console.log(error);
-        refresher.complete();
+        this.epxProvider.toastMessage('Internal Server Error!')
       });
     }
     else {

@@ -91,7 +91,8 @@ export class TripsPage {
           this.epxProvider.updateNotification(this.epxProvider.TRIP_BADGE);
         }, error => {
           console.log(error);
-          refresher.complete();
+          // refresher.complete();
+          this.epxProvider.toastMessage('Internal Server Error!')
         });
       });
     }

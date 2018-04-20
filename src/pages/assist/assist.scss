@@ -1,3 +1,14 @@
 page-assist {
-
+    ion-col.col{
+        padding: 0px;
+    }
+    .sm-text {
+        font-size: 85%;
+    }
+    .sm-text.created.row {
+        margin-top: 10px;
+    }
+   .button-small-md, .button-small-ios {
+        margin-top: 15px;
+    }
 }

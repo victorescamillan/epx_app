@@ -76,8 +76,8 @@ var MembersPage = (function () {
         this.cache = cache;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.isLoading = false;
-        this.isRefresh = true;
+        this.isLoading = true;
+        this.isRefresh = false;
         this.page = 1;
         this.perPage = 0;
         this.totalData = 0;
@@ -120,7 +120,7 @@ var MembersPage = (function () {
                 _this.epxProvider.updateNotification(_this.epxProvider.MEMBER_BADGE);
             }, function (error) {
                 console.log(error);
-                refresher.complete();
+                _this.epxProvider.toastMessage('Internal Server Error!');
             });
         }
         else {

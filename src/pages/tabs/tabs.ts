@@ -12,6 +12,7 @@ import { OneSignal } from '@ionic-native/onesignal';
 export class TabsPage {
 
   mentorRoot = 'MentorPage'
+  assistRoot = 'AssistPage'
   tripsRoot = 'TripsPage'
   vaultRoot = 'VaultPage'
   soloRoot = 'SoloPage'
