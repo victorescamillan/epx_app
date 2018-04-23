@@ -130,7 +130,7 @@ export class VaultPage {
   }
   ionSelected() {
     console.log('vault selected',);
-    if(this.content.scrollTop > 100){
+    if(this.content.scrollTop > 100 || this.totalPage <= 1){
       this.content.scrollToTop();
     }
   

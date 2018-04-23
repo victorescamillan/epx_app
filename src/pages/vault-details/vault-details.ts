@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Platform } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser'
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
@@ -22,6 +22,7 @@ export class VaultDetailsPage {
   isLoading: boolean = true;
 
   constructor(
+    private platform: Platform,
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     private cache: CacheService,
@@ -62,6 +63,12 @@ export class VaultDetailsPage {
       return;
     }
     console.log('company url:',url);
-    window.open(url,"_self",);
+    if(this.platform.is('ios')){
+      window.open(url,"_system");
+    }
+    else{
+      window.open(url,"_self");
+    }
+    
   }
 }

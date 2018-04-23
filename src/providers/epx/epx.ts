@@ -53,10 +53,16 @@ export class EpxProvider {
   public business_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
   public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
 
+  //MENTOR MATCH
+  public mentormatch_skills_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
+  public mentormatch_submit_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=mentor-match&skill=';
+  
   public TRIP_BADGE: string = "TRIP_BADGE";
   public SOLO_BADGE: string = "SOLO_BADGE";
   public VAULT_BADGE: string = "VAULT_BADGE";
   public MEMBER_BADGE: string = "MEMBER_BADGE";
+  public MENTOR_BADGE: string = "MENTOR_BADGE";
+  public ASSIST_BADGE: string = "ASSIST_BADGE";
   public MEMBER_NOTIFICATION: string = "MEMBER_NOTIFICATION";
   public VAULT_NOTIFICATION: string = "VAULT_NOTIFICATION";
   public DELAY_TYPE: string = "all";
@@ -238,6 +244,18 @@ export class EpxProvider {
   }
   getBusinessDetails(id) {
     return this.httpClient.get(this.business_details_url + id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getMentorMatchSkills() {
+    return this.httpClient.get(this.mentormatch_skills_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  submitMentorMatchSkill(skill, details) {
+    return this.httpClient.get(this.mentormatch_submit_url + skill + ' Development&details=' + details)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

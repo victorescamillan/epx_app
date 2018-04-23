@@ -1,6 +1,6 @@
 webpackJsonp([16],{
 
-/***/ 462:
+/***/ 461:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MentorPageModule", function() { return MentorPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mentor__ = __webpack_require__(487);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mentor__ = __webpack_require__(486);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var MentorPageModule = (function () {
 
 /***/ }),
 
-/***/ 487:
+/***/ 486:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46,6 +46,7 @@ var MentorPageModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,8 +59,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var MentorPage = (function () {
-    function MentorPage(alertCtrl, formBuilder, navCtrl, navParams) {
+    function MentorPage(provider, alertCtrl, formBuilder, navCtrl, navParams) {
+        this.provider = provider;
         this.alertCtrl = alertCtrl;
         this.formBuilder = formBuilder;
         this.navCtrl = navCtrl;
@@ -67,14 +70,16 @@ var MentorPage = (function () {
         this.skillQty = 1;
         this.maxChar = 500;
         this.consumeChar = 0;
+        this.isLoading = true;
         this.formGroup = formBuilder.group({
             details: ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required]
         });
         this.details_control = this.formGroup.controls['details'];
     }
     MentorPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad MentorPage');
-        this.skillList = this.skillSet();
+        console.log('ionViewDidLoad MentorPage', this.skill);
+        // this.skillList = this.skillSet();
+        this.initSkillSet();
     };
     MentorPage.prototype.resizeInput = function () {
         this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
@@ -95,6 +100,30 @@ var MentorPage = (function () {
             'International Economics'
         ];
     };
+    MentorPage.prototype.initSkillSet = function () {
+        var _this = this;
+        this.provider.getMentorMatchSkills().subscribe(function (res) {
+            _this.skillList = res.skills;
+            console.log('skill set: ', _this.skillList);
+            _this.isLoading = false;
+        });
+    };
+    MentorPage.prototype.selectedSkill = function (item) {
+        this.skill = item;
+        console.log('selected skill', item);
+    };
+    MentorPage.prototype.submitSkill = function () {
+        var _this = this;
+        if (this.skill != undefined) {
+            this.provider.submitMentorMatchSkill(this.skill, this.details).subscribe(function (res) {
+                console.log('result', res);
+                _this.presentAlert();
+            });
+        }
+        else {
+            this.provider.toastMessage('Please select skill');
+        }
+    };
     MentorPage.prototype.presentAlert = function () {
         var alert = this.alertCtrl.create({
             title: 'THANK YOU!',
@@ -109,9 +138,9 @@ var MentorPage = (function () {
     ], MentorPage.prototype, "myInput", void 0);
     MentorPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-mentor',template:/*ion-inline-start:"D:\epx_app\src\pages\mentor\mentor.html"*/'<!--\n  Generated template for the MentorPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Mentor Match</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <p class="sm-text">Every business needs help and as a member of EPX you have access to some of the most brilliant minds in business commited\n    to helping you accelerate success. Simply choose one skill you need help with and provide some detail below.</p>\n  <p class="sm-text">You will be notified by email when another member with that expertise is ready to engage!</p>\n\n  <ion-list radio-group>\n    <ion-list-header>\n      SKILLS:\n    </ion-list-header>\n    <ion-item *ngFor="let item of skillList,">\n      <ion-label>{{item}}</ion-label>\n      <ion-radio *ngIf="skillQty === 1" [value]="item"></ion-radio>\n      <ion-checkbox *ngIf="skillQty > 1"></ion-checkbox>\n    </ion-item>\n  </ion-list>\n  <p class="info strong">Provide details on where you need help (500 characters)</p>\n  <form [formGroup]="formGroup">\n    <textarea #myInput id="myInput" rows="5" formControlName="details" [maxLength]="maxChar" (keyup)="resizeInput()" [(ngModel)]="details"></textarea>\n    <p class="info"><strong>{{maxChar - consumeChar}}</strong> character left</p>\n    <button ion-button round outline  [disabled]="!formGroup.valid" (click)="presentAlert()">Submit</button>\n  </form>\n \n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\mentor\mentor.html"*/,
+            selector: 'page-mentor',template:/*ion-inline-start:"D:\epx_app\src\pages\mentor\mentor.html"*/'<!--\n  Generated template for the MentorPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Mentor Match</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <p class="sm-text">Every business needs help and as a member of EPX you have access to some of the most brilliant minds in business commited\n    to helping you accelerate success. Simply choose one skill you need help with and provide some detail below.</p>\n  <p class="sm-text">You will be notified by email when another member with that expertise is ready to engage!</p>\n\n  <ion-list radio-group>\n    <ion-list-header>\n      SKILLS:\n    </ion-list-header>\n    <div id="indicator" class="{{isLoading ? \'show-indicator\' : \'hide-indicator\'}}">\n      <ion-spinner name="crescent"></ion-spinner>\n    </div>\n    <ion-item *ngFor="let item of skillList">\n      <ion-label>{{item}}</ion-label>\n      <ion-radio *ngIf="skillQty === 1" (ionSelect)="selectedSkill(item)"></ion-radio>\n      <ion-checkbox *ngIf="skillQty > 1"></ion-checkbox>\n    </ion-item>\n  </ion-list>\n  <div class="form-details" *ngIf="!isLoading">\n    <p class="info strong">Provide details on where you need help (500 characters)</p>\n    <form [formGroup]="formGroup">\n      <textarea #myInput id="myInput" rows="5" formControlName="details" [maxLength]="maxChar" (keyup)="resizeInput()" [(ngModel)]="details"></textarea>\n      <p class="info">\n        <strong>{{maxChar - consumeChar}}</strong> character left</p>\n      <button ion-button round outline [disabled]="!formGroup.valid" (click)="submitSkill()">Submit</button>\n    </form>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\mentor\mentor.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], MentorPage);
     return MentorPage;
 }());

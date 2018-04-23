@@ -36,7 +36,6 @@
         "chart.js": "^2.7.2",
         "cordova-android": "^6.2.3",
         "cordova-plugin-device": "^2.0.1",
-        "cordova-plugin-document-viewer": "^0.9.8",
         "cordova-plugin-inappbrowser": "^2.0.2",
         "cordova-plugin-ionic-keyboard": "^2.0.5",
         "cordova-plugin-ionic-webview": "^1.1.16",
@@ -71,8 +70,7 @@
             "cordova-plugin-statusbar": {},
             "cordova-sqlite-storage": {},
             "cordova-plugin-network-information": {},
-            "onesignal-cordova-plugin": {},
-            "cordova-plugin-document-viewer": {}
+            "onesignal-cordova-plugin": {}
         },
         "platforms": [
             "android"

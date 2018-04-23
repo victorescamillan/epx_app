@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController  } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { regexValidators} from '../validators/validator'
+import { EpxProvider } from '../../providers/epx/epx';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,9 @@ export class MentorPage {
   details:any;
   maxChar: number = 500;
   consumeChar: number = 0;
-  constructor(private alertCtrl:AlertController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
+  isLoading: boolean = true;
+  skill:any;
+  constructor(private provider: EpxProvider, private alertCtrl:AlertController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
     
     this.formGroup = formBuilder.group({
       details:['',Validators.required]
@@ -27,8 +30,10 @@ export class MentorPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MentorPage');
-    this.skillList = this.skillSet();
+    console.log('ionViewDidLoad MentorPage',this.skill);
+    // this.skillList = this.skillSet();
+    this.initSkillSet();
+
   }
   resizeInput() {
     this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
@@ -49,8 +54,31 @@ export class MentorPage {
       'International Economics'
     ];
   }
+  initSkillSet(){
+    this.provider.getMentorMatchSkills().subscribe(res => {
+      this.skillList = res.skills;
+      console.log('skill set: ',this.skillList);
+      this.isLoading = false
+    });
+  }
+  selectedSkill(item){
+    this.skill = item;
+    console.log('selected skill',item);
+  }
+  submitSkill(){
+    if(this.skill != undefined){
+      this.provider.submitMentorMatchSkill(this.skill,this.details).subscribe(res => {
+        console.log('result',res);
+        this.presentAlert();
+      });
+    }
+    else{
+      this.provider.toastMessage('Please select skill');
+    }
+  }
   presentAlert() {
     let alert = this.alertCtrl.create({
+      
       title: 'THANK YOU!',
       subTitle: 'Your request is in the route! Be on the lookout for others needing your help and engage as much as you can! Give. Give. Give. With Love and Affection, Your Match-Making Pals @ EPX',
       buttons: ['Ok']

@@ -198,8 +198,9 @@ export class TripsPage {
     });
   }
   ionSelected() {
-    console.log('trip selected',);
-    if(this.content.scrollTop > 100){
+    console.log('trip selected');
+    console.log('scroll top', this.content.scrollTop);
+    if(this.content.scrollTop > 100 || this.totalPage <= 1){
       this.content.scrollToTop();
     }
     // else{

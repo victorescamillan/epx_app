@@ -70,6 +70,7 @@ var TabsPage = (function () {
         this.alertCtrl = alertCtrl;
         this.menuCtrl = menuCtrl;
         this.navCtrl = navCtrl;
+        this.notificationRoot = 'NotificationPage';
         this.mentorRoot = 'MentorPage';
         this.assistRoot = 'AssistPage';
         this.tripsRoot = 'TripsPage';
@@ -80,6 +81,8 @@ var TabsPage = (function () {
         this.soloBadge = 0;
         this.vaultBadge = 0;
         this.memberBadge = 0;
+        this.mentorBadge = 0;
+        this.assistBadge = 0;
         if (platform.is('cordova')) {
             this.initOneSignal();
             this.initEvents();
@@ -129,6 +132,7 @@ var TabsPage = (function () {
                     _this.oneSignal.sendTag('user_id', user_id);
                     _this.oneSignal.sendTag('member_added', 'true');
                     _this.oneSignal.sendTag('vault_added', 'true');
+                    _this.oneSignal.sendTag('development', 'true');
                 });
             }
         });
@@ -143,31 +147,111 @@ var TabsPage = (function () {
                 case 'trip':
                     {
                         //Cache trip update count to make it accessible to other components.
-                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
-                            _this.tripBadge = badge;
-                            _this.detectorRef.detectChanges();
+                        _this.epxProvider.getData(_this.epxProvider.TRIP_BADGE).then(function (old_badge) {
+                            if (old_badge != null && old_badge > 0) {
+                                var badge = Number(update) + Number(old_badge);
+                                _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, badge).then(function (new_badge) {
+                                    _this.tripBadge = new_badge;
+                                    _this.detectorRef.detectChanges();
+                                });
+                            }
+                            else {
+                                _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (new_badge) {
+                                    _this.tripBadge = new_badge;
+                                    _this.detectorRef.detectChanges();
+                                });
+                            }
                         });
                         break;
                     }
                 case 'solo': {
-                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
-                        _this.soloBadge = badge;
-                        _this.detectorRef.detectChanges();
+                    _this.epxProvider.getData(_this.epxProvider.SOLO_BADGE).then(function (old_badge) {
+                        if (old_badge != null && old_badge > 0) {
+                            var badge = Number(update) + Number(old_badge);
+                            _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, badge).then(function (new_badge) {
+                                _this.soloBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
+                        else {
+                            _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (new_badge) {
+                                _this.soloBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
                     });
                     break;
                 }
                 case 'vault': {
-                    _this.epxProvider.saveData(_this.epxProvider.VAULT_BADGE, update).then(function (badge) {
-                        _this.vaultBadge = badge;
-                        _this.detectorRef.detectChanges();
+                    _this.epxProvider.getData(_this.epxProvider.VAULT_BADGE).then(function (old_badge) {
+                        if (old_badge != null && old_badge > 0) {
+                            var badge = Number(update) + Number(old_badge);
+                            _this.epxProvider.saveData(_this.epxProvider.VAULT_BADGE, badge).then(function (new_badge) {
+                                _this.vaultBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
+                        else {
+                            _this.epxProvider.saveData(_this.epxProvider.VAULT_BADGE, update).then(function (new_badge) {
+                                _this.vaultBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
                     });
                     break;
                 }
                 case 'member': {
-                    _this.epxProvider.saveData(_this.epxProvider.MEMBER_BADGE, update).then(function (badge) {
-                        _this.memberBadge = badge;
-                        _this.detectorRef.detectChanges();
+                    _this.epxProvider.getData(_this.epxProvider.MEMBER_BADGE).then(function (old_badge) {
+                        if (old_badge != null && old_badge > 0) {
+                            var badge = Number(update) + Number(old_badge);
+                            _this.epxProvider.saveData(_this.epxProvider.MEMBER_BADGE, badge).then(function (new_badge) {
+                                _this.memberBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
+                        else {
+                            _this.epxProvider.saveData(_this.epxProvider.MEMBER_BADGE, update).then(function (new_badge) {
+                                _this.memberBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
                     });
+                    break;
+                }
+                case 'mentor-match': {
+                    _this.epxProvider.getData(_this.epxProvider.MENTOR_BADGE).then(function (old_badge) {
+                        if (old_badge != null && old_badge > 0) {
+                            var badge = Number(update) + Number(old_badge);
+                            _this.epxProvider.saveData(_this.epxProvider.MENTOR_BADGE, badge).then(function (new_badge) {
+                                _this.mentorBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
+                        else {
+                            _this.epxProvider.saveData(_this.epxProvider.MENTOR_BADGE, update).then(function (new_badge) {
+                                _this.mentorBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
+                    });
+                    break;
+                }
+                case 'member-assist': {
+                    // this.epxProvider.getData(this.epxProvider.OTHER_BADGE).then(old_badge => {
+                    //   if (old_badge != null && old_badge > 0) {
+                    //     let badge = Number(update) + Number(old_badge);
+                    //     this.epxProvider.saveData(this.epxProvider.OTHER_BADGE, badge).then(new_badge => {
+                    //       this.otherBadge = new_badge;
+                    //       this.detectorRef.detectChanges();
+                    //     });
+                    //   }
+                    //   else{
+                    //     this.epxProvider.saveData(this.epxProvider.OTHER_BADGE, update).then(new_badge => {
+                    //       this.otherBadge = new_badge;
+                    //       this.detectorRef.detectChanges();
+                    //     });
+                    //   }
+                    // });
                     break;
                 }
             }
@@ -181,31 +265,83 @@ var TabsPage = (function () {
                 case 'trip':
                     {
                         //Cache trip update count to make it accessible to other components.
-                        _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (badge) {
-                            _this.tripBadge = badge;
-                            _this.detectorRef.detectChanges();
+                        _this.epxProvider.getData(_this.epxProvider.TRIP_BADGE).then(function (old_badge) {
+                            if (old_badge != null && old_badge > 0) {
+                                var badge = Number(update) + Number(old_badge);
+                                _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, badge).then(function (new_badge) {
+                                    _this.tripBadge = new_badge;
+                                    _this.detectorRef.detectChanges();
+                                });
+                            }
+                            else {
+                                _this.epxProvider.saveData(_this.epxProvider.TRIP_BADGE, update).then(function (new_badge) {
+                                    _this.tripBadge = new_badge;
+                                    _this.detectorRef.detectChanges();
+                                });
+                            }
                         });
                         break;
                     }
                 case 'solo': {
-                    _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (badge) {
-                        _this.soloBadge = badge;
-                        _this.detectorRef.detectChanges();
+                    _this.epxProvider.getData(_this.epxProvider.SOLO_BADGE).then(function (old_badge) {
+                        if (old_badge != null && old_badge > 0) {
+                            var badge = Number(update) + Number(old_badge);
+                            _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, badge).then(function (new_badge) {
+                                _this.soloBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
+                        else {
+                            _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (new_badge) {
+                                _this.soloBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
                     });
                     break;
                 }
                 case 'vault': {
-                    _this.epxProvider.saveData(_this.epxProvider.VAULT_BADGE, update).then(function (badge) {
-                        _this.vaultBadge = badge;
-                        _this.detectorRef.detectChanges();
+                    _this.epxProvider.getData(_this.epxProvider.VAULT_BADGE).then(function (old_badge) {
+                        if (old_badge != null && old_badge > 0) {
+                            var badge = Number(update) + Number(old_badge);
+                            _this.epxProvider.saveData(_this.epxProvider.VAULT_BADGE, badge).then(function (new_badge) {
+                                _this.vaultBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
+                        else {
+                            _this.epxProvider.saveData(_this.epxProvider.VAULT_BADGE, update).then(function (new_badge) {
+                                _this.vaultBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
                     });
                     break;
                 }
                 case 'member': {
-                    _this.epxProvider.saveData(_this.epxProvider.MEMBER_BADGE, update).then(function (badge) {
-                        _this.memberBadge = badge;
-                        _this.detectorRef.detectChanges();
+                    _this.epxProvider.getData(_this.epxProvider.MEMBER_BADGE).then(function (old_badge) {
+                        if (old_badge != null && old_badge > 0) {
+                            var badge = Number(update) + Number(old_badge);
+                            _this.epxProvider.saveData(_this.epxProvider.MEMBER_BADGE, badge).then(function (new_badge) {
+                                _this.memberBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
+                        else {
+                            _this.epxProvider.saveData(_this.epxProvider.MEMBER_BADGE, update).then(function (new_badge) {
+                                _this.memberBadge = new_badge;
+                                _this.detectorRef.detectChanges();
+                            });
+                        }
                     });
+                    break;
+                }
+                case 'mentor-match': {
+                    _this.navCtrl.push('MentorPage');
+                    break;
+                }
+                case 'member-assist': {
+                    _this.navCtrl.push('AssistPage');
                     break;
                 }
             }
@@ -225,7 +361,7 @@ var TabsPage = (function () {
     };
     TabsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <!-- <ion-tab [root]="assistRoot" tabTitle="Assist" tabIcon="phone-portrait" ></ion-tab> \n    <ion-tab [root]="mentorRoot" tabTitle="Mentor" tabIcon="phone-portrait" ></ion-tab>  -->\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}"  tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
+            selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <!-- <ion-tab [root]="assistRoot" tabTitle="Assist" tabIcon="phone-portrait" ></ion-tab> \n    <ion-tab [root]="mentorRoot" tabTitle="Mentor" tabIcon="phone-portrait" ></ion-tab>  -->\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}"  tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu" (ionSelect)="openSideMenu()" tabBadge="{{otherBadge > 0 ? otherBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__ionic_native_onesignal__["a" /* OneSignal */],
             __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],

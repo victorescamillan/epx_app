@@ -135,8 +135,9 @@ export class SoloPage {
     this.navCtrl.push('SoloTagsPage', { data: tag });
   }
   ionSelected() {
-    console.log('solo selected', this.content.scrollTop);
-    if(this.content.scrollTop > 100){
+    console.log('solo selected');
+    console.log('scroll top', this.content.scrollTop);
+    if(this.content.scrollTop > 100 || this.totalPage <= 1){
       this.content.scrollToTop();
     }
   }
