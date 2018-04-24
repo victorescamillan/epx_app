@@ -18,6 +18,7 @@
       <ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon name="{{p.icon}}" item-start></ion-icon>
         {{p.title}}
+        <span class="{{p.badge > 0 ? 'badge-show' : 'badge-hide'}}">{{p.badge}}</span>
       </ion-item>
       <ion-item (click)="showPrompt()">
         <ion-icon name="md-exit" item-start></ion-icon>

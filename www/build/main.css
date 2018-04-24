@@ -26391,8 +26391,8 @@ page-menu .menu-icon img {
   max-width: 100%;
   border: 0;
   position: absolute;
-  height: 23%;
-  width: 40%;
+  width: 120px;
+  height: 150px;
   right: 50px;
   bottom: 20px;
 }
@@ -26405,6 +26405,21 @@ page-menu .item-md, page-menu ion-item.item.item-block.item-ios {
 
 page-menu .list-md, page-menu .list-ios {
   padding-top: 15px;
+}
+
+page-menu span.badge-show {
+  background: #f53d3d;
+  border-radius: 50%;
+  margin-left: 20px;
+  padding: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+page-menu span.badge-hide {
+  display: none;
 }
 
 page-solo button.disable-hover.button.button.button-default.button-default.button-block.button-block {

@@ -18,12 +18,13 @@ export class MenuPage {
 
   rootPage = 'TabsPage';
   @ViewChild(Nav) nav: Nav;
-
-  pages: PageInterface[] = [
-    { title: 'Business', pageName: 'BusinessPage', tabComponent: 'BusinessPage', index: 0, icon: 'briefcase' },
-    { title: 'Member Assist', pageName: 'AssistPage', tabComponent: 'AssistPage', index: 1, icon: 'hand' },
-    { title: 'Mentor Match', pageName: 'MentorPage', tabComponent: 'MentorPage', index: 2, icon: 'phone-portrait' },
-    { title: 'Settings', pageName: 'SettingsPage', tabComponent: 'SettingsPage', index: 3, icon: 'settings' },
+  mentorBadge: number = 0;
+  assistBadge: number = 0;
+  pages: any[] = [
+    { title: 'Business', pageName: 'BusinessPage', tabComponent: 'BusinessPage', index: 0, icon: 'briefcase', badge: 0 },
+    { title: 'Member Assist', pageName: 'AssistPage', tabComponent: 'AssistPage', index: 1, icon: 'hand', badge: this.mentorBadge },
+    { title: 'Mentor Match', pageName: 'MentorPage', tabComponent: 'MentorPage', index: 2, icon: 'phone-portrait', badge: this.assistBadge},
+    { title: 'Settings', pageName: 'SettingsPage', tabComponent: 'SettingsPage', index: 3, icon: 'settings', badge: 0},
   ]
 
   name: string;
@@ -33,12 +34,10 @@ export class MenuPage {
     })
   }
 
-  openPage(p: PageInterface) {
+  openPage(p) {
     this.navCtrl.push(p.pageName);
   }
-  isActive(p: PageInterface) {
-
-  }
+ 
   logoutUser(){
     this.epxProvider.clearUser();
     this.navCtrl.setRoot('LoginPage');
