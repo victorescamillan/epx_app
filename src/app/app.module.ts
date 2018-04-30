@@ -1,41 +1,37 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
 // import { Geolocation } from '@ionic-native/geolocation';
 // import { GoogleMaps } from '@ionic-native/google-maps';
 
 import { MyApp } from './app.component';
+import { TripsPage } from '../pages/trips/trips';
+import { SoloPage } from '../pages/solo/solo';
+import { VaultPage } from '../pages/vault/vault';
+import { MembersPage } from '../pages/members/members';
+import { MenuPage } from '../pages/menu/menu';
 import { TabsPage } from '../pages/tabs/tabs';
+
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { EpxProvider } from '../providers/epx/epx';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import {IonicStorageModule} from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { CacheModule } from 'ionic-cache';
 import { Network } from '@ionic-native/network';
 import { OneSignal } from '@ionic-native/onesignal';
-
-
-var config = {
-  apiKey: "AIzaSyD9l4jYr1CsW9LRaDWrwkcjc79amz97_JA",
-  authDomain: "phoenix-dev-181002.firebaseapp.com",
-  databaseURL: "https://phoenix-dev-181002.firebaseio.com",
-  projectId: "phoenix-dev-181002",
-  storageBucket: "phoenix-dev-181002.appspot.com",
-  messagingSenderId: "462345808165"
-};
-
+// import { AutoHideDirective } from '../directives/auto-hide/auto-hide';
 @NgModule({
   declarations: [
     MyApp,
+    // AutoHideDirective,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(config),
     AngularFireDatabaseModule, // imports firebase/firestore, only needed for database features
     HttpClientModule,
     IonicStorageModule.forRoot(),
@@ -49,10 +45,10 @@ var config = {
     OneSignal,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     EpxProvider,
     Network,
     // GoogleMaps,
   ]
 })
-export class AppModule {}
+export class AppModule { }

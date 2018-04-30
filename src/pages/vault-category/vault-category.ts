@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
-import { error } from '@firebase/database/dist/esm/src/core/util/util';
 /**
  * Generated class for the VaultCategoryPage page.
  *

@@ -27061,6 +27061,70 @@ page-trips .toolbar-title-ios {
   font-size: 1.4rem;
 }
 
+page-trips .filter {
+  background: #074976;
+  padding-bottom: 3px;
+}
+
+page-trips .filter .label.label-md, page-trips .filter .label.label-ios {
+  margin: 5px 0px;
+  color: white;
+  font-weight: 100;
+  font-size: 80%;
+}
+
+page-trips .btn-search {
+  float: right;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  height: 28px;
+  font-size: 85%;
+  font-weight: 100;
+  padding: 5px 10px;
+}
+
+page-trips .filter ion-select {
+  max-width: 100%;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+page-trips .alert-head {
+  background: #9aadba;
+}
+
+page-trips .item.item-block.item-md, page-trips .item.item-block.item-ios {
+  padding: 0px;
+}
+
+page-trips .filter .input-wrapper {
+  display: block;
+}
+
+page-trips .filter .select-text {
+  font-size: 90%;
+  color: black;
+}
+
+page-trips .filter.overlay.hide-filter {
+  opacity: 0;
+}
+
+page-trips .filter.overlay {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+  opacity: 1;
+}
+
+page-trips .filter ion-select button {
+  height: 0px;
+  display: none;
+}
+
 page-vault ion-item.item.item-block.item {
   padding-left: 0px;
 }

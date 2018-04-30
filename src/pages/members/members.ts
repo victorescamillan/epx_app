@@ -152,7 +152,9 @@ export class MembersPage {
   }
   ionSelected() {
     console.log('member selected',this.content.scrollTop);
-    if (this.content.scrollTop > 100 || this.totalPage <= 1) {
+    let topDistance = this.content.getContentDimensions().scrollTop;
+    console.log('scroll top', topDistance);
+    if(topDistance > 10){
       this.content.scrollToTop();
     }
   }

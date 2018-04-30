@@ -69,14 +69,18 @@ export class TripDetailsPage {
     var details = navParams.data.data;
     console.log('trip param:', details);
     
-    this.isInterested = details.trip_interested.interested;
-    
-
     this.trip_id = details.ID;
+    this.isInterested = details.isInterested;
     this.sashes_image = details.sashes_image;
-    this.location = details.map_info.map_address;
-    this.lat = Number(details.map_info.map_latitude);
-    this.lng = Number(details.map_info.map_longitude);
+    this.location = details.location;
+    this.lat = details.lat;
+    this.lng = details.lng;
+    // this.isInterested = details.trip_interested.interested;
+    // this.trip_id = details.ID;
+    // this.sashes_image = details.sashes_image;
+    // this.location = details.map_info.map_address;
+    // this.lat = Number(details.map_info.map_latitude);
+    // this.lng = Number(details.map_info.map_longitude);
   }
   ionViewDidLoad() {
     this.loadTripDetails(this.trip_id);

@@ -1,13 +1,13 @@
 webpackJsonp([8],{
 
-/***/ 470:
+/***/ 469:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripDetailsPageModule", function() { return TripDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_details__ = __webpack_require__(495);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -44,7 +44,7 @@ var TripDetailsPageModule = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -74,12 +74,18 @@ var TripDetailsPage = (function () {
         this.visibleState = 'visible';
         var details = navParams.data.data;
         console.log('trip param:', details);
-        this.isInterested = details.trip_interested.interested;
         this.trip_id = details.ID;
+        this.isInterested = details.isInterested;
         this.sashes_image = details.sashes_image;
-        this.location = details.map_info.map_address;
-        this.lat = Number(details.map_info.map_latitude);
-        this.lng = Number(details.map_info.map_longitude);
+        this.location = details.location;
+        this.lat = details.lat;
+        this.lng = details.lng;
+        // this.isInterested = details.trip_interested.interested;
+        // this.trip_id = details.ID;
+        // this.sashes_image = details.sashes_image;
+        // this.location = details.map_info.map_address;
+        // this.lat = Number(details.map_info.map_latitude);
+        // this.lng = Number(details.map_info.map_longitude);
     }
     TripDetailsPage.prototype.ionViewDidLoad = function () {
         this.loadTripDetails(this.trip_id);

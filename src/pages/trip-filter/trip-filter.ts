@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ViewController  } from 'ionic-angular';
+import { EpxProvider } from '../../providers/epx/epx';
 
 /**
  * Generated class for the TripFilterPage page.
@@ -14,8 +15,12 @@ import { IonicPage, NavController, NavParams,ViewController  } from 'ionic-angul
   templateUrl: 'trip-filter.html',
 })
 export class TripFilterPage {
-
+  regionList: any;
+  product_typeList: any;
+  region: any;
+  type: any;
   constructor(
+    private provider: EpxProvider,
     public viewCtrl: ViewController,
     public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -24,6 +29,18 @@ export class TripFilterPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripFilterPage');
+    this.initFilterData();
   }
-
+  initFilterData(){
+    this.provider.getTripRegionAndType().subscribe(res => {
+      console.log('product type',res.product_cat);
+      this.product_typeList = res.product_cat;
+      console.log('product region',res.product_region);
+      this.regionList = res.product_region;
+    });
+  }
+  filterTrips(){
+    console.log('region', this.region);
+    console.log('type', this.type);
+  }
 }

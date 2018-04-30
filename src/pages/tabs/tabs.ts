@@ -4,6 +4,12 @@ import { EpxProvider } from '../../providers/epx/epx';
 import { isNumber } from 'ionic-angular/util/util';
 import { OneSignal } from '@ionic-native/onesignal';
 
+import { TripsPage } from '../../pages/trips/trips';
+import { SoloPage } from '../../pages/solo/solo';
+import { VaultPage } from '../../pages/vault/vault';
+import { MembersPage } from '../../pages/members/members';
+
+
 @IonicPage()
 @Component({
   selector: 'page-tabs',
@@ -11,13 +17,13 @@ import { OneSignal } from '@ionic-native/onesignal';
 })
 export class TabsPage {
 
-  notificationRoot = 'NotificationPage'
-  mentorRoot = 'MentorPage'
-  assistRoot = 'AssistPage'
-  tripsRoot = 'TripsPage'
-  vaultRoot = 'VaultPage'
-  soloRoot = 'SoloPage'
-  membersRoot = 'MembersPage'
+  // notificationRoot = 'NotificationPage'
+  // mentorRoot = 'MentorPage'
+  // assistRoot = 'AssistPage'
+  tripsRoot = 'TripsPage';
+  vaultRoot = 'VaultPage';
+  soloRoot = 'SoloPage';
+  membersRoot = 'MembersPage';
 
   tripBadge = 0;
   soloBadge = 0;
@@ -96,6 +102,8 @@ export class TabsPage {
       console.log('notificaiton received. ', data);
       let target = data.payload.additionalData.target;
       let update = data.payload.additionalData.update;
+
+
       console.log('target. ', target);
       console.log('update. ', update);
       this.isAppOpen = true;
@@ -119,24 +127,25 @@ export class TabsPage {
           });
           break;
         }
-        case 'solo': {
-          this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(old_badge => {
-            if (old_badge != null && old_badge > 0) {
-              let badge = Number(update) + Number(old_badge);
-              this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, badge).then(new_badge => {
-                this.soloBadge = new_badge;
-                this.detectorRef.detectChanges();
-              });
-            }
-            else {
-              this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(new_badge => {
-                this.soloBadge = new_badge;
-                this.detectorRef.detectChanges();
-              });
-            }
-          });
-          break;
-        }
+
+        // case 'solo': {
+        //   this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(old_badge => {
+        //     if (old_badge != null && old_badge > 0) {
+        //       let badge = Number(update) + Number(old_badge);
+        //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, badge).then(new_badge => {
+        //         this.soloBadge = new_badge;
+        //         this.detectorRef.detectChanges();
+        //       });
+        //     }
+        //     else {
+        //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(new_badge => {
+        //         this.soloBadge = new_badge;
+        //         this.detectorRef.detectChanges();
+        //       });
+        //     }
+        //   });
+        //   break;
+        // }
         case 'vault': {
           this.epxProvider.getData(this.epxProvider.VAULT_BADGE).then(old_badge => {
             if (old_badge != null && old_badge > 0) {
@@ -173,7 +182,7 @@ export class TabsPage {
           });
           break;
         }
-       
+
       }
     });
 
@@ -183,6 +192,7 @@ export class TabsPage {
       let target = data.notification.payload.additionalData.target;
       let update = data.notification.payload.additionalData.update;
       let isFocus: boolean = data.notification.isAppInFocus;
+      let trip = data.notification.payload.additionalData;
       console.log('isAppInFocus. ', isFocus);
       if (this.isAppOpen) {
         switch (target) {
@@ -193,6 +203,20 @@ export class TabsPage {
           case 'member-assist': {
             this.navCtrl.push('AssistPage')
             break;
+          }
+          case 'trip-detail': {
+            let data = {
+              ID: trip.ID,
+              isInterested: trip.isInterested,
+              sashes_image: trip.sashes_image,
+              location: trip.location,
+              lat: Number(trip.lat),
+              lng: Number(trip.lng)
+            }
+            this.navCtrl.push('TripDetailsPage', { data: data });
+          }
+          case 'get-lucky': {
+            this.navCtrl.push('ChatPage');
           }
         }
       }
@@ -216,25 +240,37 @@ export class TabsPage {
               }
             });
             break;
+            
           }
-          case 'solo': {
-            this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(old_badge => {
-              if (old_badge != null && old_badge > 0) {
-                let badge = Number(update) + Number(old_badge);
-                this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, badge).then(new_badge => {
-                  this.soloBadge = new_badge;
-                  this.detectorRef.detectChanges();
-                });
-              }
-              else {
-                this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(new_badge => {
-                  this.soloBadge = new_badge;
-                  this.detectorRef.detectChanges();
-                });
-              }
-            });
-            break;
+          case 'trip-detail': {
+            let data = {
+              ID: trip.ID,
+              isInterested: trip.isInterested,
+              sashes_image: trip.sashes_image,
+              location: trip.location,
+              lat: Number(trip.lat),
+              lng: Number(trip.lng)
+            }
+            this.navCtrl.push('TripDetailsPage', { data: data });
           }
+          // case 'solo': {
+          //   this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(old_badge => {
+          //     if (old_badge != null && old_badge > 0) {
+          //       let badge = Number(update) + Number(old_badge);
+          //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, badge).then(new_badge => {
+          //         this.soloBadge = new_badge;
+          //         this.detectorRef.detectChanges();
+          //       });
+          //     }
+          //     else {
+          //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(new_badge => {
+          //         this.soloBadge = new_badge;
+          //         this.detectorRef.detectChanges();
+          //       });
+          //     }
+          //   });
+          //   break;
+          // }
           case 'vault': {
             this.epxProvider.getData(this.epxProvider.VAULT_BADGE).then(old_badge => {
               if (old_badge != null && old_badge > 0) {

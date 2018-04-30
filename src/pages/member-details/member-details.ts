@@ -80,7 +80,15 @@ export class MemberDetailsPage {
   //Navigate to Trip Details
   tripDetails(trip) {
     console.log('trip details:', trip);
-    this.navCtrl.push('TripDetailsPage', { data: trip });
+    let data = {
+      ID:trip.ID,
+      isInterested:trip.trip_interested.interested,
+      sashes_image:trip.sashes_image,
+      location:trip.map_info.map_address,
+      lat: Number(trip.map_info.map_latitude),
+      lng: Number(trip.map_info.map_longitude)
+    }   
+    this.navCtrl.push('TripDetailsPage', { data: data });
   }
   //Navigate to Member Details
   memberDetails(member) {

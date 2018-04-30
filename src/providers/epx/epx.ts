@@ -21,14 +21,15 @@ export class EpxProvider {
   // LOGIN
   public login_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
   public forgot_password_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
+  
   // TRIPS
   public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
   public trips_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
   public trips_interest_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
   public trips_tags_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
-
-  public trips_filter_url: string = 'https://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=295&trip-type=nature';
+  public trips_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=';
+  public trips_region_and_type_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-taxonomy';
   // SOLO
   public solo_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
   public solo_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
@@ -133,6 +134,12 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
+  getTripRegionAndType() {
+    return this.httpClient.get(this.trips_region_and_type_url)
+    .do(this.logResponse)
+    .map(this.extractData)
+    .catch(this.catchError)
+  }
   getTrips(user_id) {
     return this.httpClient.get(this.trips_url + user_id)
     .do(this.logResponse)
@@ -153,6 +160,12 @@ export class EpxProvider {
   }
   getTripTags(tag,user_id) {
     return this.httpClient.get(this.trips_tags_url + tag + "&user_id=" + user_id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getTripFilter(user_id,type,region) {
+    return this.httpClient.get(this.trips_filter_url + user_id + "&trip-type=" + type + "&region=" + region)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

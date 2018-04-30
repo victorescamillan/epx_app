@@ -14,37 +14,61 @@
     </ion-buttons> -->
   </ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content (ionScroll)="onScroll($event)">
+ 
+  
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Refreshing...">
+    <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
-  <!-- <h1 class="text-center">
-    <strong>EXPLORE . EXPAND</strong>
-  </h1> -->
-  <!-- <ion-buttons>
-    <button ion-button block icon-end (click)="showFilter()">
-      Filter
-      <ion-icon name="search"></ion-icon>
-    </button>
-  </ion-buttons> -->
-  <br />
-
+  <!-- <br /> -->
+  <div class="filter" #filter>
+      <ion-row>
+        <ion-col col-5>
+          <ion-item>
+            <ion-label>
+              Region
+            </ion-label>
+            <ion-select [(ngModel)]="region">
+              <!-- <ion-option disabled value="">Region</ion-option> -->
+              <ion-option *ngFor="let item of regionList">{{item}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col col-5>
+          <ion-item>
+            <ion-label>
+              Trip Type
+            </ion-label>
+            <ion-select [(ngModel)]="type">
+              <!-- <ion-option disabled value="">Trip Type</ion-option> -->
+              <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col col-2>
+          <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">
+            <!-- <ion-icon name="search"></ion-icon> -->
+            Filter
+          </button>
+        </ion-col>
+      </ion-row>
+    </div>
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   <ion-card *ngFor="let trip of tripList">
     <div class="trip-image" (click)="tripDetails(trip)">
-      
-      <img src="{{trip.thumbnail}}" >
-      
+
+      <img src="{{trip.thumbnail}}">
+
       <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != ''">
       <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">
         <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>
       </div>
       <button ion-button round outline small class="btn-category">{{trip.product_cat}} </button>
     </div>
-   
+
     <ion-card-content>
       <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>
       <h3 class="content-text">
@@ -62,7 +86,8 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">
     <ion-infinite-scroll-content loadingText="Loading more trips..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-</ion-content> 
+</ion-content>

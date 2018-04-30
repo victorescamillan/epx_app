@@ -1,13 +1,13 @@
 webpackJsonp([9],{
 
-/***/ 469:
+/***/ 468:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(494);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -44,7 +44,7 @@ var TabsPageModule = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_onesignal__ = __webpack_require__(288);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -70,9 +70,9 @@ var TabsPage = (function () {
         this.alertCtrl = alertCtrl;
         this.menuCtrl = menuCtrl;
         this.navCtrl = navCtrl;
-        this.notificationRoot = 'NotificationPage';
-        this.mentorRoot = 'MentorPage';
-        this.assistRoot = 'AssistPage';
+        // notificationRoot = 'NotificationPage'
+        // mentorRoot = 'MentorPage'
+        // assistRoot = 'AssistPage'
         this.tripsRoot = 'TripsPage';
         this.vaultRoot = 'VaultPage';
         this.soloRoot = 'SoloPage';
@@ -166,24 +166,24 @@ var TabsPage = (function () {
                     });
                     break;
                 }
-                case 'solo': {
-                    _this.epxProvider.getData(_this.epxProvider.SOLO_BADGE).then(function (old_badge) {
-                        if (old_badge != null && old_badge > 0) {
-                            var badge = Number(update) + Number(old_badge);
-                            _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, badge).then(function (new_badge) {
-                                _this.soloBadge = new_badge;
-                                _this.detectorRef.detectChanges();
-                            });
-                        }
-                        else {
-                            _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (new_badge) {
-                                _this.soloBadge = new_badge;
-                                _this.detectorRef.detectChanges();
-                            });
-                        }
-                    });
-                    break;
-                }
+                // case 'solo': {
+                //   this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(old_badge => {
+                //     if (old_badge != null && old_badge > 0) {
+                //       let badge = Number(update) + Number(old_badge);
+                //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, badge).then(new_badge => {
+                //         this.soloBadge = new_badge;
+                //         this.detectorRef.detectChanges();
+                //       });
+                //     }
+                //     else {
+                //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(new_badge => {
+                //         this.soloBadge = new_badge;
+                //         this.detectorRef.detectChanges();
+                //       });
+                //     }
+                //   });
+                //   break;
+                // }
                 case 'vault': {
                     _this.epxProvider.getData(_this.epxProvider.VAULT_BADGE).then(function (old_badge) {
                         if (old_badge != null && old_badge > 0) {
@@ -228,6 +228,7 @@ var TabsPage = (function () {
             var target = data.notification.payload.additionalData.target;
             var update = data.notification.payload.additionalData.update;
             var isFocus = data.notification.isAppInFocus;
+            var trip = data.notification.payload.additionalData;
             console.log('isAppInFocus. ', isFocus);
             if (_this.isAppOpen) {
                 switch (target) {
@@ -238,6 +239,20 @@ var TabsPage = (function () {
                     case 'member-assist': {
                         _this.navCtrl.push('AssistPage');
                         break;
+                    }
+                    case 'trip-detail': {
+                        var data_1 = {
+                            ID: trip.ID,
+                            isInterested: trip.isInterested,
+                            sashes_image: trip.sashes_image,
+                            location: trip.location,
+                            lat: Number(trip.lat),
+                            lng: Number(trip.lng)
+                        };
+                        _this.navCtrl.push('TripDetailsPage', { data: data_1 });
+                    }
+                    case 'get-lucky': {
+                        _this.navCtrl.push('ChatPage');
                     }
                 }
             }
@@ -262,24 +277,35 @@ var TabsPage = (function () {
                         });
                         break;
                     }
-                    case 'solo': {
-                        _this.epxProvider.getData(_this.epxProvider.SOLO_BADGE).then(function (old_badge) {
-                            if (old_badge != null && old_badge > 0) {
-                                var badge = Number(update) + Number(old_badge);
-                                _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, badge).then(function (new_badge) {
-                                    _this.soloBadge = new_badge;
-                                    _this.detectorRef.detectChanges();
-                                });
-                            }
-                            else {
-                                _this.epxProvider.saveData(_this.epxProvider.SOLO_BADGE, update).then(function (new_badge) {
-                                    _this.soloBadge = new_badge;
-                                    _this.detectorRef.detectChanges();
-                                });
-                            }
-                        });
-                        break;
+                    case 'trip-detail': {
+                        var data_2 = {
+                            ID: trip.ID,
+                            isInterested: trip.isInterested,
+                            sashes_image: trip.sashes_image,
+                            location: trip.location,
+                            lat: Number(trip.lat),
+                            lng: Number(trip.lng)
+                        };
+                        _this.navCtrl.push('TripDetailsPage', { data: data_2 });
                     }
+                    // case 'solo': {
+                    //   this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(old_badge => {
+                    //     if (old_badge != null && old_badge > 0) {
+                    //       let badge = Number(update) + Number(old_badge);
+                    //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, badge).then(new_badge => {
+                    //         this.soloBadge = new_badge;
+                    //         this.detectorRef.detectChanges();
+                    //       });
+                    //     }
+                    //     else {
+                    //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(new_badge => {
+                    //         this.soloBadge = new_badge;
+                    //         this.detectorRef.detectChanges();
+                    //       });
+                    //     }
+                    //   });
+                    //   break;
+                    // }
                     case 'vault': {
                         _this.epxProvider.getData(_this.epxProvider.VAULT_BADGE).then(function (old_badge) {
                             if (old_badge != null && old_badge > 0) {
