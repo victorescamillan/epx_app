@@ -34,15 +34,16 @@ export class EpxProvider {
   public solo_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
   public solo_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
   public solo_tag_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-tags-with-pagination&user_id=';
-  public solo_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=03/31/2018&from_date=03/06/2018';
+  public solo_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=';
   
   // VAULT
   public vault_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
-  
+  public vault_skill_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-taxonomy';
   public vault_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&list_size';
   public vault_tag_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
   public vault_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
   public vault_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
+  public vault_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&skill=';
 
   // MEMBERS
   public members_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
@@ -189,6 +190,12 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
+  getSoloFilters(dateFrom, dateTo) {
+    return this.httpClient.get(this.solo_filter_url + dateTo + '&from_date=' +dateFrom)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
   getSoloInfinite(page) {
     return this.httpClient.get(this.solo_infinite_url + page)
       .do(this.logResponse)
@@ -221,6 +228,18 @@ export class EpxProvider {
   }
   getVaultDetails(id) {
     return this.httpClient.get(this.vault_details_url + id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getVaultSkillsCategory() {
+    return this.httpClient.get(this.vault_skill_category_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getVaultFilters(skill,category) {
+    return this.httpClient.get(this.vault_filter_url + skill + '&category=' + category)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

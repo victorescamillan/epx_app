@@ -1,6 +1,6 @@
 webpackJsonp([5],{
 
-/***/ 472:
+/***/ 474:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripsPageModule", function() { return TripsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(500);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TripsPageModule = (function () {
 
 /***/ }),
 
-/***/ 498:
+/***/ 500:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -118,14 +118,14 @@ var TripsPage = (function () {
     TripsPage.prototype.filterTrips = function () {
         var _this = this;
         console.log('region and type:', this.region, this.type);
-        if (this.region === undefined || this.region === '') {
-            this.epxProvider.toastMessage('Please select region.');
+        if (this.region === '' && this.type === '' || this.region === undefined && this.type === undefined) {
+            this.epxProvider.toastMessage('Please select region or trip type.');
             return;
         }
-        if (this.type === undefined || this.type === '') {
-            this.epxProvider.toastMessage('Please select trip type.');
-            return;
-        }
+        // if (this.type === undefined || this.type === '') {
+        //   this.epxProvider.toastMessage('Please select trip type.')
+        //   return;
+        // }
         this.isFilter = true;
         this.isLoading = true;
         this.isRefresh = false;
@@ -298,10 +298,10 @@ var TripsPage = (function () {
         }
     };
     TripsPage.prototype.onScroll = function (event) {
-        if (event.scrollTop < 40) {
+        if (event.scrollTop <= 0) {
             this.renderer.removeClass(this.filter.nativeElement, 'overlay');
         }
-        else if (event.scrollTop - this.oldScrollTop > 0) {
+        else if (event.scrollTop - this.oldScrollTop > 10) {
             this.renderer.addClass(this.filter.nativeElement, 'overlay');
             this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
         }
@@ -320,7 +320,7 @@ var TripsPage = (function () {
     ], TripsPage.prototype, "filter", void 0);
     TripsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trips',template:/*ion-inline-start:"D:\epx_app\src\pages\trips\trips.html"*/'<!-- <!--\n  Generated template for the TripsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>EXPLORE . EXPAND. EVOLVE.</ion-title>\n    <!-- <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="showFilter()">\n        <ion-icon name="md-funnel"></ion-icon>\n      </button>\n    </ion-buttons> -->\n  </ion-navbar>\n</ion-header>\n<ion-content (ionScroll)="onScroll($event)">\n \n  \n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n  <!-- <br /> -->\n  <div class="filter" #filter>\n      <ion-row>\n        <ion-col col-5>\n          <ion-item>\n            <ion-label>\n              Region\n            </ion-label>\n            <ion-select [(ngModel)]="region">\n              <!-- <ion-option disabled value="">Region</ion-option> -->\n              <ion-option *ngFor="let item of regionList">{{item}}</ion-option>\n            </ion-select>\n          </ion-item>\n        </ion-col>\n        <ion-col col-5>\n          <ion-item>\n            <ion-label>\n              Trip Type\n            </ion-label>\n            <ion-select [(ngModel)]="type">\n              <!-- <ion-option disabled value="">Trip Type</ion-option> -->\n              <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>\n            </ion-select>\n          </ion-item>\n        </ion-col>\n        <ion-col col-2>\n          <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">\n            <!-- <ion-icon name="search"></ion-icon> -->\n            Filter\n          </button>\n        </ion-col>\n      </ion-row>\n    </div>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let trip of tripList">\n    <div class="trip-image" (click)="tripDetails(trip)">\n\n      <img src="{{trip.thumbnail}}">\n\n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n      <button ion-button round outline small class="btn-category">{{trip.product_cat}} </button>\n    </div>\n\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong class="pre-line" [innerHtml]="trip.title | uppercase"></strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <!-- <div>{{trip.trip_interested.interested}}</div> -->\n          <ion-icon *ngIf="!trip.trip_interested.isTapped" name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n          <ion-spinner *ngIf="trip.trip_interested.isTapped" class="process" name="crescent"></ion-spinner>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">\n    <ion-infinite-scroll-content loadingText="Loading more trips..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trips\trips.html"*/,
+            selector: 'page-trips',template:/*ion-inline-start:"D:\epx_app\src\pages\trips\trips.html"*/'<!-- <!--\n  Generated template for the TripsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>EXPLORE . EXPAND. EVOLVE.</ion-title>\n    <!-- <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="showFilter()">\n        <ion-icon name="md-funnel"></ion-icon>\n      </button>\n    </ion-buttons> -->\n  </ion-navbar>\n</ion-header>\n<ion-content (ionScroll)="onScroll($event)">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n  <div class="filter" #filter>\n    <ion-row>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Region\n          </ion-label>\n          <ion-select [(ngModel)]="region">\n            <!-- <ion-option disabled value="">Region</ion-option> -->\n            <ion-option *ngFor="let item of regionList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Trip Type\n          </ion-label>\n          <ion-select [(ngModel)]="type">\n            <!-- <ion-option disabled value="">Trip Type</ion-option> -->\n            <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">\n          <!-- <ion-icon name="search"></ion-icon> -->\n          Update\n        </button>\n      </ion-col>\n    </ion-row>\n  </div>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let trip of tripList">\n    <div class="trip-image" (click)="tripDetails(trip)">\n\n      <img src="{{trip.thumbnail}}">\n\n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n      <button ion-button round outline small class="btn-category">{{trip.product_cat}} </button>\n    </div>\n\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong class="pre-line" [innerHtml]="trip.title | uppercase"></strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <!-- <div>{{trip.trip_interested.interested}}</div> -->\n          <ion-icon *ngIf="!trip.trip_interested.isTapped" name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n          <ion-spinner *ngIf="trip.trip_interested.isTapped" class="process" name="crescent"></ion-spinner>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">\n    <ion-infinite-scroll-content loadingText="Loading more trips..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trips\trips.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Renderer2 */],
             __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],

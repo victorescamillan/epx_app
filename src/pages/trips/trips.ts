@@ -81,14 +81,14 @@ export class TripsPage {
   filterTrips() {
    
     console.log('region and type:',this.region,this.type);
-    if (this.region === undefined || this.region === '') {
-      this.epxProvider.toastMessage('Please select region.')
+    if (this.region === '' && this.type === '' || this.region === undefined && this.type === undefined) {
+      this.epxProvider.toastMessage('Please select region or trip type.')
       return;
     }
-    if (this.type === undefined || this.type === '') {
-      this.epxProvider.toastMessage('Please select trip type.')
-      return;
-    }
+    // if (this.type === undefined || this.type === '') {
+    //   this.epxProvider.toastMessage('Please select trip type.')
+    //   return;
+    // }
     this.isFilter = true;
     this.isLoading = true;
     this.isRefresh = false;
@@ -269,10 +269,10 @@ export class TripsPage {
   }
 
   onScroll(event) {
-    if (event.scrollTop < 40) {
+    if (event.scrollTop <= 0) {
       this.renderer.removeClass(this.filter.nativeElement, 'overlay');
     }
-    else if (event.scrollTop - this.oldScrollTop > 0) {
+    else if (event.scrollTop - this.oldScrollTop > 10) {
       this.renderer.addClass(this.filter.nativeElement, 'overlay');
       this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
     }

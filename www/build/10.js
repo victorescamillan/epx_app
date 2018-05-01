@@ -1,6 +1,6 @@
 webpackJsonp([10],{
 
-/***/ 467:
+/***/ 469:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloPageModule", function() { return SoloPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(493);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(495);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var SoloPageModule = (function () {
 
 /***/ }),
 
-/***/ 493:
+/***/ 495:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64,19 +64,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var SoloPage = (function () {
-    function SoloPage(events, loadingCtrl, epxProvider, cache, navCtrl, navParams) {
+    function SoloPage(renderer, events, loadingCtrl, epxProvider, cache, navCtrl, navParams) {
+        this.renderer = renderer;
         this.events = events;
         this.loadingCtrl = loadingCtrl;
         this.epxProvider = epxProvider;
         this.cache = cache;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.oldScrollTop = 0;
         this.isLoading = true;
         this.isRefresh = false;
         this.page = 1;
         this.perPage = 0;
         this.totalData = 0;
         this.totalPage = 0;
+        this.fromDate = new Date().toISOString();
+        this.toDate = new Date().toISOString();
+        this.isFilter = false;
         // Keep our cached results when device is offline!
         cache.setOfflineInvalidate(false);
     }
@@ -114,6 +119,9 @@ var SoloPage = (function () {
                     _this.cache.loadFromDelayedObservable(url, solo, groupKey, ttl, delay_type).subscribe(function (data) {
                         _this.soloList = Object.keys(data).map(function (key) { return data[key]; });
                         refresher.complete();
+                        _this.isFilter = false;
+                        _this.toDate = new Date().toISOString();
+                        _this.fromDate = new Date().toISOString();
                     });
                 }
                 else {
@@ -193,15 +201,55 @@ var SoloPage = (function () {
             this.content.scrollToTop();
         }
     };
+    SoloPage.prototype.updateSolo = function () {
+        var _this = this;
+        this.isLoading = true;
+        this.isRefresh = false;
+        this.isFilter = true;
+        var from = new Date(this.fromDate.toString()).toLocaleDateString();
+        var to = new Date(this.toDate.toString()).toLocaleDateString();
+        console.log('update Solo', from, to);
+        this.epxProvider.getSoloFilters(from, to).subscribe(function (res) {
+            console.log('update Solo', res);
+            if (res != null) {
+                _this.soloList = Object.keys(res).map(function (key) { return res[key]; });
+                _this.isLoading = false;
+            }
+            else {
+                _this.epxProvider.toastMessage('No result found.');
+                _this.isLoading = false;
+            }
+        }, function (error) {
+            console.log('error: ', error);
+        });
+    };
+    SoloPage.prototype.onScroll = function (event) {
+        if (event.scrollTop <= 0) {
+            this.renderer.removeClass(this.filter.nativeElement, 'overlay');
+        }
+        else if (event.scrollTop - this.oldScrollTop > 10) {
+            this.renderer.addClass(this.filter.nativeElement, 'overlay');
+            this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+        }
+        else if (event.scrollTop - this.oldScrollTop < 0) {
+            this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+        }
+        this.oldScrollTop = event.scrollTop;
+    };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
     ], SoloPage.prototype, "content", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('filter'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+    ], SoloPage.prototype, "filter", void 0);
     SoloPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-solo',template:/*ion-inline-start:"D:\epx_app\src\pages\solo\solo.html"*/'<!--\n  Generated template for the SoloPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>SOLO</ion-title>\n    <!-- <h1 class="text-center">\n        <strong>SOLO</strong>\n      </h1> -->\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content refreshingText="Refreshing...">\n    </ion-refresher-content>\n  </ion-refresher>\n  <!-- <ion-buttons>\n    <button ion-button block icon-end (click)="showFilter()">\n      Filter\n      <ion-icon name="search"></ion-icon>\n    </button>\n  </ion-buttons> -->\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let solo of soloList">\n    <div class="solo-image">\n        <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">\n    </div>\n    <ion-card-content>\n      <h2 class="content-text">\n        <strong class="pre-line" [innerHtml]="solo.title | uppercase"></strong>\n      </h2>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            Price : \n          </ion-col>\n          <ion-col col-10>\n            <h3 class="text-price">\n              <strong >{{solo.price}}</strong>\n            </h3>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="sm-text">{{solo.start_date}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row *ngIf="solo.product_tag.length">\n          <ion-col col-2>\n            Tags :\n          </ion-col>\n          <ion-col col-10>\n            <button class="btn-tags" ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more solo..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo\solo.html"*/,
+            selector: 'page-solo',template:/*ion-inline-start:"D:\epx_app\src\pages\solo\solo.html"*/'<!--\n  Generated template for the SoloPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>SOLO</ion-title>\n    <!-- <h1 class="text-center">\n        <strong>SOLO</strong>\n      </h1> -->\n  </ion-navbar>\n</ion-header>\n\n<ion-content (ionScroll)="onScroll($event)">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n  <div class="filter" #filter>\n    <ion-row>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            From Date\n          </ion-label>\n          <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="fromDate"></ion-datetime>\n        </ion-item>\n      </ion-col>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            To Date\n          </ion-label>\n          <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="toDate"></ion-datetime>\n        </ion-item>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button outline color="light" class="btn-search" (click)="updateSolo()">\n          <!-- <ion-icon name="search"></ion-icon> -->\n          Update\n        </button>\n      </ion-col>\n    </ion-row>\n  </div>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let solo of soloList">\n    <div class="solo-image">\n        <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">\n    </div>\n    <ion-card-content>\n      <h2 class="content-text">\n        <strong class="pre-line" [innerHtml]="solo.title | uppercase"></strong>\n      </h2>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-2>\n            Price : \n          </ion-col>\n          <ion-col col-10>\n            <h3 class="text-price">\n              <strong >{{solo.price}}</strong>\n            </h3>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-2>\n            Date :\n          </ion-col>\n          <ion-col col-10>\n            <p class="sm-text">{{solo.start_date}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row *ngIf="solo.product_tag.length">\n          <ion-col col-2>\n            Tags :\n          </ion-col>\n          <ion-col col-10>\n            <button class="btn-tags" ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>\n          </ion-col>\n        </ion-row>\n      </ion-grid>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">\n    <ion-infinite-scroll-content loadingText="Loading more solo..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo\solo.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Renderer2 */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
             __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],

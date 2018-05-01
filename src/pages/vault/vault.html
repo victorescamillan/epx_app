@@ -13,19 +13,50 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content (ionScroll)="onScroll($event)">
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Refreshing...">
+    <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
-  <br />
+ 
+  <div class="filter" #filter>
+    <ion-row>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Skills
+          </ion-label>
+          <ion-select [(ngModel)]="skills">
+            <!-- <ion-option disabled value="">Region</ion-option> -->
+            <ion-option *ngFor="let item of skillsList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Category
+          </ion-label>
+          <ion-select [(ngModel)]="category">
+            <!-- <ion-option disabled value="">Trip Type</ion-option> -->
+            <ion-option *ngFor="let item of categoryList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button outline color="light" class="btn-search" (click)="filterVault()">
+          <!-- <ion-icon name="search"></ion-icon> -->
+          Go
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
 
-  <!-- <ion-list [virtualScroll]="(vaultList | async)" [approxItemHeight]="'20px'"> -->
-
-  <!-- <ion-card *virtualItem="let vault"> -->
+  
   <ion-card *ngFor="let vault of vaultList">
     <div class="vault-image">
       <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}">
@@ -46,7 +77,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">
     <ion-infinite-scroll-content loadingText="Loading more vaults..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

@@ -14,30 +14,61 @@
 
 
 <ion-content>
+  <div class="filter" #filter>
+    <ion-row>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Skills
+          </ion-label>
+          <ion-select [(ngModel)]="skills">
+            <!-- <ion-option disabled value="">Region</ion-option> -->
+            <ion-option *ngFor="let item of skillsList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Industry
+          </ion-label>
+          <ion-select [(ngModel)]="industry">
+            <!-- <ion-option disabled value="">Trip Type</ion-option> -->
+            <ion-option *ngFor="let item of categoryList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button outline color="light" class="btn-search" (click)="filterMembers()">
+          <!-- <ion-icon name="search"></ion-icon> -->
+          Go
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Refreshing...">
+    <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
-  <br />
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  
+
   <!-- <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar> -->
   <ion-list>
     <ion-item-sliding *ngFor="let member of members">
-      <ion-item >
+      <ion-item>
         <ion-avatar item-start>
           <img [src]="member.avatar" (click)="memberDetails(member)">
         </ion-avatar>
         <p class="item-text">
-            <span class="strong ">{{member.name}}</span> is the
-            <span class="strong " [innerHtml]="member.position"></span> at
-            <span class="strong blue" (click)="openBrowser(member.business_url)" [innerHtml]="member.company"></span>, a
-            <span class="strong " >{{member.business_model}}</span> business in the
-            <span class="strong pre-line" [innerHtml]="member.industry"></span> industry with the
-            <span class="strong ">{{member.employee}}</span> employees.
-          </p>
+          <span class="strong ">{{member.name}}</span> is the
+          <span class="strong " [innerHtml]="member.position"></span> at
+          <span class="strong blue" (click)="openBrowser(member.business_url)" [innerHtml]="member.company"></span>, a
+          <span class="strong ">{{member.business_model}}</span> business in the
+          <span class="strong pre-line" [innerHtml]="member.industry"></span> industry with the
+          <span class="strong ">{{member.employee}}</span> employees.
+        </p>
       </ion-item>
       <!-- <ion-item-options side="left">
         <button ion-button color="secondary">
@@ -54,6 +85,6 @@
     </ion-item-sliding>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
-    <ion-infinite-scroll-content  loadingText="Loading more members..." ></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingText="Loading more members..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

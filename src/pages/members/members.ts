@@ -18,7 +18,7 @@ import { CacheService } from 'ionic-cache';
 export class MembersPage {
   @ViewChild(Content) content: Content;
   memberList: any;
-  temp_memberList: Observable<any>;
+  temp_memberList: any;
   members:any;
   isLoading: boolean = true;
   isRefresh: boolean = false;
@@ -115,13 +115,14 @@ export class MembersPage {
 
   filterMembers(ev: any) {
     if (!this.isLoading) {
-      this.memberList = this.temp_memberList;
-      let val = ev.target.value;
-      if (val && val.trim() !== '') {
-        this.memberList = this.memberList.map((member) => member.filter(function (item) {
-          return item.name.toLowerCase().includes(val.toLowerCase());
-        }));
-      }
+      // this.memberList = this.temp_memberList;
+      console.log('member list ',this.memberList);
+      // let val = ev.target.value;
+      // if (val && val.trim() !== '') {
+      //   this.memberList = this.memberList.map((member) => member.filter(function (item) {
+      //     return item.name.toLowerCase().includes(val.toLowerCase());
+      //   }));
+      // }
     }
   }
   memberDetails(member) {

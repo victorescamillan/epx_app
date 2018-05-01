@@ -26317,6 +26317,74 @@ page-members .item-md ion-avatar ion-img, page-members .item-md ion-avatar img {
   height: 60px;
 }
 
+page-members .list.list-md, page-members .list.list-ios {
+  padding: 10px !important;
+}
+
+page-members .filter {
+  background: #2977aa;
+  padding-bottom: 3px;
+}
+
+page-members .filter .label.label-md, page-members .filter .label.label-ios {
+  margin: 5px 0px;
+  color: white;
+  font-weight: 100;
+  font-size: 80%;
+}
+
+page-members .btn-search {
+  float: right;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  height: 28px;
+  font-size: 85%;
+  font-weight: 100;
+  padding: 5px;
+}
+
+page-members .filter ion-select {
+  max-width: 100%;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+page-members .alert-head {
+  background: #9aadba;
+}
+
+page-members .item.item-block.item-md, page-members .item.item-block.item-ios {
+  padding: 0px;
+}
+
+page-members .filter .input-wrapper {
+  display: block;
+}
+
+page-members .filter .select-text {
+  font-size: 90%;
+  color: black;
+}
+
+page-members .filter.overlay.hide-filter {
+  opacity: 0;
+}
+
+page-members .filter.overlay {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+  opacity: 1;
+}
+
+page-members .filter ion-select button {
+  height: 0px;
+  display: none;
+}
+
 page-mentor .list-header-md, page-mentor .list-header-ios {
   padding-left: 0px;
 }
@@ -26465,6 +26533,79 @@ page-solo h3.text-price {
   color: #32db64;
   font-size: 1.9rem;
   margin-top: 0px;
+}
+
+page-solo .filter {
+  background: #2977aa;
+  padding-bottom: 3px;
+}
+
+page-solo .filter .label.label-md, page-solo .filter .label.label-ios {
+  margin: 5px 0px;
+  color: white;
+  font-weight: 100;
+  font-size: 80%;
+}
+
+page-solo .btn-search {
+  float: right;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  height: 28px;
+  font-size: 85%;
+  font-weight: 100;
+  padding: 5px 10px;
+}
+
+page-solo .filter ion-select {
+  max-width: 100%;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+page-solo .alert-head {
+  background: #9aadba;
+}
+
+page-solo .item.item-block.item-md, page-solo .item.item-block.item-ios {
+  padding: 0px;
+}
+
+page-solo .filter .input-wrapper {
+  display: block;
+  padding: 0px 5px;
+}
+
+page-solo .filter .select-text {
+  font-size: 90%;
+  color: black;
+}
+
+page-solo .filter.overlay.hide-filter {
+  opacity: 0;
+}
+
+page-solo .filter.overlay {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+  opacity: 1;
+}
+
+page-solo .filter ion-datetime button {
+  height: 0px;
+  display: none;
+}
+
+page-solo .datetime-md, page-solo .datetime-ios {
+  padding: 4px;
+  border: solid 1px silver;
+  border-radius: 5px;
+  background: #597d95;
+  height: 28px;
 }
 
 page-solo-details img {
@@ -26752,7 +26893,8 @@ page-trip-details .tags .button-round {
   border-radius: 10px;
   padding: 0 1.0rem;
   height: 20px;
-  margin: 1px;
+  margin: 5px 1px;
+  margin-top: 0px;
 }
 
 page-trip-details ion-card.card.card-md {
@@ -27062,7 +27204,7 @@ page-trips .toolbar-title-ios {
 }
 
 page-trips .filter {
-  background: #074976;
+  background: #2977aa;
   padding-bottom: 3px;
 }
 
@@ -27080,7 +27222,7 @@ page-trips .btn-search {
   height: 28px;
   font-size: 85%;
   font-weight: 100;
-  padding: 5px 10px;
+  padding: 5px;
 }
 
 page-trips .filter ion-select {
@@ -27156,6 +27298,70 @@ page-vault .card-md + ion-card {
 page-vault .vault-image {
   height: 200px;
   width: 100%;
+}
+
+page-vault .filter {
+  background: #2977aa;
+  padding-bottom: 3px;
+}
+
+page-vault .filter .label.label-md, page-vault .filter .label.label-ios {
+  margin: 5px 0px;
+  color: white;
+  font-weight: 100;
+  font-size: 80%;
+}
+
+page-vault .btn-search {
+  float: right;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  height: 28px;
+  font-size: 85%;
+  font-weight: 100;
+  padding: 5px 10px;
+}
+
+page-vault .filter ion-select {
+  max-width: 100%;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+page-vault .alert-head {
+  background: #9aadba;
+}
+
+page-vault .item.item-block.item-md, page-vault .item.item-block.item-ios {
+  padding: 0px;
+}
+
+page-vault .filter .input-wrapper {
+  display: block;
+}
+
+page-vault .filter .select-text {
+  font-size: 90%;
+  color: black;
+}
+
+page-vault .filter.overlay.hide-filter {
+  opacity: 0;
+}
+
+page-vault .filter.overlay {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+  opacity: 1;
+}
+
+page-vault .filter ion-select button {
+  height: 0px;
+  display: none;
 }
 
 page-vault-category ion-item.item.item-block.item {

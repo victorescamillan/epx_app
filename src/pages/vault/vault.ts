@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
 import { IonicPage, NavController, LoadingController, Events, Content } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
 import { VaultDetailsPage } from '../vault-details/vault-details';
 import { DomSanitizer } from '@angular/platform-browser'
+import { error } from '@firebase/database/dist/esm/src/core/util/util';
 
 @IonicPage()
 @Component({
@@ -13,6 +14,8 @@ import { DomSanitizer } from '@angular/platform-browser'
 })
 export class VaultPage {
   @ViewChild(Content) content: Content;
+  @ViewChild('filter') filter: ElementRef;
+  oldScrollTop = 0;
   vaultList: any;
   isLoading: boolean = true;
   isRefresh: boolean = false;
@@ -21,7 +24,13 @@ export class VaultPage {
   totalData = 0;
   totalPage = 0;
 
+  skillsList: any;
+  categoryList: any;
+  skills: string = '';
+  category:string = '';
+  isFilter: boolean = false;
   constructor(
+    private renderer: Renderer2,
     private events: Events,
     private loadingCtrl: LoadingController, 
     private epxProvider: EpxProvider, 
@@ -36,6 +45,7 @@ export class VaultPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultPage');
     this.LoadVault();
+    this.loadSkillsCategory();
   }
   vaultDetails(vault) {
     this.navCtrl.push('VaultDetailsPage', { data: vault });
@@ -57,6 +67,8 @@ export class VaultPage {
           this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type).subscribe(data => {
             this.vaultList = Object.keys(data).map(key => data[key]);
             refresher.complete();
+            this.loadSkillsCategory();
+            this.isFilter = false;
           });
         }
         else {
@@ -135,7 +147,41 @@ export class VaultPage {
     if(topDistance > 10){
       this.content.scrollToTop();
     }
-  
   }
-  
+  loadSkillsCategory(){
+    this.epxProvider.getVaultSkillsCategory().subscribe(res => {
+      console.log('initSkillsCategory',res)
+      this.skillsList = res.skills;
+      this.categoryList = res.category;
+    });
+  }
+  filterVault(){
+    if(this.skills === '' && this.category === '' || this.skills == undefined && this.category == undefined){
+      this.epxProvider.toastMessage('Please select skills or category')
+      return;
+    }
+    this.isFilter = true;
+    this.isLoading = true;
+    this.isRefresh = false;
+    this.epxProvider.getVaultFilters(this.skills,this.category).subscribe(res => {
+      console.log('getVaultFilters',res);
+      this.vaultList = Object.keys(res).map(key => res[key]);
+      this.isLoading = false;
+    },error =>{
+      console.log('error: ',error);
+    })
+  }
+  onScroll(event) {
+    if (event.scrollTop <= 0) {
+      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
+    }
+    else if (event.scrollTop - this.oldScrollTop > 10) {
+      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+      this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+    }
+    else if (event.scrollTop - this.oldScrollTop < 0) {
+      this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+    }
+    this.oldScrollTop = event.scrollTop;
+  }
 }

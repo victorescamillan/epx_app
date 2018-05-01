@@ -15,45 +15,42 @@
   </ion-navbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)">
- 
-  
   <ion-refresher (ionRefresh)="forceReload($event)">
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
-  <!-- <br /> -->
   <div class="filter" #filter>
-      <ion-row>
-        <ion-col col-5>
-          <ion-item>
-            <ion-label>
-              Region
-            </ion-label>
-            <ion-select [(ngModel)]="region">
-              <!-- <ion-option disabled value="">Region</ion-option> -->
-              <ion-option *ngFor="let item of regionList">{{item}}</ion-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col col-5>
-          <ion-item>
-            <ion-label>
-              Trip Type
-            </ion-label>
-            <ion-select [(ngModel)]="type">
-              <!-- <ion-option disabled value="">Trip Type</ion-option> -->
-              <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col col-2>
-          <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">
-            <!-- <ion-icon name="search"></ion-icon> -->
-            Filter
-          </button>
-        </ion-col>
-      </ion-row>
-    </div>
+    <ion-row>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Region
+          </ion-label>
+          <ion-select [(ngModel)]="region">
+            <!-- <ion-option disabled value="">Region</ion-option> -->
+            <ion-option *ngFor="let item of regionList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Trip Type
+          </ion-label>
+          <ion-select [(ngModel)]="type">
+            <!-- <ion-option disabled value="">Trip Type</ion-option> -->
+            <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">
+          <!-- <ion-icon name="search"></ion-icon> -->
+          Update
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>

@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Events, Content } from 'ionic-angular';
+import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController, Events, Content, DateTime } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -12,6 +12,8 @@ import { error } from '@firebase/database/dist/esm/src/core/util/util';
 })
 export class SoloPage {
   @ViewChild(Content) content: Content;
+  @ViewChild('filter') filter: ElementRef;
+  oldScrollTop = 0;
   soloList: any;
   isLoading: boolean = true;
   isRefresh: boolean = false;
@@ -19,7 +21,11 @@ export class SoloPage {
   perPage = 0;
   totalData = 0;
   totalPage = 0;
+  fromDate: String = new Date().toISOString();
+  toDate: String = new Date().toISOString();
+  isFilter: boolean = false;
   constructor(
+    private renderer: Renderer2,
     private events:Events,
     private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
@@ -62,6 +68,9 @@ export class SoloPage {
           this.cache.loadFromDelayedObservable(url, solo, groupKey, ttl, delay_type).subscribe(data => {
             this.soloList = Object.keys(data).map(key => data[key]);
             refresher.complete();
+            this.isFilter = false;
+            this.toDate = new Date().toISOString();
+            this.fromDate = new Date().toISOString();
           });
         }
         else {
@@ -141,6 +150,39 @@ export class SoloPage {
     if(topDistance > 10){
       this.content.scrollToTop();
     }
-    
+  }
+  updateSolo(){
+    this.isLoading = true;
+    this.isRefresh = false;
+    this.isFilter = true;
+    let from = new Date(this.fromDate.toString()).toLocaleDateString();
+    let to = new Date(this.toDate.toString()).toLocaleDateString();
+    console.log('update Solo', from, to);
+    this.epxProvider.getSoloFilters(from, to).subscribe(res => {
+      console.log('update Solo', res);
+      if(res != null){
+        this.soloList = Object.keys(res).map(key => res[key]);
+        this.isLoading = false;
+      }
+      else{
+        this.epxProvider.toastMessage('No result found.')
+        this.isLoading = false;
+      }
+    },error =>{
+      console.log('error: ',error);
+    });
+  }
+  onScroll(event) {
+    if (event.scrollTop <= 0) {
+      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
+    }
+    else if (event.scrollTop - this.oldScrollTop > 10) {
+      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+      this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+    }
+    else if (event.scrollTop - this.oldScrollTop < 0) {
+      this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+    }
+    this.oldScrollTop = event.scrollTop;
   }
 }
