@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, Content } from 'ionic-angular';
+import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, Events, Content, AlertController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -17,8 +17,8 @@ import { CacheService } from 'ionic-cache';
 })
 export class MembersPage {
   @ViewChild(Content) content: Content;
-  memberList: any;
-  temp_memberList: any;
+  @ViewChild('filter') filter: ElementRef;
+  oldScrollTop = 0;
   members:any;
   isLoading: boolean = true;
   isRefresh: boolean = false;
@@ -27,7 +27,13 @@ export class MembersPage {
   totalData = 0;
   totalPage = 0;
 
+  skillsList: any;
+  industryList: any;
+  skills: string;
+  industry: string;
   constructor(
+    private alertCtrl: AlertController,
+    private renderer: Renderer2,
     private events: Events,
     private epxProvider: EpxProvider,
     private cache: CacheService,
@@ -39,6 +45,7 @@ export class MembersPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad MembersPage');
     this.LoadMembers();
+    this.loadSkillsIndustry();
   }
   LoadMembers(refresher?) {
     let url = this.epxProvider.member_infinite_url;
@@ -56,13 +63,13 @@ export class MembersPage {
           this.cache.loadFromDelayedObservable(url, members, groupKey, ttl, delay_type).subscribe(data => {
             this.members = Object.keys(data).map(key => data[key]);
             refresher.complete();
+            this.loadSkillsIndustry();
           });
         }
         else {
           this.cache.loadFromObservable(url, members, groupKey).subscribe(data => {
             this.members = Object.keys(data).map(key => data[key]);
             console.log('members:', members);
-            this.temp_memberList = data;
           });
         }
         this.isLoading = false;
@@ -80,13 +87,13 @@ export class MembersPage {
           console.log('offline data: ', offline_data);
           if (refresher) {
             this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
-              this.memberList = data;
+              this.members = data;
               refresher.complete();
             });
           }
           else {
             this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(data => {
-              this.memberList = data;
+              this.members = data;
             });
           }
           this.isLoading = false;
@@ -113,18 +120,6 @@ export class MembersPage {
     this.LoadMembers(refresher);
   }
 
-  filterMembers(ev: any) {
-    if (!this.isLoading) {
-      // this.memberList = this.temp_memberList;
-      console.log('member list ',this.memberList);
-      // let val = ev.target.value;
-      // if (val && val.trim() !== '') {
-      //   this.memberList = this.memberList.map((member) => member.filter(function (item) {
-      //     return item.name.toLowerCase().includes(val.toLowerCase());
-      //   }));
-      // }
-    }
-  }
   memberDetails(member) {
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
@@ -158,5 +153,83 @@ export class MembersPage {
     if(topDistance > 10){
       this.content.scrollToTop();
     }
+  }
+  loadSkillsIndustry(){
+    this.skills = '';
+    this.industry = '';
+    this.epxProvider.getMemberSkillsIndustry().subscribe(res =>{
+      console.log('getMemberSkillsIndustry',res);
+      this.skillsList = res.skills;
+      this.industryList = res.industry;
+    },error =>{
+      console.log('error: ',error);
+    });
+  }
+
+  filterMembers() {
+    if(this.skills === '' && this.industry === '' || this.skills == undefined && this.industry == undefined){
+      this.epxProvider.toastMessage('Please select skills or industry');
+      return;
+    }
+    // if (!this.isLoading) {
+    //   this.memberList = this.temp_memberList;
+    //   let val = ev.target.value;
+    //   if (val && val.trim() !== '') {
+    //     this.memberList = this.memberList.map((member) => member.filter(function (item) {
+    //       return item.name.toLowerCase().includes(val.toLowerCase());
+    //     }));
+    //   }
+    // }
+  }
+  onScroll(event) {
+    if (event.scrollTop <= 0) {
+      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
+    }
+    else if (event.scrollTop - this.oldScrollTop > 10) {
+      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+      this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+    }
+    else if (event.scrollTop - this.oldScrollTop < 0) {
+      this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+    }
+    this.oldScrollTop = event.scrollTop;
+  }
+  searchMembers(){
+    this.presentPrompt();
+  }
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Member Search',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Input name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: data => {
+            this.isLoading = true;
+            this.isRefresh = false;
+            this.epxProvider.getMemberSearch(data.name).subscribe(res => {
+              console.log('search result: ',res);
+              this.members = Object.keys(res).map(key => res[key]);
+              this.isLoading = false;
+            },error => {
+              this.epxProvider.toastMessage('Internal error.');
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

@@ -35,10 +35,74 @@ page-business {
         padding: 10px;
         border-top: solid 1px #d3d1d1;
         height: 100px;
-        // background: #2979ae;
     }
     h2.gray.pre-line {
         color: #7a7c7c;
         font-weight: bold;
+    }
+    .filter{
+        background: #2977aa;
+        padding-bottom: 3px;
+    }
+    .filter .label.label-md,.filter .label.label-ios{
+        margin: 5px 0px;
+        color: white;
+        font-weight: 100;
+        font-size: 80%;
+    }
+    .btn-search{
+        float: right;
+        margin-top: 25px;
+        margin-bottom: 0px;
+        height: 28px;
+        font-size: 85%;
+        font-weight: 100;
+        padding: 5px;
+    }
+    .filter ion-select{
+        max-width: 100%;
+        padding: 5px 10px;
+        background: white;
+        border-radius: 5px;
+    }
+    .alert-head {
+        background: #9aadba;
+    }
+    .item.item-block.item-md, .item.item-block.item-ios {
+        padding: 0px;
+    }
+    .filter .input-wrapper{
+        display: block;
+    }
+    .filter .select-text {
+        font-size: 90%;
+        color: black;
+    }
+    
+    .filter.overlay.hide-filter{
+        opacity: 0;
+    }
+   
+    .filter.overlay{
+        position: sticky;
+        top: 0px;
+        z-index: 999;
+        width: 100%;
+        opacity: 1;
+    }
+    .filter ion-select button {
+        height: 0px;
+        display: none;
+    }
+    .item-md.item-block .item-inner {
+        padding-right: 8px;
+        border-bottom: none;
+        background: #2977aa;
+    }
+    button.fab.fab-md{
+        opacity: 0;
+    }
+    button.fab.fab-md.fab-show{
+        opacity: 1;
     }
 }

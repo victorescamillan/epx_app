@@ -49,15 +49,13 @@ export class LoginPage {
   }
 
   loginUser() {
-    let loading = this.loadingCtrl.create({
-      content: 'Logging in...',
-      dismissOnPageChange: true
-    });
+    let loading = this.loadingCtrl.create();
     loading.present().then(() => {
       this.epxProvider.getLogin(this.username, this.password).subscribe(result => {
         if (result.authentication) {
           // this.username = '';
           // this.password = '';
+          loading.dismiss();
           console.log('user id',result.ID);
           this.epxProvider.saveData('ID', result.ID);
           this.epxProvider.saveData('name', result.name);

@@ -25814,8 +25814,8 @@ ion-spinner.process {
 .show-indicator {
   width: 100%;
   height: 100px;
-  position: absolute;
-  top: 40%;
+  position: fixed;
+  top: 30%;
   z-index: 1;
 }
 
@@ -25836,6 +25836,18 @@ ion-header {
 ion-scroll.scroll-x {
   min-height: 220px;
   height: auto;
+}
+
+.loading-md .loading-wrapper {
+  border-radius: 50%;
+  max-width: 280px;
+  max-height: 90%;
+  background: #ffff;
+  padding: 8px;
+}
+
+.toast-message {
+  background: #2977aa;
 }
 
 page-assist ion-col.col {
@@ -25899,6 +25911,84 @@ page-business .content-text {
 page-business h2.gray.pre-line {
   color: #7a7c7c;
   font-weight: bold;
+}
+
+page-business .filter {
+  background: #2977aa;
+  padding-bottom: 3px;
+}
+
+page-business .filter .label.label-md, page-business .filter .label.label-ios {
+  margin: 5px 0px;
+  color: white;
+  font-weight: 100;
+  font-size: 80%;
+}
+
+page-business .btn-search {
+  float: right;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  height: 28px;
+  font-size: 85%;
+  font-weight: 100;
+  padding: 5px;
+}
+
+page-business .filter ion-select {
+  max-width: 100%;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+page-business .alert-head {
+  background: #9aadba;
+}
+
+page-business .item.item-block.item-md, page-business .item.item-block.item-ios {
+  padding: 0px;
+}
+
+page-business .filter .input-wrapper {
+  display: block;
+}
+
+page-business .filter .select-text {
+  font-size: 90%;
+  color: black;
+}
+
+page-business .filter.overlay.hide-filter {
+  opacity: 0;
+}
+
+page-business .filter.overlay {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+  opacity: 1;
+}
+
+page-business .filter ion-select button {
+  height: 0px;
+  display: none;
+}
+
+page-business .item-md.item-block .item-inner {
+  padding-right: 8px;
+  border-bottom: none;
+  background: #2977aa;
+}
+
+page-business button.fab.fab-md {
+  opacity: 0;
+}
+
+page-business button.fab.fab-md.fab-show {
+  opacity: 1;
 }
 
 page-business-details .business-content {

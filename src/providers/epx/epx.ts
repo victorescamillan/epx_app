@@ -44,16 +44,20 @@ export class EpxProvider {
   public vault_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
   public vault_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
   public vault_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&skill=';
+  public vault_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&search=';
 
   // MEMBERS
   public members_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
   public member_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
   public member_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
+  public member_skills_industry_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
+  public member_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search=';
   
   // BUSINESS
   public business_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
   public business_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
   public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
+  public business_search_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search=';
 
   //MENTOR MATCH
   public mentormatch_skills_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
@@ -244,6 +248,12 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
+  getVaultSearch(value) {
+    return this.httpClient.get(this.vault_search_url + value)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
   getMembers() {
     return this.httpClient.get(this.members_url)
       .do(this.logResponse)
@@ -262,6 +272,18 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
+  getMemberSkillsIndustry() {
+    return this.httpClient.get(this.member_skills_industry_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getMemberSearch(value) {
+    return this.httpClient.get(this.member_search_url + value)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
   getBusiness() {
     return this.httpClient.get(this.business_url)
       .do(this.logResponse)
@@ -276,6 +298,12 @@ export class EpxProvider {
   }
   getBusinessDetails(id) {
     return this.httpClient.get(this.business_details_url + id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getBusinessSearch(value) {
+    return this.httpClient.get(this.business_search_url + value)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

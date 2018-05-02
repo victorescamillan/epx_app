@@ -1,6 +1,6 @@
 webpackJsonp([5],{
 
-/***/ 474:
+/***/ 475:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripsPageModule", function() { return TripsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(502);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TripsPageModule = (function () {
 
 /***/ }),
 
-/***/ 500:
+/***/ 502:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78,6 +78,7 @@ var TripsPage = (function () {
         this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.oldScrollTop = 0;
         this.is_interested = false;
         this.date = new Date().toLocaleString();
         this.isLoading = true;
@@ -85,7 +86,6 @@ var TripsPage = (function () {
         this.isInterested = false;
         this.page = 1;
         this.totalPage = 0;
-        this.oldScrollTop = 0;
         this.isFilter = false;
         // Keep our cached results when device is offline!
         cache.setOfflineInvalidate(false);

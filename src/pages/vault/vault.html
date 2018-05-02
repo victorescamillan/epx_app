@@ -8,6 +8,11 @@
 
   <ion-navbar>
     <ion-title>THE VAULT</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="light" (click)="searchVault()">
+        <ion-icon isActive="true" name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -18,7 +23,7 @@
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
- 
+
   <div class="filter" #filter>
     <ion-row>
       <ion-col col-5>
@@ -56,7 +61,7 @@
     <ion-spinner name="crescent"></ion-spinner>
   </div>
 
-  
+
   <ion-card *ngFor="let vault of vaultList">
     <div class="vault-image">
       <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}">

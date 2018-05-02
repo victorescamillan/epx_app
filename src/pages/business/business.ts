@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild ,ElementRef, Renderer2 } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController, Content } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -16,14 +16,24 @@ import { CacheService } from 'ionic-cache';
   templateUrl: 'business.html',
 })
 export class BusinessPage {
+  @ViewChild(Content) content: Content;
+  @ViewChild('filter') filter: ElementRef;
+  @ViewChild('fab') fab: any;
+  oldScrollTop = 0;
   businessList: any;
   temp_businessList: Observable<any>;
   isLoading: boolean = true;
   isRefresh: boolean = false;
   page = 1;
   totalPage = 0;
-
+  skillsList: any;
+  categoryList: any;
+  skills: any;
+  category: any;
+  isFilter: boolean = false;
   constructor(
+    private alertCtrl: AlertController,
+    private renderer: Renderer2,
     private epxProvider: EpxProvider,
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {
@@ -33,6 +43,7 @@ export class BusinessPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad BusinessPage');
     this.LoadBusiness();
+    this.loadSkillsCategory();
   }
   LoadBusiness(refresher?) {
     let url = this.epxProvider.business_infinite_url;
@@ -51,6 +62,8 @@ export class BusinessPage {
             this.businessList = Object.keys(data).map(key => data[key]);
             console.log('business:', data);
             refresher.complete();
+            this.loadSkillsCategory();
+            this.isFilter = false;
           });
         }
         else {
@@ -131,6 +144,71 @@ export class BusinessPage {
   businessDetails(business) {
     this.navCtrl.push('BusinessDetailsPage', { data: business });
   }
-
-
+  loadSkillsCategory(){
+    this.skills = '';
+    this.category = '';
+    this.epxProvider.getVaultSkillsCategory().subscribe(res => {
+      console.log('initSkillsCategory',res)
+      this.skillsList = res.skills;
+      this.categoryList = res.category;
+    });
+  }
+  onScroll(event) {
+    if (event.scrollTop <= 0) {
+      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
+      this.renderer.removeClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
+    }
+    else if (event.scrollTop - this.oldScrollTop > 10) {
+      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+      this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+      this.renderer.addClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
+    }
+    else if (event.scrollTop - this.oldScrollTop < 0) {
+      this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+    }
+  
+    this.oldScrollTop = event.scrollTop;
+  }
+  searchBusiness(){
+    this.presentPrompt();
+  }
+  scrollToTop(){
+    this.content.scrollToTop();
+  }
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Business Search',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Input name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: data => {
+            this.isLoading = true;
+            this.isRefresh = false;
+            this.isFilter = true;
+            this.epxProvider.getBusinessSearch(data.name).subscribe(res => {
+              console.log('search result: ',res);
+              this.businessList = Object.keys(res).map(key => res[key]);
+              this.isLoading = false;
+            },error => {
+              this.epxProvider.toastMessage('Internal error.');
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 }

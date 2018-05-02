@@ -8,15 +8,57 @@
 
   <ion-navbar>
     <ion-title>BUSINESS</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="light" (click)="searchBusiness()">
+        <ion-icon isActive="true" name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content class="card-background-page">
+<ion-content (ionScroll)="onScroll($event)">
   <ion-refresher (ionRefresh)="forceReload($event)">
-    <ion-refresher-content refreshingText="Refreshing...">
+    <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
-  <br />
+  <div class="filter" #filter>
+    <ion-row>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Skill
+          </ion-label>
+          <ion-select [(ngModel)]="skill">
+            <!-- <ion-option disabled value="">Region</ion-option> -->
+            <ion-option *ngFor="let item of skillsList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Category
+          </ion-label>
+          <ion-select [(ngModel)]="category">
+            <!-- <ion-option disabled value="">Trip Type</ion-option> -->
+            <ion-option *ngFor="let item of categoryList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">
+          <!-- <ion-icon name="search"></ion-icon> -->
+          Update
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ion-fab #fab bottom right class="fab-hide" (click)="scrollToTop()">
+    <button ion-fab mini>
+      <ion-icon name="arrow-dropup"></ion-icon>
+    </button>
+  </ion-fab>
+
   <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
@@ -32,7 +74,8 @@
       <div class="card-subtitle pre-line" [innerHTML]="business.business_industry"></div>
     </div>
   </ion-card>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">
     <ion-infinite-scroll-content loadingText="Loading more business..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

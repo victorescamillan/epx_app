@@ -1,5 +1,5 @@
 import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { IonicPage, NavController, LoadingController, Events, Content } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController, Events, Content, AlertController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -30,6 +30,7 @@ export class VaultPage {
   category:string = '';
   isFilter: boolean = false;
   constructor(
+    private alertCtrl: AlertController,
     private renderer: Renderer2,
     private events: Events,
     private loadingCtrl: LoadingController, 
@@ -149,6 +150,8 @@ export class VaultPage {
     }
   }
   loadSkillsCategory(){
+    this.skills = '';
+    this.category = '';
     this.epxProvider.getVaultSkillsCategory().subscribe(res => {
       console.log('initSkillsCategory',res)
       this.skillsList = res.skills;
@@ -169,6 +172,7 @@ export class VaultPage {
       this.isLoading = false;
     },error =>{
       console.log('error: ',error);
+      this.epxProvider.toastMessage('Internal error.')
     })
   }
   onScroll(event) {
@@ -183,5 +187,44 @@ export class VaultPage {
       this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
     }
     this.oldScrollTop = event.scrollTop;
+  }
+  searchVault(){
+    this.presentPrompt();
+  }
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Vault Search',
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Input name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: data => {
+            this.isLoading = true;
+            this.isRefresh = false;
+            this.isFilter = true;
+            this.epxProvider.getVaultSearch(data.name).subscribe(res => {
+              console.log('search result: ',res);
+              this.vaultList = Object.keys(res).map(key => res[key]);
+              this.isLoading = false;
+            },error => {
+              this.epxProvider.toastMessage('Internal error.');
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

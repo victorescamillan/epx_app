@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController  } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { regexValidators} from '../validators/validator'
 import { EpxProvider } from '../../providers/epx/epx';
@@ -20,7 +20,9 @@ export class MentorPage {
   consumeChar: number = 0;
   isLoading: boolean = true;
   skill:any;
-  constructor(private provider: EpxProvider, private alertCtrl:AlertController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private loadingCtrl: LoadingController,
+    private provider: EpxProvider, private alertCtrl:AlertController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
     
     this.formGroup = formBuilder.group({
       details:['',Validators.required]
@@ -36,8 +38,10 @@ export class MentorPage {
 
   }
   resizeInput() {
-    this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
-    console.log(this.myInput.nativeElement.value.length)
+    if(this.myInput.nativeElement.scrollHeight > 120){
+      this.myInput.nativeElement.style.height = (this.myInput.nativeElement.scrollHeight) + 'px';
+    }
+    console.log(this.myInput.nativeElement.scrollHeight);
     this.consumeChar = this.myInput.nativeElement.value.length;
   }
   skillSet(): any{
@@ -66,16 +70,22 @@ export class MentorPage {
     console.log('selected skill',item);
   }
   submitSkill(){
-    if(this.skill != undefined){
-      this.provider.submitMentorMatchSkill(this.skill,this.details).subscribe(res => {
-        console.log('result',res);
-        this.presentAlert();
+    if(this.skill != undefined || this.skill != ''){
+      let loading = this.loadingCtrl.create();
+      loading.present().then(() => {
+        this.provider.submitMentorMatchSkill(this.skill,this.details).subscribe(res => {
+          console.log('result',res);
+          loading.dismiss();
+          this.presentAlert();
+        });
       });
+     
     }
     else{
       this.provider.toastMessage('Please select skill');
     }
   }
+ 
   presentAlert() {
     let alert = this.alertCtrl.create({
       

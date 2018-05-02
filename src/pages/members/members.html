@@ -8,12 +8,17 @@
 
   <ion-navbar>
     <ion-title>MEMBERS</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="light" (click)="searchMembers()">
+        <ion-icon isActive="true" name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content>
+<ion-content (ionScroll)="onScroll($event)">
   <div class="filter" #filter>
     <ion-row>
       <ion-col col-5>
@@ -34,7 +39,7 @@
           </ion-label>
           <ion-select [(ngModel)]="industry">
             <!-- <ion-option disabled value="">Trip Type</ion-option> -->
-            <ion-option *ngFor="let item of categoryList">{{item}}</ion-option>
+            <ion-option *ngFor="let item of industryList">{{item}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-col>

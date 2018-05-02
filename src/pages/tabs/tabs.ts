@@ -16,10 +16,6 @@ import { MembersPage } from '../../pages/members/members';
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
-
-  // notificationRoot = 'NotificationPage'
-  // mentorRoot = 'MentorPage'
-  // assistRoot = 'AssistPage'
   tripsRoot = 'TripsPage';
   vaultRoot = 'VaultPage';
   soloRoot = 'SoloPage';

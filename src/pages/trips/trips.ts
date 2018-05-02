@@ -17,6 +17,7 @@ export class TripsPage {
   // @ViewChild('doughnutCanvas') doughnutCanvas: ElementRef;
   @ViewChild(Content) content: Content;
   @ViewChild('filter') filter: ElementRef;
+  oldScrollTop = 0;
   // @ViewChild('fab') fab: ElementRef;
 
   doughnutChart: any;
@@ -36,7 +37,7 @@ export class TripsPage {
   product_typeList: any;
   region: any;
   type: any;
-  oldScrollTop = 0;
+  
   isFilter: boolean = false;
   constructor(
     private renderer: Renderer2,
@@ -85,10 +86,6 @@ export class TripsPage {
       this.epxProvider.toastMessage('Please select region or trip type.')
       return;
     }
-    // if (this.type === undefined || this.type === '') {
-    //   this.epxProvider.toastMessage('Please select trip type.')
-    //   return;
-    // }
     this.isFilter = true;
     this.isLoading = true;
     this.isRefresh = false;
