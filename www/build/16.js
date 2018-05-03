@@ -1,14 +1,14 @@
 webpackJsonp([16],{
 
-/***/ 463:
+/***/ 465:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MentorPageModule", function() { return MentorPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuPageModule", function() { return MenuPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mentor__ = __webpack_require__(490);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__menu__ = __webpack_require__(493);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,35 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var MentorPageModule = (function () {
-    function MentorPageModule() {
+var MenuPageModule = (function () {
+    function MenuPageModule() {
     }
-    MentorPageModule = __decorate([
+    MenuPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__mentor__["a" /* MentorPage */],
+                __WEBPACK_IMPORTED_MODULE_2__menu__["a" /* MenuPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__mentor__["a" /* MentorPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__menu__["a" /* MenuPage */]),
             ],
         })
-    ], MentorPageModule);
-    return MentorPageModule;
+    ], MenuPageModule);
+    return MenuPageModule;
 }());
 
-//# sourceMappingURL=mentor.module.js.map
+//# sourceMappingURL=menu.module.js.map
 
 /***/ }),
 
-/***/ 490:
+/***/ 493:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MentorPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MenuPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -59,93 +58,70 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var MentorPage = (function () {
-    function MentorPage(provider, alertCtrl, formBuilder, navCtrl, navParams) {
-        this.provider = provider;
+var MenuPage = (function () {
+    function MenuPage(alertCtrl, epxProvider, navCtrl, navParams) {
+        var _this = this;
         this.alertCtrl = alertCtrl;
-        this.formBuilder = formBuilder;
+        this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.skillQty = 1;
-        this.maxChar = 500;
-        this.consumeChar = 0;
-        this.isLoading = true;
-        this.formGroup = formBuilder.group({
-            details: ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required]
-        });
-        this.details_control = this.formGroup.controls['details'];
-    }
-    MentorPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad MentorPage', this.skill);
-        // this.skillList = this.skillSet();
-        this.initSkillSet();
-    };
-    MentorPage.prototype.resizeInput = function () {
-        this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
-        console.log(this.myInput.nativeElement.value.length);
-        this.consumeChar = this.myInput.nativeElement.value.length;
-    };
-    MentorPage.prototype.skillSet = function () {
-        return [
-            'Accounting/Finance',
-            'Building Brands',
-            'Building Culture',
-            'Business Strategy',
-            'Creating Differentiation',
-            'Customer Service',
-            'Digital Marketing',
-            'Hiring Retention, Firing',
-            'Human Resource',
-            'International Economics'
+        this.rootPage = 'TabsPage';
+        this.mentorBadge = 0;
+        this.assistBadge = 0;
+        this.pages = [
+            { title: 'Business', pageName: 'BusinessPage', tabComponent: 'BusinessPage', index: 0, icon: 'briefcase', badge: 0 },
+            { title: 'Member Assist', pageName: 'AssistPage', tabComponent: 'AssistPage', index: 1, icon: 'hand', badge: this.mentorBadge },
+            { title: 'Mentor Match', pageName: 'MentorPage', tabComponent: 'MentorPage', index: 2, icon: 'phone-portrait', badge: this.assistBadge },
+            { title: 'Settings', pageName: 'SettingsPage', tabComponent: 'SettingsPage', index: 3, icon: 'settings', badge: 0 },
         ];
-    };
-    MentorPage.prototype.initSkillSet = function () {
-        var _this = this;
-        this.provider.getMentorMatchSkills().subscribe(function (res) {
-            _this.skillList = res.skills;
-            console.log('skill set: ', _this.skillList);
-            _this.isLoading = false;
+        this.epxProvider.getData('name').then(function (name) {
+            _this.name = name;
         });
+    }
+    MenuPage.prototype.openPage = function (p) {
+        this.navCtrl.push(p.pageName);
     };
-    MentorPage.prototype.selectedSkill = function (item) {
-        this.skill = item;
-        console.log('selected skill', item);
+    MenuPage.prototype.logoutUser = function () {
+        this.epxProvider.clearUser();
+        this.navCtrl.setRoot('LoginPage');
     };
-    MentorPage.prototype.submitSkill = function () {
+    MenuPage.prototype.showPrompt = function () {
         var _this = this;
-        if (this.skill != undefined) {
-            this.provider.submitMentorMatchSkill(this.skill, this.details).subscribe(function (res) {
-                console.log('result', res);
-                _this.presentAlert();
-            });
-        }
-        else {
-            this.provider.toastMessage('Please select skill');
-        }
-    };
-    MentorPage.prototype.presentAlert = function () {
-        var alert = this.alertCtrl.create({
-            title: 'THANK YOU!',
-            subTitle: 'Your request is in the route! Be on the lookout for others needing your help and engage as much as you can! Give. Give. Give. With Love and Affection, Your Match-Making Pals @ EPX',
-            buttons: ['Ok']
+        var prompt = this.alertCtrl.create({
+            title: 'Logout',
+            message: "Do you want to continue logout?",
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: function (data) {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Okay',
+                    handler: function (data) {
+                        _this.logoutUser();
+                        console.log('Saved clicked');
+                    }
+                }
+            ]
         });
-        alert.present();
+        prompt.present();
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('myInput'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
-    ], MentorPage.prototype, "myInput", void 0);
-    MentorPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Nav */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Nav */])
+    ], MenuPage.prototype, "nav", void 0);
+    MenuPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-mentor',template:/*ion-inline-start:"D:\epx_app\src\pages\mentor\mentor.html"*/'<!--\n  Generated template for the MentorPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Mentor Match</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <p class="sm-text">Every business needs help and as a member of EPX you have access to some of the most brilliant minds in business commited\n    to helping you accelerate success. Simply choose one skill you need help with and provide some detail below.</p>\n  <p class="sm-text">You will be notified by email when another member with that expertise is ready to engage!</p>\n\n  <ion-list radio-group>\n    <ion-list-header>\n      SKILLS:\n    </ion-list-header>\n    <div id="indicator" class="{{isLoading ? \'show-indicator\' : \'hide-indicator\'}}">\n      <ion-spinner name="crescent"></ion-spinner>\n    </div>\n    <ion-item *ngFor="let item of skillList">\n      <ion-label>{{item}}</ion-label>\n      <ion-radio *ngIf="skillQty === 1" (ionSelect)="selectedSkill(item)"></ion-radio>\n      <ion-checkbox *ngIf="skillQty > 1"></ion-checkbox>\n    </ion-item>\n  </ion-list>\n  <div class="form-details" *ngIf="!isLoading">\n    <p class="info strong">Provide details on where you need help (500 characters)</p>\n    <form [formGroup]="formGroup">\n      <textarea #myInput id="myInput" rows="5" formControlName="details" [maxLength]="maxChar" (keyup)="resizeInput()" [(ngModel)]="details"></textarea>\n      <p class="info">\n        <strong>{{maxChar - consumeChar}}</strong> character left</p>\n      <button ion-button round outline [disabled]="!formGroup.valid" (click)="submitSkill()">Submit</button>\n    </form>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\mentor\mentor.html"*/,
+            selector: 'page-menu',template:/*ion-inline-start:"D:\epx_app\src\pages\menu\menu.html"*/'<ion-menu [content]="content" side="left">\n  <ion-header class="menu-header">\n    <!-- <ion-navbar>\n      <ion-title>menu</ion-title>\n    </ion-navbar> -->\n    <!-- <div class="user-info">\n      {{name}}\n    </div> -->\n  </ion-header>\n  <ion-content class="menu-content">\n    <div class="menu-icon">\n      <img src="./assets/imgs/epx_logo_colored.png" />\n    </div>\n    <div class="user-info">\n      <p>{{name | uppercase}}</p>\n    </div>\n    <ion-list>\n      <ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">\n        <ion-icon name="{{p.icon}}" item-start></ion-icon>\n        {{p.title}}\n        <span class="{{p.badge > 0 ? \'badge-show\' : \'badge-hide\'}}">{{p.badge}}</span>\n      </ion-item>\n      <ion-item (click)="showPrompt()">\n        <ion-icon name="md-exit" item-start></ion-icon>\n        Logout\n      </ion-item>\n    </ion-list>\n  </ion-content>\n</ion-menu>\n\n<!-- <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> -->\n<ion-nav id="nav" #content [root]="rootPage"></ion-nav>'/*ion-inline-end:"D:\epx_app\src\pages\menu\menu.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], MentorPage);
-    return MentorPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], MenuPage);
+    return MenuPage;
 }());
 
-//# sourceMappingURL=mentor.js.map
+//# sourceMappingURL=menu.js.map
 
 /***/ })
 

@@ -25850,6 +25850,10 @@ ion-scroll.scroll-x {
   background: #2977aa;
 }
 
+.alert-md .alert-wrapper {
+  margin-top: 40%;
+}
+
 page-assist ion-col.col {
   padding: 0px;
 }
@@ -26396,6 +26400,11 @@ page-member-details .vault .author img {
   width: 35px;
 }
 
+page-member-map #map {
+  height: 100%;
+  width: 100%;
+}
+
 page-members p.item-text {
   white-space: normal;
 }
@@ -26511,6 +26520,14 @@ page-mentor .button-round.button-round-md, page-mentor .button-round.button-roun
 
 page-mentor .list-header-ios {
   border-bottom: none;
+}
+
+page-mentor .show-indicator {
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  top: 60%;
+  z-index: 1;
 }
 
 page-menu .menu-content {

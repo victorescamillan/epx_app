@@ -1,14 +1,14 @@
 webpackJsonp([5],{
 
-/***/ 475:
+/***/ 476:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripsPageModule", function() { return TripsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultCategoryPageModule", function() { return VaultCategoryPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trips__ = __webpack_require__(502);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault_category__ = __webpack_require__(504);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,37 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TripsPageModule = (function () {
-    function TripsPageModule() {
+var VaultCategoryPageModule = (function () {
+    function VaultCategoryPageModule() {
     }
-    TripsPageModule = __decorate([
+    VaultCategoryPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__trips__["a" /* TripsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__vault_category__["a" /* VaultCategoryPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trips__["a" /* TripsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__vault_category__["a" /* VaultCategoryPage */]),
             ],
         })
-    ], TripsPageModule);
-    return TripsPageModule;
+    ], VaultCategoryPageModule);
+    return VaultCategoryPageModule;
 }());
 
-//# sourceMappingURL=trips.module.js.map
+//# sourceMappingURL=vault-category.module.js.map
 
 /***/ }),
 
-/***/ 502:
+/***/ 504:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VaultCategoryPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(286);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -61,283 +58,73 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
-// import { Chart } from 'chart.js';
-// import { error } from '@firebase/database/dist/esm/src/core/util/util';
-var TripsPage = (function () {
-    function TripsPage(renderer, detectorRef, events, cache, alertCtrl, toastCtrl, modalCtrl, loadingCtrl, epxProvider, navCtrl, navParams) {
-        this.renderer = renderer;
-        this.detectorRef = detectorRef;
-        this.events = events;
-        this.cache = cache;
-        this.alertCtrl = alertCtrl;
-        this.toastCtrl = toastCtrl;
-        this.modalCtrl = modalCtrl;
-        this.loadingCtrl = loadingCtrl;
+/**
+ * Generated class for the VaultCategoryPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var VaultCategoryPage = (function () {
+    function VaultCategoryPage(epxProvider, navCtrl, navParams) {
         this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.oldScrollTop = 0;
-        this.is_interested = false;
-        this.date = new Date().toLocaleString();
         this.isLoading = true;
         this.isRefresh = false;
-        this.isInterested = false;
         this.page = 1;
         this.totalPage = 0;
-        this.isFilter = false;
-        // Keep our cached results when device is offline!
-        cache.setOfflineInvalidate(false);
+        console.log('data:', navParams.data);
+        this.category = navParams.data.data;
     }
-    TripsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad TripsPage');
-        this.LoadTrips();
-        this.initFilterData();
+    VaultCategoryPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad VaultCategoryPage');
+        this.LoadVault();
     };
-    //Filter Page
-    TripsPage.prototype.showFilter = function () {
-        var filterModal = this.modalCtrl.create('TripFilterPage');
-        filterModal.present();
-        // this.content.scrollToTop();
-    };
-    TripsPage.prototype.initFilterData = function () {
+    VaultCategoryPage.prototype.LoadVault = function () {
         var _this = this;
-        this.region = '';
-        this.type = '';
-        this.epxProvider.getTripRegionAndType().subscribe(function (res) {
-            console.log('product type', res.product_cat);
-            _this.product_typeList = res.product_cat;
-            console.log('product region', res.product_region);
-            _this.regionList = res.product_region;
+        this.epxProvider.getVaultCategory(this.category).subscribe(function (data) {
+            _this.totalPage = data.number_of_page;
+            _this.vaultList = data.vaults;
+            console.log('vault list', _this.vaultList);
+            _this.isLoading = false;
+            _this.isRefresh = true;
+        }, function (error) {
+            console.log(error);
         });
     };
-    TripsPage.prototype.scrollFunction = function () {
-        console.log('scrollFunction');
+    VaultCategoryPage.prototype.vaultDetails = function (vault) {
+        this.navCtrl.push('VaultDetailsPage', { data: vault });
     };
-    TripsPage.prototype.filterTrips = function () {
-        var _this = this;
-        console.log('region and type:', this.region, this.type);
-        if (this.region === '' && this.type === '' || this.region === undefined && this.type === undefined) {
-            this.epxProvider.toastMessage('Please select region or trip type.');
-            return;
-        }
-        // if (this.type === undefined || this.type === '') {
-        //   this.epxProvider.toastMessage('Please select trip type.')
-        //   return;
-        // }
-        this.isFilter = true;
-        this.isLoading = true;
-        this.isRefresh = false;
-        this.epxProvider.getData('ID').then(function (user_id) {
-            _this.epxProvider.getTripFilter(user_id, _this.type, _this.region).subscribe(function (res) {
-                var trips = Object.keys(res).map(function (key) { return res[key]; });
-                console.log('filter result: ', trips);
-                if (trips[0] !== 'No result') {
-                    _this.tripList = trips;
-                }
-                else {
-                    _this.epxProvider.toastMessage('No results found!');
-                }
-                _this.isLoading = false;
-            }, function (error) {
-                console.log('error: ', error);
-                _this.isLoading = false;
-            });
-        });
-    };
-    TripsPage.prototype.logoutUser = function () {
-        this.epxProvider.clearUser();
-        this.navCtrl.setRoot('LoginPage');
-    };
-    TripsPage.prototype.tripByTags = function (tag) {
-        console.log('tag', tag);
-        this.navCtrl.push('TripTagsPage', { data: tag });
-    };
-    //Get Trips List and show indicator
-    TripsPage.prototype.LoadTrips = function (refresher) {
-        var _this = this;
-        var url = this.epxProvider.trips_infinite_url;
-        var ttl = this.epxProvider.TTL;
-        var delay_type = this.epxProvider.DELAY_TYPE;
-        var groupKey = 'trip-list';
-        this.page = 1;
-        var connected = this.epxProvider.isConnected();
-        console.log('connected: ', connected);
-        if (connected) {
-            this.epxProvider.getData('ID').then(function (user_id) {
-                _this.epxProvider.getTripsInfinite(user_id, _this.page, _this.epxProvider.PAGE_SIZE).subscribe(function (data) {
-                    _this.totalPage = data.number_of_page;
-                    var trips = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.data);
-                    if (refresher) {
-                        _this.initFilterData();
-                        _this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(function (data) {
-                            _this.tripList = Object.keys(data).map(function (key) { return data[key]; });
-                            refresher.complete();
-                            _this.isFilter = false;
-                        });
-                    }
-                    else {
-                        _this.cache.loadFromObservable(url, trips, groupKey).subscribe(function (data) {
-                            _this.tripList = Object.keys(data).map(function (key) { return data[key]; });
-                        });
-                    }
-                    _this.isLoading = false;
-                    _this.isRefresh = true;
-                    _this.isInterested = false;
-                    _this.epxProvider.updateNotification(_this.epxProvider.TRIP_BADGE);
-                }, function (error) {
-                    console.log(error);
-                    // refresher.complete();
-                    _this.epxProvider.toastMessage('Internal Server Error!');
-                });
-            });
-        }
-        else {
-            this.epxProvider.getData(url).then(function (data) {
-                if (data != null) {
-                    var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
-                    console.log('offline data: ', offline_data);
-                    if (refresher) {
-                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(function (data) {
-                            _this.tripList = data;
-                            refresher.complete();
-                        });
-                    }
-                    else {
-                        _this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(function (data) {
-                            _this.tripList = data;
-                        });
-                    }
-                    _this.isLoading = false;
-                    _this.isRefresh = true;
-                    _this.isInterested = false;
-                }
-                else {
-                    console.log('offline data: ', data);
-                }
-            });
-        }
-    };
-    //Pull to refresh page
-    TripsPage.prototype.forceReload = function (refresher) {
-        this.LoadTrips(refresher);
-    };
-    //Interested
-    TripsPage.prototype.interested = function (trip) {
-        var _this = this;
-        this.epxProvider.getData('ID').then(function (user_id) {
-            trip.trip_interested.isTapped = true;
-            _this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(function (res) {
-                trip.trip_interested.interested = res.interest;
-                trip.trip_interested.isTapped = false;
-                console.log('interest result:', res);
-            });
-        });
-    };
-    //Show badge if there is an update
-    TripsPage.prototype.ionViewDidEnter = function () {
-        var _this = this;
-        this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(function (badge) {
-            if (badge != null && badge > 0) {
-                _this.events.publish(_this.epxProvider.TRIP_BADGE, badge);
-            }
-        });
-    };
-    TripsPage.prototype.presentToast = function (message) {
-        var toast = this.toastCtrl.create({
-            message: message,
-            duration: 2000,
-            position: 'bottom'
-        });
-        toast.onDidDismiss(function () {
-            console.log('Dismissed toast');
-        });
-        toast.present();
-    };
-    //Navigate to Trip Details
-    TripsPage.prototype.tripDetails = function (trip) {
-        var data = {
-            ID: trip.ID,
-            isInterested: trip.trip_interested.interested,
-            sashes_image: trip.sashes_image,
-            location: trip.map_info.map_address,
-            lat: Number(trip.map_info.map_latitude),
-            lng: Number(trip.map_info.map_longitude)
-        };
-        this.navCtrl.push('TripDetailsPage', { data: data });
-    };
-    TripsPage.prototype.doInfinite = function (infiniteScroll) {
+    VaultCategoryPage.prototype.doInfinite = function (infiniteScroll) {
         var _this = this;
         console.log('Begin async operation');
-        this.epxProvider.getData('ID').then(function (user_id) {
-            _this.epxProvider.getTripsInfinite(user_id, _this.page + 1, _this.epxProvider.PAGE_SIZE).subscribe(function (data) {
-                var trips = data.data;
-                var temp = Object.keys(trips).map(function (key) { return trips[key]; });
-                for (var i = 0; i < temp.length; i++) {
-                    _this.tripList.push(temp[i]);
-                }
-                _this.isLoading = false;
-                _this.isRefresh = true;
-                infiniteScroll.complete();
-                _this.page++;
-                console.log('current page: ', _this.page);
-            }, function (error) {
-                _this.isLoading = false;
-                _this.isRefresh = true;
-                infiniteScroll.complete();
-            });
+        this.epxProvider.getVaultCategory(this.page + 1).subscribe(function (data) {
+            var vault = data.vaults;
+            var temp = Object.keys(vault).map(function (key) { return vault[key]; });
+            for (var i = 0; i < temp.length; i++) {
+                _this.vaultList.push(temp[i]);
+            }
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
+            _this.page++;
+            console.log('current page: ', _this.page);
+        }, function (error) {
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
         });
     };
-    TripsPage.prototype.ionSelected = function () {
-        console.log('trip selected');
-        var topDistance = this.content.getContentDimensions().scrollTop;
-        console.log('scroll top', topDistance);
-        if (topDistance > 10) {
-            this.content.scrollToTop();
-        }
-    };
-    TripsPage.prototype.onScroll = function (event) {
-        if (event.scrollTop <= 0) {
-            this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-        }
-        else if (event.scrollTop - this.oldScrollTop > 10) {
-            this.renderer.addClass(this.filter.nativeElement, 'overlay');
-            this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
-        }
-        else if (event.scrollTop - this.oldScrollTop < 0) {
-            this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
-        }
-        this.oldScrollTop = event.scrollTop;
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
-    ], TripsPage.prototype, "content", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('filter'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
-    ], TripsPage.prototype, "filter", void 0);
-    TripsPage = __decorate([
+    VaultCategoryPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trips',template:/*ion-inline-start:"D:\epx_app\src\pages\trips\trips.html"*/'<!-- <!--\n  Generated template for the TripsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>EXPLORE . EXPAND. EVOLVE.</ion-title>\n    <!-- <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="showFilter()">\n        <ion-icon name="md-funnel"></ion-icon>\n      </button>\n    </ion-buttons> -->\n  </ion-navbar>\n</ion-header>\n<ion-content (ionScroll)="onScroll($event)">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n  <div class="filter" #filter>\n    <ion-row>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Region\n          </ion-label>\n          <ion-select [(ngModel)]="region">\n            <!-- <ion-option disabled value="">Region</ion-option> -->\n            <ion-option *ngFor="let item of regionList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Trip Type\n          </ion-label>\n          <ion-select [(ngModel)]="type">\n            <!-- <ion-option disabled value="">Trip Type</ion-option> -->\n            <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">\n          <!-- <ion-icon name="search"></ion-icon> -->\n          Update\n        </button>\n      </ion-col>\n    </ion-row>\n  </div>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let trip of tripList">\n    <div class="trip-image" (click)="tripDetails(trip)">\n\n      <img src="{{trip.thumbnail}}">\n\n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n      <button ion-button round outline small class="btn-category">{{trip.product_cat}} </button>\n    </div>\n\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n        <strong class="pre-line" [innerHtml]="trip.title | uppercase"></strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <!-- <div>{{trip.trip_interested.interested}}</div> -->\n          <ion-icon *ngIf="!trip.trip_interested.isTapped" name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n          <ion-spinner *ngIf="trip.trip_interested.isTapped" class="process" name="crescent"></ion-spinner>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">\n    <ion-infinite-scroll-content loadingText="Loading more trips..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trips\trips.html"*/,
+            selector: 'page-vault-category',template:/*ion-inline-start:"D:\epx_app\src\pages\vault-category\vault-category.html"*/'<!--\n  Generated template for the VaultCategoryPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{category | uppercase}}</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let vault of vaultList">\n    <div class="vault-image">\n      <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == \'video\' ? \'video\' : \'pdf\'}}">\n    </div>\n    <ion-card-content>\n      <h3 class="content-text xl-text strong blue pre-line" [innerHtml]="vault.title | uppercase">\n      </h3>\n      <ion-item>\n        <ion-avatar item-start>\n          <img src="{{vault.author_avatar}}">\n        </ion-avatar>\n        <h2>\n          <strong>{{vault.author}}</strong> |\n          <span class="gray">{{vault.length}}</span>\n        </h2>\n        <p>{{vault.posted}}</p>\n      </ion-item>\n    </ion-card-content>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more vaults..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\vault-category\vault-category.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Renderer2 */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
-            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], TripsPage);
-    return TripsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], VaultCategoryPage);
+    return VaultCategoryPage;
 }());
 
-//# sourceMappingURL=trips.js.map
+//# sourceMappingURL=vault-category.js.map
 
 /***/ })
 

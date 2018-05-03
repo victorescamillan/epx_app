@@ -197,6 +197,9 @@ export class MembersPage {
   searchMembers(){
     this.presentPrompt();
   }
+  searchMembersByMap(){
+    this.navCtrl.push('MemberMapPage');
+  }
   presentPrompt() {
     let alert = this.alertCtrl.create({
       title: 'Member Search',

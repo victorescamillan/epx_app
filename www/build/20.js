@@ -1,14 +1,14 @@
 webpackJsonp([20],{
 
-/***/ 459:
+/***/ 461:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageModule", function() { return LoginPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MemberDetailsPageModule", function() { return MemberDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(486);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__member_details__ = __webpack_require__(489);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,35 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var LoginPageModule = (function () {
-    function LoginPageModule() {
+var MemberDetailsPageModule = (function () {
+    function MemberDetailsPageModule() {
     }
-    LoginPageModule = __decorate([
+    MemberDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__login__["a" /* LoginPage */],
+                __WEBPACK_IMPORTED_MODULE_2__member_details__["a" /* MemberDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__login__["a" /* LoginPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__member_details__["a" /* MemberDetailsPage */]),
             ],
         })
-    ], LoginPageModule);
-    return LoginPageModule;
+    ], MemberDetailsPageModule);
+    return MemberDetailsPageModule;
 }());
 
-//# sourceMappingURL=login.module.js.map
+//# sourceMappingURL=member-details.module.js.map
 
 /***/ }),
 
-/***/ 486:
+/***/ 489:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MemberDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__(23);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -59,107 +58,104 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var LoginPage = (function () {
-    function LoginPage(formBuilder, modalController, epxProvider, loadingCtrl, navCtrl, navParams, alertCtrl) {
-        this.formBuilder = formBuilder;
-        this.modalController = modalController;
+/**
+ * Generated class for the MemberDetailsPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var MemberDetailsPage = (function () {
+    function MemberDetailsPage(epxProvider, navCtrl, navParams) {
         this.epxProvider = epxProvider;
-        this.loadingCtrl = loadingCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.alertCtrl = alertCtrl;
-        this.formGroup = formBuilder.group({
-            email: ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["f" /* Validators */].compose([
-                    // Validators.pattern(regexValidators.email),
-                    __WEBPACK_IMPORTED_MODULE_3__angular_forms__["f" /* Validators */].required
-                ])],
-            password: ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["f" /* Validators */].required]
-        });
-        this.email_validation = this.formGroup.controls['email'];
-        this.password_validation = this.formGroup.controls['password'];
+        this.isLoading = true;
+        this.hasCrews = false;
+        this.hasCurrent = false;
+        this.hasPast = false;
+        this.hasVideo = false;
+        console.log('member details: ', navParams.data);
+        var param = navParams.data.data;
+        console.log('member id:', param.ID);
+        this.loadMemberDetails(param.ID);
     }
-    LoginPage.prototype.showAlert = function (title, message) {
-        var alert = this.alertCtrl.create({
-            title: title,
-            subTitle: message,
-            buttons: ['OK']
-        });
-        alert.present();
-    };
-    LoginPage.prototype.loginUser = function () {
+    MemberDetailsPage.prototype.loadMemberDetails = function (id) {
         var _this = this;
-        var loading = this.loadingCtrl.create({
-            content: 'Logging in...',
-            dismissOnPageChange: true
-        });
-        loading.present().then(function () {
-            _this.epxProvider.getLogin(_this.username, _this.password).subscribe(function (result) {
-                if (result.authentication) {
-                    // this.username = '';
-                    // this.password = '';
-                    console.log('user id', result.ID);
-                    _this.epxProvider.saveData('ID', result.ID);
-                    _this.epxProvider.saveData('name', result.name);
-                    _this.epxProvider.saveData('authentication', result.authentication);
-                    _this.navCtrl.setRoot('MenuPage');
+        this.epxProvider.getMemberDetails(id).subscribe(function (data) {
+            _this.details = data;
+            var crews = _this.details.crews;
+            if (crews != null) {
+                _this.member_crews = Object.keys(crews).map(function (keys) { return crews[keys]; });
+                if (_this.member_crews.length > 0) {
+                    _this.hasCrews = true;
                 }
-                else {
-                    _this.showAlert('Login Failed', 'Invalid username or password');
-                    loading.dismiss();
+                console.log('crews: ', _this.member_crews);
+            }
+            var current = _this.details.current_trips;
+            if (current != null) {
+                _this.current_trips = Object.keys(current).map(function (keys) { return current[keys]; });
+                console.log('current trips: ', _this.current_trips);
+                if (_this.current_trips.length > 0) {
+                    _this.hasCurrent = true;
                 }
-            });
+            }
+            var past = _this.details.past_trips;
+            if (past != null) {
+                _this.past_trips = Object.keys(past).map(function (keys) { return past[keys]; });
+                console.log('past trips: ', _this.past_trips);
+                if (_this.past_trips.length > 0) {
+                    _this.hasPast = true;
+                }
+            }
+            var video = _this.details.vault;
+            if (video != null) {
+                _this.vault_video = Object.keys(video).map(function (key) { return video[key]; });
+                console.log('vault video: ', _this.vault_video);
+                if (_this.vault_video.length > 0) {
+                    _this.hasVideo = true;
+                }
+            }
+            _this.isLoading = false;
         });
     };
-    LoginPage.prototype.forgotPassword = function () {
-        this.forgotPasswordModal();
+    //Navigate to Trip Details
+    MemberDetailsPage.prototype.tripDetails = function (trip) {
+        console.log('trip details:', trip);
+        var data = {
+            ID: trip.ID,
+            isInterested: trip.trip_interested.interested,
+            sashes_image: trip.sashes_image,
+            location: trip.map_info.map_address,
+            lat: Number(trip.map_info.map_latitude),
+            lng: Number(trip.map_info.map_longitude)
+        };
+        this.navCtrl.push('TripDetailsPage', { data: data });
     };
-    LoginPage.prototype.forgotPasswordModal = function () {
-        this.modalController.create('ForgotPasswordPage').present();
+    //Navigate to Member Details
+    MemberDetailsPage.prototype.memberDetails = function (member) {
+        console.log('member details:', member);
+        this.navCtrl.push('MemberDetailsPage', { data: member });
     };
-    LoginPage.prototype.forgotPasswordAlert = function () {
-        var prompt = this.alertCtrl.create({
-            title: 'Forgot Password',
-            message: "Enter you email address to request password reset.",
-            inputs: [
-                {
-                    name: 'email',
-                    placeholder: 'Enter your email address'
-                },
-            ],
-            buttons: [
-                {
-                    text: 'Cancel',
-                    handler: function (data) {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: 'Request',
-                    handler: function (data) {
-                        console.log('Request clicked');
-                    }
-                }
-            ]
-        });
-        prompt.present();
+    MemberDetailsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad MemberDetailsPage');
     };
-    LoginPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad LoginPage');
+    MemberDetailsPage.prototype.openBrowser = function (url) {
+        console.log('company url:', url);
+        window.open(url, "_system");
     };
-    LoginPage = __decorate([
+    MemberDetailsPage.prototype.vaultDetails = function (vault) {
+        this.navCtrl.push('VaultDetailsPage', { data: vault });
+    };
+    MemberDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"D:\epx_app\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!-- <ion-header>\n\n  <ion-navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n -->\n<ion-content padding>\n  <div class="logo">\n    <img src="assets/imgs/epx_logo_colored.png" alt="epx logo">\n    <h1>Welcome Back!</h1>\n    <h1>New Adventures Await!</h1>\n  </div>\n  <form [formGroup]="formGroup">\n    <div class="login-item">\n      <ion-item>\n        <ion-label floating>Username</ion-label>\n        <ion-input [(ngModel)]="username" formControlName="email" type="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email_validation.hasError(\'required\') && email_validation.touched">Username is required.</p>\n      <ion-item>\n        <ion-label floating>Password</ion-label>\n        <ion-input [(ngModel)]="password" formControlName="password" type="password"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="password_validation.hasError(\'required\') && password_validation.touched">Password is required.</p>\n    </div>\n    <br/>\n    <button ion-button round block [disabled]="!formGroup.valid" (click)="loginUser()">Login</button>\n    \n    <button ion-button round block color="light" class="btn-forgot" (click)="forgotPassword()">Forgot your password?</button>\n  </form>\n\n\n  <!-- <p class="md-text center primary" (click)="forgotPassword()">Forgot your password?</p> -->\n\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\login\login.html"*/,
+            selector: 'page-member-details',template:/*ion-inline-start:"D:\epx_app\src\pages\member-details\member-details.html"*/'<!--\n  Generated template for the MemberDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div *ngIf="!isLoading">\n    <div class="member-info">\n      <img [src]="details.avatar">\n      <h2>{{details.name}}</h2>\n      <p>Member Since:</p>\n      <p>{{details.member_since}}</p>\n    </div>\n    <div class="member-content">\n      <div class="about">\n        <p class="sm-text">\n          <span class="strong">{{details.name}}</span> is the\n          <span class="strong" [innerHtml]="details.position"></span> at\n          <span class="strong blue" (click)="openBrowser(details.business_url)" [innerHtml]="details.company"></span>, a\n          <span class="strong ">{{details.business_model}}</span> business in the\n          <span class="strong pre-line" [innerHtml]="details.industry"></span> industry with the\n          <span class="strong">{{details.employee}}</span> employees.</p>\n\n        <p class="sm-text">\n          <span class="strong break">A bit more about me, </span> {{details.personal_description}}\n        </p>\n\n        <p class="sm-text">\n          <span class="strong break">I\'m an expert in, </span> {{details.expert_in}}\n        </p>\n\n        <p class="sm-text">\n          <span class="strong break">I can also help you with, </span> {{details.help_with}}\n        </p>\n      </div>\n\n      <div class="business-info">\n        <div class="business-logo">\n          <img [src]="details.business.business_logo">\n        </div>\n        <p class="sm-text">\n          <span class="strong">A brief description about my business, </span> {{details.business.description}}\n        </p>\n        <p class="sm-text strong">I Prefer:</p>\n        <p class="sm-text pre-line" [innerHTML]="item" *ngFor="let item of details.I_prefer"></p>\n      </div>\n      <div class="affiliates">\n        <div class="crew" *ngIf="hasCrews">\n          <h4>{{details.name}}\'s Crew</h4>\n          <ion-scroll scrollX="true">\n            <ion-card *ngFor="let item of member_crews" (click)="memberDetails(item)">\n              <img class="interested" [src]="item.avatar" />\n              <ion-card-content>\n                <h3 class="text-center"><strong>{{item.name}}</strong></h3>\n                <div class="text-center sm-text">Member Since:</div>\n                <div class="text-center sm-text">{{item.member_since}}</div>\n              </ion-card-content>\n            </ion-card>\n          </ion-scroll>\n        </div>\n        <div class="vault">\n          <div class="vault-video" *ngIf="hasVideo">\n            <p class="md-text text-center strong">{{details.name}}\'s Vault Videos</p>\n            <ion-scroll scrollX="true">\n              <ion-card *ngFor="let vault of vault_video">\n                <img src="{{vault.thumbnail}}" (click)="vaultDetails(vault)">\n                <div class="vault-title">\n                  <h3><strong [innerHtml]="vault.title | uppercase"></strong></h3>\n                </div>\n                <ion-card-content>\n                  <ion-item class="author">\n                    <ion-avatar item-start>\n                      <img src="{{vault.author_avatar}}">\n                    </ion-avatar>\n                    <p class="sm-text strong">\n                      <strong>{{vault.author}}</strong> |\n                      <span class="gray">{{vault.length}}</span>\n                    </p>\n                    <p>{{vault.posted}}</p>\n                  </ion-item>\n                </ion-card-content>\n              </ion-card>\n            </ion-scroll>\n          </div>\n\n          <div class="current-trips" *ngIf="hasCurrent">\n            <p class="md-text text-center strong">Current Trips</p>\n            <ion-scroll scrollX="true">\n              <ion-card *ngFor="let trip of current_trips">\n                <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n                <ion-card-content>\n                  <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>\n                  <h3>\n                    <strong>{{trip.title | uppercase}}</strong>\n                  </h3>\n                  <p>\n                    <strong class="price">{{trip.price}}</strong> Trip Fee</p>\n                </ion-card-content>\n              </ion-card>\n            </ion-scroll>\n          </div>\n          <div class="past-trips" *ngIf="hasPast">\n            <p class="md-text text-center strong">Past Trips</p>\n            <ion-scroll scrollX="true">\n              <ion-card *ngFor="let trip of past_trips">\n                <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n                <ion-card-content>\n                  <p class="date-text">{{trip.start_date}} - {{trip.end_date}}</p>\n                  <h3>\n                    <strong>{{trip.title | uppercase}}</strong>\n                  </h3>\n                  <p>\n                    <strong class="price">{{trip.price}}</strong> Trip Fee</p>\n                </ion-card-content>\n              </ion-card>\n            </ion-scroll>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\member-details\member-details.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
-    ], LoginPage);
-    return LoginPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], MemberDetailsPage);
+    return MemberDetailsPage;
 }());
 
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=member-details.js.map
 
 /***/ })
 

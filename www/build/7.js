@@ -1,14 +1,14 @@
 webpackJsonp([7],{
 
-/***/ 473:
+/***/ 474:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripFilterPageModule", function() { return TripFilterPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripTagsPageModule", function() { return TripTagsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_filter__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_tags__ = __webpack_require__(502);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,36 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TripFilterPageModule = (function () {
-    function TripFilterPageModule() {
+var TripTagsPageModule = (function () {
+    function TripTagsPageModule() {
     }
-    TripFilterPageModule = __decorate([
+    TripTagsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__trip_filter__["a" /* TripFilterPage */],
+                __WEBPACK_IMPORTED_MODULE_2__trip_tags__["a" /* TripTagsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_filter__["a" /* TripFilterPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__trip_tags__["a" /* TripTagsPage */]),
             ],
         })
-    ], TripFilterPageModule);
-    return TripFilterPageModule;
+    ], TripTagsPageModule);
+    return TripTagsPageModule;
 }());
 
-//# sourceMappingURL=trip-filter.module.js.map
+//# sourceMappingURL=trip-tags.module.js.map
 
 /***/ }),
 
-/***/ 500:
+/***/ 502:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripFilterPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TripTagsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,51 +60,66 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-/**
- * Generated class for the TripFilterPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var TripFilterPage = (function () {
-    function TripFilterPage(provider, viewCtrl, navCtrl, navParams) {
-        this.provider = provider;
-        this.viewCtrl = viewCtrl;
+
+var TripTagsPage = (function () {
+    function TripTagsPage(epxProvider, navCtrl, navParams) {
+        this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.isLoading = true;
+        this.isRefresh = false;
+        this.isInterested = false;
+        this.tag = navParams.data.data;
+        console.log('tag:', this.tag);
     }
-    TripFilterPage.prototype.closeFilter = function () {
-        this.viewCtrl.dismiss();
+    TripTagsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad TripTagsPage');
+        this.LoadTrips();
     };
-    TripFilterPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad TripFilterPage');
-        this.initFilterData();
-    };
-    TripFilterPage.prototype.initFilterData = function () {
+    TripTagsPage.prototype.LoadTrips = function () {
         var _this = this;
-        this.provider.getTripRegionAndType().subscribe(function (res) {
-            console.log('product type', res.product_cat);
-            _this.product_typeList = res.product_cat;
-            console.log('product region', res.product_region);
-            _this.regionList = res.product_region;
+        this.epxProvider.getData('ID').then(function (id) {
+            console.log('user id:', id);
+            _this.epxProvider.getTripTags(_this.tag, id).subscribe(function (data) {
+                _this.tripList = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data);
+                console.log('trips by tag:', _this.tripList);
+                _this.isLoading = false;
+                _this.isRefresh = true;
+                _this.isInterested = false;
+            });
         });
     };
-    TripFilterPage.prototype.filterTrips = function () {
-        console.log('region', this.region);
-        console.log('type', this.type);
+    //Interested
+    TripTagsPage.prototype.interested = function (trip) {
+        var _this = this;
+        this.epxProvider.getData('ID').then(function (user_id) {
+            if (trip.trip_interested.interested) {
+                trip.trip_interested.interested = false;
+            }
+            else {
+                trip.trip_interested.interested = true;
+            }
+            _this.epxProvider.getTripInterest(trip.ID, user_id).subscribe(function (res) {
+                trip.trip_interested.interested = res.interest;
+                console.log('interest result:', res);
+            });
+        });
     };
-    TripFilterPage = __decorate([
+    TripTagsPage.prototype.tripDetails = function (trip) {
+        // this.trip = trip;
+        this.navCtrl.push('TripDetailsPage', { data: trip });
+    };
+    TripTagsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-trip-filter',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/'<!--\n  Generated template for the TripFilterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <!-- <ion-title>Search Trips</ion-title> -->\n    <ion-buttons right>\n      <button ion-button icon-end (click)="closeFilter()">\n        Close\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <h1 class="text-center">Search Trips</h1>\n  <div class="select">\n    <ion-item>\n      <ion-label>Region</ion-label>\n      <ion-select [(ngModel)]="region" >\n        <ion-option *ngFor="let item of regionList">{{item}}</ion-option>\n      </ion-select>\n    </ion-item>\n  </div>\n  <div class="select">\n    <ion-item>\n      <ion-label>Trip Type</ion-label>\n      <ion-select [(ngModel)]="type">\n        <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>\n      </ion-select>\n    </ion-item>\n  </div>\n  <button ion-button round block outline (click)="filterTrips()">Update</button>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/,
+            selector: 'page-trip-tags',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/'<!--\n  Generated template for the TripTagsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>{{tag | uppercase}}</ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content>\n  <br />\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <ion-card *ngFor="let trip of tripList | async" #tripCard>\n    <div class="trip-image">\n      <img src="{{trip.thumbnail}}" (click)="tripDetails(trip)">\n      <img class="sashes" src="{{trip.sashes_image}}" *ngIf="trip.sashes_image != \'\'">\n      <div class="trip-meter" [style.background-image]="trip.gauge_meter_image" [style.background-position-x]="trip.gauge_meter_css">\n        <p class="sm-text strong white">{{trip.gauge_meter_percent}}</p>\n      </div>\n      <button ion-button round outline small class="btn-category">{{trip.product_cat}}</button>\n    </div>\n    <ion-card-content>\n      <p class="sm-text">{{trip.start_date}} - {{trip.end_date}}</p>\n      <h3 class="content-text">\n          <strong class="pre-line" [innerHtml]="trip.title | uppercase"></strong>\n      </h3>\n      <p class="content-text">\n        <strong class="colored">{{trip.price}}</strong> Trip Fee</p>\n      <div class="btn-interested" *ngIf="trip.sashes_image == \'\'">\n        <button ion-button icon-right clear small (click)="interested(trip)">\n          <div>{{trip.trip_interested.interested ? "Interested" : "I\'m Interested"}}</div>\n          <ion-icon name="{{trip.trip_interested.interested ? \'heart\' : \'heart-outline\'}}"></ion-icon>\n        </button>\n      </div>\n    </ion-card-content>\n  </ion-card>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\trip-tags\trip-tags.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], TripFilterPage);
-    return TripFilterPage;
+    ], TripTagsPage);
+    return TripTagsPage;
 }());
 
-//# sourceMappingURL=trip-filter.js.map
+//# sourceMappingURL=trip-tags.js.map
 
 /***/ })
 
