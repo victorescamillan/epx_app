@@ -33,9 +33,7 @@ export class MentorPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MentorPage',this.skill);
-    // this.skillList = this.skillSet();
     this.initSkillSet();
-
   }
   resizeInput() {
     if(this.myInput.nativeElement.scrollHeight > 120){

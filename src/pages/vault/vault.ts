@@ -168,7 +168,13 @@ export class VaultPage {
     this.isRefresh = false;
     this.epxProvider.getVaultFilters(this.skills,this.category).subscribe(res => {
       console.log('getVaultFilters',res);
-      this.vaultList = Object.keys(res).map(key => res[key]);
+      let vault: string[] = Object.keys(res).map(key => res[key]);
+      if (vault[0] !== 'no result') {
+        this.vaultList = vault;
+      }
+      else {
+        this.epxProvider.toastMessage('No results found!');
+      }
       this.isLoading = false;
     },error =>{
       console.log('error: ',error);
@@ -189,6 +195,7 @@ export class VaultPage {
     this.oldScrollTop = event.scrollTop;
   }
   searchVault(){
+
     this.presentPrompt();
   }
   presentPrompt() {
@@ -214,6 +221,12 @@ export class VaultPage {
             this.isLoading = true;
             this.isRefresh = false;
             this.isFilter = true;
+            if(data.name === ''){
+              this.epxProvider.toastMessage('Please input name');
+              this.isLoading = false;
+              this.isFilter = false;
+              return;
+            }
             this.epxProvider.getVaultSearch(data.name).subscribe(res => {
               console.log('search result: ',res);
               this.vaultList = Object.keys(res).map(key => res[key]);

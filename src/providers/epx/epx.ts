@@ -52,12 +52,15 @@ export class EpxProvider {
   public member_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
   public member_skills_industry_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
   public member_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search=';
+  public member_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search_skill=';
+  public member_search_map_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination';
   
   // BUSINESS
   public business_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
   public business_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
   public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
-  public business_search_url: string = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search=';
+  public business_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search=';
+  public business_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
 
   //MENTOR MATCH
   public mentormatch_skills_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
@@ -284,6 +287,18 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
+  getMemberMapSearch() {
+    return this.httpClient.get(this.member_search_map_url)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getMemberFilter(skill, industry) {
+    return this.httpClient.get(this.member_filter_url + skill + '&search_industry='+ industry)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
   getBusiness() {
     return this.httpClient.get(this.business_url)
       .do(this.logResponse)
@@ -304,6 +319,12 @@ export class EpxProvider {
   }
   getBusinessSearch(value) {
     return this.httpClient.get(this.business_search_url + value)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getBusinessFilter(skill, category) {
+    return this.httpClient.get(this.business_filter_url + skill + '&search_category=' + category)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

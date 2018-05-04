@@ -81,11 +81,14 @@ var EpxProvider = (function () {
         this.member_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
         this.member_skills_industry_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
         this.member_search_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search=';
+        this.member_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search_skill=';
+        this.member_search_map_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination';
         // BUSINESS
         this.business_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
         this.business_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
         this.business_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
-        this.business_search_url = 'http://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search=';
+        this.business_search_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search=';
+        this.business_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
         //MENTOR MATCH
         this.mentormatch_skills_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
         this.mentormatch_submit_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=mentor-match&skill=';
@@ -306,6 +309,18 @@ var EpxProvider = (function () {
             .map(this.extractData)
             .catch(this.catchError);
     };
+    EpxProvider.prototype.getMemberMapSearch = function () {
+        return this.httpClient.get(this.member_search_map_url)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.getMemberFilter = function (skill, industry) {
+        return this.httpClient.get(this.member_filter_url + skill + '&search_industry=' + industry)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
     EpxProvider.prototype.getBusiness = function () {
         return this.httpClient.get(this.business_url)
             .do(this.logResponse)
@@ -326,6 +341,12 @@ var EpxProvider = (function () {
     };
     EpxProvider.prototype.getBusinessSearch = function (value) {
         return this.httpClient.get(this.business_search_url + value)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.getBusinessFilter = function (skill, category) {
+        return this.httpClient.get(this.business_filter_url + skill + '&search_category=' + category)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -441,79 +462,79 @@ var map = {
 		20
 	],
 	"../pages/member-map/member-map.module": [
-		480,
+		462,
 		1
 	],
 	"../pages/member-search/member-search.module": [
-		462,
+		463,
 		19
 	],
 	"../pages/members/members.module": [
-		463,
+		464,
 		18
 	],
 	"../pages/mentor/mentor.module": [
-		464,
+		465,
 		17
 	],
 	"../pages/menu/menu.module": [
-		465,
+		466,
 		16
 	],
 	"../pages/notification/notification.module": [
-		466,
+		467,
 		15
 	],
 	"../pages/settings/settings.module": [
-		467,
+		468,
 		14
 	],
 	"../pages/solo-details/solo-details.module": [
-		468,
+		469,
 		13
 	],
 	"../pages/solo-tags/solo-tags.module": [
-		469,
+		470,
 		12
 	],
 	"../pages/solo/solo.module": [
-		470,
+		471,
 		11
 	],
 	"../pages/tabs/tabs.module": [
-		471,
+		472,
 		10
 	],
 	"../pages/trip-details/trip-details.module": [
-		472,
+		473,
 		9
 	],
 	"../pages/trip-filter/trip-filter.module": [
-		473,
+		474,
 		8
 	],
 	"../pages/trip-tags/trip-tags.module": [
-		474,
+		475,
 		7
 	],
 	"../pages/trips/trips.module": [
-		475,
+		476,
 		6
 	],
 	"../pages/vault-category/vault-category.module": [
-		476,
+		477,
 		5
 	],
 	"../pages/vault-details/vault-details.module": [
-		477,
+		478,
 		4
 	],
 	"../pages/vault-tags/vault-tags.module": [
-		478,
+		479,
 		3
 	],
 	"../pages/vault/vault.module": [
-		479,
+		480,
 		2
 	]
 };
@@ -607,6 +628,7 @@ var AppModule = (function () {
                         { loadChildren: '../pages/get-lucky/get-lucky.module#GetLuckyPageModule', name: 'GetLuckyPage', segment: 'get-lucky', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/member-map/member-map.module#MemberMapPageModule', name: 'MemberMapPage', segment: 'member-map', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-search/member-search.module#MemberSearchPageModule', name: 'MemberSearchPage', segment: 'member-search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
@@ -624,8 +646,7 @@ var AppModule = (function () {
                         { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-tags/vault-tags.module#VaultTagsPageModule', name: 'VaultTagsPage', segment: 'vault-tags', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/member-map/member-map.module#MemberMapPageModule', name: 'MemberMapPage', segment: 'member-map', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_6_angularfire2_database__["b" /* AngularFireDatabaseModule */],
@@ -685,6 +706,9 @@ var MyApp = (function () {
         platform.ready().then(function () {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
+            statusBar.backgroundColorByHexString('#2b3e50');
+            statusBar.overlaysWebView(false);
+            splashScreen.hide();
             _this.epxProvider.getData('ID').then(function (res) {
                 if (res != null) {
                     _this.rootPage = 'MenuPage';
@@ -693,8 +717,6 @@ var MyApp = (function () {
                     _this.rootPage = 'LoginPage';
                 }
             });
-            statusBar.overlaysWebView(true);
-            splashScreen.hide();
         });
     }
     MyApp = __decorate([

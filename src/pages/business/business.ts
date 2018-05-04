@@ -172,6 +172,29 @@ export class BusinessPage {
   searchBusiness(){
     this.presentPrompt();
   }
+  filterBusienss(){
+    if(this.skills === '' && this.category === '' || this.skills == undefined && this.category == undefined){
+      this.epxProvider.toastMessage('Please select skills or category')
+      return;
+    }
+    this.isFilter = true;
+    this.isLoading = true;
+    this.isRefresh = false;
+    this.epxProvider.getBusinessFilter(this.skills,this.category).subscribe(res => {
+      console.log('getBusinessFilter',res);
+      let business: string[] = Object.keys(res).map(key => res[key]);
+        if (business[0] !== 'no result') {
+          this.businessList = business;
+        }
+        else{
+          this.epxProvider.toastMessage('No results found!');
+        }
+      this.isLoading = false;
+    },error =>{
+      console.log('error: ',error);
+      this.epxProvider.toastMessage('Internal error.')
+    })
+  }
   scrollToTop(){
     this.content.scrollToTop();
   }

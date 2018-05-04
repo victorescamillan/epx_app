@@ -1,6 +1,6 @@
 webpackJsonp([1],{
 
-/***/ 480:
+/***/ 462:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MemberMapPageModule", function() { return MemberMapPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__member_map__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__member_map__ = __webpack_require__(490);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,14 +38,15 @@ var MemberMapPageModule = (function () {
 
 /***/ }),
 
-/***/ 508:
+/***/ 490:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MemberMapPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_maps__ = __webpack_require__(509);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__ = __webpack_require__(491);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,8 +59,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var MemberMapPage = (function () {
-    function MemberMapPage(navCtrl, navParams) {
+    function MemberMapPage(provider, navCtrl, navParams) {
+        this.provider = provider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
     }
@@ -69,37 +72,46 @@ var MemberMapPage = (function () {
     };
     MemberMapPage.prototype.loadMap = function () {
         var _this = this;
-        console.log('load map', this.canvass.nativeElement);
         var mapOptions = {
+            mapType: 'MAP_TYPE_ROADMAP',
             camera: {
                 target: {
                     lat: 43.0741904,
                     lng: -89.3809802
                 },
-                zoom: 18,
+                zoom: 15,
                 tilt: 30
             }
         };
-        this.map = __WEBPACK_IMPORTED_MODULE_2__ionic_native_google_maps__["a" /* GoogleMaps */].create(this.canvass.nativeElement, mapOptions);
+        this.map = __WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["a" /* GoogleMaps */].create(this.canvass.nativeElement, mapOptions);
         // Wait the MAP_READY before using any methods.
-        this.map.one(__WEBPACK_IMPORTED_MODULE_2__ionic_native_google_maps__["b" /* GoogleMapsEvent */].MAP_READY)
+        this.map.one(__WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["b" /* GoogleMapsEvent */].MAP_READY)
             .then(function () {
             console.log('Map is ready!');
             // Now you can use all methods safely.
-            _this.map.addMarker({
-                title: 'Ionic',
-                icon: 'blue',
-                animation: 'DROP',
-                position: {
-                    lat: 43.0741904,
-                    lng: -89.3809802
-                }
-            })
-                .then(function (marker) {
-                marker.on(__WEBPACK_IMPORTED_MODULE_2__ionic_native_google_maps__["b" /* GoogleMapsEvent */].MARKER_CLICK)
-                    .subscribe(function () {
-                    alert('clicked');
+            _this.provider.getMemberMapSearch().subscribe(function (res) {
+                _this.members = Object.keys(res.members).map(function (key) { return res.members[key]; });
+                console.log('members', _this.members);
+                _this.map.addMarker({
+                    title: _this.members.name,
+                    icon: '#0da2e8',
+                    snippet: _this.members.company,
+                    animation: 'BOUNCE',
+                    position: {
+                        lat: 43.0741904 + Number(_this.members.ID),
+                        lng: -89.3809802
+                    }
+                }).then(function (marker) {
+                    marker.set('member_id', _this.members.ID),
+                        marker.on(__WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["b" /* GoogleMapsEvent */].INFO_CLICK)
+                            .subscribe(function () {
+                            //  alert(marker.get('member_id'));
+                            var member = { ID: marker.get('member_id') };
+                            _this.navCtrl.push('MemberDetailsPage', { data: member });
+                        });
                 });
+            }, function (error) {
+                _this.provider.toastMessage('Internal error!');
             });
         });
     };
@@ -111,7 +123,7 @@ var MemberMapPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-member-map',template:/*ion-inline-start:"D:\epx_app\src\pages\member-map\member-map.html"*/'<!--\n  Generated template for the MemberMapPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Map</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="map" #map>\n\n  </div>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\member-map\member-map.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], MemberMapPage);
     return MemberMapPage;
 }());
@@ -120,7 +132,7 @@ var MemberMapPage = (function () {
 
 /***/ }),
 
-/***/ 509:
+/***/ 491:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

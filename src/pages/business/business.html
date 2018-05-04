@@ -28,7 +28,7 @@
           <ion-label>
             Skill
           </ion-label>
-          <ion-select [(ngModel)]="skill">
+          <ion-select [(ngModel)]="skills">
             <!-- <ion-option disabled value="">Region</ion-option> -->
             <ion-option *ngFor="let item of skillsList">{{item}}</ion-option>
           </ion-select>
@@ -46,7 +46,7 @@
         </ion-item>
       </ion-col>
       <ion-col col-2>
-        <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">
+        <button ion-button outline color="light" class="btn-search" (click)="filterBusienss()">
           <!-- <ion-icon name="search"></ion-icon> -->
           Update
         </button>

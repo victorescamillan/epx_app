@@ -25851,7 +25851,7 @@ ion-scroll.scroll-x {
 }
 
 .alert-md .alert-wrapper {
-  margin-top: 40%;
+  margin-top: 30%;
 }
 
 page-assist ion-col.col {
@@ -26527,6 +26527,7 @@ page-mentor .show-indicator {
   height: 100px;
   position: fixed;
   top: 60%;
+  left: -5px;
   z-index: 1;
 }
 

@@ -1,6 +1,6 @@
 webpackJsonp([18],{
 
-/***/ 463:
+/***/ 464:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MembersPageModule", function() { return MembersPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__members__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__members__ = __webpack_require__(493);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var MembersPageModule = (function () {
 
 /***/ }),
 
-/***/ 491:
+/***/ 493:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85,6 +85,7 @@ var MembersPage = (function () {
         this.perPage = 0;
         this.totalData = 0;
         this.totalPage = 0;
+        this.isFilter = false;
         // Keep our cached results when device is offline!
         cache.setOfflineInvalidate(false);
     }
@@ -111,6 +112,7 @@ var MembersPage = (function () {
                         _this.members = Object.keys(data).map(function (key) { return data[key]; });
                         refresher.complete();
                         _this.loadSkillsIndustry();
+                        _this.isFilter = false;
                     });
                 }
                 else {
@@ -213,19 +215,28 @@ var MembersPage = (function () {
         });
     };
     MembersPage.prototype.filterMembers = function () {
+        var _this = this;
         if (this.skills === '' && this.industry === '' || this.skills == undefined && this.industry == undefined) {
             this.epxProvider.toastMessage('Please select skills or industry');
             return;
         }
-        // if (!this.isLoading) {
-        //   this.memberList = this.temp_memberList;
-        //   let val = ev.target.value;
-        //   if (val && val.trim() !== '') {
-        //     this.memberList = this.memberList.map((member) => member.filter(function (item) {
-        //       return item.name.toLowerCase().includes(val.toLowerCase());
-        //     }));
-        //   }
-        // }
+        this.isFilter = true;
+        this.isLoading = true;
+        this.isRefresh = false;
+        this.epxProvider.getVaultFilters(this.skills, this.industry).subscribe(function (res) {
+            console.log('getVaultFilters', res);
+            var member = Object.keys(res).map(function (key) { return res[key]; });
+            if (member[0] !== 'no result') {
+                _this.members = member;
+            }
+            else {
+                _this.epxProvider.toastMessage('No results found!');
+            }
+            _this.isLoading = false;
+        }, function (error) {
+            console.log('error: ', error);
+            _this.epxProvider.toastMessage('Internal error.');
+        });
     };
     MembersPage.prototype.onScroll = function (event) {
         if (event.scrollTop <= 0) {
@@ -269,6 +280,13 @@ var MembersPage = (function () {
                     handler: function (data) {
                         _this.isLoading = true;
                         _this.isRefresh = false;
+                        _this.isFilter = true;
+                        if (data.name === '') {
+                            _this.epxProvider.toastMessage('Please input name');
+                            _this.isLoading = false;
+                            _this.isFilter = false;
+                            return;
+                        }
                         _this.epxProvider.getMemberSearch(data.name).subscribe(function (res) {
                             console.log('search result: ', res);
                             _this.members = Object.keys(res).map(function (key) { return res[key]; });
@@ -292,7 +310,7 @@ var MembersPage = (function () {
     ], MembersPage.prototype, "filter", void 0);
     MembersPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-members',template:/*ion-inline-start:"D:\epx_app\src\pages\members\members.html"*/'<!--\n  Generated template for the MembersPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>MEMBERS</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="searchMembersByMap()">\n        <ion-icon  name="map"></ion-icon>\n      </button>\n    </ion-buttons>\n    <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="searchMembers()">\n        <ion-icon isActive="true" name="search"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n \n</ion-header>\n\n\n<ion-content (ionScroll)="onScroll($event)">\n  <div class="filter" #filter>\n    <ion-row>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Skills\n          </ion-label>\n          <ion-select [(ngModel)]="skills">\n            <!-- <ion-option disabled value="">Region</ion-option> -->\n            <ion-option *ngFor="let item of skillsList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Industry\n          </ion-label>\n          <ion-select [(ngModel)]="industry">\n            <!-- <ion-option disabled value="">Trip Type</ion-option> -->\n            <ion-option *ngFor="let item of industryList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button outline color="light" class="btn-search" (click)="filterMembers()">\n          <!-- <ion-icon name="search"></ion-icon> -->\n          Go\n        </button>\n      </ion-col>\n    </ion-row>\n  </div>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <!-- <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar> -->\n  <ion-list>\n    <ion-item-sliding *ngFor="let member of members">\n      <ion-item>\n        <ion-avatar item-start>\n          <img [src]="member.avatar" (click)="memberDetails(member)">\n        </ion-avatar>\n        <p class="item-text">\n          <span class="strong ">{{member.name}}</span> is the\n          <span class="strong " [innerHtml]="member.position"></span> at\n          <span class="strong blue" (click)="openBrowser(member.business_url)" [innerHtml]="member.company"></span>, a\n          <span class="strong ">{{member.business_model}}</span> business in the\n          <span class="strong pre-line" [innerHtml]="member.industry"></span> industry with the\n          <span class="strong ">{{member.employee}}</span> employees.\n        </p>\n      </ion-item>\n      <!-- <ion-item-options side="left">\n        <button ion-button color="secondary">\n          <ion-icon name="text"></ion-icon>\n          Message\n        </button>\n      </ion-item-options> -->\n      <ion-item-options side="right">\n        <button ion-button color="primary" (click)="memberDetails(member)">\n          <ion-icon name="person"></ion-icon>\n          Profile\n        </button>\n      </ion-item-options>\n    </ion-item-sliding>\n  </ion-list>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">\n    <ion-infinite-scroll-content loadingText="Loading more members..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\members\members.html"*/,
+            selector: 'page-members',template:/*ion-inline-start:"D:\epx_app\src\pages\members\members.html"*/'<!--\n  Generated template for the MembersPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>MEMBERS</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="searchMembersByMap()">\n        <ion-icon  name="map"></ion-icon>\n      </button>\n    </ion-buttons>\n    <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="searchMembers()">\n        <ion-icon isActive="true" name="search"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n \n</ion-header>\n\n\n<ion-content (ionScroll)="onScroll($event)">\n  <div class="filter" #filter>\n    <ion-row>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Skills\n          </ion-label>\n          <ion-select [(ngModel)]="skills">\n            <!-- <ion-option disabled value="">Region</ion-option> -->\n            <ion-option *ngFor="let item of skillsList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Industry\n          </ion-label>\n          <ion-select [(ngModel)]="industry">\n            <!-- <ion-option disabled value="">Trip Type</ion-option> -->\n            <ion-option *ngFor="let item of industryList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button outline color="light" class="btn-search" (click)="filterMembers()">\n          <!-- <ion-icon name="search"></ion-icon> -->\n          Go\n        </button>\n      </ion-col>\n    </ion-row>\n  </div>\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n  <!-- <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar> -->\n  <ion-list>\n    <ion-item-sliding *ngFor="let member of members">\n      <ion-item>\n        <ion-avatar item-start>\n          <img [src]="member.avatar" (click)="memberDetails(member)">\n        </ion-avatar>\n        <p class="item-text">\n          <span class="strong ">{{member.name}}</span> is the\n          <span class="strong " [innerHtml]="member.position"></span> at\n          <span class="strong blue" (click)="openBrowser(member.business_url)" [innerHtml]="member.company"></span>, a\n          <span class="strong ">{{member.business_model}}</span> business in the\n          <span class="strong pre-line" [innerHtml]="member.industry"></span> industry with the\n          <span class="strong ">{{member.employee}}</span> employees.\n        </p>\n      </ion-item>\n      <!-- <ion-item-options side="left">\n        <button ion-button color="secondary">\n          <ion-icon name="text"></ion-icon>\n          Message\n        </button>\n      </ion-item-options> -->\n      <ion-item-options side="right">\n        <button ion-button color="primary" (click)="memberDetails(member)">\n          <ion-icon name="person"></ion-icon>\n          Profile\n        </button>\n      </ion-item-options>\n    </ion-item-sliding>\n  </ion-list>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">\n    <ion-infinite-scroll-content loadingText="Loading more members..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\members\members.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
             __WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Renderer2 */],

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'member-details.html',
 })
 export class MemberDetailsPage {
+  @ViewChild('spinner') spinner: ElementRef;
   isLoading: boolean = true;
   details: any;
   member_crews: any;
@@ -25,22 +26,20 @@ export class MemberDetailsPage {
   hasCurrent: boolean = false;
   hasPast: boolean = false;
   hasVideo: boolean = false;
-
-  constructor(private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
-    console.log('member details: ', navParams.data);
-    var param = navParams.data.data;
-    console.log('member id:',param.ID);
-    this.loadMemberDetails(param.ID);
+  member: any;
+  constructor(private renderer: Renderer2, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.member = navParams.data.data;
+    
+    
+    // this.renderer.addClass(this.spinner.nativeElement,'show');
   }
   loadMemberDetails(id) {
     this.epxProvider.getMemberDetails(id).subscribe(data => {
       this.details = data;
-
+      
       var crews = this.details.crews;
       if (crews != null) {
-        
         this.member_crews = Object.keys(crews).map(keys => crews[keys]);
-        
         if(this.member_crews.length > 0){
           this.hasCrews = true;
         }
@@ -74,9 +73,9 @@ export class MemberDetailsPage {
         }
       }
       this.isLoading = false;
+      console.log('isLoading :',this.isLoading);
     });
   }
-
   //Navigate to Trip Details
   tripDetails(trip) {
     console.log('trip details:', trip);
@@ -95,9 +94,10 @@ export class MemberDetailsPage {
     console.log('member details:', member);
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
-  
   ionViewDidLoad() {
     console.log('ionViewDidLoad MemberDetailsPage');
+    console.log('member id:',this.member.ID);
+    this.loadMemberDetails(this.member.ID);
   }
   openBrowser(url){
     console.log('company url:',url);

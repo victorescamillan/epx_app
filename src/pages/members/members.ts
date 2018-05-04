@@ -31,6 +31,7 @@ export class MembersPage {
   industryList: any;
   skills: string;
   industry: string;
+  isFilter: boolean = false;
   constructor(
     private alertCtrl: AlertController,
     private renderer: Renderer2,
@@ -64,6 +65,7 @@ export class MembersPage {
             this.members = Object.keys(data).map(key => data[key]);
             refresher.complete();
             this.loadSkillsIndustry();
+            this.isFilter = false;
           });
         }
         else {
@@ -171,15 +173,23 @@ export class MembersPage {
       this.epxProvider.toastMessage('Please select skills or industry');
       return;
     }
-    // if (!this.isLoading) {
-    //   this.memberList = this.temp_memberList;
-    //   let val = ev.target.value;
-    //   if (val && val.trim() !== '') {
-    //     this.memberList = this.memberList.map((member) => member.filter(function (item) {
-    //       return item.name.toLowerCase().includes(val.toLowerCase());
-    //     }));
-    //   }
-    // }
+    this.isFilter = true;
+    this.isLoading = true;
+    this.isRefresh = false;
+    this.epxProvider.getVaultFilters(this.skills,this.industry).subscribe(res => {
+      console.log('getVaultFilters',res);
+      let member: string[] = Object.keys(res).map(key => res[key]);
+      if (member[0] !== 'no result') {
+        this.members = member;
+      }
+      else {
+        this.epxProvider.toastMessage('No results found!');
+      }
+      this.isLoading = false;
+    },error =>{
+      console.log('error: ',error);
+      this.epxProvider.toastMessage('Internal error.')
+    })
   }
   onScroll(event) {
     if (event.scrollTop <= 0) {
@@ -222,6 +232,13 @@ export class MembersPage {
           handler: data => {
             this.isLoading = true;
             this.isRefresh = false;
+            this.isFilter = true;
+            if(data.name === ''){
+              this.epxProvider.toastMessage('Please input name');
+              this.isLoading = false;
+              this.isFilter = false;
+              return;
+            }
             this.epxProvider.getMemberSearch(data.name).subscribe(res => {
               console.log('search result: ',res);
               this.members = Object.keys(res).map(key => res[key]);

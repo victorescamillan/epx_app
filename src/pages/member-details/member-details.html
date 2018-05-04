@@ -11,10 +11,8 @@
   </ion-navbar>
 
 </ion-header>
-
-
 <ion-content>
-  <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
+  <div id="indicator" #spinner [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   <div *ngIf="!isLoading">
@@ -33,15 +31,12 @@
           <span class="strong ">{{details.business_model}}</span> business in the
           <span class="strong pre-line" [innerHtml]="details.industry"></span> industry with the
           <span class="strong">{{details.employee}}</span> employees.</p>
-
         <p class="sm-text">
           <span class="strong break">A bit more about me, </span> {{details.personal_description}}
         </p>
-
         <p class="sm-text">
           <span class="strong break">I'm an expert in, </span> {{details.expert_in}}
         </p>
-
         <p class="sm-text">
           <span class="strong break">I can also help you with, </span> {{details.help_with}}
         </p>
