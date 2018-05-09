@@ -19,8 +19,10 @@ export class BusinessDetailsPage {
   details: any;
   
   constructor(private epxProvider: EpxProvider,public navCtrl: NavController, public navParams: NavParams) {
-    let id = navParams.data.data.ID;
-    this.loadBusinessDetails(id);  
+    // let id = navParams.data.data.ID;
+    // this.loadBusinessDetails(id); 
+     this.details = navParams.data.data;
+    console.log('business details', navParams.data.data);
   }
   loadBusinessDetails(id) {
     this.epxProvider.getBusinessDetails(id).subscribe(data => {
@@ -31,6 +33,7 @@ export class BusinessDetailsPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad BusinessDetailsPage');
+    // this.loadBusinessDetails(id); 
   }
   memberDetails(member) {
     this.navCtrl.push('MemberDetailsPage', { data: member });

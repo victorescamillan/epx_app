@@ -94,15 +94,15 @@ page-business {
         height: 0px;
         display: none;
     }
-    .item-md.item-block .item-inner {
+    .item-md.item-block .item-inner,.item-ios.item-block .item-inner {
         padding-right: 8px;
         border-bottom: none;
         background: #2977aa;
     }
-    button.fab.fab-md{
+    button.fab.fab-md, button.fab.fab-ios{
         opacity: 0;
     }
-    button.fab.fab-md.fab-show{
+    button.fab.fab-md.fab-show,button.fab.fab-ios.fab-show{
         opacity: 1;
     }
 }

@@ -19,6 +19,7 @@ import { CacheService } from 'ionic-cache';
 export class VaultDetailsPage {
 
   details: any;
+  partial_details: any;
   isLoading: boolean = true;
 
   constructor(
@@ -28,13 +29,12 @@ export class VaultDetailsPage {
     private cache: CacheService,
     public domSanitizer: DomSanitizer,
     public navCtrl: NavController, public navParams: NavParams) {
-
-    var id = navParams.data.data.ID;
-    this.LoadDetails(id);
+    this.partial_details = navParams.data.data;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultDetailsPage');
+    this.LoadDetails(this.partial_details.ID);
   }
   openBrowser(url){
     console.log('company url:',url);

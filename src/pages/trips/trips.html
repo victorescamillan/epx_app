@@ -7,11 +7,6 @@
 <ion-header>
   <ion-navbar>
     <ion-title>EXPLORE . EXPAND. EVOLVE.</ion-title>
-    <!-- <ion-buttons end>
-      <button ion-button icon-only color="light" (click)="showFilter()">
-        <ion-icon name="md-funnel"></ion-icon>
-      </button>
-    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)">
@@ -27,7 +22,6 @@
             Region
           </ion-label>
           <ion-select [(ngModel)]="region">
-            <!-- <ion-option disabled value="">Region</ion-option> -->
             <ion-option *ngFor="let item of regionList">{{item}}</ion-option>
           </ion-select>
         </ion-item>
@@ -38,14 +32,12 @@
             Trip Type
           </ion-label>
           <ion-select [(ngModel)]="type">
-            <!-- <ion-option disabled value="">Trip Type</ion-option> -->
             <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-col>
       <ion-col col-2>
         <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">
-          <!-- <ion-icon name="search"></ion-icon> -->
           Update
         </button>
       </ion-col>

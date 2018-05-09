@@ -11,34 +11,40 @@
 </ion-header>
 
 <ion-content>
+  <!-- <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> -->
+  <div class="gallery">
+    <ion-slides loop="true" autoplay="3000" speed="1000" pager="true" *ngIf="partial_details.trip_gallery.length > 1">
+      <ion-slide *ngFor="let img of partial_details.trip_gallery">
+        <img src="{{img}}" />
+      </ion-slide>
+    </ion-slides>
+    <ion-slides *ngIf="partial_details.trip_gallery.length <= 1">
+      <ion-slide *ngFor="let img of partial_details.trip_gallery">
+        <img src="{{img}}" />
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <div class="content-text">
+    <p class="md-text white">{{partial_details.product_cat}}</p>
+    <p class="lg-text white">
+      <strong class="pre-line" [innerHtml]="partial_details.title | uppercase"></strong>
+    </p>
+  </div>
+  <div class="content-desrip">
+    <p class="sm-text pre-line" [innerHTML]="partial_details.full_content"></p>
+  </div>
   <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
-  <div class="gallery" *ngIf="!isLoading">
-    <ion-slides loop="true" autoplay="3000" speed="1000" pager="true" *ngIf="details.trip_gallery.length > 1">
-      <ion-slide *ngFor="let img of details.trip_gallery">
-        <img src="{{img}}" />
-      </ion-slide>
-    </ion-slides>
-    <ion-slides *ngIf="details.trip_gallery.length <= 1">
-      <ion-slide *ngFor="let img of details.trip_gallery">
-        <img src="{{img}}" />
-      </ion-slide>
-    </ion-slides>
-  </div>
   <div *ngIf="!isLoading">
-    <div class="content-text">
-      <p class="md-text white">ADVENTURE</p>
-      <p class="lg-text white">
-        <strong class="pre-line" [innerHtml]="details.title | uppercase"></strong>
-      </p>
-    </div>
     <div class="content-details">
-      <p class="sm-text pre-line" [innerHTML]="details.content"></p>
+      
       <br/>
-      <button ion-button round icon-right outline (click)="interested()" *ngIf="sashes_image == ''">
-        {{isInterested ? "Interested" : "I'm Interested"}}
-        <ion-icon *ngIf="!isTapped" name="{{isInterested ? 'heart' : 'heart-outline'}}"></ion-icon>
+      <button ion-button round icon-right outline (click)="interested()" *ngIf="partial_details.sashes_image == ''">
+        {{partial_details.isInterested ? "Interested" : "I'm Interested"}}
+        <ion-icon *ngIf="!isTapped" name="{{partial_details.isInterested ? 'heart' : 'heart-outline'}}"></ion-icon>
         <ion-spinner *ngIf="isTapped" class="process" name="crescent"></ion-spinner>
       </button>
 
@@ -146,7 +152,7 @@
     </div>
     <div class="whos-going" *ngIf="whos_going.length > 0">
       <h1 class="text-center black">Who's Going</h1>
-      <ion-item *ngFor="let item of whos_going" >
+      <ion-item *ngFor="let item of whos_going">
         <ion-avatar item-start>
           <img class="going" src="{{item.avatar}}" (click)="memberDetails(item)">
         </ion-avatar>

@@ -162,8 +162,12 @@ ion-scroll.scroll-x {
 .toast-message{
     background: #2977aa;
 }
-.alert-md .alert-wrapper{
+.alert-md .alert-wrapper, .alert-ios .alert-wrapper{
     margin-top: 30%;
+}
+.no-margin{
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
 }
 
 

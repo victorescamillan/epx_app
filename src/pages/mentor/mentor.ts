@@ -42,20 +42,7 @@ export class MentorPage {
     console.log(this.myInput.nativeElement.scrollHeight);
     this.consumeChar = this.myInput.nativeElement.value.length;
   }
-  skillSet(): any{
-    return [
-      'Accounting/Finance',
-      'Building Brands',
-      'Building Culture',
-      'Business Strategy',
-      'Creating Differentiation',
-      'Customer Service',
-      'Digital Marketing',
-      'Hiring Retention, Firing',
-      'Human Resource',
-      'International Economics'
-    ];
-  }
+
   initSkillSet(){
     this.provider.getMentorMatchSkills().subscribe(res => {
       this.skillList = res.skills;

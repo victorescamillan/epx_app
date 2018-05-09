@@ -14,7 +14,8 @@
 
 
 <ion-content>
-  <div id="map" #map>
-
+  <div id="indicator" class="{{isLoading ? 'show-indicator' : 'hide-indicator'}}">
+    <ion-spinner name="crescent"></ion-spinner>
   </div>
+  <div id="map" #map></div>
 </ion-content>

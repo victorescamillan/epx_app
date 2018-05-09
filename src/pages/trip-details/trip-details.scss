@@ -206,4 +206,14 @@ page-trip-details {
         display: block;
         margin: auto;
     }
+    .show-indicator{
+        width: 100%;
+        display: -webkit-inline-box;
+        padding-top: 50px;
+        // background: gray;
+        position: relative;
+    }
+    .content-desrip {
+        padding: 0px 10px;
+    }
 }

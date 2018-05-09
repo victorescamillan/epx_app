@@ -12,35 +12,38 @@
 
 </ion-header>
 <ion-content>
+  <div class="basic-info">
+    <div class="member-info">
+      <img [src]="partial_details.avatar">
+      <h2>{{partial_details.name}}</h2>
+      <p class="no-margin">Member Since:</p>
+      <p class="no-margin">{{partial_details.Member_since}}</p>
+    </div>
+    <div class="about">
+      <p class="sm-text">
+        <span class="strong">{{partial_details.name}}</span> is the
+        <span class="strong" [innerHtml]="partial_details.position"></span> at
+        <span class="strong blue" (click)="openBrowser(partial_details.business_url)" [innerHtml]="partial_details.company"></span>, a
+        <span class="strong ">{{partial_details.business_model}}</span> business in the
+        <span class="strong pre-line" [innerHtml]="partial_details.industry"></span> industry with the
+        <span class="strong">{{partial_details.employee}}</span> employees.</p>
+      <p class="sm-text">
+        <span class="strong break">A bit more about me, </span> {{partial_details.personal_description}}
+      </p>
+      <p class="sm-text">
+        <span class="strong break">I'm an expert in, </span> {{partial_details.expert_in}}
+      </p>
+      <p class="sm-text">
+        <span class="strong break">I can also help you with, </span> {{partial_details.help_with}}
+      </p>
+    </div>
+  </div>
   <div id="indicator" #spinner [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   <div *ngIf="!isLoading">
-    <div class="member-info">
-      <img [src]="details.avatar">
-      <h2>{{details.name}}</h2>
-      <p>Member Since:</p>
-      <p>{{details.member_since}}</p>
-    </div>
     <div class="member-content">
-      <div class="about">
-        <p class="sm-text">
-          <span class="strong">{{details.name}}</span> is the
-          <span class="strong" [innerHtml]="details.position"></span> at
-          <span class="strong blue" (click)="openBrowser(details.business_url)" [innerHtml]="details.company"></span>, a
-          <span class="strong ">{{details.business_model}}</span> business in the
-          <span class="strong pre-line" [innerHtml]="details.industry"></span> industry with the
-          <span class="strong">{{details.employee}}</span> employees.</p>
-        <p class="sm-text">
-          <span class="strong break">A bit more about me, </span> {{details.personal_description}}
-        </p>
-        <p class="sm-text">
-          <span class="strong break">I'm an expert in, </span> {{details.expert_in}}
-        </p>
-        <p class="sm-text">
-          <span class="strong break">I can also help you with, </span> {{details.help_with}}
-        </p>
-      </div>
+
 
       <div class="business-info">
         <div class="business-logo">
@@ -59,7 +62,9 @@
             <ion-card *ngFor="let item of member_crews" (click)="memberDetails(item)">
               <img class="interested" [src]="item.avatar" />
               <ion-card-content>
-                <h3 class="text-center"><strong>{{item.name}}</strong></h3>
+                <h3 class="text-center">
+                  <strong>{{item.name}}</strong>
+                </h3>
                 <div class="text-center sm-text">Member Since:</div>
                 <div class="text-center sm-text">{{item.member_since}}</div>
               </ion-card-content>
@@ -73,7 +78,9 @@
               <ion-card *ngFor="let vault of vault_video">
                 <img src="{{vault.thumbnail}}" (click)="vaultDetails(vault)">
                 <div class="vault-title">
-                  <h3><strong [innerHtml]="vault.title | uppercase"></strong></h3>
+                  <h3>
+                    <strong [innerHtml]="vault.title | uppercase"></strong>
+                  </h3>
                 </div>
                 <ion-card-content>
                   <ion-item class="author">

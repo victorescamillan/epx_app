@@ -125,5 +125,14 @@ page-member-details {
         height: 35px;
         width: 35px;
     }
-   
+    .show-indicator{
+        width: 100%;
+        display: -webkit-inline-box;
+        padding-top: 20px;
+        // background: gray;
+        position: relative;
+    }
+    .about{
+        padding: 5px 10px;
+    }
 }

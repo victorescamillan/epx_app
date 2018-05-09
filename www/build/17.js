@@ -88,20 +88,6 @@ var MentorPage = (function () {
         console.log(this.myInput.nativeElement.scrollHeight);
         this.consumeChar = this.myInput.nativeElement.value.length;
     };
-    MentorPage.prototype.skillSet = function () {
-        return [
-            'Accounting/Finance',
-            'Building Brands',
-            'Building Culture',
-            'Business Strategy',
-            'Creating Differentiation',
-            'Customer Service',
-            'Digital Marketing',
-            'Hiring Retention, Firing',
-            'Human Resource',
-            'International Economics'
-        ];
-    };
     MentorPage.prototype.initSkillSet = function () {
         var _this = this;
         this.provider.getMentorMatchSkills().subscribe(function (res) {

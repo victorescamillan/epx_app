@@ -55,7 +55,8 @@ var EpxProvider = (function () {
         this.forgot_password_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
         // TRIPS
         this.trips_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
-        this.trips_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
+        // public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
+        this.trips_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
         this.trips_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
         this.trips_interest_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
         this.trips_tags_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
@@ -82,7 +83,7 @@ var EpxProvider = (function () {
         this.member_skills_industry_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
         this.member_search_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search=';
         this.member_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search_skill=';
-        this.member_search_map_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination';
+        this.member_search_map_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-map';
         // BUSINESS
         this.business_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
         this.business_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';

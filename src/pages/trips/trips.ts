@@ -225,14 +225,20 @@ export class TripsPage {
   }
   //Navigate to Trip Details
   tripDetails(trip) {
+    console.log('trip data',trip);
     let data = {
       ID: trip.ID,
       isInterested: trip.trip_interested.interested,
       sashes_image: trip.sashes_image,
       location: trip.map_info.map_address,
       lat: Number(trip.map_info.map_latitude),
-      lng: Number(trip.map_info.map_longitude)
+      lng: Number(trip.map_info.map_longitude),
+      product_cat: trip.product_cat,
+      title: trip.title,
+      trip_gallery: trip.trip_gallery,
+      full_content: trip.full_content
     }
+    
     this.navCtrl.push('TripDetailsPage', { data: data });
   }
   doInfinite(infiniteScroll) {

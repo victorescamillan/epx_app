@@ -20,59 +20,66 @@ export class MemberMapPage {
   @ViewChild('map') canvass: ElementRef;
   map: GoogleMap;
   members: any;
+  isLoading: boolean = true;
   constructor(private provider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MemberMapPage');
     this.loadMap();
-
   }
   loadMap() {
-    let mapOptions: GoogleMapOptions = {
-      mapType: 'MAP_TYPE_ROADMAP',
-      camera: {
-        target: {
-          lat: 43.0741904,
-          lng: -89.3809802
-        },
-        zoom: 15,
-        tilt: 30
-      }
-    };
-
-    this.map = GoogleMaps.create(this.canvass.nativeElement, mapOptions);
-
-    // Wait the MAP_READY before using any methods.
-    this.map.one(GoogleMapsEvent.MAP_READY)
-      .then(() => {
-        console.log('Map is ready!');
-        // Now you can use all methods safely.
-        this.provider.getMemberMapSearch().subscribe(res => {
-          this.members = Object.keys(res.members).map(key => res.members[key]);
-          console.log('members', this.members);
-          this.map.addMarker({
-            title: this.members.name,
-            icon: '#0da2e8',
-            snippet: this.members.company,
-            animation: 'BOUNCE',
-            position: {
-              lat: 43.0741904 + Number(this.members.ID),
-              lng: -89.3809802
-            }
-          }).then(marker => {
-            marker.set('member_id', this.members.ID),
-              marker.on(GoogleMapsEvent.INFO_CLICK)
-                .subscribe(() => {
-                  //  alert(marker.get('member_id'));
-                  let member = { ID: marker.get('member_id') };
-                  this.navCtrl.push('MemberDetailsPage', { data: member });
-                });
+    this.provider.getMemberMapSearch().subscribe(res => {
+      this.members = Object.keys(res).map(key => res[key]);
+      let lat = Number(this.members[0].latitude);
+      let lng = Number(this.members[0].longitude);
+      let mapOptions: GoogleMapOptions = {
+        mapType: 'MAP_TYPE_ROADMAP',
+        camera: {
+          target: {
+            lat: lat,
+            lng: lng
+          },
+          zoom: 2,
+          tilt: 50,
+        }
+      };
+      this.map = GoogleMaps.create(this.canvass.nativeElement, mapOptions);
+      this.members.forEach(item => {
+        let lat = Number(item.latitude);
+        let lng = Number(item.longitude);
+        // Wait the MAP_READY before using any methods.
+        this.map.one(GoogleMapsEvent.MAP_READY)
+          .then(() => {
+            console.log('Map is ready!');
+            // Now you can use all methods safely.
+            this.map.addMarker({
+              title: item.name,
+              icon: '#0da2e8',
+              snippet: item.Business,
+              animation: 'DROP',
+              position: {
+                lat: lat,
+                lng: lng
+              }
+            }).then(marker => {
+              marker.set('member_id', item.ID),
+                marker.on(GoogleMapsEvent.INFO_CLICK)
+                  .subscribe(() => {
+                    let member = { ID: marker.get('member_id') };
+                    this.navCtrl.push('MemberDetailsPage', { data: member });
+                  });
+            });
+          },error =>{
+            this.provider.toastMessage('Internal error.');
           });
-        }, error => {
-          this.provider.toastMessage('Internal error!');
-        })
-
       });
+
+      this.isLoading = false;
+    }, error => {
+      this.provider.toastMessage('Internal error!');
+    })
+
+
   }
 }

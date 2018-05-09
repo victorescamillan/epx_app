@@ -65,6 +65,7 @@ var MemberMapPage = (function () {
         this.provider = provider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.isLoading = true;
     }
     MemberMapPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad MemberMapPage');
@@ -72,47 +73,54 @@ var MemberMapPage = (function () {
     };
     MemberMapPage.prototype.loadMap = function () {
         var _this = this;
-        var mapOptions = {
-            mapType: 'MAP_TYPE_ROADMAP',
-            camera: {
-                target: {
-                    lat: 43.0741904,
-                    lng: -89.3809802
-                },
-                zoom: 15,
-                tilt: 30
-            }
-        };
-        this.map = __WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["a" /* GoogleMaps */].create(this.canvass.nativeElement, mapOptions);
-        // Wait the MAP_READY before using any methods.
-        this.map.one(__WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["b" /* GoogleMapsEvent */].MAP_READY)
-            .then(function () {
-            console.log('Map is ready!');
-            // Now you can use all methods safely.
-            _this.provider.getMemberMapSearch().subscribe(function (res) {
-                _this.members = Object.keys(res.members).map(function (key) { return res.members[key]; });
-                console.log('members', _this.members);
-                _this.map.addMarker({
-                    title: _this.members.name,
-                    icon: '#0da2e8',
-                    snippet: _this.members.company,
-                    animation: 'BOUNCE',
-                    position: {
-                        lat: 43.0741904 + Number(_this.members.ID),
-                        lng: -89.3809802
-                    }
-                }).then(function (marker) {
-                    marker.set('member_id', _this.members.ID),
-                        marker.on(__WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["b" /* GoogleMapsEvent */].INFO_CLICK)
-                            .subscribe(function () {
-                            //  alert(marker.get('member_id'));
-                            var member = { ID: marker.get('member_id') };
-                            _this.navCtrl.push('MemberDetailsPage', { data: member });
-                        });
+        this.provider.getMemberMapSearch().subscribe(function (res) {
+            _this.members = Object.keys(res).map(function (key) { return res[key]; });
+            var lat = Number(_this.members[0].latitude);
+            var lng = Number(_this.members[0].longitude);
+            var mapOptions = {
+                mapType: 'MAP_TYPE_ROADMAP',
+                camera: {
+                    target: {
+                        lat: lat,
+                        lng: lng
+                    },
+                    zoom: 2,
+                    tilt: 50,
+                }
+            };
+            _this.map = __WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["a" /* GoogleMaps */].create(_this.canvass.nativeElement, mapOptions);
+            _this.members.forEach(function (item) {
+                var lat = Number(item.latitude);
+                var lng = Number(item.longitude);
+                // Wait the MAP_READY before using any methods.
+                _this.map.one(__WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["b" /* GoogleMapsEvent */].MAP_READY)
+                    .then(function () {
+                    console.log('Map is ready!');
+                    // Now you can use all methods safely.
+                    _this.map.addMarker({
+                        title: item.name,
+                        icon: '#0da2e8',
+                        snippet: item.Business,
+                        animation: 'DROP',
+                        position: {
+                            lat: lat,
+                            lng: lng
+                        }
+                    }).then(function (marker) {
+                        marker.set('member_id', item.ID),
+                            marker.on(__WEBPACK_IMPORTED_MODULE_3__ionic_native_google_maps__["b" /* GoogleMapsEvent */].INFO_CLICK)
+                                .subscribe(function () {
+                                var member = { ID: marker.get('member_id') };
+                                _this.navCtrl.push('MemberDetailsPage', { data: member });
+                            });
+                    });
+                }, function (error) {
+                    _this.provider.toastMessage('Internal error.');
                 });
-            }, function (error) {
-                _this.provider.toastMessage('Internal error!');
             });
+            _this.isLoading = false;
+        }, function (error) {
+            _this.provider.toastMessage('Internal error!');
         });
     };
     __decorate([
@@ -121,7 +129,7 @@ var MemberMapPage = (function () {
     ], MemberMapPage.prototype, "canvass", void 0);
     MemberMapPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-member-map',template:/*ion-inline-start:"D:\epx_app\src\pages\member-map\member-map.html"*/'<!--\n  Generated template for the MemberMapPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Map</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="map" #map>\n\n  </div>\n</ion-content>\n'/*ion-inline-end:"D:\epx_app\src\pages\member-map\member-map.html"*/,
+            selector: 'page-member-map',template:/*ion-inline-start:"D:\epx_app\src\pages\member-map\member-map.html"*/'<!--\n  Generated template for the MemberMapPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Map</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" class="{{isLoading ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div id="map" #map></div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\member-map\member-map.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], MemberMapPage);

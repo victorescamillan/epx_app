@@ -69,5 +69,13 @@ page-vault-details {
         border-bottom: 1px solid #c5c5c5;
         margin: 20px 0px;
     }
-    
+    .banner {
+        height: 100%;
+    }
+    .show-indicator{
+        width: 100%;
+        display: -webkit-inline-box;
+        padding-top: 50px;
+        position: relative;
+    }
 }

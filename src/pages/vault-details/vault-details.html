@@ -14,16 +14,21 @@
 
 
 <ion-content>
+  <!-- <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> -->
+  <div class="banner">
+    <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(partial_details.embed_link)" *ngIf="partial_details.vault_type == 'video'"> </iframe>
+    <img [src]="partial_details.embed_link" *ngIf="partial_details.vault_type == 'ebook'">
+    <div class="title">
+      <h2 class="pre-line" [innerHtml]="partial_details.title | uppercase"></h2>
+      <p class="md-text" *ngIf="partial_details.vault_type != 'ebook'">Length {{partial_details.length}}</p>
+    </div>
+  </div>
   <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   <div class="content" *ngIf="!isLoading">
-    <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(details.embed_link)" *ngIf="details.vault_type == 'video'"> </iframe>
-    <img [src]="details.embed_link" *ngIf="details.vault_type == 'ebook'">
-    <div class="title">
-      <h2 class="pre-line" [innerHtml]="details.title | uppercase"></h2>
-      <p class="md-text" *ngIf="details.vault_type != 'ebook'">Length {{details.length}}</p>
-    </div>
     <div class="content-text">
       <div class="descrip">
         <p class="sm-text pre-line" [innerHtml]="details.description"></p>

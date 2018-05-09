@@ -24,7 +24,8 @@ export class EpxProvider {
   
   // TRIPS
   public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
-  public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
+  // public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-test-pagination&user_id=';
+  public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
   public trips_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
   public trips_interest_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
   public trips_tags_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
@@ -53,7 +54,7 @@ export class EpxProvider {
   public member_skills_industry_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
   public member_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search=';
   public member_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search_skill=';
-  public member_search_map_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination';
+  public member_search_map_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-map';
   
   // BUSINESS
   public business_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';

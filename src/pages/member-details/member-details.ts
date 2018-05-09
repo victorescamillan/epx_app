@@ -18,6 +18,7 @@ export class MemberDetailsPage {
   @ViewChild('spinner') spinner: ElementRef;
   isLoading: boolean = true;
   details: any;
+  partial_details: any;
   member_crews: any;
   current_trips: any;
   past_trips: any;
@@ -26,17 +27,19 @@ export class MemberDetailsPage {
   hasCurrent: boolean = false;
   hasPast: boolean = false;
   hasVideo: boolean = false;
-  member: any;
+ 
   constructor(private renderer: Renderer2, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.member = navParams.data.data;
-    
-    
-    // this.renderer.addClass(this.spinner.nativeElement,'show');
+    this.partial_details = navParams.data.data;
   }
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad MemberDetailsPage');
+    this.loadMemberDetails(this.partial_details.ID);
+  }
+
   loadMemberDetails(id) {
     this.epxProvider.getMemberDetails(id).subscribe(data => {
       this.details = data;
-      
+     
       var crews = this.details.crews;
       if (crews != null) {
         this.member_crews = Object.keys(crews).map(keys => crews[keys]);
@@ -80,12 +83,16 @@ export class MemberDetailsPage {
   tripDetails(trip) {
     console.log('trip details:', trip);
     let data = {
-      ID:trip.ID,
-      isInterested:trip.trip_interested.interested,
-      sashes_image:trip.sashes_image,
-      location:trip.map_info.map_address,
+      ID: trip.ID,
+      isInterested: trip.trip_interested.interested,
+      sashes_image: trip.sashes_image,
+      location: trip.map_info.map_address,
       lat: Number(trip.map_info.map_latitude),
-      lng: Number(trip.map_info.map_longitude)
+      lng: Number(trip.map_info.map_longitude),
+      product_cat: trip.product_cat,
+      title: trip.title,
+      trip_gallery: trip.trip_gallery,
+      full_content: trip.full_content
     }   
     this.navCtrl.push('TripDetailsPage', { data: data });
   }
@@ -94,11 +101,7 @@ export class MemberDetailsPage {
     console.log('member details:', member);
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MemberDetailsPage');
-    console.log('member id:',this.member.ID);
-    this.loadMemberDetails(this.member.ID);
-  }
+  
   openBrowser(url){
     console.log('company url:',url);
     window.open(url,"_system");
