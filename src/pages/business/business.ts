@@ -182,8 +182,8 @@ export class BusinessPage {
     this.isRefresh = false;
     this.epxProvider.getBusinessFilter(this.skills, this.category).subscribe(res => {
       console.log('getBusinessFilter', res);
-      let business: string[] = Object.keys(res).map(key => res[key]);
-      if (business[0] !== 'no result') {
+      if (res.result === true) {
+        let business: string[] = Object.keys(res.data).map(key => res.data[key]);
         this.businessList = business;
       }
       else {
@@ -193,6 +193,7 @@ export class BusinessPage {
     }, error => {
       console.log('error: ', error);
       this.epxProvider.toastMessage('Internal error.')
+      this.isLoading = false;
     })
   }
   scrollToTop() {
@@ -223,10 +224,16 @@ export class BusinessPage {
             this.isFilter = true;
             this.epxProvider.getBusinessSearch(data.name).subscribe(res => {
               console.log('search result: ', res);
-              this.businessList = Object.keys(res).map(key => res[key]);
+              if (res.result === true) {
+                this.businessList = Object.keys(res.data).map(key => res.data[key]);
+              }
+              else{
+                this.epxProvider.toastMessage('No results found!');
+              }
               this.isLoading = false;
             }, error => {
               this.epxProvider.toastMessage('Internal error.');
+              this.isLoading = false;
             });
           }
         }

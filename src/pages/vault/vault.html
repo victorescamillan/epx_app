@@ -74,10 +74,10 @@
           <img src="{{vault.author_avatar}}">
         </ion-avatar>
         <h2>
-          <strong>{{vault.author}}</strong> |
+          <strong class="black">{{vault.author}}</strong> |
           <span class="gray">{{vault.length}}</span>
         </h2>
-        <p>{{vault.posted}}</p>
+        <p>{{vault.posted | date : 'MMMM d, y'}}</p>
       </ion-item>
     </ion-card-content>
   </ion-card>

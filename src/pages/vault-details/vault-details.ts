@@ -41,6 +41,7 @@ export class VaultDetailsPage {
     window.open(url,"_system");
   }
   memberDetails(member) {
+   
     this.navCtrl.push('MemberDetailsPage', { data: member });
   }
   vaultByTags(tag){

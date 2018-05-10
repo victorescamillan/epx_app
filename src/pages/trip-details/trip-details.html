@@ -50,7 +50,7 @@
 
       <ion-item>
         <ion-avatar item-end>
-          <img class="coordinator" src="{{details.trip_coordinator.Trip_coordinator_avatar}}" (click)="memberDetails(details.trip_coordinator)">
+          <img class="coordinator" src="{{details.trip_coordinator.Trip_coordinator_avatar}}" (click)="memberDetailsCoordinator(details.trip_coordinator)">
         </ion-avatar>
         <h2 class="primary">{{details.trip_coordinator.Trip_coordinator_name}}</h2>
         <p>Trip Coordinator</p>
@@ -132,7 +132,7 @@
     <div class="trip-leader">
       <ion-item>
         <ion-avatar>
-          <img class="leader" src="{{details.trip_leader.Trip_leader_avatar}}" (click)="memberDetails(details.trip_leader)" />
+          <img class="leader" src="{{details.trip_leader.Trip_leader_avatar}}" (click)="memberDetailsTripLeader(details.trip_leader)" />
         </ion-avatar>
         <p class="sm-text-important text-center black-important">EPX Trip Leader</p>
         <p class="text-center gray">Member Since:</p>
@@ -158,8 +158,8 @@
         </ion-avatar>
         <p>
           <span class="strong">{{item.name}}</span> is the
-          <span class="strong">{{item.position}}</span> at
-          <span class="strong blue" (click)="openBrowser(item.business_url)">{{item.company}}</span>, a
+          <span class="strong pre-line" [innerHtml]="item.position"></span> at
+          <span class="strong blue pre-line" (click)="openBrowser(item.business_url)" [innerHtml]="item.company"></span>, a
           <span class="strong">{{item.business_model}}</span> in the
           <span class="strong">{{item.industry}}</span> industry with the
           <span class="strong">{{item.employee}}</span> employees.</p>

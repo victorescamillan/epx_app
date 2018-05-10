@@ -17,7 +17,7 @@
       <img [src]="partial_details.avatar">
       <h2>{{partial_details.name}}</h2>
       <p class="no-margin">Member Since:</p>
-      <p class="no-margin">{{partial_details.Member_since}}</p>
+      <p class="no-margin">{{partial_details.member_since | date : 'MMMM d, y'}}</p>
     </div>
     <div class="about">
       <p class="sm-text">
@@ -28,7 +28,7 @@
         <span class="strong pre-line" [innerHtml]="partial_details.industry"></span> industry with the
         <span class="strong">{{partial_details.employee}}</span> employees.</p>
       <p class="sm-text">
-        <span class="strong break">A bit more about me, </span> {{partial_details.personal_description}}
+        <span class="strong break">A bit more about me, </span> <span class="pre-line" [innerHtml]="partial_details.personal_description"></span>
       </p>
       <p class="sm-text">
         <span class="strong break">I'm an expert in, </span> {{partial_details.expert_in}}
@@ -66,7 +66,7 @@
                   <strong>{{item.name}}</strong>
                 </h3>
                 <div class="text-center sm-text">Member Since:</div>
-                <div class="text-center sm-text">{{item.member_since}}</div>
+                <div class="text-center sm-text">{{item.member_since | date}}</div>
               </ion-card-content>
             </ion-card>
           </ion-scroll>

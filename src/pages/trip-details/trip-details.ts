@@ -55,7 +55,7 @@ export class TripDetailsPage {
     public navCtrl: NavController, public navParams: NavParams) {
 
     this.partial_details = navParams.data.data;
-    console.log('trip param:', this.partial_details);
+    console.log('trip param:', navParams.data.trip);
 
     // this.trip_gallery = details.trip_gallery;
     // this.product_cat = details.product_cat,
@@ -81,9 +81,46 @@ export class TripDetailsPage {
   // ionViewWillUnload(){
   //   this.epxProvider.removeData('trip_details');
   // }
-
-  memberDetails(member) {
-    this.navCtrl.push('MemberDetailsPage', { data: member });
+  memberDetails(data){
+    this.navCtrl.push('MemberDetailsPage', { data: data });
+  }
+  memberDetailsCoordinator(member) {
+    let data = {
+      ID : member.ID,
+      member_since : member.Trip_coordinator_Member_since,
+      avatar : member.Trip_coordinator_avatar,
+      business_model : member.Trip_coordinator_business_model,
+      business_url : member.Trip_coordinator_business_url,
+      company : member.Trip_coordinator_company,
+      employee : member.Trip_coordinator_employee,
+      expert_in : member.Trip_coordinator_expert_in,
+      help_with : member.Trip_coordinator_can_help_with,
+      industry : member.Trip_coordinator_industry,
+      name : member.Trip_coordinator_name,
+      personal_description : member.Trip_coordinator_personal_description,
+      position : member.Trip_coordinator_position,
+    };
+    console.log('data',data);
+    this.navCtrl.push('MemberDetailsPage', { data: data });
+  }
+  memberDetailsTripLeader(member) {
+    let data = {
+      ID : member.ID,
+      member_since : member.Trip_leader_Member_since,
+      avatar : member.Trip_leader_avatar,
+      business_model : member.Trip_leader_business_model,
+      business_url : member.Trip_leader_business_url,
+      company : member.Trip_leader_company,
+      employee : member.Trip_leader_employee,
+      expert_in : member.Trip_leader_expert_in,
+      help_with : member.Trip_leader_can_help_with,
+      industry : member.Trip_leader_industry,
+      name : member.Trip_leader_name,
+      personal_description : member.Trip_leader_personal_description,
+      position : member.Trip_leader_position,
+    };
+    console.log('data',member);
+    this.navCtrl.push('MemberDetailsPage', { data: data });
   }
   //Pull to refresh page
   forceReload(refresher) {
@@ -93,9 +130,10 @@ export class TripDetailsPage {
   interested() {
     this.isTapped = true;
     this.epxProvider.getData('ID').then(user_id => {
+      console.log('interest id',this.partial_details.ID);
       this.epxProvider.getTripInterest(this.partial_details.ID, user_id).subscribe(res => {
-        this.navParams.data.data.trip_interested.interested = res.interest;
-        this.partial_details.isInterested = res.interest;
+        this.navParams.data.trip.trip_interested.interested = res.interest; //Update the trip status from previous page
+        this.partial_details.isInterested = res.interest; //Update the trip status in current page
         this.isTapped = false;
         if (res.interest) {
           this.details.number_of_interested++;

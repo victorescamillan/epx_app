@@ -63,10 +63,10 @@ export class MemberMapPage {
                 lng: lng
               }
             }).then(marker => {
-              marker.set('member_id', item.ID),
+              marker.set('member', item),
                 marker.on(GoogleMapsEvent.INFO_CLICK)
                   .subscribe(() => {
-                    let member = { ID: marker.get('member_id') };
+                    let member = marker.get('member');
                     this.navCtrl.push('MemberDetailsPage', { data: member });
                   });
             });

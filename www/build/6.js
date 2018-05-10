@@ -127,9 +127,9 @@ var TripsPage = (function () {
         this.isRefresh = false;
         this.epxProvider.getData('ID').then(function (user_id) {
             _this.epxProvider.getTripFilter(user_id, _this.type, _this.region).subscribe(function (res) {
-                var trips = Object.keys(res).map(function (key) { return res[key]; });
-                console.log('filter result: ', trips);
-                if (trips[0] !== 'No result') {
+                console.log('filter result: ', res);
+                if (res.result === true) {
+                    var trips = Object.keys(res.data).map(function (key) { return res.data[key]; });
                     _this.tripList = trips;
                 }
                 else {
@@ -138,6 +138,7 @@ var TripsPage = (function () {
                 _this.isLoading = false;
             }, function (error) {
                 console.log('error: ', error);
+                _this.epxProvider.toastMessage('Internal error!');
                 _this.isLoading = false;
             });
         });
@@ -266,7 +267,7 @@ var TripsPage = (function () {
             trip_gallery: trip.trip_gallery,
             full_content: trip.full_content
         };
-        this.navCtrl.push('TripDetailsPage', { data: data });
+        this.navCtrl.push('TripDetailsPage', { data: data, trip: trip });
     };
     TripsPage.prototype.doInfinite = function (infiniteScroll) {
         var _this = this;

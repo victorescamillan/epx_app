@@ -92,11 +92,9 @@ export class TripsPage {
     
     this.epxProvider.getData('ID').then(user_id => {
       this.epxProvider.getTripFilter(user_id, this.type, this.region).subscribe(res => {
-      
-        let trips: string[] = Object.keys(res).map(key => res[key]);
-
-        console.log('filter result: ', trips);
-        if (trips[0] !== 'No result') {
+        console.log('filter result: ', res);
+        if (res.result === true) {
+          let trips: string[] = Object.keys(res.data).map(key => res.data[key]);
           this.tripList = trips;
         }
         else{
@@ -105,6 +103,7 @@ export class TripsPage {
         this.isLoading = false;
       }, error => {
         console.log('error: ', error);
+        this.epxProvider.toastMessage('Internal error!');
         this.isLoading = false;
       });
     });
@@ -239,7 +238,7 @@ export class TripsPage {
       full_content: trip.full_content
     }
     
-    this.navCtrl.push('TripDetailsPage', { data: data });
+    this.navCtrl.push('TripDetailsPage', { data: data, trip: trip });
   }
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');

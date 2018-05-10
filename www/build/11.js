@@ -1,6 +1,6 @@
 webpackJsonp([11],{
 
-/***/ 471:
+/***/ 470:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloPageModule", function() { return SoloPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(499);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var SoloPageModule = (function () {
 
 /***/ }),
 
-/***/ 500:
+/***/ 499:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -211,16 +211,17 @@ var SoloPage = (function () {
         console.log('update Solo', from, to);
         this.epxProvider.getSoloFilters(from, to).subscribe(function (res) {
             console.log('update Solo', res);
-            if (res != null) {
-                _this.soloList = Object.keys(res).map(function (key) { return res[key]; });
-                _this.isLoading = false;
+            if (res.result === true) {
+                _this.soloList = Object.keys(res.data).map(function (key) { return res.data[key]; });
             }
             else {
                 _this.epxProvider.toastMessage('No result found.');
-                _this.isLoading = false;
             }
+            _this.isLoading = false;
         }, function (error) {
             console.log('error: ', error);
+            _this.epxProvider.toastMessage('Internal error!');
+            _this.isLoading = false;
         });
     };
     SoloPage.prototype.onScroll = function (event) {

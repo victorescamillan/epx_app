@@ -53,14 +53,14 @@ export class EpxProvider {
   public member_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
   public member_skills_industry_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
   public member_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search=';
-  public member_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search_skill=';
+  public member_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&member_role=full_members&business=';
   public member_search_map_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-map';
   
   // BUSINESS
   public business_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
   public business_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
   public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
-  public business_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search=';
+  public business_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&nameSearch=';
   public business_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
 
   //MENTOR MATCH

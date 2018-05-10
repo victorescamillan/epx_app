@@ -168,8 +168,8 @@ export class VaultPage {
     this.isRefresh = false;
     this.epxProvider.getVaultFilters(this.skills,this.category).subscribe(res => {
       console.log('getVaultFilters',res);
-      let vault: string[] = Object.keys(res).map(key => res[key]);
-      if (vault[0] !== 'no result') {
+      if (res.result === true) {
+        let vault: string[] = Object.keys(res.data).map(key => res.data[key]);
         this.vaultList = vault;
       }
       else {
@@ -179,6 +179,7 @@ export class VaultPage {
     },error =>{
       console.log('error: ',error);
       this.epxProvider.toastMessage('Internal error.')
+      this.isLoading = false;
     })
   }
   onScroll(event) {
@@ -229,10 +230,17 @@ export class VaultPage {
             }
             this.epxProvider.getVaultSearch(data.name).subscribe(res => {
               console.log('search result: ',res);
-              this.vaultList = Object.keys(res).map(key => res[key]);
+              if(res.result === true)
+              {
+                this.vaultList = Object.keys(res.data).map(key => res.data[key]);
+              }
+              else{
+                this.epxProvider.toastMessage('No results found.');  
+              }
               this.isLoading = false;
             },error => {
               this.epxProvider.toastMessage('Internal error.');
+              this.isLoading = false;
             });
           }
         }

@@ -160,16 +160,17 @@ export class SoloPage {
     console.log('update Solo', from, to);
     this.epxProvider.getSoloFilters(from, to).subscribe(res => {
       console.log('update Solo', res);
-      if(res != null){
-        this.soloList = Object.keys(res).map(key => res[key]);
-        this.isLoading = false;
+      if(res.result === true){
+        this.soloList = Object.keys(res.data).map(key => res.data[key]);
       }
       else{
         this.epxProvider.toastMessage('No result found.')
-        this.isLoading = false;
       }
+      this.isLoading = false;
     },error =>{
       console.log('error: ',error);
+      this.epxProvider.toastMessage('Internal error!');
+      this.isLoading = false;
     });
   }
   onScroll(event) {

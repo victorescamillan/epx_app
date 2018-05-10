@@ -30,6 +30,7 @@ export class MemberDetailsPage {
  
   constructor(private renderer: Renderer2, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.partial_details = navParams.data.data;
+    console.log('parameters',this.partial_details);
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad MemberDetailsPage');
