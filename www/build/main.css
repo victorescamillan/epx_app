@@ -26050,6 +26050,13 @@ page-business-details ion-row.row {
   display: -webkit-inline-box;
 }
 
+page-business-details .show-indicator {
+  width: 100%;
+  display: -webkit-inline-box;
+  padding-top: 10px;
+  position: relative;
+}
+
 page-chat .innerMessage {
   display: inline-block;
   padding: 5px 10px;
@@ -26271,8 +26278,8 @@ page-member-details .member-info {
 
 page-member-details .member-info img {
   border-radius: 50%;
-  height: 50%;
-  width: 50%;
+  height: auto;
+  width: auto;
 }
 
 page-member-details .member-content img {
@@ -26408,7 +26415,7 @@ page-member-details .vault .author img {
 page-member-details .show-indicator {
   width: 100%;
   display: -webkit-inline-box;
-  padding-top: 20px;
+  padding-top: 40px;
   position: relative;
 }
 

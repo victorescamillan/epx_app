@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, ChangeDetectorRef, Renderer2 } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController, Content, InfiniteScroll, Events, Popover } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController, Content, InfiniteScroll, Events, Popover, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -37,9 +37,10 @@ export class TripsPage {
   product_typeList: any;
   region: any;
   type: any;
-  
   isFilter: boolean = false;
+  topDistance: Number;
   constructor(
+    private platform: Platform,
     private renderer: Renderer2,
     private detectorRef: ChangeDetectorRef,
     private events: Events,
@@ -58,7 +59,6 @@ export class TripsPage {
     console.log('ionViewDidLoad TripsPage');
     this.LoadTrips();
     this.initFilterData();
-
   }
   //Filter Page
   showFilter() {
@@ -80,8 +80,8 @@ export class TripsPage {
     console.log('scrollFunction');
   }
   filterTrips() {
-   
-    console.log('region and type:',this.region,this.type);
+    console.log('region and type:', this.region, this.type);
+
     if (this.region === '' && this.type === '' || this.region === undefined && this.type === undefined) {
       this.epxProvider.toastMessage('Please select region or trip type.')
       return;
@@ -89,7 +89,6 @@ export class TripsPage {
     this.isFilter = true;
     this.isLoading = true;
     this.isRefresh = false;
-    
     this.epxProvider.getData('ID').then(user_id => {
       this.epxProvider.getTripFilter(user_id, this.type, this.region).subscribe(res => {
         console.log('filter result: ', res);
@@ -97,7 +96,7 @@ export class TripsPage {
           let trips: string[] = Object.keys(res.data).map(key => res.data[key]);
           this.tripList = trips;
         }
-        else{
+        else {
           this.epxProvider.toastMessage('No results found!');
         }
         this.isLoading = false;
@@ -224,7 +223,7 @@ export class TripsPage {
   }
   //Navigate to Trip Details
   tripDetails(trip) {
-    console.log('trip data',trip);
+    console.log('trip data', trip);
     let data = {
       ID: trip.ID,
       isInterested: trip.trip_interested.interested,
@@ -237,7 +236,7 @@ export class TripsPage {
       trip_gallery: trip.trip_gallery,
       full_content: trip.full_content
     }
-    
+
     this.navCtrl.push('TripDetailsPage', { data: data, trip: trip });
   }
   doInfinite(infiniteScroll) {
@@ -263,9 +262,9 @@ export class TripsPage {
   }
   ionSelected() {
     console.log('trip selected');
-    let topDistance = this.content.getContentDimensions().scrollTop;
-    console.log('scroll top', topDistance);
-    if (topDistance > 10) {
+    this.topDistance = this.content.getContentDimensions().scrollTop;
+    console.log('scroll top', this.topDistance);
+    if (this.topDistance > 10) {
       this.content.scrollToTop();
     }
   }

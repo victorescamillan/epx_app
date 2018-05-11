@@ -1,5 +1,5 @@
 import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, Content, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, Content, AlertController, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -33,6 +33,7 @@ export class MembersPage {
   industry: string;
   isFilter: boolean = false;
   constructor(
+    private platform: Platform,
     private alertCtrl: AlertController,
     private renderer: Renderer2,
     private events: Events,
@@ -42,11 +43,19 @@ export class MembersPage {
 
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
+
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad MembersPage');
     this.LoadMembers();
     this.loadSkillsIndustry();
+  }
+  ionViewWillEnter(){
+    let backAction = this.platform.registerBackButtonAction(() => {
+      let x = this.navCtrl.parent.select(0);
+      console.log("second",x);
+      backAction();
+    },2);
   }
   LoadMembers(refresher?) {
     let url = this.epxProvider.member_infinite_url;

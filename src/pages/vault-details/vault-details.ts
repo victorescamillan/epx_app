@@ -31,7 +31,12 @@ export class VaultDetailsPage {
     public navCtrl: NavController, public navParams: NavParams) {
     this.partial_details = navParams.data.data;
   }
-
+  ionViewWillEnter(){
+    let backAction = this.platform.registerBackButtonAction(() => {
+      this.navCtrl.pop();
+      backAction();
+    },2);
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultDetailsPage');
     this.LoadDetails(this.partial_details.ID);

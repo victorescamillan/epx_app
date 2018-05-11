@@ -11,8 +11,8 @@ page-member-details {
     }
     .member-info img{
         border-radius: 50%;
-        height: 50%;
-        width: 50%;
+        height: auto;
+        width: auto;
     }
     .member-content img {
         max-width: 100%;
@@ -128,7 +128,7 @@ page-member-details {
     .show-indicator{
         width: 100%;
         display: -webkit-inline-box;
-        padding-top: 20px;
+        padding-top: 40px;
         // background: gray;
         position: relative;
     }

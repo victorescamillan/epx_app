@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import {
   GoogleMaps,
@@ -21,9 +21,16 @@ export class MemberMapPage {
   map: GoogleMap;
   members: any;
   isLoading: boolean = true;
-  constructor(private provider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private platform: Platform,
+    private provider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
   }
-
+  ionViewWillEnter(){
+    let backAction = this.platform.registerBackButtonAction(() => {
+      this.navCtrl.pop();
+      backAction();
+    },2);
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad MemberMapPage');
     this.loadMap();

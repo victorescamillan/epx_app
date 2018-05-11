@@ -1,5 +1,5 @@
 import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { IonicPage, NavController, LoadingController, Events, Content, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController, Events, Content, AlertController, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -29,7 +29,9 @@ export class VaultPage {
   skills: string = '';
   category:string = '';
   isFilter: boolean = false;
+  backAction: any;
   constructor(
+    private platform: Platform,
     private alertCtrl: AlertController,
     private renderer: Renderer2,
     private events: Events,
@@ -37,12 +39,18 @@ export class VaultPage {
     private epxProvider: EpxProvider, 
     private cache: CacheService, 
     private navCtrl: NavController) {
-    // Set TTL to 12h
-    cache.setDefaultTTL(60 * 60 * 12);
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
   }
-
+  ionViewWillEnter(){
+    this.backAction = this.platform.registerBackButtonAction(() => {
+      this.navCtrl.parent.select(0);
+      this.backAction();
+    },2);
+  }
+  ionViewWillLeave(){
+    this.backAction();
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad VaultPage');
     this.LoadVault();

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 
@@ -15,6 +15,7 @@ export class TripTagsPage {
   tag: any;
   tripList: Observable<any>;
   constructor(
+    private platform: Platform,
     private epxProvider: EpxProvider,
     public navCtrl: NavController, public navParams: NavParams) {
       this.tag = navParams.data.data;

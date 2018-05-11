@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Content } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Content, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -32,6 +32,7 @@ export class BusinessPage {
   category: any;
   isFilter: boolean = false;
   constructor(
+    private platform: Platform,
     private alertCtrl: AlertController,
     private renderer: Renderer2,
     private epxProvider: EpxProvider,
@@ -45,6 +46,7 @@ export class BusinessPage {
     this.LoadBusiness();
     this.loadSkillsCategory();
   }
+  
   LoadBusiness(refresher?) {
     let url = this.epxProvider.business_infinite_url;
     let ttl = this.epxProvider.TTL;

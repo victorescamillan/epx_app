@@ -14,9 +14,7 @@
 
 
 <ion-content>
-  <!-- <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
-    <ion-spinner name="crescent"></ion-spinner>
-  </div> -->
+
   <!-- <div class="page-thumbnail" >
     <img class="business-logo" [src]="details.page_thumbnail">
     <div class="page-title">
@@ -24,29 +22,31 @@
     </div>
   </div> -->
   <div class="business-content">
-    <img class="business-logo" [src]="details.business_logo">
+    <img class="business-logo" [src]="partial_details.business_logo">
     <h4>Business Name:</h4>
-    <p class="md-text no-margin">{{details.business_name}}</p>
+    <p class="md-text no-margin">{{partial_details.business_name}}</p>
 
     <h4>Business Description:</h4>
-    <p class="md-text pre-line no-margin" [innerHTML]="details.business_description"></p>
+    <p class="md-text pre-line no-margin" [innerHTML]="partial_details.business_description"></p>
 
     <h4>Target Customers:</h4>
-    <p class="md-text ">{{details.target_customers}}</p>
+    <p class="md-text ">{{partial_details.target_customers}}</p>
 
     <h4>Benefits Delivered:</h4>
-    <p class="md-text pre-line no-margin" [innerHTML]="details.benefits_delivered"></p>
+    <p class="md-text pre-line no-margin" [innerHTML]="partial_details.benefits_delivered"></p>
 
     <h4>Where I can use help:</h4>
-    <p class="md-text no-margin" [innerHTML]="details.business_industry"></p>
+    <p class="md-text no-margin" [innerHTML]="partial_details.business_industry"></p>
 
     <!-- <h4>Target Customers:</h4>
     <p class="md-text">{{details.target_customers}}</p> -->
-
-    <div class="owner-info">
-      <img class="owner-thumbnail" [src]="details.avatar" (click)="memberDetails(details)">
-      <h1>{{details.member_name}}</h1>
-      <p class="md-text no-margin">{{details.member_position}}</p>
+    <div id="indicator" [class]="isLoading ? 'show-indicator' : 'hide-indicator'">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    <div class="owner-info" *ngIf="!isLoading">
+      <img class="owner-thumbnail" [src]="partial_details.avatar" (click)="memberDetails()">
+      <h1>{{partial_details.member_name}}</h1>
+      <p class="md-text no-margin">{{partial_details.member_position}}</p>
     </div>
   </div>
 </ion-content>

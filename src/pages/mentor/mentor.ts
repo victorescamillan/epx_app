@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform  } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { regexValidators} from '../validators/validator'
 import { EpxProvider } from '../../providers/epx/epx';
@@ -21,6 +21,7 @@ export class MentorPage {
   isLoading: boolean = true;
   skill:any;
   constructor(
+    private platform: Platform,
     private loadingCtrl: LoadingController,
     private provider: EpxProvider, private alertCtrl:AlertController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
     
@@ -30,7 +31,7 @@ export class MentorPage {
 
     this.details_control = this.formGroup.controls['details'];
   }
-
+ 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MentorPage',this.skill);
     this.initSkillSet();

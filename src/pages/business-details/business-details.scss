@@ -40,4 +40,10 @@ page-business-details {
     ion-row.row {
         display: -webkit-inline-box;
     }
+    .show-indicator{
+        width: 100%;
+        display: -webkit-inline-box;
+        padding-top: 10px;
+        position: relative;
+    }
 }

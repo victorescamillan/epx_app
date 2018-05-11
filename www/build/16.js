@@ -59,8 +59,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var MenuPage = (function () {
-    function MenuPage(alertCtrl, epxProvider, navCtrl, navParams) {
+    function MenuPage(platform, alertCtrl, epxProvider, navCtrl, navParams) {
         var _this = this;
+        this.platform = platform;
         this.alertCtrl = alertCtrl;
         this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
@@ -79,7 +80,12 @@ var MenuPage = (function () {
         });
     }
     MenuPage.prototype.openPage = function (p) {
+        var _this = this;
         this.navCtrl.push(p.pageName);
+        var backAction = this.platform.registerBackButtonAction(function () {
+            _this.navCtrl.pop();
+            backAction();
+        }, 2);
     };
     MenuPage.prototype.logoutUser = function () {
         this.epxProvider.clearUser();
@@ -116,7 +122,8 @@ var MenuPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-menu',template:/*ion-inline-start:"D:\epx_app\src\pages\menu\menu.html"*/'<ion-menu [content]="content" side="left">\n  <ion-header class="menu-header">\n    <!-- <ion-navbar>\n      <ion-title>menu</ion-title>\n    </ion-navbar> -->\n    <!-- <div class="user-info">\n      {{name}}\n    </div> -->\n  </ion-header>\n  <ion-content class="menu-content">\n    <div class="menu-icon">\n      <img src="./assets/imgs/epx_logo_colored.png" />\n    </div>\n    <div class="user-info">\n      <p>{{name | uppercase}}</p>\n    </div>\n    <ion-list>\n      <ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">\n        <ion-icon name="{{p.icon}}" item-start></ion-icon>\n        {{p.title}}\n        <span class="{{p.badge > 0 ? \'badge-show\' : \'badge-hide\'}}">{{p.badge}}</span>\n      </ion-item>\n      <ion-item (click)="showPrompt()">\n        <ion-icon name="md-exit" item-start></ion-icon>\n        Logout\n      </ion-item>\n    </ion-list>\n  </ion-content>\n</ion-menu>\n\n<!-- <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> -->\n<ion-nav id="nav" #content [root]="rootPage"></ion-nav>'/*ion-inline-end:"D:\epx_app\src\pages\menu\menu.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], MenuPage);
     return MenuPage;
 }());

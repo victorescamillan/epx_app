@@ -1,13 +1,8 @@
 import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
-/**
- * Generated class for the MemberDetailsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
 
 @IonicPage()
 @Component({
@@ -28,7 +23,7 @@ export class MemberDetailsPage {
   hasPast: boolean = false;
   hasVideo: boolean = false;
  
-  constructor(private renderer: Renderer2, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private platform: Platform, private renderer: Renderer2, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.partial_details = navParams.data.data;
     console.log('parameters',this.partial_details);
   }
@@ -36,7 +31,12 @@ export class MemberDetailsPage {
     console.log('ionViewDidLoad MemberDetailsPage');
     this.loadMemberDetails(this.partial_details.ID);
   }
-
+  ionViewWillEnter(){
+    let backAction = this.platform.registerBackButtonAction(() => {
+      this.navCtrl.pop();
+      backAction();
+    },2);
+  }
   loadMemberDetails(id) {
     this.epxProvider.getMemberDetails(id).subscribe(data => {
       this.details = data;

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Nav, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Nav, AlertController, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 
 export interface PageInterface {
@@ -28,7 +28,9 @@ export class MenuPage {
   ]
 
   name: string;
-  constructor(public alertCtrl: AlertController,private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private platform: Platform,
+    public alertCtrl: AlertController,private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.epxProvider.getData('name').then(name => {
       this.name = name;
     })
@@ -36,6 +38,10 @@ export class MenuPage {
 
   openPage(p) {
     this.navCtrl.push(p.pageName);
+    let backAction = this.platform.registerBackButtonAction(() => {
+      this.navCtrl.pop();
+      backAction();
+    },2);
   }
  
   logoutUser(){

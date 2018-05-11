@@ -1,6 +1,6 @@
 webpackJsonp([13],{
 
-/***/ 467:
+/***/ 469:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloDetailsPageModule", function() { return SoloDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_details__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_details__ = __webpack_require__(498);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var SoloDetailsPageModule = (function () {
 
 /***/ }),
 
-/***/ 496:
+/***/ 498:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57,7 +57,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var SoloDetailsPage = (function () {
-    function SoloDetailsPage(navCtrl, navParams) {
+    function SoloDetailsPage(platform, navCtrl, navParams) {
+        this.platform = platform;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.details = navParams.data.data;
@@ -66,6 +67,13 @@ var SoloDetailsPage = (function () {
         this.location = this.details.address;
         console.log('solo details', this.details);
     }
+    SoloDetailsPage.prototype.ionViewWillEnter = function () {
+        var _this = this;
+        var backAction = this.platform.registerBackButtonAction(function () {
+            _this.navCtrl.pop();
+            backAction();
+        }, 2);
+    };
     SoloDetailsPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad SoloDetailsPage');
         this.initMap(this.lat, this.lng, this.location);
@@ -92,7 +100,8 @@ var SoloDetailsPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-solo-details',template:/*ion-inline-start:"D:\epx_app\src\pages\solo-details\solo-details.html"*/'<!--\n  Generated template for the SoloDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Solo Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n  <div class="solo-image">\n    <img src="{{details.thumbnail}}" />\n  </div>\n  <div id="title">\n    <p class="pre-line" [innerHTML]="details.title"></p>\n  </div>\n  <div class="content-text">\n    <p class="pre-line sm-text" [innerHTML]="details.content"></p>\n\n    <div class="other-details">\n      <p class="text-center xxl-text">Trip Fee</p>\n      <div class="price">\n        <p class="text-center xxl-text">{{details.price}}</p>\n      </div>\n      <p class="text-center xxl-text strong">Date</p>\n      <p class="text-center xxl-text">{{details.start_date}}</p>\n\n      <p class="text-center xxl-text strong">Location</p>\n      <p class="text-center xxl-text">{{details.address}}</p>\n    </div>\n  </div>\n  <div #map id="map"></div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo-details\solo-details.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], SoloDetailsPage);
     return SoloDetailsPage;
 }());

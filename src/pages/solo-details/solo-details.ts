@@ -1,5 +1,5 @@
 import { Component,ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 
 /**
  * Generated class for the SoloDetailsPage page.
@@ -21,14 +21,21 @@ export class SoloDetailsPage {
   lat:number;
   lng: number;
   location:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private platform: Platform,
+    public navCtrl: NavController, public navParams: NavParams) {
     this.details = navParams.data.data;
     this.lat = Number(this.details.latitude);
     this.lng = Number(this.details.longitude);
     this.location = this.details.address;
     console.log('solo details',this.details);
   }
- 
+  ionViewWillEnter(){
+    let backAction = this.platform.registerBackButtonAction(() => {
+      this.navCtrl.pop();
+      backAction();
+    },2);
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SoloDetailsPage');

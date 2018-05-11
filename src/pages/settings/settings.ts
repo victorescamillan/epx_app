@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 /**
@@ -18,7 +18,9 @@ export class SettingsPage {
   member: boolean;
   vault: boolean;
   disable: boolean;
-  constructor(private provider: EpxProvider, private events: Events, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private platform: Platform,
+    private provider: EpxProvider, private events: Events, public navCtrl: NavController, public navParams: NavParams) {
     this.provider.getData(this.provider.MEMBER_NOTIFICATION).then(res => {
       if(res != null){
         this.member = res;
@@ -40,7 +42,7 @@ export class SettingsPage {
       console.log('disable',this.disable);
     }
   }
-
+ 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
   }

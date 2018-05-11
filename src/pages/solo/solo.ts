@@ -1,5 +1,5 @@
 import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Events, Content, DateTime } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Events, Content, DateTime, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -25,6 +25,7 @@ export class SoloPage {
   toDate: String = new Date().toISOString();
   isFilter: boolean = false;
   constructor(
+    private platform: Platform,
     private renderer: Renderer2,
     private events:Events,
     private loadingCtrl: LoadingController,
@@ -34,7 +35,14 @@ export class SoloPage {
  
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
-    
+  
+  }
+  ionViewWillEnter(){
+    let backAction = this.platform.registerBackButtonAction(() => {
+      console.log("second");
+      this.navCtrl.parent.select(0);
+      backAction();
+    },2);
   }
   //Show badge if there is an update
   ionViewDidEnter(){
@@ -48,6 +56,7 @@ export class SoloPage {
     console.log('ionViewDidLoad SoloPage');
     this.LoadSolo();
   }
+
   soloDetails(solo) {
     this.navCtrl.push('SoloDetailsPage', { data: solo });
   }

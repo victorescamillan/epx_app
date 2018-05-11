@@ -61,12 +61,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var MemberMapPage = (function () {
-    function MemberMapPage(provider, navCtrl, navParams) {
+    function MemberMapPage(platform, provider, navCtrl, navParams) {
+        this.platform = platform;
         this.provider = provider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.isLoading = true;
     }
+    MemberMapPage.prototype.ionViewWillEnter = function () {
+        var _this = this;
+        var backAction = this.platform.registerBackButtonAction(function () {
+            _this.navCtrl.pop();
+            backAction();
+        }, 2);
+    };
     MemberMapPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad MemberMapPage');
         this.loadMap();
@@ -131,7 +139,8 @@ var MemberMapPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-member-map',template:/*ion-inline-start:"D:\epx_app\src\pages\member-map\member-map.html"*/'<!--\n  Generated template for the MemberMapPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Member Map</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <div id="indicator" class="{{isLoading ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div id="map" #map></div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\member-map\member-map.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], MemberMapPage);
     return MemberMapPage;
 }());
