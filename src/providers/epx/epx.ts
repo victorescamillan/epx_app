@@ -20,6 +20,7 @@ import { ToastController, Events} from 'ionic-angular';
 export class EpxProvider {
   // LOGIN
   public login_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
+  public login_dev_url: string = 'https://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
   public forgot_password_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
   
   // TRIPS
@@ -65,7 +66,10 @@ export class EpxProvider {
 
   //MENTOR MATCH
   public mentormatch_skills_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
-  public mentormatch_submit_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=mentor-match&skill=';
+  public mentormatch_submit_url: string = 'https://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=mentor-match&skill=';
+
+  //MEMBER ASSIST
+  public memberassist_submit_url: string = 'https://dev.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-assist&user_id=';
   
   public TRIP_BADGE: string = "TRIP_BADGE";
   public SOLO_BADGE: string = "SOLO_BADGE";
@@ -75,6 +79,7 @@ export class EpxProvider {
   public ASSIST_BADGE: string = "ASSIST_BADGE";
   public MEMBER_NOTIFICATION: string = "MEMBER_NOTIFICATION";
   public VAULT_NOTIFICATION: string = "VAULT_NOTIFICATION";
+  public IS_LOGIN_NOTIFICATION: string = "IS_ONLINE_NOTIFICATION";
   public DELAY_TYPE: string = "all";
   public TTL: number = 60 * 60 * 12;
 
@@ -132,7 +137,7 @@ export class EpxProvider {
   }
 
   getLogin(username, password) {
-    return this.httpClient.get(this.login_url + 'username=' + username + '&password=' + password)
+    return this.httpClient.get(this.login_dev_url + 'username=' + username + '&password=' + password)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -336,8 +341,14 @@ export class EpxProvider {
       .map(this.extractData)
       .catch(this.catchError)
   }
-  submitMentorMatchSkill(skill, details) {
-    return this.httpClient.get(this.mentormatch_submit_url + skill + ' Development&details=' + details)
+  submitMentorMatchSkill(skill, details, user_id) {
+    return this.httpClient.get(this.mentormatch_submit_url + skill + '&details=' + details + '&user_id=' + user_id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getMemberAssist(id) {
+    return this.httpClient.get(this.memberassist_submit_url + id)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -376,5 +387,4 @@ export class EpxProvider {
       }
     });
   }
-  
 }

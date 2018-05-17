@@ -16,6 +16,7 @@ export class LoginPage {
   // password: string='jaylord.lagud.hpo@gmail.com';
   // username: string = 'stan.lee@hpoutsourcinginc.com';
   // password: string = 'VzOo$)dl';
+
   username: string;
   password: string;
 
@@ -52,6 +53,7 @@ export class LoginPage {
     let loading = this.loadingCtrl.create();
     loading.present().then(() => {
       this.epxProvider.getLogin(this.username, this.password).subscribe(result => {
+        
         if (result.authentication) {
           // this.username = '';
           // this.password = '';
@@ -60,6 +62,7 @@ export class LoginPage {
           this.epxProvider.saveData('ID', result.ID);
           this.epxProvider.saveData('name', result.name);
           this.epxProvider.saveData('authentication', result.authentication);
+          this.epxProvider.saveData('member_details', result);
           this.navCtrl.setRoot('MenuPage');
         }
         else {

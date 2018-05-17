@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Nav, AlertController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Nav, AlertController, Platform, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
+import { AppVersion } from '@ionic-native/app-version';
 
 export interface PageInterface {
   title: string;
@@ -22,30 +23,50 @@ export class MenuPage {
   assistBadge: number = 0;
   pages: any[] = [
     { title: 'Business', pageName: 'BusinessPage', tabComponent: 'BusinessPage', index: 0, icon: 'briefcase', badge: 0 },
-    // { title: 'Member Assist', pageName: 'AssistPage', tabComponent: 'AssistPage', index: 1, icon: 'hand', badge: this.mentorBadge },
-    { title: 'Mentor Match', pageName: 'MentorPage', tabComponent: 'MentorPage', index: 2, icon: 'phone-portrait', badge: this.assistBadge},
-    { title: 'Settings', pageName: 'SettingsPage', tabComponent: 'SettingsPage', index: 3, icon: 'settings', badge: 0},
+    { title: 'Member Assist', pageName: 'AssistPage', tabComponent: 'AssistPage', index: 1, icon: 'hand', badge: this.mentorBadge },
+    { title: 'Mentor Match', pageName: 'MentorPage', tabComponent: 'MentorPage', index: 2, icon: 'phone-portrait', badge: this.assistBadge },
+    { title: 'Settings', pageName: 'SettingsPage', tabComponent: 'SettingsPage', index: 3, icon: 'settings', badge: 0 },
   ]
 
   name: string;
+  role: string;
+  version: string;
+  avatar_url: string;
+  details: any;
+
   constructor(
+    private events: Events,
+    private appVersion: AppVersion,
     private platform: Platform,
-    public alertCtrl: AlertController,private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
-    this.epxProvider.getData('name').then(name => {
-      this.name = name;
+    public alertCtrl: AlertController, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.epxProvider.getData('member_details').then(res => {
+      this.name = res.name;
+      this.role = res.role;
+      this.avatar_url = res.avatar;
+
+      if (platform.is('cordova')) {
+        appVersion.getVersionNumber().then(res => {
+          this.version = res;
+          console.log('version', res);
+        });
+      }
+      this.details = res;
     })
   }
-
+  memberDetails() {
+    this.navCtrl.push('MemberDetailsPage', { data: this.details });
+  }
   openPage(p) {
     this.navCtrl.push(p.pageName);
     let backAction = this.platform.registerBackButtonAction(() => {
       this.navCtrl.pop();
       backAction();
-    },2);
+    }, 2);
   }
- 
-  logoutUser(){
+
+  logoutUser() {
     this.epxProvider.clearUser();
+    this.events.publish(this.epxProvider.IS_LOGIN_NOTIFICATION, 'false');
     this.navCtrl.setRoot('LoginPage');
   }
   showPrompt() {

@@ -59,13 +59,20 @@ export class MentorPage {
     if(this.skill != undefined || this.skill != ''){
       let loading = this.loadingCtrl.create();
       loading.present().then(() => {
-        this.provider.submitMentorMatchSkill(this.skill,this.details).subscribe(res => {
-          console.log('result',res);
-          loading.dismiss();
-          this.presentAlert();
+        this.provider.getData('ID').then(id => {
+          this.provider.submitMentorMatchSkill(this.skill,this.details,id).subscribe(res => {
+            console.log('result',res);
+            if(res.Message === 'Success'){
+              this.details = '';
+              this.presentAlert();
+            }
+            loading.dismiss();
+          },error => {
+            this.provider.toastMessage('Internal Error!');
+            loading.dismiss();
+          });
         });
       });
-     
     }
     else{
       this.provider.toastMessage('Please select skill');

@@ -23,6 +23,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { CacheModule } from 'ionic-cache';
 import { Network } from '@ionic-native/network';
 import { OneSignal } from '@ionic-native/onesignal';
+import {AppVersion }  from '@ionic-native/app-version'
 // import { AutoHideDirective } from '../directives/auto-hide/auto-hide';
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { OneSignal } from '@ionic-native/onesignal';
     MyApp,
   ],
   providers: [
+    AppVersion,
     OneSignal,
     StatusBar,
     SplashScreen,

@@ -22,11 +22,37 @@ page-menu {
         font-size: 130%;
         border-bottom: 1px solid #5d6164;
     }
-    .user-info p{
+    img.avatar {
         position: absolute;
-        top: 105px;
-        left: 20px;
-        width: 100%;
+        top: 50px;
+        left: 10px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: solid 1px silver;
+    }
+    .user-info p{
+        position: relative;
+        left: 100px;
+        top: 80px;
+        -webkit-margin-before: 0px;
+        -webkit-margin-after: 0px;
+        font-family: sans-serif;
+    }
+    p#member-role {
+        font-size: small;
+        font-style: oblique;
+        margin-top: 5px;
+    }
+    p#member-role span {
+        font-size: smaller;
+    }
+    .version {
+        position: absolute;
+        bottom: 4px;
+        left: 10px;
+        color: #ccd1d5;
+        font-style: oblique;
     }
     .item-inner {
         border-bottom: none!important;
@@ -65,4 +91,5 @@ page-menu {
     span.badge-hide {
         display: none;
     }
+  
 }

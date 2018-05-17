@@ -19,9 +19,11 @@ export class MyApp {
       statusBar.backgroundColorByHexString('#2b3e50');
       statusBar.overlaysWebView(false);
       splashScreen.hide();
-
-      this.epxProvider.getData('ID').then(res => {
+     
+      this.epxProvider.getData('member_details').then(res => {
+        
         if(res != null){
+          // this.epxProvider.clearUser();
           this.rootPage = 'MenuPage';
         }
         else {

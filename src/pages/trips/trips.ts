@@ -105,6 +105,8 @@ export class TripsPage {
         this.epxProvider.toastMessage('Internal error!');
         this.isLoading = false;
       });
+
+      
     });
   }
   logoutUser() {

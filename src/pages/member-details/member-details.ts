@@ -78,6 +78,9 @@ export class MemberDetailsPage {
       }
       this.isLoading = false;
       console.log('isLoading :',this.isLoading);
+    },error =>{
+      this.epxProvider.toastMessage('Internal Error!');
+      this.isLoading = false;
     });
   }
   //Navigate to Trip Details

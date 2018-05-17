@@ -25875,6 +25875,75 @@ page-assist .button-small-md, page-assist .button-small-ios {
   margin-top: 15px;
 }
 
+page-assist .filter {
+  background: #2977aa;
+  padding: 5px;
+}
+
+page-assist .filter .label.label-md, page-assist .filter .label.label-ios {
+  margin: 5px 0px;
+  color: white;
+  font-weight: 100;
+  font-size: 80%;
+}
+
+page-assist .btn-search {
+  float: right;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  height: 28px;
+  font-size: 85%;
+  font-weight: 100;
+  padding: 5px;
+}
+
+page-assist .filter ion-select {
+  max-width: 100%;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+page-assist .alert-head {
+  background: #9aadba;
+}
+
+page-assist .item.item-block.item-md, page-assist .item.item-block.item-ios {
+  padding: 0px;
+  background: transparent;
+}
+
+page-assist .filter .input-wrapper {
+  display: block;
+}
+
+page-assist .filter .select-text {
+  font-size: 90%;
+  color: black;
+}
+
+page-assist .filter.overlay.hide-filter {
+  opacity: 0;
+}
+
+page-assist .filter.overlay {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+  opacity: 1;
+}
+
+page-assist .filter ion-select button {
+  height: 0px;
+  display: none;
+}
+
+page-assist .item-ios.item-block .item-inner {
+  border-bottom: none;
+}
+
 page-business ion-card {
   position: relative;
   text-align: center;
@@ -26278,8 +26347,8 @@ page-member-details .member-info {
 
 page-member-details .member-info img {
   border-radius: 50%;
-  height: auto;
-  width: auto;
+  height: 120px;
+  width: 120px;
 }
 
 page-member-details .member-content img {
@@ -26571,11 +26640,41 @@ page-menu .user-info {
   border-bottom: 1px solid #5d6164;
 }
 
-page-menu .user-info p {
+page-menu img.avatar {
   position: absolute;
-  top: 105px;
-  left: 20px;
-  width: 100%;
+  top: 50px;
+  left: 10px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: solid 1px silver;
+}
+
+page-menu .user-info p {
+  position: relative;
+  left: 100px;
+  top: 80px;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+  font-family: sans-serif;
+}
+
+page-menu p#member-role {
+  font-size: small;
+  font-style: oblique;
+  margin-top: 5px;
+}
+
+page-menu p#member-role span {
+  font-size: smaller;
+}
+
+page-menu .version {
+  position: absolute;
+  bottom: 4px;
+  left: 10px;
+  color: #ccd1d5;
+  font-style: oblique;
 }
 
 page-menu .item-inner {

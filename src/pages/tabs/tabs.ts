@@ -74,34 +74,47 @@ export class TabsPage {
       this.epxProvider.saveData(this.epxProvider.VAULT_NOTIFICATION, value);
     })
 
+    this.events.subscribe(this.epxProvider.IS_LOGIN_NOTIFICATION, value => {
+      this.oneSignal.sendTag('is_login', value);
+    });
+
   }
   initOneSignal() {
     this.oneSignal.startInit('13cedc03-fa5f-4f96-ba81-3ed7f3698052', '188374332009');
-    this.oneSignal.getTags().then(data => {
-      console.log('tags', data);
-      if (data.user_id != null) {
-        this.epxProvider.saveData(this.epxProvider.MEMBER_NOTIFICATION, data.member_added);
-        this.epxProvider.saveData(this.epxProvider.VAULT_NOTIFICATION, data.vault_added);
-      }
-      else {
-        this.epxProvider.getData('ID').then(user_id => {
-          this.oneSignal.sendTag('user_id', user_id);
-          this.oneSignal.sendTag('member_added', 'true');
-          this.oneSignal.sendTag('vault_added', 'true');
-          this.oneSignal.sendTag('development', 'true');
-        });
-      }
+    this.epxProvider.getData('ID').then(user_id => {
+      this.oneSignal.sendTag('user_id', user_id);
+      // this.oneSignal.sendTag('member_added', 'true');
+      // this.oneSignal.sendTag('vault_added', 'true');
+      this.oneSignal.sendTag('user_type', 'ideahub');
+      this.oneSignal.sendTag('is_login', 'true');
+      this.oneSignal.getTags().then(data => {
+        console.log('oneSignal tags', data);
+      });
     });
+    
+    // if (data.user_id != null) {
+    //   this.epxProvider.getData('ID').then(user_id => {
+    //     this.oneSignal.sendTag('user_id', user_id);
+    //   });
+    //   this.epxProvider.saveData(this.epxProvider.MEMBER_NOTIFICATION, data.member_added);
+    //   this.epxProvider.saveData(this.epxProvider.VAULT_NOTIFICATION, data.vault_added);
+    // }
+    // else {
+    //   this.epxProvider.getData('ID').then(user_id => {
+    //     this.oneSignal.sendTag('user_id', user_id);
+    //     // this.oneSignal.sendTag('member_added', 'true');
+    //     // this.oneSignal.sendTag('vault_added', 'true');
+    //     this.oneSignal.sendTag('development', 'true');
+    //   });
+    // }
+
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     this.oneSignal.handleNotificationReceived().subscribe((data) => {
       // do something when notification is received
-      console.log('notificaiton received. ', data);
+      console.log('notification received. ', data);
       let target = data.payload.additionalData.target;
       let update = data.payload.additionalData.update;
 
-
-      console.log('target. ', target);
-      console.log('update. ', update);
       this.isAppOpen = true;
       switch (target) {
         case 'trip': {
@@ -236,7 +249,7 @@ export class TabsPage {
               }
             });
             break;
-            
+
           }
           case 'trip-detail': {
             let data = {
