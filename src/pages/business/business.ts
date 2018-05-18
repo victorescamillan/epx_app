@@ -54,7 +54,6 @@ export class BusinessPage {
     let groupKey = 'business-list';
     this.page = 1;
     let connected = this.epxProvider.isConnected();
-    console.log('connected: ', connected);
     if (connected) {
       this.epxProvider.getBusinessInfinite(this.page).subscribe(data => { //Get data from url/api
         let business = Observable.of(data.data);

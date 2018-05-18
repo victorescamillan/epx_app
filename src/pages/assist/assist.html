@@ -10,44 +10,40 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content (ionScroll)="onScroll($event)">
   <ion-refresher (ionRefresh)="forceReload($event)">
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
   <div class="filter" #filter>
-      <ion-row>
-        <ion-col col-5>
-          <ion-item>
-            <ion-label>
-              Region
-            </ion-label>
-            <ion-select [(ngModel)]="region">
-              <ion-option ></ion-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col col-5>
-          <ion-item>
-            <ion-label>
-              Trip Type
-            </ion-label>
-            <ion-select [(ngModel)]="type">
-              <ion-option ></ion-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col col-2>
-          <button ion-button outline color="light" class="btn-search" (click)="filterTrips()">
-            Update
-          </button>
-        </ion-col>
-      </ion-row>
-    </div>
-  <div id="indicator" class="{{isLoading ? 'show-indicator' : 'hide-indicator'}}">
-      <ion-spinner name="crescent"></ion-spinner>
-    </div>
-  <ion-card *ngFor="let item of mentorList">
+    <ion-row>
+      <ion-col col-10>
+        <ion-item>
+          <ion-label>
+            Expertise
+          </ion-label>
+          <ion-select [(ngModel)]="expertise">
+            <ion-option></ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <ion-col col-2>
+        <button ion-button outline color="light" class="btn-search" (click)="filterAssist()">
+          Go
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ion-fab #fab bottom right class="fab-hide" (click)="scrollToTop()">
+    <button ion-fab mini>
+      <ion-icon name="arrow-dropup"></ion-icon>
+    </button>
+  </ion-fab>
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <ion-card *ngFor="let item of assistList">
     <ion-item>
       <ion-avatar item-start>
         <img src="{{item.avatar}}">
@@ -75,7 +71,10 @@
         </ion-col>
         <ion-col col-9>{{item.Pending}} days</ion-col>
       </ion-row>
-      <button ion-button small outline>Respond</button>
+      <button ion-button small outline [color]="item.connected ? 'secondary' : 'primary'" (click)="respondToRequest(item)">{{item.connected ? 'Connected' : 'Respond'}}</button>
     </ion-card-content>
   </ion-card>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">
+    <ion-infinite-scroll-content loadingText="Loading more..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

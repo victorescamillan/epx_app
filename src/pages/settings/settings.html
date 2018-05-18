@@ -16,11 +16,15 @@
 <ion-content padding>
   <p class="md-text strong">NOTIFICATION</p>
   <ion-item>
-    <ion-label> New member added</ion-label>
-    <ion-toggle [(ngModel)]="member" [disabled]="disable" (ionChange)="updateMember(member)" ></ion-toggle>
+    <ion-label> New Member Added</ion-label>
+    <ion-toggle [(ngModel)]="member" [disabled]="disable" (ionChange)="updateMember(member)"></ion-toggle>
   </ion-item>
   <ion-item>
-      <ion-label> New vault asset</ion-label>
-      <ion-toggle [(ngModel)]="vault" [disabled]="disable" (ionChange)="updateVault(vault)"></ion-toggle>
-    </ion-item>
+    <ion-label> New Vault Asset</ion-label>
+    <ion-toggle [(ngModel)]="vault" [disabled]="disable" (ionChange)="updateVault(vault)"></ion-toggle>
+  </ion-item>
+  <ion-item>
+    <ion-label> Get Lucky</ion-label>
+    <ion-toggle [(ngModel)]="getLucky" [disabled]="disable" (ionChange)="updateGetLucky(getLucky)"></ion-toggle>
+  </ion-item>
 </ion-content>

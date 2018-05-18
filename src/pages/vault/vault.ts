@@ -68,7 +68,7 @@ export class VaultPage {
     let connected = this.epxProvider.isConnected();
     console.log('connected: ', connected);
     if (connected) {
-      this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE, this.page).subscribe(data => { //Get data from url/api
+      this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE10, this.page).subscribe(data => { //Get data from url/api
         let vault = Observable.of(data.vaults);
         this.totalPage = data.number_of_page;
         console.log('vault list', vault);
@@ -132,7 +132,7 @@ export class VaultPage {
   }
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
-    this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE,this.page + 1).subscribe(data => { //Get data from url/api
+    this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE10,this.page + 1).subscribe(data => { //Get data from url/api
       let vault = data.vaults;
       let temp = Object.keys(vault).map(key => vault[key]);
       for (let i = 0; i < temp.length; i++) {

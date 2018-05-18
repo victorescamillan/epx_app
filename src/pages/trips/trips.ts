@@ -120,7 +120,6 @@ export class TripsPage {
 
   //Get Trips List and show indicator
   LoadTrips(refresher?) {
-
     let url = this.epxProvider.trips_infinite_url;
     let ttl = this.epxProvider.TTL;
     let delay_type = this.epxProvider.DELAY_TYPE;
@@ -130,9 +129,10 @@ export class TripsPage {
     console.log('connected: ', connected);
     if (connected) {
       this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
-        this.epxProvider.getTripsInfinite(user_id, this.page, this.epxProvider.PAGE_SIZE).subscribe(data => { //Get data from server
-          this.totalPage = data.number_of_page;
-          let trips = Observable.of(data.data);
+        this.epxProvider.getTripsInfinite(user_id, this.page, this.epxProvider.PAGE_SIZE10).subscribe(res => { //Get data from server
+          console.log('getTripsInfinite', res.data);
+          this.totalPage = res.number_of_page;
+          let trips = Observable.of(res.data);
           if (refresher) {
             this.initFilterData();
             this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(data => {
@@ -152,8 +152,8 @@ export class TripsPage {
           this.epxProvider.updateNotification(this.epxProvider.TRIP_BADGE);
         }, error => {
           console.log(error);
-          // refresher.complete();
           this.epxProvider.toastMessage('Internal Server Error!')
+          this.isLoading = false;
         });
       });
     }
@@ -244,7 +244,7 @@ export class TripsPage {
   doInfinite(infiniteScroll) {
     console.log('Begin async operation');
     this.epxProvider.getData('ID').then(user_id => { //Get user id from local storage
-      this.epxProvider.getTripsInfinite(user_id, this.page + 1, this.epxProvider.PAGE_SIZE).subscribe(data => { //Get data from url/api
+      this.epxProvider.getTripsInfinite(user_id, this.page + 1, this.epxProvider.PAGE_SIZE10).subscribe(data => { //Get data from url/api
         let trips = data.data;
         let temp = Object.keys(trips).map(key => trips[key]);
         for (let i = 0; i < temp.length; i++) {

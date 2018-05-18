@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, Platform, LoadingController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-/**
- * Generated class for the SettingsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
 
 @IonicPage()
 @Component({
@@ -17,54 +12,112 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class SettingsPage {
   member: boolean;
   vault: boolean;
+  getLucky: boolean;
   disable: boolean;
   constructor(
+    private loadingCtrl: LoadingController,
     private platform: Platform,
     private provider: EpxProvider, private events: Events, public navCtrl: NavController, public navParams: NavParams) {
-    this.provider.getData(this.provider.MEMBER_NOTIFICATION).then(res => {
-      if(res != null){
-        this.member = res;
-      }
-    });
-    this.provider.getData(this.provider.VAULT_NOTIFICATION).then(res => {
-      if(res != null){
-        this.vault = res;
-      }
-    });
-    
-    if(!this.provider.isConnected()){
+
+    //Disable toggle if no internet connection.
+    if (!this.provider.isConnected()) {
       this.provider.toastMessage("Please check your connection.");
       this.disable = true;
-      console.log('disable',this.disable);
     }
-    else{
+    else {
       this.disable = false;
-      console.log('disable',this.disable);
     }
+    this.provider.getData('enable_member').then(res => {
+      console.log('enable_member', res);
+      this.member = res;
+    });
+    this.provider.getData('enable_vault').then(res => {
+      console.log('enable_vault', res);
+      this.vault = res;
+    });
+    this.provider.getData('enable_get_lucky').then(res => {
+      console.log('enable_get_lucky', res);
+      this.getLucky = res;
+    });
   }
- 
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
   }
-  updateMember(member){
-    if(this.provider.isConnected())
-    {
-      this.events.publish(this.provider.MEMBER_NOTIFICATION, member);
-      
+  updateMember(member) {
+    console.log('updateMember',member);
+    if (this.provider.isConnected()) {
+      let loading = this.loadingCtrl.create({ content: 'Loading...' });
+      loading.present().then(() => {
+        this.provider.enableMember(member).subscribe(res => {
+          if(res.result === 'true'){
+            this.provider.saveData('enable_member',member);
+          this.events.publish(this.provider.MEMBER_NOTIFICATION, member);
+          }
+          else{
+            member = !member;
+          }
+          loading.dismiss();
+        }, error => {
+          this.provider.toastMessage('Internal Error!');
+          member = !member;
+          loading.dismiss();
+        })
+      });
     }
-    else{
+    else {
       this.provider.toastMessage("Can't proceed! Please check your connection.");
       this.disable = true;
     }
   }
-  updateVault(vault){
-    console.log('vault',vault);
-    
-    if(this.provider.isConnected())
-    {
-      this.events.publish(this.provider.VAULT_NOTIFICATION, vault);
+  updateVault(vault) {
+    console.log('updateVault', vault);
+    if (this.provider.isConnected()) {
+      let loading = this.loadingCtrl.create({ content: 'Loading...' });
+      loading.present().then(() => {
+        this.provider.enableVault(vault).subscribe(res => {
+          if(res.result === 'true'){
+            this.provider.saveData('enable_vault',vault);
+            this.events.publish(this.provider.VAULT_NOTIFICATION, vault);
+          }
+          else{
+            vault = !vault;
+          }
+          loading.dismiss();
+        }, error => {
+          this.provider.toastMessage('Internal Error!');
+          vault = !vault;
+          loading.dismiss();
+        })
+      });
     }
-    else{
+    else {
+      this.provider.toastMessage("Can't proceed! Please check your connection.");
+      this.disable = true;
+    }
+  }
+  updateGetLucky(getLucky) {
+    console.log('updateGetLucky',getLucky);
+    if (this.provider.isConnected()) {
+      let loading = this.loadingCtrl.create({ content: 'Loading...' });
+      loading.present().then(() => {
+        this.provider.enableGetLucky(getLucky).subscribe(res => {
+          if(res.result === 'true'){
+            this.provider.saveData('enable_get_lucky',getLucky);
+            this.events.publish(this.provider.VAULT_NOTIFICATION, getLucky);
+          }
+          else{
+            getLucky = !getLucky;
+          }
+          loading.dismiss();
+        }, error => {
+          this.provider.toastMessage('Internal Error!');
+          getLucky = !getLucky;
+          loading.dismiss();
+        })
+      });
+    }
+    else {
       this.provider.toastMessage("Can't proceed! Please check your connection.");
       this.disable = true;
     }

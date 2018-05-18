@@ -21,40 +21,41 @@ export class ChatPage {
   message: string='';
   items: Observable<any[]>;
   messages: object[] = [];
-  _chatSubscription;
-  constructor(public db:AngularFireDatabase,
+  // _chatSubscription;
+  // public db:AngularFireDatabase,
+  constructor(
     public navCtrl: NavController, public navParams: NavParams) {
 
-    this.username = this.navParams.get('username');
-    this._chatSubscription = db.list('chat').valueChanges().subscribe(data => {
-      this.messages = data;
-    });
+    // this.username = this.navParams.get('username');
+    // this._chatSubscription = db.list('chat').valueChanges().subscribe(data => {
+    //   this.messages = data;
+    // });
         
   }
 
-  sendMessage(){
-    this.db.list('/chat').push({
-      username: this.username,
-      message: this.message
-    }).then(()=>{
+  // sendMessage(){
+  //   this.db.list('/chat').push({
+  //     username: this.username,
+  //     message: this.message
+  //   }).then(()=>{
       
-    });
-    this.message = '';
-  }
-  ionViewWillLeave(){
-    console.log('user is about to go.');
-    this._chatSubscription.unsubscribe();
-    this.db.list('/chat').push({
-      specialMessage: true,
-      message: this.username + ' has left the room'
-    });
-  }
+  //   });
+  //   this.message = '';
+  // }
+  // ionViewWillLeave(){
+  //   console.log('user is about to go.');
+  //   this._chatSubscription.unsubscribe();
+  //   this.db.list('/chat').push({
+  //     specialMessage: true,
+  //     message: this.username + ' has left the room'
+  //   });
+  // }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
-    this.db.list('/chat').push({
-      specialMessage: true,
-      message: this.username + ' has joined the room'
-    });
+    // this.db.list('/chat').push({
+    //   specialMessage: true,
+    //   message: this.username + ' has joined the room'
+    // });
   }
 
 }

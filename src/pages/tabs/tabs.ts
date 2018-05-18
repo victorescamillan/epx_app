@@ -66,32 +66,41 @@ export class TabsPage {
 
     //Update notification tags.
     this.events.subscribe(this.epxProvider.MEMBER_NOTIFICATION, value => {
-      this.oneSignal.sendTag('member_added', value);
+      this.oneSignal.sendTag('enable_member', value);
       this.epxProvider.saveData(this.epxProvider.MEMBER_NOTIFICATION, value);
     })
     this.events.subscribe(this.epxProvider.VAULT_NOTIFICATION, value => {
-      this.oneSignal.sendTag('vault_added', value);
+      this.oneSignal.sendTag('enable_vault', value);
       this.epxProvider.saveData(this.epxProvider.VAULT_NOTIFICATION, value);
+    })
+    this.events.subscribe(this.epxProvider.GETLUCKY_NOTIFICATION, value => {
+      this.oneSignal.sendTag('enable_get_lucky', value);
+      this.epxProvider.saveData(this.epxProvider.GETLUCKY_NOTIFICATION, value);
     })
 
     this.events.subscribe(this.epxProvider.IS_LOGIN_NOTIFICATION, value => {
       this.oneSignal.sendTag('is_login', value);
+      
     });
 
   }
   initOneSignal() {
     this.oneSignal.startInit('13cedc03-fa5f-4f96-ba81-3ed7f3698052', '188374332009');
-    this.epxProvider.getData('ID').then(user_id => {
-      this.oneSignal.sendTag('user_id', user_id);
-      // this.oneSignal.sendTag('member_added', 'true');
-      // this.oneSignal.sendTag('vault_added', 'true');
+
+    this.epxProvider.getData('member_details').then(res => {
+      this.oneSignal.sendTag('user_id', res.ID);
       this.oneSignal.sendTag('user_type', 'ideahub');
       this.oneSignal.sendTag('is_login', 'true');
-      this.oneSignal.getTags().then(data => {
-        console.log('oneSignal tags', data);
-      });
     });
-    
+    this.epxProvider.getData('enable_member').then(res => {
+      this.oneSignal.sendTag('enable_member', res);
+    });
+    this.epxProvider.getData('enable_vault').then(res => {
+      this.oneSignal.sendTag('enable_vault', res);
+    });
+    this.epxProvider.getData('enable_get_lucky').then(res => {
+      this.oneSignal.sendTag('enable_get_lucky', res);
+    });
     // if (data.user_id != null) {
     //   this.epxProvider.getData('ID').then(user_id => {
     //     this.oneSignal.sendTag('user_id', user_id);

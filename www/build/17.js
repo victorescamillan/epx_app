@@ -104,7 +104,7 @@ var MentorPage = (function () {
     MentorPage.prototype.submitSkill = function () {
         var _this = this;
         if (this.skill != undefined || this.skill != '') {
-            var loading_1 = this.loadingCtrl.create();
+            var loading_1 = this.loadingCtrl.create({ content: 'Submitting...' });
             loading_1.present().then(function () {
                 _this.provider.getData('ID').then(function (id) {
                     _this.provider.submitMentorMatchSkill(_this.skill, _this.details, id).subscribe(function (res) {

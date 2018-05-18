@@ -57,7 +57,7 @@ export class MentorPage {
   }
   submitSkill(){
     if(this.skill != undefined || this.skill != ''){
-      let loading = this.loadingCtrl.create();
+      let loading = this.loadingCtrl.create({content:'Submitting...'});
       loading.present().then(() => {
         this.provider.getData('ID').then(id => {
           this.provider.submitMentorMatchSkill(this.skill,this.details,id).subscribe(res => {

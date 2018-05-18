@@ -1,4 +1,11 @@
 page-assist {
+    .item-ios ion-avatar img, .item-md ion-avatar img {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 36px;
+        height: 36px;
+        margin-left: 10px;
+    }
     ion-col.col{
         padding: 0px;
     }
@@ -66,7 +73,13 @@ page-assist {
         height: 0px;
         display: none;
     }
-    .item-ios.item-block .item-inner{
+    .item-ios.item-block .item-inner,.item-md.item-block .item-inner{
         border-bottom: none;
+    }
+    button.fab.fab-md, button.fab.fab-ios{
+        opacity: 0;
+    }
+    button.fab.fab-md.fab-show,button.fab.fab-ios.fab-show{
+        opacity: 1;
     }
 }

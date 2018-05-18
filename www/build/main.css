@@ -25838,12 +25838,10 @@ ion-scroll.scroll-x {
   height: auto;
 }
 
-.loading-md .loading-wrapper {
-  border-radius: 50%;
-  max-width: 280px;
-  max-height: 90%;
+.loading-md .loading-wrapper, .loading-ios .loading-wrapper {
+  border-radius: 10px;
   background: #ffff;
-  padding: 8px;
+  padding: 10px 15px;
 }
 
 .toast-message {
@@ -25857,6 +25855,14 @@ ion-scroll.scroll-x {
 .no-margin {
   -webkit-margin-before: 0em;
   -webkit-margin-after: 0em;
+}
+
+page-assist .item-ios ion-avatar img, page-assist .item-md ion-avatar img {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 36px;
+  height: 36px;
+  margin-left: 10px;
 }
 
 page-assist ion-col.col {
@@ -25940,8 +25946,16 @@ page-assist .filter ion-select button {
   display: none;
 }
 
-page-assist .item-ios.item-block .item-inner {
+page-assist .item-ios.item-block .item-inner, page-assist .item-md.item-block .item-inner {
   border-bottom: none;
+}
+
+page-assist button.fab.fab-md, page-assist button.fab.fab-ios {
+  opacity: 0;
+}
+
+page-assist button.fab.fab-md.fab-show, page-assist button.fab.fab-ios.fab-show {
+  opacity: 1;
 }
 
 page-business ion-card {

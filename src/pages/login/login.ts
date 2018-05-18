@@ -50,19 +50,18 @@ export class LoginPage {
   }
 
   loginUser() {
-    let loading = this.loadingCtrl.create();
+    let loading = this.loadingCtrl.create({content:'Logging in...'});
     loading.present().then(() => {
       this.epxProvider.getLogin(this.username, this.password).subscribe(result => {
-        
         if (result.authentication) {
-          // this.username = '';
-          // this.password = '';
-          loading.dismiss();
-          console.log('user id',result.ID);
           this.epxProvider.saveData('ID', result.ID);
           this.epxProvider.saveData('name', result.name);
           this.epxProvider.saveData('authentication', result.authentication);
+          this.epxProvider.saveData('enable_member', result.enable_member === '1' ? true : false);
+          this.epxProvider.saveData('enable_vault', result.enable_vault === '1' ? true : false);
+          this.epxProvider.saveData('enable_get_lucky', result.enable_get_lucky  === '1' ? true : false);
           this.epxProvider.saveData('member_details', result);
+          loading.dismiss();
           this.navCtrl.setRoot('MenuPage');
         }
         else {

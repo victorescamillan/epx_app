@@ -1,6 +1,6 @@
 webpackJsonp([2],{
 
-/***/ 481:
+/***/ 480:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultPageModule", function() { return VaultPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault__ = __webpack_require__(509);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var VaultPageModule = (function () {
 
 /***/ }),
 
-/***/ 510:
+/***/ 509:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -114,7 +114,7 @@ var VaultPage = (function () {
         var connected = this.epxProvider.isConnected();
         console.log('connected: ', connected);
         if (connected) {
-            this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE, this.page).subscribe(function (data) {
+            this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE10, this.page).subscribe(function (data) {
                 var vault = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.vaults);
                 _this.totalPage = data.number_of_page;
                 console.log('vault list', vault);
@@ -180,7 +180,7 @@ var VaultPage = (function () {
     VaultPage.prototype.doInfinite = function (infiniteScroll) {
         var _this = this;
         console.log('Begin async operation');
-        this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE, this.page + 1).subscribe(function (data) {
+        this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE10, this.page + 1).subscribe(function (data) {
             var vault = data.vaults;
             var temp = Object.keys(vault).map(function (key) { return vault[key]; });
             for (var i = 0; i < temp.length; i++) {

@@ -164,9 +164,10 @@ var TripsPage = (function () {
         console.log('connected: ', connected);
         if (connected) {
             this.epxProvider.getData('ID').then(function (user_id) {
-                _this.epxProvider.getTripsInfinite(user_id, _this.page, _this.epxProvider.PAGE_SIZE).subscribe(function (data) {
-                    _this.totalPage = data.number_of_page;
-                    var trips = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.data);
+                _this.epxProvider.getTripsInfinite(user_id, _this.page, _this.epxProvider.PAGE_SIZE10).subscribe(function (res) {
+                    console.log('getTripsInfinite', res.data);
+                    _this.totalPage = res.number_of_page;
+                    var trips = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(res.data);
                     if (refresher) {
                         _this.initFilterData();
                         _this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(function (data) {
@@ -186,8 +187,8 @@ var TripsPage = (function () {
                     _this.epxProvider.updateNotification(_this.epxProvider.TRIP_BADGE);
                 }, function (error) {
                     console.log(error);
-                    // refresher.complete();
                     _this.epxProvider.toastMessage('Internal Server Error!');
+                    _this.isLoading = false;
                 });
             });
         }
@@ -274,7 +275,7 @@ var TripsPage = (function () {
         var _this = this;
         console.log('Begin async operation');
         this.epxProvider.getData('ID').then(function (user_id) {
-            _this.epxProvider.getTripsInfinite(user_id, _this.page + 1, _this.epxProvider.PAGE_SIZE).subscribe(function (data) {
+            _this.epxProvider.getTripsInfinite(user_id, _this.page + 1, _this.epxProvider.PAGE_SIZE10).subscribe(function (data) {
                 var trips = data.data;
                 var temp = Object.keys(trips).map(function (key) { return trips[key]; });
                 for (var i = 0; i < temp.length; i++) {
