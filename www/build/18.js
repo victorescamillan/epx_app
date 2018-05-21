@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MembersPageModule", function() { return MembersPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__members__ = __webpack_require__(493);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__members__ = __webpack_require__(492);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var MembersPageModule = (function () {
 
 /***/ }),
 
-/***/ 493:
+/***/ 492:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -125,7 +125,7 @@ var MembersPage = (function () {
                     });
                 }
                 else {
-                    _this.cache.loadFromObservable(url, members, groupKey).subscribe(function (data) {
+                    _this.cache.loadFromDelayedObservable(url, members, groupKey, ttl, delay_type).subscribe(function (data) {
                         _this.members = Object.keys(data).map(function (key) { return data[key]; });
                         console.log('members:', members);
                     });
@@ -144,7 +144,7 @@ var MembersPage = (function () {
                     var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
                     console.log('offline data: ', offline_data);
                     if (refresher) {
-                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(function (data) {
+                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(function (data) {
                             _this.members = data;
                             refresher.complete();
                         });

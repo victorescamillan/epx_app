@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, MenuController, Platform, AlertController, Events } from 'ionic-angular';
+import { IonicPage, NavController, MenuController, Platform, AlertController, Events, ModalController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { isNumber } from 'ionic-angular/util/util';
 import { OneSignal } from '@ionic-native/onesignal';
@@ -30,6 +30,7 @@ export class TabsPage {
 
   isAppOpen: Boolean = false;
   constructor(
+    private modalCtrl: ModalController,
     private oneSignal: OneSignal,
     private epxProvider: EpxProvider,
     private detectorRef: ChangeDetectorRef,
@@ -89,7 +90,6 @@ export class TabsPage {
 
     this.epxProvider.getData('member_details').then(res => {
       this.oneSignal.sendTag('user_id', res.ID);
-      this.oneSignal.sendTag('user_type', 'ideahub');
       this.oneSignal.sendTag('is_login', 'true');
     });
     this.epxProvider.getData('enable_member').then(res => {
@@ -236,6 +236,14 @@ export class TabsPage {
           case 'get-lucky': {
             this.navCtrl.push('ChatPage');
           }
+          case 'member-assist': {
+            let assist = this.modalCtrl.create('AssistPage');
+            assist.present();
+            break;
+          }
+          case 'member-assist-chat': {
+            this.navCtrl.push('ChatPage');
+          }
         }
       }
       else {
@@ -326,12 +334,22 @@ export class TabsPage {
             break;
           }
           case 'mentor-match': {
-            this.navCtrl.push('MentorPage')
+            this.modalCtrl.create('MentorPage');
+            // this.navCtrl.push('MentorPage')
             break;
           }
           case 'member-assist': {
-            this.navCtrl.push('AssistPage')
+            let assist = this.modalCtrl.create('AssistPage');
+            assist.present();
             break;
+          }
+          case 'get-lucky': {
+            this.modalCtrl.create('ChatPage');
+            // this.navCtrl.push('ChatPage');
+          }
+          case 'member-assist-chat': {
+            this.modalCtrl.create('ChatPage');
+            // this.navCtrl.push('ChatPage');
           }
         }
       }

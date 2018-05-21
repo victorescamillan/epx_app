@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, Content } from 
 import { EpxProvider } from '../../providers/epx/epx';
 import { CacheService } from 'ionic-cache';
 import { Observable } from 'rxjs/Observable';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @IonicPage()
 @Component({
@@ -14,6 +15,8 @@ export class AssistPage {
   @ViewChild('filter') filter: ElementRef;
   @ViewChild('fab') fab: any;
   assistList: any;
+  expertiseList: any;
+  expertise: string = '';
   isLoading: boolean = true;
   isRefresh: boolean = false;
   isFilter: boolean = false;
@@ -41,14 +44,17 @@ export class AssistPage {
     let connected = this.provider.isConnected();
     if (connected) {
       if (refresher) {
+        this.expertise = '';
         this.provider.getData('ID').then(id => {
           this.provider.getMemberAssist(id, 10, this.page).subscribe(res => {
-            let mentor = Observable.of(res.data);
-            this.cache.loadFromDelayedObservable(url, mentor, groupKey, ttl, delay_type).subscribe(data => {
+            let assist = Observable.of(res.data);
+            this.cache.loadFromDelayedObservable(url, assist, groupKey, ttl, delay_type).subscribe(data => {
               this.assistList = data;
+              this.expertiseList = res.skill;
               console.log(this.assistList);
             });
             this.isLoading = false;
+            this.isFilter = false;
             this.page = 1;
             refresher.complete();
           }, error => {
@@ -62,11 +68,14 @@ export class AssistPage {
         this.provider.getData('ID').then(id => {
           this.provider.getMemberAssist(id, 10, this.page).subscribe(res => {
             let assist = Observable.of(res.data);
-            this.cache.loadFromObservable(url, assist, groupKey).subscribe(data => {
+            console.log('getMemberAssist',res.data);
+            this.cache.loadFromDelayedObservable(url, assist, groupKey, ttl, delay_type).subscribe(data => {
+              console.log('loadFromObservable',data);
               this.assistList = data;
-              console.log(this.assistList);
             });
+            // this.assistList = res.data;
             this.totalPage = res.number_of_page;
+            this.expertiseList = res.skill;
             this.isLoading = false;
             this.isRefresh = true;
           }, error => {
@@ -84,7 +93,7 @@ export class AssistPage {
           let offline_data = Observable.of(data.value);
           console.log('offline data: ', offline_data);
           if (refresher) {
-            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey,ttl, delay_type).subscribe(data => {
               this.assistList = data;
               refresher.complete();
             });
@@ -110,7 +119,32 @@ export class AssistPage {
     this.loadMemberAssist(refresher);
   }
   filterAssist() {
-
+    console.log('filterAssist',this.expertise);
+    if(this.expertise == ''){
+      this.provider.toastMessage('Please select expertise.')
+      return;
+    }
+    this.isFilter = true;
+    this.isLoading = true;
+    this.isRefresh = false;
+    
+    this.provider.getData('ID').then(id => {
+      this.provider.getMemberAssistFilter(id,this.expertise).subscribe(res => {
+        console.log('getMemberAssistFilter',res);
+        if(res.result == true)
+        {
+          this.assistList = res.data;
+          console.log('getMemberAssistFilter',res.data);
+        }
+        else{
+          this.provider.toastMessage('No results found!');  
+        }
+        this.isLoading = false;
+      }, error => {
+        this.provider.toastMessage('Internal Error!');
+        this.isLoading = false;
+      })
+    });
   }
   respondToRequest(item) {
     if (item.connected) {

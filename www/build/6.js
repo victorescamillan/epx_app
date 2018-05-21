@@ -177,7 +177,7 @@ var TripsPage = (function () {
                         });
                     }
                     else {
-                        _this.cache.loadFromObservable(url, trips, groupKey).subscribe(function (data) {
+                        _this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(function (data) {
                             _this.tripList = Object.keys(data).map(function (key) { return data[key]; });
                         });
                     }
@@ -198,7 +198,7 @@ var TripsPage = (function () {
                     var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
                     console.log('offline data: ', offline_data);
                     if (refresher) {
-                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(function (data) {
+                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(function (data) {
                             _this.tripList = data;
                             refresher.complete();
                         });

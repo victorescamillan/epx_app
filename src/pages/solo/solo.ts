@@ -83,7 +83,7 @@ export class SoloPage {
           });
         }
         else {
-          this.cache.loadFromObservable(url, solo, groupKey).subscribe(data => {
+          this.cache.loadFromDelayedObservable(url, solo, groupKey, ttl, delay_type).subscribe(data => {
             this.soloList = Object.keys(data).map(key => data[key]);
           });
         }
@@ -101,7 +101,7 @@ export class SoloPage {
           let offline_data = Observable.of(data.value);
           console.log('offline data: ', offline_data);
           if (refresher) {
-            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(data => {
               this.soloList = data;
               refresher.complete();
             });

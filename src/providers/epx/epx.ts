@@ -70,6 +70,7 @@ export class EpxProvider {
 
   //MEMBER ASSIST
   public memberassist_submit_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-assist&user_id=';
+  public memberassist_filter_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-assist-filter&user_id=';
   public memberassist_respond_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=connect-member-assist&user_id=';
 
 //USER OPT-IN
@@ -357,6 +358,12 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
   }
   getMemberAssist(id,size,page) {
     return this.httpClient.get(this.memberassist_submit_url + id + '&listsize=' + size +'&paged=' + page)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getMemberAssistFilter(id,skill) {
+    return this.httpClient.get(this.memberassist_filter_url + id + '&skill=' + skill)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

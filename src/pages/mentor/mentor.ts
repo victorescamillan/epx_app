@@ -73,6 +73,9 @@ export class MentorPage {
           });
         });
       });
+      setTimeout(() => {
+        loading.dismiss();
+      }, 20000);
     }
     else{
       this.provider.toastMessage('Please select skill');

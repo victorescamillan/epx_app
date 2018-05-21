@@ -1,6 +1,6 @@
 webpackJsonp([10],{
 
-/***/ 481:
+/***/ 473:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(502);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TabsPageModule = (function () {
 
 /***/ }),
 
-/***/ 510:
+/***/ 502:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61,7 +61,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var TabsPage = (function () {
-    function TabsPage(oneSignal, epxProvider, detectorRef, events, platform, alertCtrl, menuCtrl, navCtrl) {
+    function TabsPage(modalCtrl, oneSignal, epxProvider, detectorRef, events, platform, alertCtrl, menuCtrl, navCtrl) {
+        this.modalCtrl = modalCtrl;
         this.oneSignal = oneSignal;
         this.epxProvider = epxProvider;
         this.detectorRef = detectorRef;
@@ -128,7 +129,6 @@ var TabsPage = (function () {
         this.oneSignal.startInit('13cedc03-fa5f-4f96-ba81-3ed7f3698052', '188374332009');
         this.epxProvider.getData('member_details').then(function (res) {
             _this.oneSignal.sendTag('user_id', res.ID);
-            _this.oneSignal.sendTag('user_type', 'ideahub');
             _this.oneSignal.sendTag('is_login', 'true');
         });
         this.epxProvider.getData('enable_member').then(function (res) {
@@ -270,6 +270,14 @@ var TabsPage = (function () {
                     case 'get-lucky': {
                         _this.navCtrl.push('ChatPage');
                     }
+                    case 'member-assist': {
+                        var assist = _this.modalCtrl.create('AssistPage');
+                        assist.present();
+                        break;
+                    }
+                    case 'member-assist-chat': {
+                        _this.navCtrl.push('ChatPage');
+                    }
                 }
             }
             else {
@@ -359,12 +367,22 @@ var TabsPage = (function () {
                         break;
                     }
                     case 'mentor-match': {
-                        _this.navCtrl.push('MentorPage');
+                        _this.modalCtrl.create('MentorPage');
+                        // this.navCtrl.push('MentorPage')
                         break;
                     }
                     case 'member-assist': {
-                        _this.navCtrl.push('AssistPage');
+                        var assist = _this.modalCtrl.create('AssistPage');
+                        assist.present();
                         break;
+                    }
+                    case 'get-lucky': {
+                        _this.modalCtrl.create('ChatPage');
+                        // this.navCtrl.push('ChatPage');
+                    }
+                    case 'member-assist-chat': {
+                        _this.modalCtrl.create('ChatPage');
+                        // this.navCtrl.push('ChatPage');
                     }
                 }
             }
@@ -386,7 +404,8 @@ var TabsPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <!-- <ion-tab [root]="assistRoot" tabTitle="Assist" tabIcon="phone-portrait" ></ion-tab> \n    <ion-tab [root]="mentorRoot" tabTitle="Mentor" tabIcon="phone-portrait" ></ion-tab>  -->\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}"  tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu"  (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__ionic_native_onesignal__["a" /* OneSignal */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_onesignal__["a" /* OneSignal */],
             __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],

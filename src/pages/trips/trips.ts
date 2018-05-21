@@ -142,7 +142,7 @@ export class TripsPage {
             });
           }
           else {
-            this.cache.loadFromObservable(url, trips, groupKey).subscribe(data => {
+            this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(data => {
               this.tripList = Object.keys(data).map(key => data[key]);
             });
           }
@@ -164,7 +164,7 @@ export class TripsPage {
           let offline_data = Observable.of(data.value);
           console.log('offline data: ', offline_data);
           if (refresher) {
-            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(data => {
               this.tripList = data;
               refresher.complete();
             });

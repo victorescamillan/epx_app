@@ -68,7 +68,7 @@ export class BusinessPage {
           });
         }
         else {
-          this.cache.loadFromObservable(url, business, groupKey).subscribe(data => {
+          this.cache.loadFromDelayedObservable(url, business, groupKey, ttl, delay_type).subscribe(data => {
             this.businessList = Object.keys(data).map(key => data[key]);
             console.log('business:', data);
           });
@@ -86,7 +86,7 @@ export class BusinessPage {
           let offline_data = Observable.of(data.value);
           console.log('offline data: ', offline_data);
           if (refresher) {
-            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(data => {
               this.businessList = data;
               refresher.complete();
             });

@@ -127,7 +127,7 @@ var VaultPage = (function () {
                     });
                 }
                 else {
-                    _this.cache.loadFromObservable(url, vault, groupKey).subscribe(function (data) {
+                    _this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type).subscribe(function (data) {
                         _this.vaultList = Object.keys(data).map(function (key) { return data[key]; });
                     });
                 }
@@ -145,7 +145,7 @@ var VaultPage = (function () {
                     var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
                     console.log('offline data: ', offline_data);
                     if (refresher) {
-                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(function (data) {
+                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(function (data) {
                             _this.vaultList = data;
                             refresher.complete();
                         });

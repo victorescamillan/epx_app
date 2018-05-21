@@ -78,7 +78,7 @@ export class MembersPage {
           });
         }
         else {
-          this.cache.loadFromObservable(url, members, groupKey).subscribe(data => {
+          this.cache.loadFromDelayedObservable(url, members, groupKey, ttl, delay_type).subscribe(data => {
             this.members = Object.keys(data).map(key => data[key]);
             console.log('members:', members);
           });
@@ -97,7 +97,7 @@ export class MembersPage {
           let offline_data = Observable.of(data.value);
           console.log('offline data: ', offline_data);
           if (refresher) {
-            this.cache.loadFromDelayedObservable(url, offline_data, groupKey).subscribe(data => {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(data => {
               this.members = data;
               refresher.complete();
             });

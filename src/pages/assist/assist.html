@@ -23,7 +23,7 @@
             Expertise
           </ion-label>
           <ion-select [(ngModel)]="expertise">
-            <ion-option></ion-option>
+            <ion-option *ngFor="let item of expertiseList">{{item}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-col>

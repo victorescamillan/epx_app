@@ -105,5 +105,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-cccometchat": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-cccometchat@^7.0.24"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
