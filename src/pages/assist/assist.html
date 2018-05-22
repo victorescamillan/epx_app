@@ -7,6 +7,12 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Member Assist</ion-title>
+    <ion-buttons right *ngIf="isNotification">
+      <button ion-button icon-end (click)="closeFilter()">
+        Close
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -40,7 +46,7 @@
       <ion-icon name="arrow-dropup"></ion-icon>
     </button>
   </ion-fab>
-  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
+  <div id="indicator" class="{{isLoading ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   <ion-card *ngFor="let item of assistList">

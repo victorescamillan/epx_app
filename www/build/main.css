@@ -25783,14 +25783,16 @@ p.strong {
   background-color: #f53d3d;
 }
 
-#indicator ion-spinner {
+div#indicator ion-spinner {
   position: relative;
   display: block;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
+  background: white;
   margin-left: auto;
   margin-right: auto;
   border-radius: 50%;
+  border: solid 1px #5dafe5;
 }
 
 ion-spinner.process {
@@ -25813,8 +25815,10 @@ ion-spinner.process {
 
 .show-indicator {
   width: 100%;
-  height: 100px;
-  position: fixed;
+  height: auto;
+  margin-bottom: -35px;
+  position: -webkit-sticky;
+  position: sticky;
   top: 30%;
   z-index: 1;
 }
@@ -25898,6 +25902,7 @@ page-assist .btn-search {
   margin-top: 25px;
   margin-bottom: 0px;
   height: 28px;
+  width: 100%;
   font-size: 85%;
   font-weight: 100;
   padding: 5px;
@@ -26543,6 +26548,7 @@ page-members .btn-search {
   margin-top: 25px;
   margin-bottom: 0px;
   height: 28px;
+  width: 100%;
   font-size: 85%;
   font-weight: 100;
   padding: 5px;
@@ -27573,6 +27579,7 @@ page-vault .btn-search {
   margin-top: 25px;
   margin-bottom: 0px;
   height: 28px;
+  width: 100%;
   font-size: 85%;
   font-weight: 100;
   padding: 5px 10px;

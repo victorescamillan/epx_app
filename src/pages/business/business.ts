@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Content, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Content, Platform, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
@@ -32,6 +32,7 @@ export class BusinessPage {
   category: any;
   isFilter: boolean = false;
   constructor(
+    private events: Events,
     private platform: Platform,
     private alertCtrl: AlertController,
     private renderer: Renderer2,
@@ -39,6 +40,11 @@ export class BusinessPage {
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {
     // Keep our cached results when device is offline!
+    this.events.subscribe(this.epxProvider.CLOSE_PAGE, value => {
+      if (value) {
+        navCtrl.popToRoot();
+      }
+    });
     cache.setOfflineInvalidate(false);
   }
   ionViewDidLoad() {
@@ -46,7 +52,7 @@ export class BusinessPage {
     this.LoadBusiness();
     this.loadSkillsCategory();
   }
-  
+
   LoadBusiness(refresher?) {
     let url = this.epxProvider.business_infinite_url;
     let ttl = this.epxProvider.TTL;
@@ -228,7 +234,7 @@ export class BusinessPage {
               if (res.result === true) {
                 this.businessList = Object.keys(res.data).map(key => res.data[key]);
               }
-              else{
+              else {
                 this.epxProvider.toastMessage('No results found!');
               }
               this.isLoading = false;

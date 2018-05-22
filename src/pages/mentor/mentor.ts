@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform, Events } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import { regexValidators} from '../validators/validator'
+import { regexValidators } from '../validators/validator'
 import { EpxProvider } from '../../providers/epx/epx';
 
 @IonicPage()
@@ -12,62 +12,67 @@ import { EpxProvider } from '../../providers/epx/epx';
 export class MentorPage {
   @ViewChild('myInput') myInput: ElementRef;
   formGroup: FormGroup;
-  details_control:AbstractControl;
-  skillList:any;
+  details_control: AbstractControl;
+  skillList: any;
   skillQty: number = 1;
-  details:any;
+  details: any;
   maxChar: number = 500;
   consumeChar: number = 0;
   isLoading: boolean = true;
-  skill:any;
+  skill: any;
   constructor(
+    private events: Events,
     private platform: Platform,
     private loadingCtrl: LoadingController,
-    private provider: EpxProvider, private alertCtrl:AlertController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
-    
+    private provider: EpxProvider, private alertCtrl: AlertController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
+    this.events.subscribe(this.provider.CLOSE_PAGE, value => {
+      if (value) {
+        navCtrl.popToRoot();
+      }
+    });
     this.formGroup = formBuilder.group({
-      details:['',Validators.required]
+      details: ['', Validators.required]
     });
 
     this.details_control = this.formGroup.controls['details'];
   }
- 
+
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MentorPage',this.skill);
+    console.log('ionViewDidLoad MentorPage', this.skill);
     this.initSkillSet();
   }
   resizeInput() {
-    if(this.myInput.nativeElement.scrollHeight > 120){
+    if (this.myInput.nativeElement.scrollHeight > 120) {
       this.myInput.nativeElement.style.height = (this.myInput.nativeElement.scrollHeight) + 'px';
     }
     console.log(this.myInput.nativeElement.scrollHeight);
     this.consumeChar = this.myInput.nativeElement.value.length;
   }
 
-  initSkillSet(){
+  initSkillSet() {
     this.provider.getMentorMatchSkills().subscribe(res => {
       this.skillList = res.skills;
-      console.log('skill set: ',this.skillList);
+      console.log('skill set: ', this.skillList);
       this.isLoading = false
     });
   }
-  selectedSkill(item){
+  selectedSkill(item) {
     this.skill = item;
-    console.log('selected skill',item);
+    console.log('selected skill', item);
   }
-  submitSkill(){
-    if(this.skill != undefined || this.skill != ''){
-      let loading = this.loadingCtrl.create({content:'Submitting...'});
+  submitSkill() {
+    if (this.skill != undefined || this.skill != '') {
+      let loading = this.loadingCtrl.create({ content: 'Submitting...' });
       loading.present().then(() => {
         this.provider.getData('ID').then(id => {
-          this.provider.submitMentorMatchSkill(this.skill,this.details,id).subscribe(res => {
-            console.log('result',res);
-            if(res.Message === 'Success'){
+          this.provider.submitMentorMatchSkill(this.skill, this.details, id).subscribe(res => {
+            console.log('result', res);
+            if (res.Message === 'Success') {
               this.details = '';
               this.presentAlert();
             }
             loading.dismiss();
-          },error => {
+          }, error => {
             this.provider.toastMessage('Internal Error!');
             loading.dismiss();
           });
@@ -77,14 +82,14 @@ export class MentorPage {
         loading.dismiss();
       }, 20000);
     }
-    else{
+    else {
       this.provider.toastMessage('Please select skill');
     }
   }
- 
+
   presentAlert() {
     let alert = this.alertCtrl.create({
-      
+
       title: 'THANK YOU!',
       subTitle: 'Your request is in the route! Be on the lookout for others needing your help and engage as much as you can! Give. Give. Give. With Love and Affection, Your Match-Making Pals @ EPX',
       buttons: ['Ok']

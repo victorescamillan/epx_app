@@ -19,6 +19,11 @@ export class SettingsPage {
     private platform: Platform,
     private provider: EpxProvider, private events: Events, public navCtrl: NavController, public navParams: NavParams) {
 
+    this.events.subscribe(this.provider.CLOSE_PAGE, value => {
+      if(value){
+        navCtrl.popToRoot();
+      }
+    });
     //Disable toggle if no internet connection.
     if (!this.provider.isConnected()) {
       this.provider.toastMessage("Please check your connection.");
@@ -45,16 +50,16 @@ export class SettingsPage {
     console.log('ionViewDidLoad SettingsPage');
   }
   updateMember(member) {
-    console.log('updateMember',member);
+    console.log('updateMember', member);
     if (this.provider.isConnected()) {
       let loading = this.loadingCtrl.create({ content: 'Loading...' });
       loading.present().then(() => {
         this.provider.enableMember(member).subscribe(res => {
-          if(res.result === 'true'){
-            this.provider.saveData('enable_member',member);
-          this.events.publish(this.provider.MEMBER_NOTIFICATION, member);
+          if (res.result === 'true') {
+            this.provider.saveData('enable_member', member);
+            this.events.publish(this.provider.MEMBER_NOTIFICATION, member);
           }
-          else{
+          else {
             member = !member;
           }
           loading.dismiss();
@@ -76,11 +81,11 @@ export class SettingsPage {
       let loading = this.loadingCtrl.create({ content: 'Loading...' });
       loading.present().then(() => {
         this.provider.enableVault(vault).subscribe(res => {
-          if(res.result === 'true'){
-            this.provider.saveData('enable_vault',vault);
+          if (res.result === 'true') {
+            this.provider.saveData('enable_vault', vault);
             this.events.publish(this.provider.VAULT_NOTIFICATION, vault);
           }
-          else{
+          else {
             vault = !vault;
           }
           loading.dismiss();
@@ -97,16 +102,16 @@ export class SettingsPage {
     }
   }
   updateGetLucky(getLucky) {
-    console.log('updateGetLucky',getLucky);
+    console.log('updateGetLucky', getLucky);
     if (this.provider.isConnected()) {
       let loading = this.loadingCtrl.create({ content: 'Loading...' });
       loading.present().then(() => {
         this.provider.enableGetLucky(getLucky).subscribe(res => {
-          if(res.result === 'true'){
-            this.provider.saveData('enable_get_lucky',getLucky);
+          if (res.result === 'true') {
+            this.provider.saveData('enable_get_lucky', getLucky);
             this.events.publish(this.provider.VAULT_NOTIFICATION, getLucky);
           }
-          else{
+          else {
             getLucky = !getLucky;
           }
           loading.dismiss();

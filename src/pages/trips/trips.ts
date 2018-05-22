@@ -62,8 +62,8 @@ export class TripsPage {
   }
   //Filter Page
   showFilter() {
-    let filterModal = this.modalCtrl.create('TripFilterPage');
-    filterModal.present();
+    let assist = this.modalCtrl.create('AssistPage',{isNotification:true});
+            assist.present();
     // this.content.scrollToTop();
   }
   initFilterData() {
@@ -81,7 +81,6 @@ export class TripsPage {
   }
   filterTrips() {
     console.log('region and type:', this.region, this.type);
-
     if (this.region === '' && this.type === '' || this.region === undefined && this.type === undefined) {
       this.epxProvider.toastMessage('Please select region or trip type.')
       return;
@@ -105,8 +104,9 @@ export class TripsPage {
         this.epxProvider.toastMessage('Internal error!');
         this.isLoading = false;
       });
-
-      
+      setTimeout(() => {
+        this.isLoading = false
+      }, 20000);
     });
   }
   logoutUser() {

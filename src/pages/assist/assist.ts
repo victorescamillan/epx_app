@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Content } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Content, ViewController, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { CacheService } from 'ionic-cache';
 import { Observable } from 'rxjs/Observable';
@@ -23,17 +23,29 @@ export class AssistPage {
   page = 1;
   totalPage = 0;
   oldScrollTop = 0;
+  isNotification: boolean = false;
   constructor(
+    private events: Events,
+    private viewCtrl: ViewController,
     private renderer: Renderer2,
     private cache: CacheService,
     private loadingCtrl: LoadingController,
     private provider: EpxProvider,
     public navCtrl: NavController, public navParams: NavParams) {
+    console.log('navCtrl', navCtrl);
+    this.events.subscribe(this.provider.CLOSE_PAGE, value => {
+      if (value) {
+        navCtrl.popToRoot();
+      }
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AssistPage');
     this.loadMemberAssist();
+  }
+  closeFilter() {
+    this.viewCtrl.dismiss();
   }
   loadMemberAssist(refresher?) {
     let url = this.provider.business_infinite_url;
@@ -68,9 +80,9 @@ export class AssistPage {
         this.provider.getData('ID').then(id => {
           this.provider.getMemberAssist(id, 10, this.page).subscribe(res => {
             let assist = Observable.of(res.data);
-            console.log('getMemberAssist',res.data);
+            console.log('getMemberAssist', res.data);
             this.cache.loadFromDelayedObservable(url, assist, groupKey, ttl, delay_type).subscribe(data => {
-              console.log('loadFromObservable',data);
+              console.log('loadFromObservable', data);
               this.assistList = data;
             });
             // this.assistList = res.data;
@@ -83,7 +95,7 @@ export class AssistPage {
             this.isLoading = false;
             this.isRefresh = true;
           });
-         
+
         })
       }
     }
@@ -93,7 +105,7 @@ export class AssistPage {
           let offline_data = Observable.of(data.value);
           console.log('offline data: ', offline_data);
           if (refresher) {
-            this.cache.loadFromDelayedObservable(url, offline_data, groupKey,ttl, delay_type).subscribe(data => {
+            this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(data => {
               this.assistList = data;
               refresher.complete();
             });
@@ -119,32 +131,36 @@ export class AssistPage {
     this.loadMemberAssist(refresher);
   }
   filterAssist() {
-    console.log('filterAssist',this.expertise);
-    if(this.expertise == ''){
+
+    if (this.expertise == '') {
       this.provider.toastMessage('Please select expertise.')
       return;
     }
     this.isFilter = true;
-    this.isLoading = true;
-    this.isRefresh = false;
-    
-    this.provider.getData('ID').then(id => {
-      this.provider.getMemberAssistFilter(id,this.expertise).subscribe(res => {
-        console.log('getMemberAssistFilter',res);
-        if(res.result == true)
-        {
-          this.assistList = res.data;
-          console.log('getMemberAssistFilter',res.data);
-        }
-        else{
-          this.provider.toastMessage('No results found!');  
-        }
-        this.isLoading = false;
-      }, error => {
-        this.provider.toastMessage('Internal Error!');
-        this.isLoading = false;
-      })
+    // this.isLoading = true;
+    // this.isRefresh = false;
+    let loading = this.loadingCtrl.create({ content: 'Loading...' });
+    loading.present().then(()=>{
+      this.provider.getData('ID').then(id => {
+        this.provider.getMemberAssistFilter(id, this.expertise).subscribe(res => {
+          console.log('getMemberAssistFilter', res);
+          if (res.result == true) {
+            this.assistList = res.data;
+          }
+          else {
+            this.provider.toastMessage('No results found!');
+          }
+          loading.dismiss();
+        }, error => {
+          this.provider.toastMessage('Internal Error!');
+          loading.dismiss();
+        })
+      });
     });
+    setTimeout(() => {
+      loading.dismiss();
+    }, 20000);
+   
   }
   respondToRequest(item) {
     if (item.connected) {
@@ -196,7 +212,7 @@ export class AssistPage {
     this.content.scrollToTop();
   }
   onScroll(event) {
-    console.log('onScroll',event);
+    console.log('onScroll', event);
     if (event.scrollTop <= 0) {
       this.renderer.removeClass(this.filter.nativeElement, 'overlay');
       this.renderer.removeClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');

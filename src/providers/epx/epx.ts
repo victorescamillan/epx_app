@@ -53,7 +53,7 @@ export class EpxProvider {
   public member_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
   public member_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
   public member_skills_industry_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
-  public member_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&search=';
+  public member_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&nameSearch=';
   public member_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&member_role=full_members&business=';
   public member_search_map_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-map';
 
@@ -88,6 +88,7 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
   public VAULT_NOTIFICATION: string = "VAULT_NOTIFICATION";
   public GETLUCKY_NOTIFICATION: string = "GETLUCKY_NOTIFICATION";
   public IS_LOGIN_NOTIFICATION: string = "IS_ONLINE_NOTIFICATION";
+  public CLOSE_PAGE: string = "CLOSE_PAGE";
   public DELAY_TYPE: string = "all";
   public TTL: number = 60 * 60 * 12;
 

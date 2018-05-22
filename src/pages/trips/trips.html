@@ -6,7 +6,12 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>EXPLORE . EXPAND. EVOLVE.</ion-title>
+    <ion-title>EXPLORE . EXPAND . EVOLVE .</ion-title>
+    <!-- <ion-buttons end>
+      <button ion-button icon-only color="light" (click)="showFilter()">
+        <ion-icon isActive="true" name="search"></ion-icon>
+      </button>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)">
@@ -43,7 +48,7 @@
       </ion-col>
     </ion-row>
   </div>
-  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
+  <div id="indicator" class="{{isLoading ? 'show-indicator' : 'hide-indicator'}}">
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   <ion-card *ngFor="let trip of tripList">

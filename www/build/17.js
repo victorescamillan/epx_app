@@ -61,7 +61,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var MentorPage = (function () {
-    function MentorPage(platform, loadingCtrl, provider, alertCtrl, formBuilder, navCtrl, navParams) {
+    function MentorPage(events, platform, loadingCtrl, provider, alertCtrl, formBuilder, navCtrl, navParams) {
+        this.events = events;
         this.platform = platform;
         this.loadingCtrl = loadingCtrl;
         this.provider = provider;
@@ -73,6 +74,11 @@ var MentorPage = (function () {
         this.maxChar = 500;
         this.consumeChar = 0;
         this.isLoading = true;
+        this.events.subscribe(this.provider.CLOSE_PAGE, function (value) {
+            if (value) {
+                navCtrl.popToRoot();
+            }
+        });
         this.formGroup = formBuilder.group({
             details: ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required]
         });
@@ -144,7 +150,8 @@ var MentorPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-mentor',template:/*ion-inline-start:"D:\epx_app\src\pages\mentor\mentor.html"*/'<!--\n  Generated template for the MentorPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Mentor Match</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <p class="sm-text">Every business needs help and as a member of EPX you have access to some of the most brilliant minds in business commited\n    to helping you accelerate success. Simply choose one skill you need help with and provide some detail below.</p>\n  <p class="sm-text">You will be notified by email when another member with that expertise is ready to engage!</p>\n\n  <ion-list radio-group>\n    <ion-list-header>\n      SKILLS:\n    </ion-list-header>\n    <div id="indicator" class="{{isLoading ? \'show-indicator\' : \'hide-indicator\'}}">\n      <ion-spinner name="crescent"></ion-spinner>\n    </div>\n    <ion-item *ngFor="let item of skillList">\n      <ion-label>{{item}}</ion-label>\n      <ion-radio *ngIf="skillQty === 1" (ionSelect)="selectedSkill(item)"></ion-radio>\n      <ion-checkbox *ngIf="skillQty > 1"></ion-checkbox>\n    </ion-item>\n  </ion-list>\n  <div class="form-details" *ngIf="!isLoading">\n    <p class="info strong">Provide details on where you need help (500 characters)</p>\n    <form [formGroup]="formGroup">\n      <textarea #myInput id="myInput" rows="5" formControlName="details" [maxLength]="maxChar" (keyup)="resizeInput()" [(ngModel)]="details"></textarea>\n      <p class="info">\n        <strong>{{maxChar - consumeChar}}</strong> character left</p>\n      <button ion-button round outline [disabled]="!formGroup.valid" (click)="submitSkill()">Submit</button>\n    </form>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\mentor\mentor.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
             __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], MentorPage);

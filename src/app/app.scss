@@ -101,14 +101,16 @@ p.strong{
 }
 
 //Spinner layout
-#indicator ion-spinner {
+div#indicator ion-spinner {
     position: relative;
     display: block;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
+    background: white;
     margin-left: auto;
     margin-right: auto;
     border-radius: 50%;
+    border: solid 1px #5dafe5;
 }
 ion-spinner.process {
     position: relative;
@@ -128,8 +130,9 @@ ion-spinner.process {
 }
 .show-indicator{
     width: 100%;
-    height: 100px;
-    position: fixed;
+    height: auto;
+    margin-bottom: -35px;
+    position: sticky;
     top: 30%;
     z-index: 1;
 }

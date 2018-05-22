@@ -8,6 +8,12 @@
 
   <ion-navbar>
     <ion-title>Chat</ion-title>
+    <ion-buttons right *ngIf="isNotification">
+      <button ion-button icon-end (click)="closeFilter()">
+        Close
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
  

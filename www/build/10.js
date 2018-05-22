@@ -61,7 +61,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var TabsPage = (function () {
-    function TabsPage(modalCtrl, oneSignal, epxProvider, detectorRef, events, platform, alertCtrl, menuCtrl, navCtrl) {
+    function TabsPage(viewctrl, modalCtrl, oneSignal, epxProvider, detectorRef, events, platform, alertCtrl, menuCtrl, navCtrl) {
+        this.viewctrl = viewctrl;
         this.modalCtrl = modalCtrl;
         this.oneSignal = oneSignal;
         this.epxProvider = epxProvider;
@@ -252,10 +253,6 @@ var TabsPage = (function () {
                         _this.navCtrl.push('MentorPage');
                         break;
                     }
-                    case 'member-assist': {
-                        _this.navCtrl.push('AssistPage');
-                        break;
-                    }
                     case 'trip-detail': {
                         var data_1 = {
                             ID: trip.ID,
@@ -267,15 +264,25 @@ var TabsPage = (function () {
                         };
                         _this.navCtrl.push('TripDetailsPage', { data: data_1 });
                     }
-                    case 'get-lucky': {
-                        _this.navCtrl.push('ChatPage');
-                    }
-                    case 'member-assist': {
-                        var assist = _this.modalCtrl.create('AssistPage');
-                        assist.present();
+                    case 'mentor-match': {
+                        _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
+                        _this.navCtrl.push('MentorPage');
                         break;
                     }
+                    case 'member-assist': {
+                        // let assist = this.modalCtrl.create('AssistPage',{isNotification:true});
+                        // assist.present();
+                        _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
+                        _this.navCtrl.push('AssistPage');
+                        break;
+                    }
+                    case 'get-lucky': {
+                        // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
+                        _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
+                        _this.navCtrl.push('ChatPage');
+                    }
                     case 'member-assist-chat': {
+                        _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
                         _this.navCtrl.push('ChatPage');
                     }
                 }
@@ -367,22 +374,25 @@ var TabsPage = (function () {
                         break;
                     }
                     case 'mentor-match': {
-                        _this.modalCtrl.create('MentorPage');
-                        // this.navCtrl.push('MentorPage')
+                        _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
+                        _this.navCtrl.push('MentorPage');
                         break;
                     }
                     case 'member-assist': {
-                        var assist = _this.modalCtrl.create('AssistPage');
-                        assist.present();
+                        // let assist = this.modalCtrl.create('AssistPage',{isNotification:true});
+                        // assist.present();
+                        _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
+                        _this.navCtrl.push('AssistPage');
                         break;
                     }
                     case 'get-lucky': {
-                        _this.modalCtrl.create('ChatPage');
-                        // this.navCtrl.push('ChatPage');
+                        // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
+                        _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
+                        _this.navCtrl.push('ChatPage');
                     }
                     case 'member-assist-chat': {
-                        _this.modalCtrl.create('ChatPage');
-                        // this.navCtrl.push('ChatPage');
+                        _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
+                        _this.navCtrl.push('ChatPage');
                     }
                 }
             }
@@ -404,7 +414,8 @@ var TabsPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-tabs',template:/*ion-inline-start:"D:\epx_app\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <!-- <ion-tab [root]="assistRoot" tabTitle="Assist" tabIcon="phone-portrait" ></ion-tab> \n    <ion-tab [root]="mentorRoot" tabTitle="Mentor" tabIcon="phone-portrait" ></ion-tab>  -->\n    <ion-tab [root]="tripsRoot" tabTitle="Trips" tabIcon="plane"  tabBadge="{{tripBadge > 0 ? tripBadge : null}}"  tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="soloRoot" tabTitle="Solo" tabIcon="person" tabBadge="{{soloBadge > 0 ? soloBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="vaultRoot" tabTitle="Vault" tabIcon="briefcase" tabBadge="{{vaultBadge > 0 ? vaultBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab [root]="membersRoot" tabTitle="Members" tabIcon="people" tabBadge="{{memberBadge > 0 ? memberBadge : null}}" tabBadgeStyle="danger"></ion-tab>\n    <ion-tab tabTitle="More" tabIcon="menu"  (ionSelect)="openSideMenu()"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\epx_app\src\pages\tabs\tabs.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
             __WEBPACK_IMPORTED_MODULE_3__ionic_native_onesignal__["a" /* OneSignal */],
             __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
             __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectorRef */],

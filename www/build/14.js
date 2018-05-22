@@ -67,6 +67,11 @@ var SettingsPage = (function () {
         this.events = events;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.events.subscribe(this.provider.CLOSE_PAGE, function (value) {
+            if (value) {
+                navCtrl.popToRoot();
+            }
+        });
         //Disable toggle if no internet connection.
         if (!this.provider.isConnected()) {
             this.provider.toastMessage("Please check your connection.");

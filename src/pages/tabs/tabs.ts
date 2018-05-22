@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, MenuController, Platform, AlertController, Events, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, MenuController, Platform, AlertController, Events, ModalController, ViewController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { isNumber } from 'ionic-angular/util/util';
 import { OneSignal } from '@ionic-native/onesignal';
@@ -30,6 +30,7 @@ export class TabsPage {
 
   isAppOpen: Boolean = false;
   constructor(
+    private viewctrl: ViewController,
     private modalCtrl: ModalController,
     private oneSignal: OneSignal,
     private epxProvider: EpxProvider,
@@ -81,13 +82,12 @@ export class TabsPage {
 
     this.events.subscribe(this.epxProvider.IS_LOGIN_NOTIFICATION, value => {
       this.oneSignal.sendTag('is_login', value);
-      
     });
+    
 
   }
   initOneSignal() {
     this.oneSignal.startInit('13cedc03-fa5f-4f96-ba81-3ed7f3698052', '188374332009');
-
     this.epxProvider.getData('member_details').then(res => {
       this.oneSignal.sendTag('user_id', res.ID);
       this.oneSignal.sendTag('is_login', 'true');
@@ -218,10 +218,7 @@ export class TabsPage {
             this.navCtrl.push('MentorPage')
             break;
           }
-          case 'member-assist': {
-            this.navCtrl.push('AssistPage')
-            break;
-          }
+        
           case 'trip-detail': {
             let data = {
               ID: trip.ID,
@@ -233,15 +230,26 @@ export class TabsPage {
             }
             this.navCtrl.push('TripDetailsPage', { data: data });
           }
-          case 'get-lucky': {
-            this.navCtrl.push('ChatPage');
-          }
-          case 'member-assist': {
-            let assist = this.modalCtrl.create('AssistPage');
-            assist.present();
+          case 'mentor-match': {
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('MentorPage');
             break;
           }
+          case 'member-assist': {
+            // let assist = this.modalCtrl.create('AssistPage',{isNotification:true});
+            // assist.present();
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('AssistPage');
+            break;
+          }
+          case 'get-lucky': {
+            // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('ChatPage');
+            
+          }
           case 'member-assist-chat': {
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
           }
         }
@@ -334,22 +342,26 @@ export class TabsPage {
             break;
           }
           case 'mentor-match': {
-            this.modalCtrl.create('MentorPage');
-            // this.navCtrl.push('MentorPage')
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('MentorPage');
             break;
           }
           case 'member-assist': {
-            let assist = this.modalCtrl.create('AssistPage');
-            assist.present();
+            // let assist = this.modalCtrl.create('AssistPage',{isNotification:true});
+            // assist.present();
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('AssistPage');
             break;
           }
           case 'get-lucky': {
-            this.modalCtrl.create('ChatPage');
-            // this.navCtrl.push('ChatPage');
+            // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('ChatPage');
+            
           }
           case 'member-assist-chat': {
-            this.modalCtrl.create('ChatPage');
-            // this.navCtrl.push('ChatPage');
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('ChatPage');
           }
         }
       }

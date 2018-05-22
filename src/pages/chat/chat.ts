@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 
@@ -23,16 +23,20 @@ export class ChatPage {
   messages: object[] = [];
   // _chatSubscription;
   // public db:AngularFireDatabase,
+  isNotification: boolean = false;
   constructor(
+    private viewCtrl: ViewController,
     public navCtrl: NavController, public navParams: NavParams) {
 
     // this.username = this.navParams.get('username');
     // this._chatSubscription = db.list('chat').valueChanges().subscribe(data => {
     //   this.messages = data;
     // });
-        
+    this.isNotification = navParams.data.isNotification;
   }
-
+  closeFilter(){
+    this.viewCtrl.dismiss();
+  }
   // sendMessage(){
   //   this.db.list('/chat').push({
   //     username: this.username,
