@@ -212,20 +212,17 @@ export class AssistPage {
     this.content.scrollToTop();
   }
   onScroll(event) {
-    console.log('onScroll', event);
-    if (event.scrollTop <= 0) {
-      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-      this.renderer.removeClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
-    }
-    else if (event.scrollTop - this.oldScrollTop > 10) {
-      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+    console.log(this.fab);
+    if (event.scrollTop - this.oldScrollTop > 10) {
       this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
       this.renderer.addClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
+        console.log('scroll down',event.scrollTop - this.oldScrollTop)
     }
     else if (event.scrollTop - this.oldScrollTop < 0) {
       this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+      this.renderer.removeClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
+      console.log('scroll up',event.scrollTop - this.oldScrollTop)
     }
-
     this.oldScrollTop = event.scrollTop;
   }
 }

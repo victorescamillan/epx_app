@@ -191,15 +191,13 @@ export class VaultPage {
     })
   }
   onScroll(event) {
-    if (event.scrollTop <= 0) {
-      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-    }
-    else if (event.scrollTop - this.oldScrollTop > 10) {
-      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+    if (event.scrollTop - this.oldScrollTop > 10) {
       this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+        console.log('scroll down',event.scrollTop - this.oldScrollTop)
     }
     else if (event.scrollTop - this.oldScrollTop < 0) {
       this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+      console.log('scroll up',event.scrollTop - this.oldScrollTop)
     }
     this.oldScrollTop = event.scrollTop;
   }
@@ -236,7 +234,7 @@ export class VaultPage {
               this.isFilter = false;
               return;
             }
-            this.epxProvider.getVaultSearch(data.name).subscribe(res => {
+            this.epxProvider.getVaultSearch(data.name, this.skills, this.category).subscribe(res => {
               console.log('search result: ',res);
               if(res.result === true)
               {

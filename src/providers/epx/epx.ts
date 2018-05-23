@@ -25,12 +25,12 @@ export class EpxProvider {
   public forgot_password_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
 
   // TRIPS
-  public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
-  public trips_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
-  public trips_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
+  // public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
+  public trips_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
+  public trips_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
   public trips_interest_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
-  public trips_tags_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
-  public trips_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=';
+  public trips_tags_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
+  public trips_filter_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=';
   public trips_region_and_type_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-taxonomy';
   // SOLO
   public solo_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
@@ -63,6 +63,7 @@ export class EpxProvider {
   public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
   public business_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&nameSearch=';
   public business_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
+  public business_skill_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-taxonomy';
 
   //MENTOR MATCH
   public mentormatch_skills_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
@@ -164,12 +165,7 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getTrips(user_id) {
-    return this.httpClient.get(this.trips_url + user_id)
-      .do(this.logResponse)
-      .map(this.extractData)
-      .catch(this.catchError)
-  }
+
   getTripsInfinite(user_id, page, size) {
     return this.httpClient.get(this.trips_infinite_url + user_id + '&list_size=' + size + '&page_no=' + page)
       .do(this.logResponse)
@@ -267,8 +263,8 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getVaultSearch(value) {
-    return this.httpClient.get(this.vault_search_url + value)
+  getVaultSearch(name, skill, category) {
+    return this.httpClient.get(this.vault_search_url + name + '&skill=' + skill + '&category=' + category)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -297,8 +293,8 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getMemberSearch(value) {
-    return this.httpClient.get(this.member_search_url + value)
+  getMemberSearch(name, skill, industry) {
+    return this.httpClient.get(this.member_search_url + name + '&search_skill=' + skill + '&search_category=' + industry)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -333,14 +329,20 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getBusinessSearch(value) {
-    return this.httpClient.get(this.business_search_url + value)
+  getBusinessSearch(name, skill, category) {
+    return this.httpClient.get(this.business_search_url + name + '&search_skill=' + skill + '&search_category=' + category)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
   }
   getBusinessFilter(skill, category) {
     return this.httpClient.get(this.business_filter_url + skill + '&search_category=' + category)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getBusinessSkillsCategory() {
+    return this.httpClient.get(this.business_skill_category_url)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

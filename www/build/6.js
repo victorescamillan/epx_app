@@ -178,6 +178,10 @@ var TripsPage = (function () {
                             refresher.complete();
                             _this.isFilter = false;
                         });
+                        setTimeout(function () {
+                            refresher.complete();
+                            _this.isFilter = false;
+                        }, 20000);
                     }
                     else {
                         _this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(function (data) {
@@ -188,9 +192,12 @@ var TripsPage = (function () {
                     _this.isRefresh = true;
                     _this.isInterested = false;
                     _this.epxProvider.updateNotification(_this.epxProvider.TRIP_BADGE);
+                    setTimeout(function () {
+                        _this.isLoading = false;
+                    }, 20000);
                 }, function (error) {
                     console.log(error);
-                    _this.epxProvider.toastMessage('Internal Server Error!');
+                    _this.epxProvider.toastMessage('Trips Internal Error!');
                     _this.isLoading = false;
                 });
             });
@@ -305,15 +312,21 @@ var TripsPage = (function () {
         }
     };
     TripsPage.prototype.onScroll = function (event) {
-        if (event.scrollTop <= 0) {
-            this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-        }
-        else if (event.scrollTop - this.oldScrollTop > 10) {
-            this.renderer.addClass(this.filter.nativeElement, 'overlay');
+        var className = this.filter.nativeElement.className;
+        console.log('filter', this.filter);
+        if (event.scrollTop - this.oldScrollTop > 10) {
+            // if(className != 'filter hide-filter'){
+            //   this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+            // }
             this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+            console.log('scroll down', event.scrollTop - this.oldScrollTop);
         }
         else if (event.scrollTop - this.oldScrollTop < 0) {
+            // if(className != 'filter'){
+            //   this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+            // }
             this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+            console.log('scroll up', event.scrollTop - this.oldScrollTop);
         }
         this.oldScrollTop = event.scrollTop;
     };
@@ -323,7 +336,7 @@ var TripsPage = (function () {
     ], TripsPage.prototype, "content", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('filter'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+        __metadata("design:type", Object)
     ], TripsPage.prototype, "filter", void 0);
     TripsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({

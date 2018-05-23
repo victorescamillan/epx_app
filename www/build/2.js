@@ -241,15 +241,13 @@ var VaultPage = (function () {
         });
     };
     VaultPage.prototype.onScroll = function (event) {
-        if (event.scrollTop <= 0) {
-            this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-        }
-        else if (event.scrollTop - this.oldScrollTop > 10) {
-            this.renderer.addClass(this.filter.nativeElement, 'overlay');
+        if (event.scrollTop - this.oldScrollTop > 10) {
             this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+            console.log('scroll down', event.scrollTop - this.oldScrollTop);
         }
         else if (event.scrollTop - this.oldScrollTop < 0) {
             this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+            console.log('scroll up', event.scrollTop - this.oldScrollTop);
         }
         this.oldScrollTop = event.scrollTop;
     };
@@ -286,7 +284,7 @@ var VaultPage = (function () {
                             _this.isFilter = false;
                             return;
                         }
-                        _this.epxProvider.getVaultSearch(data.name).subscribe(function (res) {
+                        _this.epxProvider.getVaultSearch(data.name, _this.skills, _this.category).subscribe(function (res) {
                             console.log('search result: ', res);
                             if (res.result === true) {
                                 _this.vaultList = Object.keys(res.data).map(function (key) { return res.data[key]; });

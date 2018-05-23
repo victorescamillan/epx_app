@@ -56,12 +56,12 @@ var EpxProvider = (function () {
         this.login_dev_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
         this.forgot_password_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
         // TRIPS
-        this.trips_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
-        this.trips_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
-        this.trips_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
+        // public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
+        this.trips_infinite_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
+        this.trips_details_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
         this.trips_interest_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
-        this.trips_tags_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
-        this.trips_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=';
+        this.trips_tags_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
+        this.trips_filter_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=';
         this.trips_region_and_type_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-taxonomy';
         // SOLO
         this.solo_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
@@ -91,6 +91,7 @@ var EpxProvider = (function () {
         this.business_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
         this.business_search_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&nameSearch=';
         this.business_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
+        this.business_skill_category_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-taxonomy';
         //MENTOR MATCH
         this.mentormatch_skills_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
         this.mentormatch_submit_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=mentor-match&skill=';
@@ -181,12 +182,6 @@ var EpxProvider = (function () {
     };
     EpxProvider.prototype.getTripRegionAndType = function () {
         return this.httpClient.get(this.trips_region_and_type_url)
-            .do(this.logResponse)
-            .map(this.extractData)
-            .catch(this.catchError);
-    };
-    EpxProvider.prototype.getTrips = function (user_id) {
-        return this.httpClient.get(this.trips_url + user_id)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -287,8 +282,8 @@ var EpxProvider = (function () {
             .map(this.extractData)
             .catch(this.catchError);
     };
-    EpxProvider.prototype.getVaultSearch = function (value) {
-        return this.httpClient.get(this.vault_search_url + value)
+    EpxProvider.prototype.getVaultSearch = function (name, skill, category) {
+        return this.httpClient.get(this.vault_search_url + name + '&skill=' + skill + '&category=' + category)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -317,8 +312,8 @@ var EpxProvider = (function () {
             .map(this.extractData)
             .catch(this.catchError);
     };
-    EpxProvider.prototype.getMemberSearch = function (value) {
-        return this.httpClient.get(this.member_search_url + value)
+    EpxProvider.prototype.getMemberSearch = function (name, skill, industry) {
+        return this.httpClient.get(this.member_search_url + name + '&search_skill=' + skill + '&search_category=' + industry)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -353,14 +348,20 @@ var EpxProvider = (function () {
             .map(this.extractData)
             .catch(this.catchError);
     };
-    EpxProvider.prototype.getBusinessSearch = function (value) {
-        return this.httpClient.get(this.business_search_url + value)
+    EpxProvider.prototype.getBusinessSearch = function (name, skill, category) {
+        return this.httpClient.get(this.business_search_url + name + '&search_skill=' + skill + '&search_category=' + category)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
     };
     EpxProvider.prototype.getBusinessFilter = function (skill, category) {
         return this.httpClient.get(this.business_filter_url + skill + '&search_category=' + category)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
+    EpxProvider.prototype.getBusinessSkillsCategory = function () {
+        return this.httpClient.get(this.business_skill_category_url)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -449,9 +450,10 @@ var EpxProvider = (function () {
     };
     EpxProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8_ionic_angular__["c" /* Events */], __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["o" /* ToastController */], __WEBPACK_IMPORTED_MODULE_7__ionic_native_network__["a" /* Network */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["c" /* Events */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["c" /* Events */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["o" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["o" /* ToastController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__ionic_native_network__["a" /* Network */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ionic_native_network__["a" /* Network */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _e || Object])
     ], EpxProvider);
     return EpxProvider;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=epx.js.map
@@ -488,83 +490,83 @@ var map = {
 		25
 	],
 	"../pages/business/business.module": [
-		457,
+		461,
 		24
 	],
 	"../pages/chat/chat.module": [
-		458,
+		457,
 		23
 	],
 	"../pages/forgot-password/forgot-password.module": [
-		459,
+		458,
 		0
 	],
 	"../pages/get-lucky/get-lucky.module": [
-		460,
+		459,
 		22
 	],
 	"../pages/login/login.module": [
-		461,
+		460,
 		21
 	],
 	"../pages/member-details/member-details.module": [
-		462,
+		471,
 		20
 	],
 	"../pages/member-map/member-map.module": [
-		463,
+		462,
 		1
 	],
 	"../pages/member-search/member-search.module": [
-		464,
+		463,
 		19
 	],
 	"../pages/members/members.module": [
-		465,
+		464,
 		18
 	],
 	"../pages/mentor/mentor.module": [
-		466,
+		477,
 		17
 	],
 	"../pages/menu/menu.module": [
-		467,
+		465,
 		16
 	],
 	"../pages/notification/notification.module": [
-		468,
+		466,
 		15
 	],
 	"../pages/settings/settings.module": [
-		469,
+		467,
 		14
 	],
 	"../pages/solo-details/solo-details.module": [
-		471,
+		468,
 		13
 	],
 	"../pages/solo-tags/solo-tags.module": [
-		470,
+		469,
 		12
 	],
 	"../pages/solo/solo.module": [
-		472,
+		470,
 		11
 	],
 	"../pages/tabs/tabs.module": [
-		473,
+		472,
 		10
 	],
 	"../pages/trip-details/trip-details.module": [
-		474,
+		473,
 		9
 	],
 	"../pages/trip-filter/trip-filter.module": [
-		475,
+		474,
 		8
 	],
 	"../pages/trip-tags/trip-tags.module": [
-		479,
+		475,
 		7
 	],
 	"../pages/trips/trips.module": [
@@ -572,15 +574,15 @@ var map = {
 		6
 	],
 	"../pages/vault-category/vault-category.module": [
-		477,
+		478,
 		5
 	],
 	"../pages/vault-details/vault-details.module": [
-		478,
+		480,
 		4
 	],
 	"../pages/vault-tags/vault-tags.module": [
-		480,
+		479,
 		3
 	],
 	"../pages/vault/vault.module": [
@@ -674,30 +676,30 @@ var AppModule = (function () {
                     links: [
                         { loadChildren: '../pages/assist/assist.module#AssistPageModule', name: 'AssistPage', segment: 'assist', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/business-details/business-details.module#BusinessDetailsPageModule', name: 'BusinessDetailsPage', segment: 'business-details', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/business/business.module#BusinessPageModule', name: 'BusinessPage', segment: 'business', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/forgot-password/forgot-password.module#ForgotPasswordPageModule', name: 'ForgotPasswordPage', segment: 'forgot-password', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/get-lucky/get-lucky.module#GetLuckyPageModule', name: 'GetLuckyPage', segment: 'get-lucky', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/business/business.module#BusinessPageModule', name: 'BusinessPage', segment: 'business', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-map/member-map.module#MemberMapPageModule', name: 'MemberMapPage', segment: 'member-map', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-search/member-search.module#MemberSearchPageModule', name: 'MemberSearchPage', segment: 'member-search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-tags/vault-tags.module#VaultTagsPageModule', name: 'VaultTagsPage', segment: 'vault-tags', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] }
                     ]
                 }),

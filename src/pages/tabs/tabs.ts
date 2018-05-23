@@ -209,6 +209,7 @@ export class TabsPage {
       console.log('notification open. ', data);
       let target = data.notification.payload.additionalData.target;
       let update = data.notification.payload.additionalData.update;
+
       let isFocus: boolean = data.notification.isAppInFocus;
       let trip = data.notification.payload.additionalData;
       console.log('isAppInFocus. ', isFocus);
@@ -251,6 +252,12 @@ export class TabsPage {
           case 'member-assist-chat': {
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
+          }
+          case 'trip-notice': {
+            let details = data.notification.payload.additionalData.data;
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            console.log('trip-notice',details);
+            this.navCtrl.push('TripDetailsPage', data = data);
           }
         }
       }

@@ -12,7 +12,7 @@ import { error } from '@firebase/database/dist/esm/src/core/util/util';
 })
 export class SoloPage {
   @ViewChild(Content) content: Content;
-  @ViewChild('filter') filter: ElementRef;
+  @ViewChild('filter') filter: any;
   oldScrollTop = 0;
   soloList: any;
   isLoading: boolean = true;
@@ -183,15 +183,13 @@ export class SoloPage {
     });
   }
   onScroll(event) {
-    if (event.scrollTop <= 0) {
-      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-    }
-    else if (event.scrollTop - this.oldScrollTop > 10) {
-      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+    if (event.scrollTop - this.oldScrollTop > 10) {
       this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+        console.log('scroll down',event.scrollTop - this.oldScrollTop)
     }
     else if (event.scrollTop - this.oldScrollTop < 0) {
       this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+      console.log('scroll up',event.scrollTop - this.oldScrollTop)
     }
     this.oldScrollTop = event.scrollTop;
   }

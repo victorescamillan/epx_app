@@ -16,7 +16,7 @@ export class TripsPage {
 
   // @ViewChild('doughnutCanvas') doughnutCanvas: ElementRef;
   @ViewChild(Content) content: Content;
-  @ViewChild('filter') filter: ElementRef;
+  @ViewChild('filter') filter: any;
   oldScrollTop = 0;
   // @ViewChild('fab') fab: ElementRef;
 
@@ -54,16 +54,18 @@ export class TripsPage {
     public navParams: NavParams) {
     // Keep our cached results when device is offline!
     cache.setOfflineInvalidate(false);
+    
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripsPage');
     this.LoadTrips();
     this.initFilterData();
+   
   }
   //Filter Page
   showFilter() {
     let assist = this.modalCtrl.create('AssistPage',{isNotification:true});
-            assist.present();
+    assist.present();
     // this.content.scrollToTop();
   }
   initFilterData() {
@@ -140,6 +142,10 @@ export class TripsPage {
               refresher.complete();
               this.isFilter = false;
             });
+            setTimeout(() => {
+              refresher.complete();
+              this.isFilter = false;
+            }, 20000);
           }
           else {
             this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(data => {
@@ -150,9 +156,14 @@ export class TripsPage {
           this.isRefresh = true;
           this.isInterested = false;
           this.epxProvider.updateNotification(this.epxProvider.TRIP_BADGE);
+          
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 20000);
+
         }, error => {
           console.log(error);
-          this.epxProvider.toastMessage('Internal Server Error!')
+          this.epxProvider.toastMessage('Trips Internal Error!')
           this.isLoading = false;
         });
       });
@@ -272,15 +283,21 @@ export class TripsPage {
   }
 
   onScroll(event) {
-    if (event.scrollTop <= 0) {
-      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-    }
-    else if (event.scrollTop - this.oldScrollTop > 10) {
-      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+    let className = this.filter.nativeElement.className;
+    console.log('filter',this.filter);
+    if (event.scrollTop - this.oldScrollTop > 10) {
+      // if(className != 'filter hide-filter'){
+      //   this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+      // }
       this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+      console.log('scroll down',event.scrollTop - this.oldScrollTop)
     }
     else if (event.scrollTop - this.oldScrollTop < 0) {
+      // if(className != 'filter'){
+      //   this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+      // }
       this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+      console.log('scroll up',event.scrollTop - this.oldScrollTop)
     }
     this.oldScrollTop = event.scrollTop;
   }

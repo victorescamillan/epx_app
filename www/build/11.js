@@ -1,6 +1,6 @@
 webpackJsonp([11],{
 
-/***/ 472:
+/***/ 470:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloPageModule", function() { return SoloPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo__ = __webpack_require__(499);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var SoloPageModule = (function () {
 
 /***/ }),
 
-/***/ 501:
+/***/ 499:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -234,15 +234,13 @@ var SoloPage = (function () {
         });
     };
     SoloPage.prototype.onScroll = function (event) {
-        if (event.scrollTop <= 0) {
-            this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-        }
-        else if (event.scrollTop - this.oldScrollTop > 10) {
-            this.renderer.addClass(this.filter.nativeElement, 'overlay');
+        if (event.scrollTop - this.oldScrollTop > 10) {
             this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+            console.log('scroll down', event.scrollTop - this.oldScrollTop);
         }
         else if (event.scrollTop - this.oldScrollTop < 0) {
             this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+            console.log('scroll up', event.scrollTop - this.oldScrollTop);
         }
         this.oldScrollTop = event.scrollTop;
     };
@@ -252,7 +250,7 @@ var SoloPage = (function () {
     ], SoloPage.prototype, "content", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('filter'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+        __metadata("design:type", Object)
     ], SoloPage.prototype, "filter", void 0);
     SoloPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({

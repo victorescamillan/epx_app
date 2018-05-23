@@ -25861,16 +25861,115 @@ ion-scroll.scroll-x {
   -webkit-margin-after: 0em;
 }
 
+.filter {
+  background: #2977aa;
+  padding-bottom: 3px;
+}
+
+.filter .label.label-md, .filter .label.label-ios {
+  margin: 5px 0px;
+  color: white;
+  font-weight: 100;
+  font-size: 80%;
+}
+
+.filter .btn-search {
+  float: right;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  height: 28px;
+  width: 100%;
+  font-size: 85%;
+  font-weight: 100;
+  padding: 5px;
+}
+
+.filter ion-select {
+  max-width: 100%;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 5px;
+}
+
+.filter .item.item-block.item-md .item-inner, .filter .item.item-block.item-ios .item-inner {
+  border-bottom: none;
+}
+
+.filter .item.item-block.item-md, .filter .item.item-block.item-ios {
+  padding: 0px;
+  border-bottom: none;
+  background: #2977aa;
+}
+
+.filter .input-wrapper {
+  display: block;
+}
+
+.filter .select-text {
+  font-size: 90%;
+  color: black;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.filter.hide-filter {
+  top: -70px;
+  -webkit-transition: top 0.25s ease;
+  transition: top 0.25s ease;
+}
+
+.filter {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  width: 100%;
+  opacity: 1;
+  top: 0px;
+  -webkit-transition: top 0.25s ease;
+  transition: top 0.25s ease;
+}
+
+.filter ion-select button {
+  height: 0px;
+  display: none;
+}
+
+.filter ion-datetime button {
+  height: 0px;
+  display: none;
+}
+
+.datetime-md, .datetime-ios {
+  padding: 4px;
+  border: solid 1px silver;
+  border-radius: 5px;
+  background: #597d95;
+  height: 28px;
+}
+
 page-assist .item-ios ion-avatar img, page-assist .item-md ion-avatar img {
   border-radius: 50%;
   overflow: hidden;
   width: 36px;
   height: 36px;
   margin-left: 10px;
-}
-
-page-assist ion-col.col {
-  padding: 0px;
 }
 
 page-assist .sm-text {
@@ -25883,76 +25982,6 @@ page-assist .sm-text.created.row {
 
 page-assist .button-small-md, page-assist .button-small-ios {
   margin-top: 15px;
-}
-
-page-assist .filter {
-  background: #2977aa;
-  padding: 5px;
-}
-
-page-assist .filter .label.label-md, page-assist .filter .label.label-ios {
-  margin: 5px 0px;
-  color: white;
-  font-weight: 100;
-  font-size: 80%;
-}
-
-page-assist .btn-search {
-  float: right;
-  margin-top: 25px;
-  margin-bottom: 0px;
-  height: 28px;
-  width: 100%;
-  font-size: 85%;
-  font-weight: 100;
-  padding: 5px;
-}
-
-page-assist .filter ion-select {
-  max-width: 100%;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 5px;
-}
-
-page-assist .alert-head {
-  background: #9aadba;
-}
-
-page-assist .item.item-block.item-md, page-assist .item.item-block.item-ios {
-  padding: 0px;
-  background: transparent;
-}
-
-page-assist .filter .input-wrapper {
-  display: block;
-}
-
-page-assist .filter .select-text {
-  font-size: 90%;
-  color: black;
-}
-
-page-assist .filter.overlay.hide-filter {
-  opacity: 0;
-}
-
-page-assist .filter.overlay {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  z-index: 999;
-  width: 100%;
-  opacity: 1;
-}
-
-page-assist .filter ion-select button {
-  height: 0px;
-  display: none;
-}
-
-page-assist .item-ios.item-block .item-inner, page-assist .item-md.item-block .item-inner {
-  border-bottom: none;
 }
 
 page-assist button.fab.fab-md, page-assist button.fab.fab-ios {
@@ -26008,76 +26037,6 @@ page-business .content-text {
 page-business h2.gray.pre-line {
   color: #7a7c7c;
   font-weight: bold;
-}
-
-page-business .filter {
-  background: #2977aa;
-  padding-bottom: 3px;
-}
-
-page-business .filter .label.label-md, page-business .filter .label.label-ios {
-  margin: 5px 0px;
-  color: white;
-  font-weight: 100;
-  font-size: 80%;
-}
-
-page-business .btn-search {
-  float: right;
-  margin-top: 25px;
-  margin-bottom: 0px;
-  height: 28px;
-  font-size: 85%;
-  font-weight: 100;
-  padding: 5px;
-}
-
-page-business .filter ion-select {
-  max-width: 100%;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 5px;
-}
-
-page-business .alert-head {
-  background: #9aadba;
-}
-
-page-business .item.item-block.item-md, page-business .item.item-block.item-ios {
-  padding: 0px;
-}
-
-page-business .filter .input-wrapper {
-  display: block;
-}
-
-page-business .filter .select-text {
-  font-size: 90%;
-  color: black;
-}
-
-page-business .filter.overlay.hide-filter {
-  opacity: 0;
-}
-
-page-business .filter.overlay {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  z-index: 999;
-  width: 100%;
-  opacity: 1;
-}
-
-page-business .filter ion-select button {
-  height: 0px;
-  display: none;
-}
-
-page-business .item-md.item-block .item-inner, page-business .item-ios.item-block .item-inner {
-  padding-right: 8px;
-  border-bottom: none;
-  background: #2977aa;
 }
 
 page-business button.fab.fab-md, page-business button.fab.fab-ios {
@@ -26554,48 +26513,6 @@ page-members .btn-search {
   padding: 5px;
 }
 
-page-members .filter ion-select {
-  max-width: 100%;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 5px;
-}
-
-page-members .alert-head {
-  background: #9aadba;
-}
-
-page-members .item.item-block.item-md, page-members .item.item-block.item-ios {
-  padding: 0px;
-}
-
-page-members .filter .input-wrapper {
-  display: block;
-}
-
-page-members .filter .select-text {
-  font-size: 90%;
-  color: black;
-}
-
-page-members .filter.overlay.hide-filter {
-  opacity: 0;
-}
-
-page-members .filter.overlay {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  z-index: 999;
-  width: 100%;
-  opacity: 1;
-}
-
-page-members .filter ion-select button {
-  height: 0px;
-  display: none;
-}
-
 page-mentor .list-header-md, page-mentor .list-header-ios {
   padding-left: 0px;
 }
@@ -26771,10 +26688,6 @@ page-solo ion-grid.grid {
   padding: 0px;
 }
 
-page-solo ion-col.col {
-  padding: 3px 0px;
-}
-
 page-solo .btn-tags {
   margin-top: 0px;
 }
@@ -26783,79 +26696,6 @@ page-solo h3.text-price {
   color: #32db64;
   font-size: 1.9rem;
   margin-top: 0px;
-}
-
-page-solo .filter {
-  background: #2977aa;
-  padding-bottom: 3px;
-}
-
-page-solo .filter .label.label-md, page-solo .filter .label.label-ios {
-  margin: 5px 0px;
-  color: white;
-  font-weight: 100;
-  font-size: 80%;
-}
-
-page-solo .btn-search {
-  float: right;
-  margin-top: 25px;
-  margin-bottom: 0px;
-  height: 28px;
-  font-size: 85%;
-  font-weight: 100;
-  padding: 5px 10px;
-}
-
-page-solo .filter ion-select {
-  max-width: 100%;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 5px;
-}
-
-page-solo .alert-head {
-  background: #9aadba;
-}
-
-page-solo .item.item-block.item-md, page-solo .item.item-block.item-ios {
-  padding: 0px;
-}
-
-page-solo .filter .input-wrapper {
-  display: block;
-  padding: 0px 5px;
-}
-
-page-solo .filter .select-text {
-  font-size: 90%;
-  color: black;
-}
-
-page-solo .filter.overlay.hide-filter {
-  opacity: 0;
-}
-
-page-solo .filter.overlay {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  z-index: 999;
-  width: 100%;
-  opacity: 1;
-}
-
-page-solo .filter ion-datetime button {
-  height: 0px;
-  display: none;
-}
-
-page-solo .datetime-md, page-solo .datetime-ios {
-  padding: 4px;
-  border: solid 1px silver;
-  border-radius: 5px;
-  background: #597d95;
-  height: 28px;
 }
 
 page-solo-details img {
@@ -27347,6 +27187,7 @@ page-trips ion-grid.grid {
 page-trips .btn-interested button {
   padding: 0px;
   margin: 0px;
+  padding-right: 5px;
   font-size: 100%;
 }
 
@@ -27465,70 +27306,6 @@ page-trips .toolbar-title-ios {
   font-size: 1.4rem;
 }
 
-page-trips .filter {
-  background: #2977aa;
-  padding-bottom: 3px;
-}
-
-page-trips .filter .label.label-md, page-trips .filter .label.label-ios {
-  margin: 5px 0px;
-  color: white;
-  font-weight: 100;
-  font-size: 80%;
-}
-
-page-trips .btn-search {
-  float: right;
-  margin-top: 25px;
-  margin-bottom: 0px;
-  height: 28px;
-  font-size: 85%;
-  font-weight: 100;
-  padding: 5px;
-}
-
-page-trips .filter ion-select {
-  max-width: 100%;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 5px;
-}
-
-page-trips .alert-head {
-  background: #9aadba;
-}
-
-page-trips .item.item-block.item-md, page-trips .item.item-block.item-ios {
-  padding: 0px;
-}
-
-page-trips .filter .input-wrapper {
-  display: block;
-}
-
-page-trips .filter .select-text {
-  font-size: 90%;
-  color: black;
-}
-
-page-trips .filter.overlay.hide-filter {
-  opacity: 0;
-}
-
-page-trips .filter.overlay {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  z-index: 999;
-  width: 100%;
-  opacity: 1;
-}
-
-page-trips .filter ion-select button {
-  height: 0px;
-  display: none;
-}
-
 page-vault ion-item.item.item-block.item {
   padding-left: 0px;
 }
@@ -27560,71 +27337,6 @@ page-vault .card-md + ion-card {
 page-vault .vault-image {
   height: 200px;
   width: 100%;
-}
-
-page-vault .filter {
-  background: #2977aa;
-  padding-bottom: 3px;
-}
-
-page-vault .filter .label.label-md, page-vault .filter .label.label-ios {
-  margin: 5px 0px;
-  color: white;
-  font-weight: 100;
-  font-size: 80%;
-}
-
-page-vault .btn-search {
-  float: right;
-  margin-top: 25px;
-  margin-bottom: 0px;
-  height: 28px;
-  width: 100%;
-  font-size: 85%;
-  font-weight: 100;
-  padding: 5px 10px;
-}
-
-page-vault .filter ion-select {
-  max-width: 100%;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 5px;
-}
-
-page-vault .alert-head {
-  background: #9aadba;
-}
-
-page-vault .item.item-block.item-md, page-vault .item.item-block.item-ios {
-  padding: 0px;
-}
-
-page-vault .filter .input-wrapper {
-  display: block;
-}
-
-page-vault .filter .select-text {
-  font-size: 90%;
-  color: black;
-}
-
-page-vault .filter.overlay.hide-filter {
-  opacity: 0;
-}
-
-page-vault .filter.overlay {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  z-index: 999;
-  width: 100%;
-  opacity: 1;
-}
-
-page-vault .filter ion-select button {
-  height: 0px;
-  display: none;
 }
 
 page-vault-category ion-item.item.item-block.item {

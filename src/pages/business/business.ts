@@ -154,26 +154,23 @@ export class BusinessPage {
   loadSkillsCategory() {
     this.skills = '';
     this.category = '';
-    this.epxProvider.getVaultSkillsCategory().subscribe(res => {
+    this.epxProvider.getBusinessSkillsCategory().subscribe(res => {
       console.log('initSkillsCategory', res)
       this.skillsList = res.skills;
       this.categoryList = res.category;
     });
   }
   onScroll(event) {
-    if (event.scrollTop <= 0) {
-      this.renderer.removeClass(this.filter.nativeElement, 'overlay');
-      this.renderer.removeClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
-    }
-    else if (event.scrollTop - this.oldScrollTop > 10) {
-      this.renderer.addClass(this.filter.nativeElement, 'overlay');
+    if (event.scrollTop - this.oldScrollTop > 10) {
       this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
       this.renderer.addClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
+        console.log('scroll down',event.scrollTop - this.oldScrollTop)
     }
     else if (event.scrollTop - this.oldScrollTop < 0) {
       this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+      this.renderer.removeClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
+      console.log('scroll up',event.scrollTop - this.oldScrollTop)
     }
-
     this.oldScrollTop = event.scrollTop;
   }
   searchBusiness() {
@@ -229,7 +226,7 @@ export class BusinessPage {
             this.isLoading = true;
             this.isRefresh = false;
             this.isFilter = true;
-            this.epxProvider.getBusinessSearch(data.name).subscribe(res => {
+            this.epxProvider.getBusinessSearch(data.name,this.skills, this.category).subscribe(res => {
               console.log('search result: ', res);
               if (res.result === true) {
                 this.businessList = Object.keys(res.data).map(key => res.data[key]);

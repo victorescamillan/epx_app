@@ -31,39 +31,39 @@ page-members {
         font-weight: 100;
         padding: 5px;
     }
-    .filter ion-select{
-        max-width: 100%;
-        padding: 5px 10px;
-        background: white;
-        border-radius: 5px;
-    }
-    .alert-head {
-        background: #9aadba;
-    }
-    .item.item-block.item-md, .item.item-block.item-ios {
-        padding: 0px;
-    }
-    .filter .input-wrapper{
-        display: block;
-    }
-    .filter .select-text {
-        font-size: 90%;
-        color: black;
-    }
+    // .filter ion-select{
+    //     max-width: 100%;
+    //     padding: 5px 10px;
+    //     background: white;
+    //     border-radius: 5px;
+    // }
+    // .alert-head {
+    //     background: #9aadba;
+    // }
+    // .item.item-block.item-md, .item.item-block.item-ios {
+    //     padding: 0px;
+    // }
+    // .filter .input-wrapper{
+    //     display: block;
+    // }
+    // .filter .select-text {
+    //     font-size: 90%;
+    //     color: black;
+    // }
     
-    .filter.overlay.hide-filter{
-        opacity: 0;
-    }
+    // .filter.overlay.hide-filter{
+    //     opacity: 0;
+    // }
    
-    .filter.overlay{
-        position: sticky;
-        top: 0px;
-        z-index: 999;
-        width: 100%;
-        opacity: 1;
-    }
-    .filter ion-select button {
-        height: 0px;
-        display: none;
-    }
+    // .filter.overlay{
+    //     position: sticky;
+    //     top: 0px;
+    //     z-index: 999;
+    //     width: 100%;
+    //     opacity: 1;
+    // }
+    // .filter ion-select button {
+    //     height: 0px;
+    //     display: none;
+    // }
 }
