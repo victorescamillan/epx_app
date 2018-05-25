@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, LoadingController, Events, Content
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
-import { error } from '@firebase/database/dist/esm/src/core/util/util';
 
 @IonicPage()
 @Component({

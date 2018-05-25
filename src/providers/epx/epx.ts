@@ -27,6 +27,7 @@ export class EpxProvider {
   // TRIPS
   // public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
+  public trips_partialdetails_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-notice-data&trip_id=';
   public trips_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
   public trips_interest_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
   public trips_tags_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
@@ -74,10 +75,10 @@ export class EpxProvider {
   public memberassist_filter_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-assist-filter&user_id=';
   public memberassist_respond_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=connect-member-assist&user_id=';
 
-//USER OPT-IN
-public enable_vault_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=enable-settings-api&user_id=423&setting=enable_vault&is_enable=';
-public enable_member_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=enable-settings-api&user_id=423&setting=enable_member&is_enable=';
-public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=enable-settings-api&user_id=423&setting=enable_get_lucky&is_enable=';
+  //USER OPT-IN
+  public enable_vault_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=enable-settings-api&user_id=423&setting=enable_vault&is_enable=';
+  public enable_member_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=enable-settings-api&user_id=423&setting=enable_member&is_enable=';
+  public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=enable-settings-api&user_id=423&setting=enable_get_lucky&is_enable=';
 
   public TRIP_BADGE: string = "TRIP_BADGE";
   public SOLO_BADGE: string = "SOLO_BADGE";
@@ -174,6 +175,12 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
   }
   getTripDetails(id) {
     return this.httpClient.get(this.trips_details_url + id)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getTripPartialDetails(trip_id, user_id) {
+    return this.httpClient.get(this.trips_partialdetails_url + trip_id + '&user_id=' + user_id)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -294,7 +301,7 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
       .catch(this.catchError)
   }
   getMemberSearch(name, skill, industry) {
-    return this.httpClient.get(this.member_search_url + name + '&search_skill=' + skill + '&search_category=' + industry)
+    return this.httpClient.get(this.member_search_url + name + '&business=' + skill + '&search_industry=' + industry)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -359,13 +366,13 @@ public enable_getlucky_url: string = 'https://' + this.target + '.epxworldwide.c
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getMemberAssist(id,size,page) {
-    return this.httpClient.get(this.memberassist_submit_url + id + '&listsize=' + size +'&paged=' + page)
+  getMemberAssist(id, size, page) {
+    return this.httpClient.get(this.memberassist_submit_url + id + '&listsize=' + size + '&paged=' + page)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
   }
-  getMemberAssistFilter(id,skill) {
+  getMemberAssistFilter(id, skill) {
     return this.httpClient.get(this.memberassist_filter_url + id + '&skill=' + skill)
       .do(this.logResponse)
       .map(this.extractData)

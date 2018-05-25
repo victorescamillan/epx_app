@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'ionic-cache';
 import { VaultDetailsPage } from '../vault-details/vault-details';
 import { DomSanitizer } from '@angular/platform-browser'
-import { error } from '@firebase/database/dist/esm/src/core/util/util';
 
 @IonicPage()
 @Component({

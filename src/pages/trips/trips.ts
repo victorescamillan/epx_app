@@ -142,10 +142,6 @@ export class TripsPage {
               refresher.complete();
               this.isFilter = false;
             });
-            setTimeout(() => {
-              refresher.complete();
-              this.isFilter = false;
-            }, 20000);
           }
           else {
             this.cache.loadFromDelayedObservable(url, trips, groupKey, ttl, delay_type).subscribe(data => {
@@ -156,11 +152,6 @@ export class TripsPage {
           this.isRefresh = true;
           this.isInterested = false;
           this.epxProvider.updateNotification(this.epxProvider.TRIP_BADGE);
-          
-          setTimeout(() => {
-            this.isLoading = false;
-          }, 20000);
-
         }, error => {
           console.log(error);
           this.epxProvider.toastMessage('Trips Internal Error!')

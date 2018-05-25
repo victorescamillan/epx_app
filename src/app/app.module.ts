@@ -14,7 +14,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { AngularFireModule } from 'angularfire2';
+// import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { EpxProvider } from '../providers/epx/epx';
 import { HttpModule } from '@angular/http';
@@ -24,6 +24,8 @@ import { CacheModule } from 'ionic-cache';
 import { Network } from '@ionic-native/network';
 import { OneSignal } from '@ionic-native/onesignal';
 import {AppVersion }  from '@ionic-native/app-version'
+
+
 // import { AutoHideDirective } from '../directives/auto-hide/auto-hide';
 @NgModule({
   declarations: [
@@ -33,7 +35,7 @@ import {AppVersion }  from '@ionic-native/app-version'
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireDatabaseModule, // imports firebase/firestore, only needed for database features
+    AngularFireDatabaseModule, 
     HttpClientModule,
     IonicStorageModule.forRoot(),
     CacheModule.forRoot(),

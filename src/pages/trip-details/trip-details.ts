@@ -54,7 +54,7 @@ export class TripDetailsPage {
     // public geolocation: Geolocation,
     public navCtrl: NavController, public navParams: NavParams) {
     this.partial_details = navParams.data.data;
-    console.log('trip param:', navParams.data.trip);
+    console.log('trip param:', navParams.data.data);
   }
   ionViewDidLoad() {
     this.loadTripDetails(this.partial_details.ID);

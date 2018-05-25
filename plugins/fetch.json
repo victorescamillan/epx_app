@@ -109,7 +109,7 @@
   "cordova-plugin-cccometchat": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-cccometchat@^7.0.24"
+      "id": "cordova-plugin-cccometchat"
     },
     "is_top_level": true,
     "variables": {}

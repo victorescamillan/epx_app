@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, resolveForwardRef } from '@angular/core';
 import { IonicPage, NavController, MenuController, Platform, AlertController, Events, ModalController, ViewController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { isNumber } from 'ionic-angular/util/util';
@@ -29,6 +29,7 @@ export class TabsPage {
   assistBadge = 0;
 
   isAppOpen: Boolean = false;
+  tripPartialDetails: any;
   constructor(
     private viewctrl: ViewController,
     private modalCtrl: ModalController,
@@ -91,6 +92,7 @@ export class TabsPage {
     this.epxProvider.getData('member_details').then(res => {
       this.oneSignal.sendTag('user_id', res.ID);
       this.oneSignal.sendTag('is_login', 'true');
+      this.oneSignal.sendTag('user_type', 'ideahub'); //For testing = 'ideahub' : For live = 'production'
     });
     this.epxProvider.getData('enable_member').then(res => {
       this.oneSignal.sendTag('enable_member', res);
@@ -123,7 +125,29 @@ export class TabsPage {
       console.log('notification received. ', data);
       let target = data.payload.additionalData.target;
       let update = data.payload.additionalData.update;
+      let trip_id = data.payload.additionalData.product_id;
 
+      this.epxProvider.getData('ID').then(user_id => {
+        this.epxProvider.getTripPartialDetails(trip_id,user_id).subscribe(res => {
+          let data = {
+            ID: res.ID,
+            isInterested: res.trip_interested.interested,
+            sashes_image: res.sashes_image,
+            location: res.map_info.map_address,
+            lat: Number(res.map_info.map_latitude),
+            lng: Number(res.map_info.map_longitude),
+            product_cat: res.product_cat,
+            title: res.title,
+            trip_gallery: res.trip_gallery,
+            full_content: res.full_content
+          }
+          this.tripPartialDetails = data;
+        },error => {
+          this.epxProvider.toastMessage('Internal Error!');
+        });
+      })
+      
+      
       this.isAppOpen = true;
       switch (target) {
         case 'trip': {
@@ -254,10 +278,9 @@ export class TabsPage {
             this.navCtrl.push('ChatPage');
           }
           case 'trip-notice': {
-            let details = data.notification.payload.additionalData.data;
+            console.log('tripPartialDetails',this.tripPartialDetails);
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-            console.log('trip-notice',details);
-            this.navCtrl.push('TripDetailsPage', data = data);
+            this.navCtrl.push('TripDetailsPage', {data : this.tripPartialDetails});
           }
         }
       }
@@ -369,6 +392,31 @@ export class TabsPage {
           case 'member-assist-chat': {
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
+          }
+          case 'trip-notice': {
+            console.log('tripPartialDetails',this.tripPartialDetails);
+            this.epxProvider.getData('ID').then(user_id => {
+              let trip_id = data.notification.payload.additionalData.product_id;
+              this.epxProvider.getTripPartialDetails(trip_id,user_id).subscribe(res => {
+                let data = {
+                  ID: res.ID,
+                  isInterested: res.trip_interested.interested,
+                  sashes_image: res.sashes_image,
+                  location: res.map_info.map_address,
+                  lat: Number(res.map_info.map_latitude),
+                  lng: Number(res.map_info.map_longitude),
+                  product_cat: res.product_cat,
+                  title: res.title,
+                  trip_gallery: res.trip_gallery,
+                  full_content: res.full_content
+                }
+                this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+                this.navCtrl.push('TripDetailsPage', {data : data});
+              },error => {
+                this.epxProvider.toastMessage('Internal Error!');
+              });
+            })
+           
           }
         }
       }

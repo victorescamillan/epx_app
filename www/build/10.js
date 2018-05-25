@@ -1,6 +1,6 @@
 webpackJsonp([10],{
 
-/***/ 472:
+/***/ 473:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsPageModule", function() { return TabsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs__ = __webpack_require__(502);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TabsPageModule = (function () {
 
 /***/ }),
 
-/***/ 501:
+/***/ 502:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -131,6 +131,7 @@ var TabsPage = (function () {
         this.epxProvider.getData('member_details').then(function (res) {
             _this.oneSignal.sendTag('user_id', res.ID);
             _this.oneSignal.sendTag('is_login', 'true');
+            _this.oneSignal.sendTag('user_type', 'ideahub'); //For testing = 'ideahub' : For live = 'production'
         });
         this.epxProvider.getData('enable_member').then(function (res) {
             _this.oneSignal.sendTag('enable_member', res);
@@ -162,6 +163,26 @@ var TabsPage = (function () {
             console.log('notification received. ', data);
             var target = data.payload.additionalData.target;
             var update = data.payload.additionalData.update;
+            var trip_id = data.payload.additionalData.product_id;
+            _this.epxProvider.getData('ID').then(function (user_id) {
+                _this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(function (res) {
+                    var data = {
+                        ID: res.ID,
+                        isInterested: res.trip_interested.interested,
+                        sashes_image: res.sashes_image,
+                        location: res.map_info.map_address,
+                        lat: Number(res.map_info.map_latitude),
+                        lng: Number(res.map_info.map_longitude),
+                        product_cat: res.product_cat,
+                        title: res.title,
+                        trip_gallery: res.trip_gallery,
+                        full_content: res.full_content
+                    };
+                    _this.tripPartialDetails = data;
+                }, function (error) {
+                    _this.epxProvider.toastMessage('Internal Error!');
+                });
+            });
             _this.isAppOpen = true;
             switch (target) {
                 case 'trip': {
@@ -286,10 +307,9 @@ var TabsPage = (function () {
                         _this.navCtrl.push('ChatPage');
                     }
                     case 'trip-notice': {
-                        var details = data.notification.payload.additionalData.data;
+                        console.log('tripPartialDetails', _this.tripPartialDetails);
                         _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
-                        console.log('trip-notice', details);
-                        _this.navCtrl.push('TripDetailsPage', data = data);
+                        _this.navCtrl.push('TripDetailsPage', { data: _this.tripPartialDetails });
                     }
                 }
             }
@@ -399,6 +419,30 @@ var TabsPage = (function () {
                     case 'member-assist-chat': {
                         _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
                         _this.navCtrl.push('ChatPage');
+                    }
+                    case 'trip-notice': {
+                        console.log('tripPartialDetails', _this.tripPartialDetails);
+                        _this.epxProvider.getData('ID').then(function (user_id) {
+                            var trip_id = data.notification.payload.additionalData.product_id;
+                            _this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(function (res) {
+                                var data = {
+                                    ID: res.ID,
+                                    isInterested: res.trip_interested.interested,
+                                    sashes_image: res.sashes_image,
+                                    location: res.map_info.map_address,
+                                    lat: Number(res.map_info.map_latitude),
+                                    lng: Number(res.map_info.map_longitude),
+                                    product_cat: res.product_cat,
+                                    title: res.title,
+                                    trip_gallery: res.trip_gallery,
+                                    full_content: res.full_content
+                                };
+                                _this.events.publish(_this.epxProvider.CLOSE_PAGE, true);
+                                _this.navCtrl.push('TripDetailsPage', { data: data });
+                            }, function (error) {
+                                _this.epxProvider.toastMessage('Internal Error!');
+                            });
+                        });
                     }
                 }
             }
