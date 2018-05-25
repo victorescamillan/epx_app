@@ -20,54 +20,53 @@ import { ToastController, Events } from 'ionic-angular';
 export class EpxProvider {
   target: string = 'dev';
   // LOGIN
-  public login_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
-  public login_dev_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
-  public forgot_password_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
+  public login_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
+  public forgot_password_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
 
   // TRIPS
   // public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
   public trips_partialdetails_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-notice-data&trip_id=';
   public trips_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
-  public trips_interest_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
+  public trips_interest_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
   public trips_tags_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
   public trips_filter_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=';
-  public trips_region_and_type_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-taxonomy';
+  public trips_taxonomy_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-taxonomy';
   // SOLO
-  public solo_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
-  public solo_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
-  public solo_tag_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-tags-with-pagination&user_id=';
-  public solo_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=';
+  public solo_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+  public solo_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
+  public solo_tag_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-tags-with-pagination&user_id=';
+  public solo_filter_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=';
 
   // VAULT
-  public vault_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
-  public vault_skill_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-taxonomy';
-  public vault_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&list_size';
-  public vault_tag_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
-  public vault_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
-  public vault_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
-  public vault_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&skill=';
-  public vault_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&search=';
+  public vault_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
+  public vault_taxonomy_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-taxonomy';
+  public vault_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&list_size';
+  public vault_tag_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
+  public vault_category_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
+  public vault_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
+  public vault_filter_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&skill=';
+  public vault_search_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&search=';
 
   // MEMBERS
-  public members_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
-  public member_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
-  public member_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
-  public member_skills_industry_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
-  public member_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&nameSearch=';
-  public member_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&member_role=full_members&business=';
-  public member_search_map_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-map';
+  public members_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
+  public member_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
+  public member_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
+  public member_taxonomy_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
+  public member_search_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&nameSearch=';
+  public member_filter_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&member_role=full_members&business=';
+  public member_search_map_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-map';
 
   // BUSINESS
-  public business_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
-  public business_infinite_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
-  public business_details_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
-  public business_search_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&nameSearch=';
-  public business_filter_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
-  public business_skill_category_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-taxonomy';
+  public business_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
+  public business_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
+  public business_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
+  public business_search_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&nameSearch=';
+  public business_filter_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
+  public business_taxonomy_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-taxonomy';
 
   //MENTOR MATCH
-  public mentormatch_skills_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
+  public mentormatch_skills_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
   public mentormatch_submit_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=mentor-match&skill=';
 
   //MEMBER ASSIST
@@ -149,7 +148,7 @@ export class EpxProvider {
   }
 
   getLogin(username, password) {
-    return this.httpClient.get(this.login_dev_url + 'username=' + username + '&password=' + password)
+    return this.httpClient.get(this.login_url + 'username=' + username + '&password=' + password)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -161,7 +160,7 @@ export class EpxProvider {
       .catch(this.catchError)
   }
   getTripRegionAndType() {
-    return this.httpClient.get(this.trips_region_and_type_url)
+    return this.httpClient.get(this.trips_taxonomy_url)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -259,7 +258,7 @@ export class EpxProvider {
       .catch(this.catchError)
   }
   getVaultSkillsCategory() {
-    return this.httpClient.get(this.vault_skill_category_url)
+    return this.httpClient.get(this.vault_taxonomy_url)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -295,7 +294,7 @@ export class EpxProvider {
       .catch(this.catchError)
   }
   getMemberSkillsIndustry() {
-    return this.httpClient.get(this.member_skills_industry_url)
+    return this.httpClient.get(this.member_taxonomy_url)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
@@ -349,7 +348,7 @@ export class EpxProvider {
       .catch(this.catchError)
   }
   getBusinessSkillsCategory() {
-    return this.httpClient.get(this.business_skill_category_url)
+    return this.httpClient.get(this.business_taxonomy_url)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)

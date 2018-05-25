@@ -94,6 +94,10 @@ export class TabsPage {
       this.oneSignal.sendTag('is_login', 'true');
       this.oneSignal.sendTag('user_type', 'ideahub'); //For testing = 'ideahub' : For live = 'production'
     });
+    // this.epxProvider.getData('email').then(email => {
+    //   console.log('email',email);
+    //   this.oneSignal.syncHashedEmail(email);
+    // });
     this.epxProvider.getData('enable_member').then(res => {
       this.oneSignal.sendTag('enable_member', res);
     });
@@ -103,21 +107,6 @@ export class TabsPage {
     this.epxProvider.getData('enable_get_lucky').then(res => {
       this.oneSignal.sendTag('enable_get_lucky', res);
     });
-    // if (data.user_id != null) {
-    //   this.epxProvider.getData('ID').then(user_id => {
-    //     this.oneSignal.sendTag('user_id', user_id);
-    //   });
-    //   this.epxProvider.saveData(this.epxProvider.MEMBER_NOTIFICATION, data.member_added);
-    //   this.epxProvider.saveData(this.epxProvider.VAULT_NOTIFICATION, data.vault_added);
-    // }
-    // else {
-    //   this.epxProvider.getData('ID').then(user_id => {
-    //     this.oneSignal.sendTag('user_id', user_id);
-    //     // this.oneSignal.sendTag('member_added', 'true');
-    //     // this.oneSignal.sendTag('vault_added', 'true');
-    //     this.oneSignal.sendTag('development', 'true');
-    //   });
-    // }
 
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     this.oneSignal.handleNotificationReceived().subscribe((data) => {

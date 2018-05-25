@@ -52,49 +52,48 @@ var EpxProvider = (function () {
         this.httpClient = httpClient;
         this.target = 'dev';
         // LOGIN
-        this.login_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
-        this.login_dev_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
-        this.forgot_password_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
+        this.login_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=user_logged_in&';
+        this.forgot_password_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
         // TRIPS
         // public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
         this.trips_infinite_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
         this.trips_partialdetails_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-notice-data&trip_id=';
         this.trips_details_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
-        this.trips_interest_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
+        this.trips_interest_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-interest&trip_id=';
         this.trips_tags_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-tags&tag=';
         this.trips_filter_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-filter&user_id=';
-        this.trips_region_and_type_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-taxonomy';
+        this.trips_taxonomy_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-taxonomy';
         // SOLO
-        this.solo_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
-        this.solo_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
-        this.solo_tag_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-tags-with-pagination&user_id=';
-        this.solo_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=';
+        this.solo_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo';
+        this.solo_infinite_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-with-pagination&paged=';
+        this.solo_tag_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-tags-with-pagination&user_id=';
+        this.solo_filter_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=solo-filter&to_date=';
         // VAULT
-        this.vault_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
-        this.vault_skill_category_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-taxonomy';
-        this.vault_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&list_size';
-        this.vault_tag_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
-        this.vault_category_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
-        this.vault_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
-        this.vault_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&skill=';
-        this.vault_search_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&search=';
+        this.vault_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
+        this.vault_taxonomy_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-taxonomy';
+        this.vault_infinite_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&list_size';
+        this.vault_tag_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
+        this.vault_category_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
+        this.vault_details_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
+        this.vault_filter_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&skill=';
+        this.vault_search_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-filter&search=';
         // MEMBERS
-        this.members_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
-        this.member_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
-        this.member_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
-        this.member_skills_industry_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
-        this.member_search_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&nameSearch=';
-        this.member_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&member_role=full_members&business=';
-        this.member_search_map_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-map';
+        this.members_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
+        this.member_infinite_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
+        this.member_details_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
+        this.member_taxonomy_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
+        this.member_search_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&nameSearch=';
+        this.member_filter_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&member_role=full_members&business=';
+        this.member_search_map_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-map';
         // BUSINESS
-        this.business_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
-        this.business_infinite_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
-        this.business_details_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
-        this.business_search_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&nameSearch=';
-        this.business_filter_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
-        this.business_skill_category_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-taxonomy';
+        this.business_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business';
+        this.business_infinite_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-with-pagination&paged=';
+        this.business_details_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-details&business-id=';
+        this.business_search_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&nameSearch=';
+        this.business_filter_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-filter&search_skill=';
+        this.business_taxonomy_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-taxonomy';
         //MENTOR MATCH
-        this.mentormatch_skills_url = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
+        this.mentormatch_skills_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
         this.mentormatch_submit_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=mentor-match&skill=';
         //MEMBER ASSIST
         this.memberassist_submit_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-assist&user_id=';
@@ -170,7 +169,7 @@ var EpxProvider = (function () {
         }).present();
     };
     EpxProvider.prototype.getLogin = function (username, password) {
-        return this.httpClient.get(this.login_dev_url + 'username=' + username + '&password=' + password)
+        return this.httpClient.get(this.login_url + 'username=' + username + '&password=' + password)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -182,7 +181,7 @@ var EpxProvider = (function () {
             .catch(this.catchError);
     };
     EpxProvider.prototype.getTripRegionAndType = function () {
-        return this.httpClient.get(this.trips_region_and_type_url)
+        return this.httpClient.get(this.trips_taxonomy_url)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -278,7 +277,7 @@ var EpxProvider = (function () {
             .catch(this.catchError);
     };
     EpxProvider.prototype.getVaultSkillsCategory = function () {
-        return this.httpClient.get(this.vault_skill_category_url)
+        return this.httpClient.get(this.vault_taxonomy_url)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -314,7 +313,7 @@ var EpxProvider = (function () {
             .catch(this.catchError);
     };
     EpxProvider.prototype.getMemberSkillsIndustry = function () {
-        return this.httpClient.get(this.member_skills_industry_url)
+        return this.httpClient.get(this.member_taxonomy_url)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -368,7 +367,7 @@ var EpxProvider = (function () {
             .catch(this.catchError);
     };
     EpxProvider.prototype.getBusinessSkillsCategory = function () {
-        return this.httpClient.get(this.business_skill_category_url)
+        return this.httpClient.get(this.business_taxonomy_url)
             .do(this.logResponse)
             .map(this.extractData)
             .catch(this.catchError);
@@ -488,47 +487,47 @@ webpackEmptyAsyncContext.id = 150;
 
 var map = {
 	"../pages/assist/assist.module": [
-		455,
+		462,
 		26
 	],
 	"../pages/business-details/business-details.module": [
-		456,
+		455,
 		25
 	],
 	"../pages/business/business.module": [
-		457,
+		456,
 		24
 	],
 	"../pages/chat/chat.module": [
-		458,
+		463,
 		23
 	],
 	"../pages/forgot-password/forgot-password.module": [
-		459,
+		457,
 		0
 	],
 	"../pages/get-lucky/get-lucky.module": [
-		460,
+		458,
 		22
 	],
 	"../pages/login/login.module": [
-		461,
+		459,
 		21
 	],
 	"../pages/member-details/member-details.module": [
-		462,
+		460,
 		20
 	],
 	"../pages/member-map/member-map.module": [
-		463,
+		461,
 		1
 	],
 	"../pages/member-search/member-search.module": [
-		464,
+		472,
 		19
 	],
 	"../pages/members/members.module": [
-		465,
+		464,
 		18
 	],
 	"../pages/mentor/mentor.module": [
@@ -536,11 +535,11 @@ var map = {
 		17
 	],
 	"../pages/menu/menu.module": [
-		467,
+		465,
 		16
 	],
 	"../pages/notification/notification.module": [
-		468,
+		467,
 		15
 	],
 	"../pages/settings/settings.module": [
@@ -548,15 +547,15 @@ var map = {
 		14
 	],
 	"../pages/solo-details/solo-details.module": [
-		470,
+		468,
 		13
 	],
 	"../pages/solo-tags/solo-tags.module": [
-		471,
+		470,
 		12
 	],
 	"../pages/solo/solo.module": [
-		472,
+		471,
 		11
 	],
 	"../pages/tabs/tabs.module": [
@@ -572,11 +571,11 @@ var map = {
 		8
 	],
 	"../pages/trip-tags/trip-tags.module": [
-		476,
+		477,
 		7
 	],
 	"../pages/trips/trips.module": [
-		477,
+		476,
 		6
 	],
 	"../pages/vault-category/vault-category.module": [
@@ -681,29 +680,29 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["f" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */], {}, {
                     links: [
-                        { loadChildren: '../pages/assist/assist.module#AssistPageModule', name: 'AssistPage', segment: 'assist', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/business-details/business-details.module#BusinessDetailsPageModule', name: 'BusinessDetailsPage', segment: 'business-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/business/business.module#BusinessPageModule', name: 'BusinessPage', segment: 'business', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/forgot-password/forgot-password.module#ForgotPasswordPageModule', name: 'ForgotPasswordPage', segment: 'forgot-password', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/get-lucky/get-lucky.module#GetLuckyPageModule', name: 'GetLuckyPage', segment: 'get-lucky', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-map/member-map.module#MemberMapPageModule', name: 'MemberMapPage', segment: 'member-map', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/member-search/member-search.module#MemberSearchPageModule', name: 'MemberSearchPage', segment: 'member-search', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/assist/assist.module#AssistPageModule', name: 'AssistPage', segment: 'assist', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-details/solo-details.module#SoloDetailsPageModule', name: 'SoloDetailsPage', segment: 'solo-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/member-search/member-search.module#MemberSearchPageModule', name: 'MemberSearchPage', segment: 'member-search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-tags/vault-tags.module#VaultTagsPageModule', name: 'VaultTagsPage', segment: 'vault-tags', priority: 'low', defaultHistory: [] },

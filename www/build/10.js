@@ -133,6 +133,10 @@ var TabsPage = (function () {
             _this.oneSignal.sendTag('is_login', 'true');
             _this.oneSignal.sendTag('user_type', 'ideahub'); //For testing = 'ideahub' : For live = 'production'
         });
+        // this.epxProvider.getData('email').then(email => {
+        //   console.log('email',email);
+        //   this.oneSignal.syncHashedEmail(email);
+        // });
         this.epxProvider.getData('enable_member').then(function (res) {
             _this.oneSignal.sendTag('enable_member', res);
         });
@@ -142,21 +146,6 @@ var TabsPage = (function () {
         this.epxProvider.getData('enable_get_lucky').then(function (res) {
             _this.oneSignal.sendTag('enable_get_lucky', res);
         });
-        // if (data.user_id != null) {
-        //   this.epxProvider.getData('ID').then(user_id => {
-        //     this.oneSignal.sendTag('user_id', user_id);
-        //   });
-        //   this.epxProvider.saveData(this.epxProvider.MEMBER_NOTIFICATION, data.member_added);
-        //   this.epxProvider.saveData(this.epxProvider.VAULT_NOTIFICATION, data.vault_added);
-        // }
-        // else {
-        //   this.epxProvider.getData('ID').then(user_id => {
-        //     this.oneSignal.sendTag('user_id', user_id);
-        //     // this.oneSignal.sendTag('member_added', 'true');
-        //     // this.oneSignal.sendTag('vault_added', 'true');
-        //     this.oneSignal.sendTag('development', 'true');
-        //   });
-        // }
         this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
         this.oneSignal.handleNotificationReceived().subscribe(function (data) {
             // do something when notification is received

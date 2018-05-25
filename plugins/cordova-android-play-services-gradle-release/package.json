@@ -1,0 +1,39 @@
+{
+  "_from": "cordova-android-play-services-gradle-release",
+  "_id": "cordova-android-play-services-gradle-release@1.4.1",
+  "_inBundle": false,
+  "_integrity": "sha512-BRSzqooH2KNseHO/tSupK9Ub5RJqc403A5lYZVp4rnBWq6Q9WF9/+SBDYDwuKqWYS8DCaxlDE/YKOMqX/jUooA==",
+  "_location": "/cordova-android-play-services-gradle-release",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-android-play-services-gradle-release",
+    "name": "cordova-android-play-services-gradle-release",
+    "escapedName": "cordova-android-play-services-gradle-release",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-android-play-services-gradle-release/-/cordova-android-play-services-gradle-release-1.4.1.tgz",
+  "_shasum": "1d32d2f71533df754a9f299cf3b904a1223b22e3",
+  "_spec": "cordova-android-play-services-gradle-release",
+  "_where": "D:\\epx_app",
+  "author": {
+    "name": "Dave Alden"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "xml2js": "~0.4.19"
+  },
+  "deprecated": false,
+  "description": "Cordova/Phonegap plugin to align various versions of the Play Services library specified by other plugins to a specific version",
+  "devDependencies": {},
+  "license": "MIT",
+  "name": "cordova-android-play-services-gradle-release",
+  "version": "1.4.1"
+}

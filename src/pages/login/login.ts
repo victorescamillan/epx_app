@@ -56,6 +56,7 @@ export class LoginPage {
         if (result.authentication) {
           this.epxProvider.saveData('ID', result.ID);
           this.epxProvider.saveData('name', result.name);
+          this.epxProvider.saveData('email', result.email);
           this.epxProvider.saveData('authentication', result.authentication);
           this.epxProvider.saveData('enable_member', result.enable_member === '1' ? true : false);
           this.epxProvider.saveData('enable_vault', result.enable_vault === '1' ? true : false);
