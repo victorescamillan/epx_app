@@ -1,11 +1,9 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef, Renderer2 } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, AlertController, Content, InfiniteScroll, Events, Popover, Platform } from 'ionic-angular';
+import { Component, ViewChild, Renderer2 } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, ToastController, AlertController, Content, Events} from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { CacheService } from 'ionic-cache';
-import { AutoHideDirective } from '../../directives/auto-hide/auto-hide';
-// import { Chart } from 'chart.js';
-// import { error } from '@firebase/database/dist/esm/src/core/util/util';
 
 @IonicPage()
 @Component({
@@ -40,15 +38,12 @@ export class TripsPage {
   isFilter: boolean = false;
   topDistance: Number;
   constructor(
-    private platform: Platform,
     private renderer: Renderer2,
-    private detectorRef: ChangeDetectorRef,
     private events: Events,
     private cache: CacheService,
     public alertCtrl: AlertController,
     private toastCtrl: ToastController,
     public modalCtrl: ModalController,
-    private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     public navCtrl: NavController,
     public navParams: NavParams) {
@@ -274,7 +269,6 @@ export class TripsPage {
   }
 
   onScroll(event) {
-    let className = this.filter.nativeElement.className;
     console.log('filter',this.filter);
     if (event.scrollTop - this.oldScrollTop > 10) {
       // if(className != 'filter hide-filter'){

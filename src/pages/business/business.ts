@@ -1,14 +1,9 @@
 import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Content, Platform, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Content, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { CacheService } from 'ionic-cache';
-/**
- * Generated class for the BusinessPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -33,7 +28,6 @@ export class BusinessPage {
   isFilter: boolean = false;
   constructor(
     private events: Events,
-    private platform: Platform,
     private alertCtrl: AlertController,
     private renderer: Renderer2,
     private epxProvider: EpxProvider,

@@ -1,14 +1,14 @@
 webpackJsonp([25],{
 
-/***/ 455:
+/***/ 302:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BusinessDetailsPageModule", function() { return BusinessDetailsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatPageModule", function() { return ChatPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__business_details__ = __webpack_require__(482);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__chat__ = __webpack_require__(330);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,34 +18,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var BusinessDetailsPageModule = (function () {
-    function BusinessDetailsPageModule() {
+var ChatPageModule = (function () {
+    function ChatPageModule() {
     }
-    BusinessDetailsPageModule = __decorate([
+    ChatPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__business_details__["a" /* BusinessDetailsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__chat__["a" /* ChatPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__business_details__["a" /* BusinessDetailsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__chat__["a" /* ChatPage */]),
             ],
         })
-    ], BusinessDetailsPageModule);
-    return BusinessDetailsPageModule;
+    ], ChatPageModule);
+    return ChatPageModule;
 }());
 
-//# sourceMappingURL=business-details.module.js.map
+//# sourceMappingURL=chat.module.js.map
 
 /***/ }),
 
-/***/ 482:
+/***/ 330:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BusinessDetailsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -57,70 +56,60 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-/**
- * Generated class for the BusinessDetailsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var BusinessDetailsPage = (function () {
-    function BusinessDetailsPage(platform, epxProvider, navCtrl, navParams) {
-        this.platform = platform;
-        this.epxProvider = epxProvider;
+var ChatPage = (function () {
+    function ChatPage(viewCtrl, navCtrl, navParams) {
+        this.viewCtrl = viewCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.isLoading = true;
-        // let id = navParams.data.data.ID;
-        // this.loadBusinessDetails(id); 
-        this.partial_details = navParams.data.data;
-        console.log('param', navParams.data.data);
+        this.username = '';
+        this.message = '';
+        this.messages = [];
+        // _chatSubscription;
+        // public db:AngularFireDatabase,
+        this.isNotification = false;
+        // this.username = this.navParams.get('username');
+        // this._chatSubscription = db.list('chat').valueChanges().subscribe(data => {
+        //   this.messages = data;
+        // });
+        this.isNotification = navParams.data.isNotification;
     }
-    BusinessDetailsPage.prototype.loadBusinessDetails = function (id) {
-        var _this = this;
-        this.epxProvider.getBusinessDetails(id).subscribe(function (data) {
-            _this.details = data;
-            console.log('details:', _this.details);
-            _this.isLoading = false;
-        }, function (error) {
-            _this.epxProvider.toastMessage('Internal error!');
-            _this.isLoading = false;
-        });
+    ChatPage.prototype.closeFilter = function () {
+        this.viewCtrl.dismiss();
     };
-    BusinessDetailsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad BusinessDetailsPage');
-        this.loadBusinessDetails(this.partial_details.ID);
+    // sendMessage(){
+    //   this.db.list('/chat').push({
+    //     username: this.username,
+    //     message: this.message
+    //   }).then(()=>{
+    //   });
+    //   this.message = '';
+    // }
+    // ionViewWillLeave(){
+    //   console.log('user is about to go.');
+    //   this._chatSubscription.unsubscribe();
+    //   this.db.list('/chat').push({
+    //     specialMessage: true,
+    //     message: this.username + ' has left the room'
+    //   });
+    // }
+    ChatPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ChatPage');
+        // this.db.list('/chat').push({
+        //   specialMessage: true,
+        //   message: this.username + ' has joined the room'
+        // });
     };
-    BusinessDetailsPage.prototype.memberDetails = function () {
-        var data = {
-            ID: this.details.ID,
-            member_since: this.details.member_since,
-            avatar: this.details.avatar,
-            business_model: this.details.business_model,
-            business_url: this.details.business_url,
-            company: this.details.member_company,
-            employee: this.details.employee,
-            expert_in: this.details.expert_in,
-            help_with: this.details.help_with,
-            industry: this.details.industry,
-            name: this.details.member_name,
-            personal_description: this.details.personal_discription,
-            position: this.details.member_position,
-        };
-        console.log('data', this.details);
-        this.navCtrl.push('MemberDetailsPage', { data: data });
-    };
-    BusinessDetailsPage = __decorate([
+    ChatPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-business-details',template:/*ion-inline-start:"D:\epx_app\src\pages\business-details\business-details.html"*/'<!--\n  Generated template for the BusinessDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Business Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n\n  <!-- <div class="page-thumbnail" >\n    <img class="business-logo" [src]="details.page_thumbnail">\n    <div class="page-title">\n      <h2 class="md-text pre-line" [innerHtml]="details.business_name | uppercase"></h2>\n    </div>\n  </div> -->\n  <div class="business-content">\n    <img class="business-logo" [src]="partial_details.business_logo">\n    <h4>Business Name:</h4>\n    <p class="md-text no-margin">{{partial_details.business_name}}</p>\n\n    <h4>Business Description:</h4>\n    <p class="md-text pre-line no-margin" [innerHTML]="partial_details.business_description"></p>\n\n    <h4>Target Customers:</h4>\n    <p class="md-text ">{{partial_details.target_customers}}</p>\n\n    <h4>Benefits Delivered:</h4>\n    <p class="md-text pre-line no-margin" [innerHTML]="partial_details.benefits_delivered"></p>\n\n    <h4>Where I can use help:</h4>\n    <p class="md-text no-margin" [innerHTML]="partial_details.business_industry"></p>\n\n    <!-- <h4>Target Customers:</h4>\n    <p class="md-text">{{details.target_customers}}</p> -->\n    <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n      <ion-spinner name="crescent"></ion-spinner>\n    </div>\n    <div class="owner-info" *ngIf="!isLoading">\n      <img class="owner-thumbnail" [src]="partial_details.avatar" (click)="memberDetails()">\n      <h1>{{partial_details.member_name}}</h1>\n      <p class="md-text no-margin">{{partial_details.member_position}}</p>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\business-details\business-details.html"*/,
+            selector: 'page-chat',template:/*ion-inline-start:"D:\epx_app\src\pages\chat\chat.html"*/'<!--\n  Generated template for the ChatPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Chat</ion-title>\n    <ion-buttons right *ngIf="isNotification">\n      <button ion-button icon-end (click)="closeFilter()">\n        Close\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n \n\n<ion-content padding>\n  <div id="chatMessages">\n    <div *ngFor="let message of messages" [class]="message.specialMessage ? \'message special\' : \'message\'">\n        <div [class]="message.username == username ? \'innerMessage messageRight\' : \'innerMessage messageLeft\'">\n          <div class="username">{{ message.username}}</div>\n          <div class="messageContent">{{ message.message}}</div>\n        </div>\n    </div>\n  </div>\n</ion-content>\n<ion-footer>\n    <ion-toolbar>\n      <div class="footer">\n        <div class="elem">\n          <ion-input type="text" [(ngModel)]="message" placeholder="Type your message here"></ion-input>\n        </div>\n        <div class="elem">\n          <button ion-button icon-only (click)="sendMessage()"><ion-icon name="send"></ion-icon></button>\n        </div>\n    </div>\n    </ion-toolbar>\n\n</ion-footer>\n'/*ion-inline-end:"D:\epx_app\src\pages\chat\chat.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], BusinessDetailsPage);
-    return BusinessDetailsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], ChatPage);
+    return ChatPage;
 }());
 
-//# sourceMappingURL=business-details.js.map
+//# sourceMappingURL=chat.js.map
 
 /***/ })
 

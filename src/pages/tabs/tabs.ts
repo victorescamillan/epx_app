@@ -1,14 +1,7 @@
-import { Component, ChangeDetectorRef, resolveForwardRef } from '@angular/core';
-import { IonicPage, NavController, MenuController, Platform, AlertController, Events, ModalController, ViewController } from 'ionic-angular';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { IonicPage, NavController, MenuController, Platform, AlertController, Events } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
-import { isNumber } from 'ionic-angular/util/util';
 import { OneSignal } from '@ionic-native/onesignal';
-
-import { TripsPage } from '../../pages/trips/trips';
-import { SoloPage } from '../../pages/solo/solo';
-import { VaultPage } from '../../pages/vault/vault';
-import { MembersPage } from '../../pages/members/members';
-
 
 @IonicPage()
 @Component({
@@ -31,8 +24,6 @@ export class TabsPage {
   isAppOpen: Boolean = false;
   tripPartialDetails: any;
   constructor(
-    private viewctrl: ViewController,
-    private modalCtrl: ModalController,
     private oneSignal: OneSignal,
     private epxProvider: EpxProvider,
     private detectorRef: ChangeDetectorRef,

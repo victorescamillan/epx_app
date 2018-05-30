@@ -1,7 +1,6 @@
-import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
-import { Observable } from 'rxjs/Observable';
 
 
 @IonicPage()
@@ -23,7 +22,7 @@ export class MemberDetailsPage {
   hasPast: boolean = false;
   hasVideo: boolean = false;
  
-  constructor(private platform: Platform, private renderer: Renderer2, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private platform: Platform, private epxProvider: EpxProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.partial_details = navParams.data.data;
     console.log('parameters',this.partial_details);
   }

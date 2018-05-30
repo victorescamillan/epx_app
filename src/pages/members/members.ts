@@ -2,6 +2,7 @@ import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events, Content, AlertController, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { CacheService } from 'ionic-cache';
 /**
  * Generated class for the MembersPage page.

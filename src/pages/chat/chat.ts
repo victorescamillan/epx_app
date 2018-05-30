@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
 
-/**
- * Generated class for the ChatPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
 
 @IonicPage()
 @Component({
@@ -19,7 +12,6 @@ export class ChatPage {
 
   username: string = '';
   message: string='';
-  items: Observable<any[]>;
   messages: object[] = [];
   // _chatSubscription;
   // public db:AngularFireDatabase,

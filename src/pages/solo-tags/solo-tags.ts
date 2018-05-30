@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
-import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
 @Component({

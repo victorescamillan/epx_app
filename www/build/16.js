@@ -1,14 +1,14 @@
 webpackJsonp([16],{
 
-/***/ 465:
+/***/ 313:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuPageModule", function() { return MenuPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoloDetailsPageModule", function() { return SoloDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__menu__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__solo_details__ = __webpack_require__(343);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,35 +18,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var MenuPageModule = (function () {
-    function MenuPageModule() {
+var SoloDetailsPageModule = (function () {
+    function SoloDetailsPageModule() {
     }
-    MenuPageModule = __decorate([
+    SoloDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__menu__["a" /* MenuPage */],
+                __WEBPACK_IMPORTED_MODULE_2__solo_details__["a" /* SoloDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__menu__["a" /* MenuPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__solo_details__["a" /* SoloDetailsPage */]),
             ],
         })
-    ], MenuPageModule);
-    return MenuPageModule;
+    ], SoloDetailsPageModule);
+    return SoloDetailsPageModule;
 }());
 
-//# sourceMappingURL=menu.module.js.map
+//# sourceMappingURL=solo-details.module.js.map
 
 /***/ }),
 
-/***/ 494:
+/***/ 343:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MenuPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SoloDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_app_version__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,96 +56,57 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-
-var MenuPage = (function () {
-    function MenuPage(events, appVersion, platform, alertCtrl, epxProvider, navCtrl, navParams) {
-        var _this = this;
-        this.events = events;
-        this.appVersion = appVersion;
+var SoloDetailsPage = (function () {
+    function SoloDetailsPage(platform, navCtrl, navParams) {
         this.platform = platform;
-        this.alertCtrl = alertCtrl;
-        this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.rootPage = 'TabsPage';
-        this.mentorBadge = 0;
-        this.assistBadge = 0;
-        this.pages = [
-            { title: 'Business', pageName: 'BusinessPage', tabComponent: 'BusinessPage', index: 0, icon: 'briefcase', badge: 0 },
-            { title: 'Member Assist', pageName: 'AssistPage', tabComponent: 'AssistPage', index: 1, icon: 'hand', badge: this.mentorBadge },
-            { title: 'Mentor Match', pageName: 'MentorPage', tabComponent: 'MentorPage', index: 2, icon: 'phone-portrait', badge: this.assistBadge },
-            { title: 'Settings', pageName: 'SettingsPage', tabComponent: 'SettingsPage', index: 3, icon: 'settings', badge: 0 },
-        ];
-        this.epxProvider.getData('member_details').then(function (res) {
-            _this.name = res.name;
-            _this.role = res.role;
-            _this.avatar_url = res.avatar;
-            if (platform.is('cordova')) {
-                appVersion.getVersionNumber().then(function (res) {
-                    _this.version = res;
-                    console.log('version', res);
-                });
-            }
-            _this.details = res;
-        });
+        this.details = navParams.data.data;
+        this.lat = Number(this.details.latitude);
+        this.lng = Number(this.details.longitude);
+        this.location = this.details.address;
+        console.log('solo details', this.details);
     }
-    MenuPage.prototype.memberDetails = function () {
-        this.navCtrl.push('MemberDetailsPage', { data: this.details });
-    };
-    MenuPage.prototype.openPage = function (p) {
+    SoloDetailsPage.prototype.ionViewWillEnter = function () {
         var _this = this;
-        this.navCtrl.push(p.pageName);
         var backAction = this.platform.registerBackButtonAction(function () {
             _this.navCtrl.pop();
             backAction();
         }, 2);
     };
-    MenuPage.prototype.logoutUser = function () {
-        this.epxProvider.clearUser();
-        this.events.publish(this.epxProvider.IS_LOGIN_NOTIFICATION, 'false');
-        this.navCtrl.setRoot('LoginPage');
+    SoloDetailsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SoloDetailsPage');
+        this.initMap(this.lat, this.lng, this.location);
     };
-    MenuPage.prototype.showPrompt = function () {
-        var _this = this;
-        var prompt = this.alertCtrl.create({
-            title: 'Logout',
-            message: "Do you want to continue logout?",
-            buttons: [
-                {
-                    text: 'Cancel',
-                    handler: function (data) {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: 'Okay',
-                    handler: function (data) {
-                        _this.logoutUser();
-                        console.log('Saved clicked');
-                    }
-                }
-            ]
+    SoloDetailsPage.prototype.initMap = function (lat, long, location) {
+        var position = { lat: lat, lng: long };
+        this.map = new google.maps.Map(this.mapElement.nativeElement, {
+            zoom: 15,
+            center: position,
+            mapTypeId: 'roadmap'
         });
-        prompt.present();
+        // var marker = new google.maps.Marker({
+        //   position: position,
+        //   map: this.map,
+        //   title: location
+        // });
+        this.map.setCenter(position);
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Nav */])
-    ], MenuPage.prototype, "nav", void 0);
-    MenuPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('map'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+    ], SoloDetailsPage.prototype, "mapElement", void 0);
+    SoloDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-menu',template:/*ion-inline-start:"D:\epx_app\src\pages\menu\menu.html"*/'<ion-menu [content]="content" side="left">\n  <ion-header class="menu-header">\n    <!-- <ion-navbar>\n      <ion-title>menu</ion-title>\n    </ion-navbar> -->\n    <!-- <div class="user-info">\n      {{name}}\n    </div> -->\n  </ion-header>\n  <ion-content class="menu-content">\n    <div class="menu-icon">\n      <img src="./assets/imgs/epx_logo_colored.png" />\n    </div>\n    <div class="version">\n      <p>Version {{version}}</p>\n    </div>\n    <div class="user-avatar">\n      <img class="avatar" [src]="avatar_url" (click)="memberDetails()">\n    </div>\n    <div class="user-info">\n      <div class="info-content">\n          <p>{{name}}</p>\n          <p id="member-role">{{role | uppercase}} <span>(Member Type)</span></p>\n      </div>\n    </div>\n    <ion-list>\n      <ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">\n        <ion-icon name="{{p.icon}}" item-start></ion-icon>\n        {{p.title}}\n        <span class="{{p.badge > 0 ? \'badge-show\' : \'badge-hide\'}}">{{p.badge}}</span>\n      </ion-item>\n      <ion-item (click)="showPrompt()">\n        <ion-icon name="md-exit" item-start></ion-icon>\n        Logout\n      </ion-item>\n    </ion-list>\n  </ion-content>\n</ion-menu>\n\n<!-- <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> -->\n<ion-nav id="nav" #content [root]="rootPage"></ion-nav>'/*ion-inline-end:"D:\epx_app\src\pages\menu\menu.html"*/,
+            selector: 'page-solo-details',template:/*ion-inline-start:"D:\epx_app\src\pages\solo-details\solo-details.html"*/'<!--\n  Generated template for the SoloDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Solo Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n  <div class="solo-image">\n    <img src="{{details.thumbnail}}" />\n  </div>\n  <div id="title">\n    <p class="pre-line" [innerHTML]="details.title"></p>\n  </div>\n  <div class="content-text">\n    <p class="pre-line sm-text" [innerHTML]="details.content"></p>\n\n    <div class="other-details">\n      <p class="text-center xxl-text">Trip Fee</p>\n      <div class="price">\n        <p class="text-center xxl-text">{{details.price}}</p>\n      </div>\n      <p class="text-center xxl-text strong">Date</p>\n      <p class="text-center xxl-text">{{details.start_date}}</p>\n\n      <p class="text-center xxl-text strong">Location</p>\n      <p class="text-center xxl-text">{{details.address}}</p>\n    </div>\n  </div>\n  <div #map id="map"></div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\solo-details\solo-details.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_app_version__["a" /* AppVersion */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], MenuPage);
-    return MenuPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], SoloDetailsPage);
+    return SoloDetailsPage;
 }());
 
-//# sourceMappingURL=menu.js.map
+//# sourceMappingURL=solo-details.js.map
 
 /***/ })
 

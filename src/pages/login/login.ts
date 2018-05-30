@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController, ModalController, LoadingController } from 'ionic-angular';
-import { stagger } from '@angular/core/src/animation/dsl';
-import { ChatPage } from '../chat/chat';
+import { IonicPage, NavController, NavParams, AlertController, ModalController, LoadingController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
-import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl, FormControlName } from '@angular/forms';
-import { regexValidators} from '../validators/validator'
-
+import { Validators, FormBuilder, FormGroup, AbstractControl, FormControlName } from '@angular/forms';
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -16,10 +12,10 @@ export class LoginPage {
   // password: string='jaylord.lagud.hpo@gmail.com';
   // username: string = 'stan.lee@hpoutsourcinginc.com';
   // password: string = 'VzOo$)dl';
-
   username: string;
   password: string;
-
+  licenseKey: string = "COMETCHAT-0MZ10-PLO44-SWZAT-C9R3U";
+  apiKey: string = "50944x45d853898e582feaeaefe7db4df99b73"; 
   email_validation: AbstractControl;
   password_validation: AbstractControl;
   formGroup: FormGroup;
@@ -39,7 +35,6 @@ export class LoginPage {
       this.email_validation = this.formGroup.controls['email'];
       this.password_validation = this.formGroup.controls['password'];
   }
-
   showAlert(title: string, message: string) {
     let alert = this.alertCtrl.create({
       title: title,
@@ -108,5 +103,4 @@ export class LoginPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
-
 }

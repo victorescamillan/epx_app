@@ -1,10 +1,9 @@
 import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { IonicPage, NavController, LoadingController, Events, Content, AlertController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, Events, Content, AlertController, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { CacheService } from 'ionic-cache';
-import { VaultDetailsPage } from '../vault-details/vault-details';
-import { DomSanitizer } from '@angular/platform-browser'
 
 @IonicPage()
 @Component({
@@ -34,7 +33,6 @@ export class VaultPage {
     private alertCtrl: AlertController,
     private renderer: Renderer2,
     private events: Events,
-    private loadingCtrl: LoadingController, 
     private epxProvider: EpxProvider, 
     private cache: CacheService, 
     private navCtrl: NavController) {

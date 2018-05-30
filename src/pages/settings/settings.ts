@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, Platform, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, LoadingController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @IonicPage()
@@ -16,7 +15,6 @@ export class SettingsPage {
   disable: boolean;
   constructor(
     private loadingCtrl: LoadingController,
-    private platform: Platform,
     private provider: EpxProvider, private events: Events, public navCtrl: NavController, public navParams: NavParams) {
 
     this.events.subscribe(this.provider.CLOSE_PAGE, value => {

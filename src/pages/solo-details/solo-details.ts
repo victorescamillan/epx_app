@@ -49,11 +49,11 @@ export class SoloDetailsPage {
       mapTypeId: 'roadmap'
     });
 
-    var marker = new google.maps.Marker({
-      position: position,
-      map: this.map,
-      title: location
-    });
+    // var marker = new google.maps.Marker({
+    //   position: position,
+    //   map: this.map,
+    //   title: location
+    // });
 
     this.map.setCenter(position);
   }

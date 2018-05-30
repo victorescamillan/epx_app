@@ -1,14 +1,14 @@
 webpackJsonp([4],{
 
-/***/ 479:
+/***/ 303:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultDetailsPageModule", function() { return VaultDetailsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordPageModule", function() { return ForgotPasswordPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault_details__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forgot_password__ = __webpack_require__(331);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,36 +18,36 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var VaultDetailsPageModule = (function () {
-    function VaultDetailsPageModule() {
+var ForgotPasswordPageModule = (function () {
+    function ForgotPasswordPageModule() {
     }
-    VaultDetailsPageModule = __decorate([
+    ForgotPasswordPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__vault_details__["a" /* VaultDetailsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__forgot_password__["a" /* ForgotPasswordPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__vault_details__["a" /* VaultDetailsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__forgot_password__["a" /* ForgotPasswordPage */]),
             ],
         })
-    ], VaultDetailsPageModule);
-    return VaultDetailsPageModule;
+    ], ForgotPasswordPageModule);
+    return ForgotPasswordPageModule;
 }());
 
-//# sourceMappingURL=vault-details.module.js.map
+//# sourceMappingURL=forgot-password.module.js.map
 
 /***/ }),
 
-/***/ 508:
+/***/ 331:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VaultDetailsPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgotPasswordPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_cache__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validators_validator__ = __webpack_require__(332);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_epx_epx__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -63,84 +63,94 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 /**
- * Generated class for the VaultDetailsPage page.
+ * Generated class for the ForgotPasswordPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-var VaultDetailsPage = (function () {
-    function VaultDetailsPage(platform, loadingCtrl, epxProvider, cache, domSanitizer, navCtrl, navParams) {
-        this.platform = platform;
-        this.loadingCtrl = loadingCtrl;
+var ForgotPasswordPage = (function () {
+    function ForgotPasswordPage(epxProvider, formBuilder, alertCtrl, navCtrl, navParams) {
         this.epxProvider = epxProvider;
-        this.cache = cache;
-        this.domSanitizer = domSanitizer;
+        this.formBuilder = formBuilder;
+        this.alertCtrl = alertCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.isLoading = true;
-        this.partial_details = navParams.data.data;
-    }
-    VaultDetailsPage.prototype.ionViewWillEnter = function () {
-        var _this = this;
-        var backAction = this.platform.registerBackButtonAction(function () {
-            _this.navCtrl.pop();
-            backAction();
-        }, 2);
-    };
-    VaultDetailsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad VaultDetailsPage');
-        this.LoadDetails(this.partial_details.ID);
-    };
-    VaultDetailsPage.prototype.openBrowser = function (url) {
-        console.log('company url:', url);
-        window.open(url, "_system");
-    };
-    VaultDetailsPage.prototype.memberDetails = function (member) {
-        this.navCtrl.push('MemberDetailsPage', { data: member });
-    };
-    VaultDetailsPage.prototype.vaultByTags = function (tag) {
-        console.log('tag', tag);
-        this.navCtrl.push('VaultTagsPage', { data: tag });
-    };
-    VaultDetailsPage.prototype.vaultByCategory = function (category) {
-        this.navCtrl.push('VaultCategoryPage', { data: category });
-    };
-    VaultDetailsPage.prototype.LoadDetails = function (id) {
-        var _this = this;
-        this.epxProvider.getVaultDetails(id).subscribe(function (data) {
-            _this.details = data;
-            _this.isLoading = false;
-            console.log('details', _this.details);
+        this.tap = 0;
+        this.formGroup = formBuilder.group({
+            email: ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].compose([
+                    __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].pattern(__WEBPACK_IMPORTED_MODULE_3__validators_validator__["a" /* regexValidators */].email),
+                    __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required
+                ])]
         });
+        this.email_control = this.formGroup.controls['email'];
+    }
+    ForgotPasswordPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ForgotPasswordPage');
     };
-    VaultDetailsPage.prototype.helpfulURL = function (url) {
-        if (url == "") {
-            this.epxProvider.toastMessage('Invalid URL.');
-            return;
-        }
-        console.log('company url:', url);
-        if (this.platform.is('ios')) {
-            window.open(url, "_system");
-        }
-        else {
-            window.open(url, "_self");
+    ForgotPasswordPage.prototype.requestPassword = function () {
+        var _this = this;
+        console.log(this.email);
+        this.tap++;
+        if (this.tap <= 1) {
+            this.epxProvider.requestForgotPassword(this.email).subscribe(function (res) {
+                if (res.success) {
+                    _this.showAlert('Email Sent', res.message, true);
+                }
+                else {
+                    _this.showAlert('Invalid', res.message, false);
+                }
+            });
         }
     };
-    VaultDetailsPage = __decorate([
+    ForgotPasswordPage.prototype.showAlert = function (title, message, success) {
+        var _this = this;
+        this.tap = 0;
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: [{
+                    text: 'Close',
+                    handler: function (data) {
+                        if (success) {
+                            _this.navCtrl.pop();
+                        }
+                    }
+                }]
+        });
+        alert.present();
+    };
+    ForgotPasswordPage.prototype.closePage = function () {
+        this.navCtrl.pop();
+    };
+    ForgotPasswordPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-vault-details',template:/*ion-inline-start:"D:\epx_app\src\pages\vault-details\vault-details.html"*/'<!--\n  Generated template for the VaultDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Vault Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n  <!-- <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div> -->\n  <div class="banner">\n    <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(partial_details.embed_link)" *ngIf="partial_details.vault_type == \'video\'"> </iframe>\n    <img [src]="partial_details.embed_link" *ngIf="partial_details.vault_type == \'ebook\'">\n    <div class="title">\n      <h2 class="pre-line" [innerHtml]="partial_details.title | uppercase"></h2>\n      <p class="md-text" *ngIf="partial_details.vault_type != \'ebook\'">Length {{partial_details.length}}</p>\n    </div>\n  </div>\n  <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <div class="content" *ngIf="!isLoading">\n    <div class="content-text">\n      <div class="descrip">\n        <p class="sm-text pre-line" [innerHtml]="details.description"></p>\n      </div>\n      <ion-grid>\n        <ion-row>\n          <ion-col col-4>\n            <span class="sm-text strong">Posted :</span>\n          </ion-col>\n          <ion-col col-8>\n            <span class="md-text">{{details.posted}}</span>\n          </ion-col>\n        </ion-row>\n        <ion-row>\n          <ion-col col-4>\n            <span class="sm-text strong">Category :</span>\n          </ion-col>\n          <ion-col col-8>\n            <p class="md-text blue" *ngFor="let item of details.category" (click)="vaultByCategory(item)">{{item}}</p>\n          </ion-col>\n        </ion-row>\n        <ion-row class="tags">\n          <ion-col col-4>\n            <span class="sm-text strong">Skills :</span>\n          </ion-col>\n          <ion-col col-8 >\n            <button ion-button round outline small  *ngFor="let item of details.tags" (click)="vaultByTags(item)">{{item}}</button>\n          </ion-col>\n        </ion-row>\n        <ion-row class="url">\n            <ion-col col-4>\n              <span class="sm-text strong">Helpful URLs :</span>\n            </ion-col>\n            <ion-col col-8 >\n              <button ion-button round outline small  *ngFor="let item of details.helpful_link; let i = index" (click)="helpfulURL(item)">Link {{i + 1}}</button>\n            </ion-col>\n          </ion-row>\n      </ion-grid>\n\n      <div class="underline"></div>\n\n      <ion-item>\n        <ion-avatar>\n          <img src="{{details.avatar}}" (click)="memberDetails(details)">\n        </ion-avatar>\n        <br />\n        <p class="md-text text-center">Member Since: {{details.member_since}}</p>\n      </ion-item>\n      <br />\n      <p class="text-center md-text">\n        <span class="strong ">{{details.author_name}}</span> is the\n        <span class="strong " [innerHtml]="details.position"></span> at\n        <span class="strong blue" (click)="openBrowser(details.company_url)">{{details.company}}</span>, a\n        <span class="strong ">{{details.business_model}}</span> business in the\n        <span class="strong ">{{details.industry}}</span> industry with the\n        <span class="strong ">{{details.employee}}</span> employees.\n      </p>\n      <br />\n      <p class="md-text text-center">\n        <strong>A bit about me,</strong> {{details.personal_description}}</p>\n      <p class="md-text text-center">\n        <strong>A brief description about my business,</strong> {{details.business_description}}</p>\n      <br />\n      <p class="md-text text-center strong">I\'m an expert in:</p>\n      <p class="md-text text-center">{{details.expert_in}}</p>\n      <br />\n      <p class="md-text text-center strong">I can also help you with:</p>\n      <p class="md-text text-center">{{details.help_with}}</p>\n      <br />\n      <p class="md-text text-center strong">I prefer:</p>\n      <p class="md-text text-center pre-line" [innerHTML]="item" *ngFor="let item of details.I_prefer"></p>\n      <br />\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\vault-details\vault-details.html"*/,
+            selector: 'page-forgot-password',template:/*ion-inline-start:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/'<!--\n  Generated template for the ForgotPasswordPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Forgot Password</ion-title>\n    <ion-buttons right>\n        <button ion-button icon-end (click)="closePage()">\n          Close\n          <ion-icon name="close-circle"></ion-icon>\n        </button>\n      </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <div class="container">\n    <img src="./assets/imgs/fogot_password_icon.png"/>\n    <h1 class="xxl-text strong center primary">Forgot your password?</h1>\n    <p class="md-text center">Input your email to request password reset.</p>\n    <form [formGroup]="formGroup">\n      <ion-item>\n        <ion-label floating>Input your email</ion-label>\n        <ion-input type="email" formControlName="email" [(ngModel)]="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email_control.hasError(\'required\') && email_control.touched">Email is required.</p>\n      <button ion-button round outline [disabled]="!formGroup.valid" class="btn-right" (click)="requestPassword()">Send &nbsp;&nbsp;\n        <ion-icon name="send"></ion-icon>\n      </button>\n    </form>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_4_ionic_cache__["b" /* CacheService */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["c" /* DomSanitizer */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], VaultDetailsPage);
-    return VaultDetailsPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], ForgotPasswordPage);
+    return ForgotPasswordPage;
 }());
 
-//# sourceMappingURL=vault-details.js.map
+//# sourceMappingURL=forgot-password.js.map
+
+/***/ }),
+
+/***/ 332:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return regexValidators; });
+// The Angular email validator accepts an email like "rob@example", perhaps because "rob@localhost" could be valid.
+// The pureEmail regex does not accept "ryan@example" as a valid email address, which I think is a good thing.
+// See: EMAIL_REGEXP from https://github.com/angular/angular.js/blob/ffb6b2fb56d9ffcb051284965dd538629ea9687a/src/ng/directive/input.js#L16
+var PURE_EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// Passwords should be at least 8 characters long and should contain one number, one character and one special character.
+var PASSWORD_REGEXP = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+var regexValidators = {
+    email: PURE_EMAIL_REGEXP,
+    password: PASSWORD_REGEXP
+};
+//# sourceMappingURL=validator.js.map
 
 /***/ })
 

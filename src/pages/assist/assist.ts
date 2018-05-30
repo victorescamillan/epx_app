@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, Content, ViewCo
 import { EpxProvider } from '../../providers/epx/epx';
 import { CacheService } from 'ionic-cache';
 import { Observable } from 'rxjs/Observable';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import 'rxjs/add/observable/of';
 
 @IonicPage()
 @Component({

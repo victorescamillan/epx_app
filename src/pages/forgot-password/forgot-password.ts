@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angular';
-import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { regexValidators} from '../validators/validator'
 import { EpxProvider } from '../../providers/epx/epx';
 

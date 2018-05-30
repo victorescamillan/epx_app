@@ -6,9 +6,6 @@ import {
   GoogleMap,
   GoogleMapsEvent,
   GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker
 } from '@ionic-native/google-maps';
 
 @IonicPage()

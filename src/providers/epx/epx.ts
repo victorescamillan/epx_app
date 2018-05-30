@@ -8,14 +8,7 @@ import 'rxjs/add/operator/catch'
 import { Storage } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
 import { ToastController, Events } from 'ionic-angular';
-// import { CacheService } from "ionic-cache";
 
-/*
-  Generated class for the EpxProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class EpxProvider {
   target: string = 'dev';
@@ -24,7 +17,6 @@ export class EpxProvider {
   public forgot_password_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=reset-password&user-login=';
 
   // TRIPS
-  // public trips_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips&user_id=';
   public trips_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-with-pagination&user_id=';
   public trips_partialdetails_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trip-notice-data&trip_id=';
   public trips_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=trips-single-page&trip_id=';
@@ -66,7 +58,7 @@ export class EpxProvider {
   public business_taxonomy_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=business-taxonomy';
 
   //MENTOR MATCH
-  public mentormatch_skills_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
+  public mentormatch_skills_url: string = 'https://www.epxworldwide.com/JSON%20API/epx-json-data.php?request=get-mentor-skills';
   public mentormatch_submit_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=mentor-match&skill=';
 
   //MEMBER ASSIST

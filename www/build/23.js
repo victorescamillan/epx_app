@@ -1,14 +1,14 @@
 webpackJsonp([23],{
 
-/***/ 463:
+/***/ 305:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatPageModule", function() { return ChatPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginPageModule", function() { return LoginPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__chat__ = __webpack_require__(492);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(334);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,33 +18,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ChatPageModule = (function () {
-    function ChatPageModule() {
+var LoginPageModule = (function () {
+    function LoginPageModule() {
     }
-    ChatPageModule = __decorate([
+    LoginPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__chat__["a" /* ChatPage */],
+                __WEBPACK_IMPORTED_MODULE_2__login__["a" /* LoginPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__chat__["a" /* ChatPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__login__["a" /* LoginPage */]),
             ],
         })
-    ], ChatPageModule);
-    return ChatPageModule;
+    ], LoginPageModule);
+    return LoginPageModule;
 }());
 
-//# sourceMappingURL=chat.module.js.map
+//# sourceMappingURL=login.module.js.map
 
 /***/ }),
 
-/***/ 492:
+/***/ 334:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__(15);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -56,66 +58,110 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-/**
- * Generated class for the ChatPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var ChatPage = (function () {
-    function ChatPage(viewCtrl, navCtrl, navParams) {
-        this.viewCtrl = viewCtrl;
+
+
+var LoginPage = (function () {
+    function LoginPage(formBuilder, modalController, epxProvider, loadingCtrl, navCtrl, navParams, alertCtrl) {
+        this.formBuilder = formBuilder;
+        this.modalController = modalController;
+        this.epxProvider = epxProvider;
+        this.loadingCtrl = loadingCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.username = '';
-        this.message = '';
-        this.messages = [];
-        // _chatSubscription;
-        // public db:AngularFireDatabase,
-        this.isNotification = false;
-        // this.username = this.navParams.get('username');
-        // this._chatSubscription = db.list('chat').valueChanges().subscribe(data => {
-        //   this.messages = data;
-        // });
-        this.isNotification = navParams.data.isNotification;
+        this.alertCtrl = alertCtrl;
+        this.licenseKey = "COMETCHAT-0MZ10-PLO44-SWZAT-C9R3U";
+        this.apiKey = "50944x45d853898e582feaeaefe7db4df99b73";
+        this.formGroup = formBuilder.group({
+            email: ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["f" /* Validators */].compose([
+                    // Validators.pattern(regexValidators.email),
+                    __WEBPACK_IMPORTED_MODULE_3__angular_forms__["f" /* Validators */].required
+                ])],
+            password: ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["f" /* Validators */].required]
+        });
+        this.email_validation = this.formGroup.controls['email'];
+        this.password_validation = this.formGroup.controls['password'];
     }
-    ChatPage.prototype.closeFilter = function () {
-        this.viewCtrl.dismiss();
+    LoginPage.prototype.showAlert = function (title, message) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['OK']
+        });
+        alert.present();
     };
-    // sendMessage(){
-    //   this.db.list('/chat').push({
-    //     username: this.username,
-    //     message: this.message
-    //   }).then(()=>{
-    //   });
-    //   this.message = '';
-    // }
-    // ionViewWillLeave(){
-    //   console.log('user is about to go.');
-    //   this._chatSubscription.unsubscribe();
-    //   this.db.list('/chat').push({
-    //     specialMessage: true,
-    //     message: this.username + ' has left the room'
-    //   });
-    // }
-    ChatPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ChatPage');
-        // this.db.list('/chat').push({
-        //   specialMessage: true,
-        //   message: this.username + ' has joined the room'
-        // });
+    LoginPage.prototype.loginUser = function () {
+        var _this = this;
+        var loading = this.loadingCtrl.create({ content: 'Logging in...' });
+        loading.present().then(function () {
+            _this.epxProvider.getLogin(_this.username, _this.password).subscribe(function (result) {
+                if (result.authentication) {
+                    _this.epxProvider.saveData('ID', result.ID);
+                    _this.epxProvider.saveData('name', result.name);
+                    _this.epxProvider.saveData('email', result.email);
+                    _this.epxProvider.saveData('authentication', result.authentication);
+                    _this.epxProvider.saveData('enable_member', result.enable_member === '1' ? true : false);
+                    _this.epxProvider.saveData('enable_vault', result.enable_vault === '1' ? true : false);
+                    _this.epxProvider.saveData('enable_get_lucky', result.enable_get_lucky === '1' ? true : false);
+                    _this.epxProvider.saveData('member_details', result);
+                    loading.dismiss();
+                    _this.navCtrl.setRoot('MenuPage');
+                }
+                else {
+                    _this.showAlert('Login Failed', 'Invalid username or password');
+                    loading.dismiss();
+                }
+            });
+        });
     };
-    ChatPage = __decorate([
+    LoginPage.prototype.forgotPassword = function () {
+        this.forgotPasswordModal();
+    };
+    LoginPage.prototype.forgotPasswordModal = function () {
+        this.modalController.create('ForgotPasswordPage').present();
+    };
+    LoginPage.prototype.forgotPasswordAlert = function () {
+        var prompt = this.alertCtrl.create({
+            title: 'Forgot Password',
+            message: "Enter you email address to request password reset.",
+            inputs: [
+                {
+                    name: 'email',
+                    placeholder: 'Enter your email address'
+                },
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: function (data) {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Request',
+                    handler: function (data) {
+                        console.log('Request clicked');
+                    }
+                }
+            ]
+        });
+        prompt.present();
+    };
+    LoginPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad LoginPage');
+    };
+    LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-chat',template:/*ion-inline-start:"D:\epx_app\src\pages\chat\chat.html"*/'<!--\n  Generated template for the ChatPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Chat</ion-title>\n    <ion-buttons right *ngIf="isNotification">\n      <button ion-button icon-end (click)="closeFilter()">\n        Close\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n \n\n<ion-content padding>\n  <div id="chatMessages">\n    <div *ngFor="let message of messages" [class]="message.specialMessage ? \'message special\' : \'message\'">\n        <div [class]="message.username == username ? \'innerMessage messageRight\' : \'innerMessage messageLeft\'">\n          <div class="username">{{ message.username}}</div>\n          <div class="messageContent">{{ message.message}}</div>\n        </div>\n    </div>\n  </div>\n</ion-content>\n<ion-footer>\n    <ion-toolbar>\n      <div class="footer">\n        <div class="elem">\n          <ion-input type="text" [(ngModel)]="message" placeholder="Type your message here"></ion-input>\n        </div>\n        <div class="elem">\n          <button ion-button icon-only (click)="sendMessage()"><ion-icon name="send"></ion-icon></button>\n        </div>\n    </div>\n    </ion-toolbar>\n\n</ion-footer>\n'/*ion-inline-end:"D:\epx_app\src\pages\chat\chat.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"D:\epx_app\src\pages\login\login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!-- <ion-header>\n\n  <ion-navbar>\n    <ion-title>login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n -->\n<ion-content padding>\n  <div class="logo">\n    <img src="assets/imgs/epx_logo_colored.png" alt="epx logo">\n    <h1>Welcome Back!</h1>\n    <h1>New Adventures Await!</h1>\n  </div>\n  <form [formGroup]="formGroup">\n    <div class="login-item">\n      <ion-item>\n        <ion-label floating>Username</ion-label>\n        <ion-input [(ngModel)]="username" formControlName="email" type="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email_validation.hasError(\'required\') && email_validation.touched">Username is required.</p>\n      <ion-item>\n        <ion-label floating>Password</ion-label>\n        <ion-input [(ngModel)]="password" formControlName="password" type="password"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="password_validation.hasError(\'required\') && password_validation.touched">Password is required.</p>\n    </div>\n    <br/>\n    <button ion-button round block [disabled]="!formGroup.valid" (click)="loginUser()">Login</button>\n    \n    <button ion-button round block color="light" class="btn-forgot" (click)="forgotPassword()">Forgot your password?</button>\n  </form>\n\n\n  <!-- <p class="md-text center primary" (click)="forgotPassword()">Forgot your password?</p> -->\n\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\login\login.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], ChatPage);
-    return ChatPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
+    ], LoginPage);
+    return LoginPage;
 }());
 
-//# sourceMappingURL=chat.js.map
+//# sourceMappingURL=login.js.map
 
 /***/ })
 

@@ -1,14 +1,14 @@
 webpackJsonp([0],{
 
-/***/ 457:
+/***/ 324:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordPageModule", function() { return ForgotPasswordPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VaultPageModule", function() { return VaultPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forgot_password__ = __webpack_require__(484);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vault__ = __webpack_require__(354);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,36 +18,51 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ForgotPasswordPageModule = (function () {
-    function ForgotPasswordPageModule() {
+var VaultPageModule = (function () {
+    function VaultPageModule() {
     }
-    ForgotPasswordPageModule = __decorate([
+    VaultPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__forgot_password__["a" /* ForgotPasswordPage */],
+                __WEBPACK_IMPORTED_MODULE_2__vault__["a" /* VaultPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__forgot_password__["a" /* ForgotPasswordPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__vault__["a" /* VaultPage */]),
             ],
         })
-    ], ForgotPasswordPageModule);
-    return ForgotPasswordPageModule;
+    ], VaultPageModule);
+    return VaultPageModule;
 }());
 
-//# sourceMappingURL=forgot-password.module.js.map
+//# sourceMappingURL=vault.module.js.map
 
 /***/ }),
 
-/***/ 484:
+/***/ 326:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(5);
+var of_1 = __webpack_require__(211);
+Observable_1.Observable.of = of_1.of;
+//# sourceMappingURL=of.js.map
+
+/***/ }),
+
+/***/ 354:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgotPasswordPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VaultPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validators_validator__ = __webpack_require__(485);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_epx_epx__ = __webpack_require__(136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_of__ = __webpack_require__(326);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_of__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ionic_cache__ = __webpack_require__(210);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62,95 +77,270 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-/**
- * Generated class for the ForgotPasswordPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var ForgotPasswordPage = (function () {
-    function ForgotPasswordPage(epxProvider, formBuilder, alertCtrl, navCtrl, navParams) {
-        this.epxProvider = epxProvider;
-        this.formBuilder = formBuilder;
+
+var VaultPage = (function () {
+    function VaultPage(platform, alertCtrl, renderer, events, epxProvider, cache, navCtrl) {
+        this.platform = platform;
         this.alertCtrl = alertCtrl;
+        this.renderer = renderer;
+        this.events = events;
+        this.epxProvider = epxProvider;
+        this.cache = cache;
         this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.tap = 0;
-        this.formGroup = formBuilder.group({
-            email: ['', __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].compose([
-                    __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].pattern(__WEBPACK_IMPORTED_MODULE_3__validators_validator__["a" /* regexValidators */].email),
-                    __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* Validators */].required
-                ])]
-        });
-        this.email_control = this.formGroup.controls['email'];
+        this.oldScrollTop = 0;
+        this.isLoading = true;
+        this.isRefresh = false;
+        this.page = 1;
+        this.perPage = 0;
+        this.totalData = 0;
+        this.totalPage = 0;
+        this.skills = '';
+        this.category = '';
+        this.isFilter = false;
+        // Keep our cached results when device is offline!
+        cache.setOfflineInvalidate(false);
     }
-    ForgotPasswordPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ForgotPasswordPage');
-    };
-    ForgotPasswordPage.prototype.requestPassword = function () {
+    VaultPage.prototype.ionViewWillEnter = function () {
         var _this = this;
-        console.log(this.email);
-        this.tap++;
-        if (this.tap <= 1) {
-            this.epxProvider.requestForgotPassword(this.email).subscribe(function (res) {
-                if (res.success) {
-                    _this.showAlert('Email Sent', res.message, true);
+        this.backAction = this.platform.registerBackButtonAction(function () {
+            _this.navCtrl.parent.select(0);
+            _this.backAction();
+        }, 2);
+    };
+    VaultPage.prototype.ionViewWillLeave = function () {
+        this.backAction();
+    };
+    VaultPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad VaultPage');
+        this.LoadVault();
+        this.loadSkillsCategory();
+    };
+    VaultPage.prototype.vaultDetails = function (vault) {
+        this.navCtrl.push('VaultDetailsPage', { data: vault });
+    };
+    VaultPage.prototype.LoadVault = function (refresher) {
+        var _this = this;
+        var url = this.epxProvider.vault_infinite_url;
+        var ttl = this.epxProvider.TTL;
+        var delay_type = this.epxProvider.DELAY_TYPE;
+        var groupKey = 'vault-list';
+        this.page = 1;
+        var connected = this.epxProvider.isConnected();
+        console.log('connected: ', connected);
+        if (connected) {
+            this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE10, this.page).subscribe(function (data) {
+                var vault = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.vaults);
+                _this.totalPage = data.number_of_page;
+                console.log('vault list', vault);
+                if (refresher) {
+                    _this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type).subscribe(function (data) {
+                        _this.vaultList = Object.keys(data).map(function (key) { return data[key]; });
+                        refresher.complete();
+                        _this.loadSkillsCategory();
+                        _this.isFilter = false;
+                    });
                 }
                 else {
-                    _this.showAlert('Invalid', res.message, false);
+                    _this.cache.loadFromDelayedObservable(url, vault, groupKey, ttl, delay_type).subscribe(function (data) {
+                        _this.vaultList = Object.keys(data).map(function (key) { return data[key]; });
+                    });
+                }
+                _this.isLoading = false;
+                _this.isRefresh = true;
+                _this.epxProvider.updateNotification(_this.epxProvider.VAULT_BADGE);
+            }, function (error) {
+                console.log(error);
+                _this.epxProvider.toastMessage('Internal Server Error!');
+            });
+        }
+        else {
+            this.epxProvider.getData(url).then(function (data) {
+                if (data != null) {
+                    var offline_data = __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].of(data.value);
+                    console.log('offline data: ', offline_data);
+                    if (refresher) {
+                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(function (data) {
+                            _this.vaultList = data;
+                            refresher.complete();
+                        });
+                    }
+                    else {
+                        _this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(function (data) {
+                            _this.vaultList = data;
+                        });
+                    }
+                    _this.isLoading = false;
+                    _this.isRefresh = true;
+                }
+                else {
+                    console.log('offline data: ', data);
                 }
             });
         }
     };
-    ForgotPasswordPage.prototype.showAlert = function (title, message, success) {
+    //Show badge if there is an update
+    VaultPage.prototype.ionViewDidEnter = function () {
         var _this = this;
-        this.tap = 0;
+        this.epxProvider.getData(this.epxProvider.VAULT_BADGE).then(function (badge) {
+            if (badge != null && badge > 0) {
+                _this.events.publish(_this.epxProvider.VAULT_BADGE, badge);
+            }
+        });
+    };
+    //Pull to refresh page
+    VaultPage.prototype.forceReload = function (refresher) {
+        this.LoadVault(refresher);
+    };
+    VaultPage.prototype.doInfinite = function (infiniteScroll) {
+        var _this = this;
+        console.log('Begin async operation');
+        this.epxProvider.getVaultInfinite(this.epxProvider.PAGE_SIZE10, this.page + 1).subscribe(function (data) {
+            var vault = data.vaults;
+            var temp = Object.keys(vault).map(function (key) { return vault[key]; });
+            for (var i = 0; i < temp.length; i++) {
+                _this.vaultList.push(temp[i]);
+            }
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
+            _this.page++;
+            console.log('current page: ', _this.page);
+        }, function (error) {
+            infiniteScroll.complete();
+            _this.isLoading = false;
+            _this.isRefresh = true;
+        });
+    };
+    VaultPage.prototype.ionSelected = function () {
+        console.log('vault selected');
+        var topDistance = this.content.getContentDimensions().scrollTop;
+        console.log('scroll top', topDistance);
+        if (topDistance > 10) {
+            this.content.scrollToTop();
+        }
+    };
+    VaultPage.prototype.loadSkillsCategory = function () {
+        var _this = this;
+        this.skills = '';
+        this.category = '';
+        this.epxProvider.getVaultSkillsCategory().subscribe(function (res) {
+            console.log('initSkillsCategory', res);
+            _this.skillsList = res.skills;
+            _this.categoryList = res.category;
+        });
+    };
+    VaultPage.prototype.filterVault = function () {
+        var _this = this;
+        if (this.skills === '' && this.category === '' || this.skills == undefined && this.category == undefined) {
+            this.epxProvider.toastMessage('Please select skills or category');
+            return;
+        }
+        this.isFilter = true;
+        this.isLoading = true;
+        this.isRefresh = false;
+        this.epxProvider.getVaultFilters(this.skills, this.category).subscribe(function (res) {
+            console.log('getVaultFilters', res);
+            if (res.result === true) {
+                var vault = Object.keys(res.data).map(function (key) { return res.data[key]; });
+                _this.vaultList = vault;
+            }
+            else {
+                _this.epxProvider.toastMessage('No results found!');
+            }
+            _this.isLoading = false;
+        }, function (error) {
+            console.log('error: ', error);
+            _this.epxProvider.toastMessage('Internal error.');
+            _this.isLoading = false;
+        });
+    };
+    VaultPage.prototype.onScroll = function (event) {
+        if (event.scrollTop - this.oldScrollTop > 10) {
+            this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
+            console.log('scroll down', event.scrollTop - this.oldScrollTop);
+        }
+        else if (event.scrollTop - this.oldScrollTop < 0) {
+            this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
+            console.log('scroll up', event.scrollTop - this.oldScrollTop);
+        }
+        this.oldScrollTop = event.scrollTop;
+    };
+    VaultPage.prototype.searchVault = function () {
+        this.presentPrompt();
+    };
+    VaultPage.prototype.presentPrompt = function () {
+        var _this = this;
         var alert = this.alertCtrl.create({
-            title: title,
-            subTitle: message,
-            buttons: [{
-                    text: 'Close',
+            title: 'Vault Search',
+            inputs: [
+                {
+                    name: 'name',
+                    placeholder: 'Input name'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
                     handler: function (data) {
-                        if (success) {
-                            _this.navCtrl.pop();
-                        }
+                        console.log('Cancel clicked');
                     }
-                }]
+                },
+                {
+                    text: 'Ok',
+                    handler: function (data) {
+                        _this.isLoading = true;
+                        _this.isRefresh = false;
+                        _this.isFilter = true;
+                        if (data.name === '') {
+                            _this.epxProvider.toastMessage('Please input name');
+                            _this.isLoading = false;
+                            _this.isFilter = false;
+                            return;
+                        }
+                        _this.epxProvider.getVaultSearch(data.name, _this.skills, _this.category).subscribe(function (res) {
+                            console.log('search result: ', res);
+                            if (res.result === true) {
+                                _this.vaultList = Object.keys(res.data).map(function (key) { return res.data[key]; });
+                            }
+                            else {
+                                _this.epxProvider.toastMessage('No results found.');
+                            }
+                            _this.isLoading = false;
+                        }, function (error) {
+                            _this.epxProvider.toastMessage('Internal error.');
+                            _this.isLoading = false;
+                        });
+                    }
+                }
+            ]
         });
         alert.present();
     };
-    ForgotPasswordPage.prototype.closePage = function () {
-        this.navCtrl.pop();
-    };
-    ForgotPasswordPage = __decorate([
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
+    ], VaultPage.prototype, "content", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('filter'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+    ], VaultPage.prototype, "filter", void 0);
+    VaultPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-forgot-password',template:/*ion-inline-start:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/'<!--\n  Generated template for the ForgotPasswordPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Forgot Password</ion-title>\n    <ion-buttons right>\n        <button ion-button icon-end (click)="closePage()">\n          Close\n          <ion-icon name="close-circle"></ion-icon>\n        </button>\n      </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <div class="container">\n    <img src="./assets/imgs/fogot_password_icon.png"/>\n    <h1 class="xxl-text strong center primary">Forgot your password?</h1>\n    <p class="md-text center">Input your email to request password reset.</p>\n    <form [formGroup]="formGroup">\n      <ion-item>\n        <ion-label floating>Input your email</ion-label>\n        <ion-input type="email" formControlName="email" [(ngModel)]="email"></ion-input>\n      </ion-item>\n      <p class="danger small" *ngIf="email_control.hasError(\'required\') && email_control.touched">Email is required.</p>\n      <button ion-button round outline [disabled]="!formGroup.valid" class="btn-right" (click)="requestPassword()">Send &nbsp;&nbsp;\n        <ion-icon name="send"></ion-icon>\n      </button>\n    </form>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\forgot-password\forgot-password.html"*/,
+            selector: 'page-vault',template:/*ion-inline-start:"D:\epx_app\src\pages\vault\vault.html"*/'<!--\n  Generated template for the VaultPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>THE VAULT</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only color="light" (click)="searchVault()">\n        <ion-icon isActive="true" name="search"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content (ionScroll)="onScroll($event)">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n\n  <div class="filter" #filter>\n    <ion-row>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Skills\n          </ion-label>\n          <ion-select [(ngModel)]="skills">\n            <!-- <ion-option disabled value="">Region</ion-option> -->\n            <ion-option *ngFor="let item of skillsList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-5>\n        <ion-item>\n          <ion-label>\n            Category\n          </ion-label>\n          <ion-select [(ngModel)]="category">\n            <!-- <ion-option disabled value="">Trip Type</ion-option> -->\n            <ion-option *ngFor="let item of categoryList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n      <ion-col col-2>\n        <button ion-button outline color="light" class="btn-search" (click)="filterVault()">\n          <!-- <ion-icon name="search"></ion-icon> -->\n          Go\n        </button>\n      </ion-col>\n    </ion-row>\n  </div>\n\n  <div id="indicator" class="{{isLoading && !isRefresh ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n\n\n  <ion-card *ngFor="let vault of vaultList">\n    <div class="vault-image">\n      <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == \'video\' ? \'video\' : \'pdf\'}}">\n    </div>\n    <ion-card-content>\n      <h3 class="content-text xl-text strong blue pre-line" [innerHtml]="vault.title | uppercase">\n      </h3>\n      <ion-item>\n        <ion-avatar item-start>\n          <img src="{{vault.author_avatar}}">\n        </ion-avatar>\n        <h2>\n          <strong class="black">{{vault.author}}</strong> |\n          <span class="gray">{{vault.length}}</span>\n        </h2>\n        <p>{{vault.posted | date : \'MMMM d, y\'}}</p>\n      </ion-item>\n    </ion-card-content>\n  </ion-card>\n\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">\n    <ion-infinite-scroll-content loadingText="Loading more vaults..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\vault\vault.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormBuilder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], ForgotPasswordPage);
-    return ForgotPasswordPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Renderer2 */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
+            __WEBPACK_IMPORTED_MODULE_5_ionic_cache__["b" /* CacheService */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */]])
+    ], VaultPage);
+    return VaultPage;
 }());
 
-//# sourceMappingURL=forgot-password.js.map
-
-/***/ }),
-
-/***/ 485:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return regexValidators; });
-// The Angular email validator accepts an email like "rob@example", perhaps because "rob@localhost" could be valid.
-// The pureEmail regex does not accept "ryan@example" as a valid email address, which I think is a good thing.
-// See: EMAIL_REGEXP from https://github.com/angular/angular.js/blob/ffb6b2fb56d9ffcb051284965dd538629ea9687a/src/ng/directive/input.js#L16
-var PURE_EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-// Passwords should be at least 8 characters long and should contain one number, one character and one special character.
-var PASSWORD_REGEXP = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-var regexValidators = {
-    email: PURE_EMAIL_REGEXP,
-    password: PASSWORD_REGEXP
-};
-//# sourceMappingURL=validator.js.map
+//# sourceMappingURL=vault.js.map
 
 /***/ })
 

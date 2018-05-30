@@ -1,14 +1,14 @@
 webpackJsonp([26],{
 
-/***/ 462:
+/***/ 300:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AssistPageModule", function() { return AssistPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BusinessDetailsPageModule", function() { return BusinessDetailsPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__assist__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__business_details__ = __webpack_require__(328);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,37 +18,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var AssistPageModule = (function () {
-    function AssistPageModule() {
+var BusinessDetailsPageModule = (function () {
+    function BusinessDetailsPageModule() {
     }
-    AssistPageModule = __decorate([
+    BusinessDetailsPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__assist__["a" /* AssistPage */],
+                __WEBPACK_IMPORTED_MODULE_2__business_details__["a" /* BusinessDetailsPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__assist__["a" /* AssistPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__business_details__["a" /* BusinessDetailsPage */]),
             ],
         })
-    ], AssistPageModule);
-    return AssistPageModule;
+    ], BusinessDetailsPageModule);
+    return BusinessDetailsPageModule;
 }());
 
-//# sourceMappingURL=assist.module.js.map
+//# sourceMappingURL=business-details.module.js.map
 
 /***/ }),
 
-/***/ 491:
+/***/ 328:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssistPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BusinessDetailsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(136);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_cache__ = __webpack_require__(286);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -61,246 +58,67 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
-var AssistPage = (function () {
-    function AssistPage(events, viewCtrl, renderer, cache, loadingCtrl, provider, navCtrl, navParams) {
-        this.events = events;
-        this.viewCtrl = viewCtrl;
-        this.renderer = renderer;
-        this.cache = cache;
-        this.loadingCtrl = loadingCtrl;
-        this.provider = provider;
+/**
+ * Generated class for the BusinessDetailsPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var BusinessDetailsPage = (function () {
+    function BusinessDetailsPage(epxProvider, navCtrl, navParams) {
+        this.epxProvider = epxProvider;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.expertise = '';
         this.isLoading = true;
-        this.isRefresh = false;
-        this.isFilter = false;
-        this.page = 1;
-        this.totalPage = 0;
-        this.oldScrollTop = 0;
-        this.isNotification = false;
-        console.log('navCtrl', navCtrl);
-        this.events.subscribe(this.provider.CLOSE_PAGE, function (value) {
-            if (value) {
-                navCtrl.popToRoot();
-            }
-        });
+        // let id = navParams.data.data.ID;
+        // this.loadBusinessDetails(id); 
+        this.partial_details = navParams.data.data;
+        console.log('param', navParams.data.data);
     }
-    AssistPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad AssistPage');
-        this.loadMemberAssist();
-    };
-    AssistPage.prototype.closeFilter = function () {
-        this.viewCtrl.dismiss();
-    };
-    AssistPage.prototype.loadMemberAssist = function (refresher) {
+    BusinessDetailsPage.prototype.loadBusinessDetails = function (id) {
         var _this = this;
-        var url = this.provider.business_infinite_url;
-        var ttl = this.provider.TTL;
-        var delay_type = this.provider.DELAY_TYPE;
-        var groupKey = 'assist-list';
-        this.page = 1;
-        var connected = this.provider.isConnected();
-        if (connected) {
-            if (refresher) {
-                this.expertise = '';
-                this.provider.getData('ID').then(function (id) {
-                    _this.provider.getMemberAssist(id, 10, _this.page).subscribe(function (res) {
-                        var assist = __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__["Observable"].of(res.data);
-                        _this.cache.loadFromDelayedObservable(url, assist, groupKey, ttl, delay_type).subscribe(function (data) {
-                            _this.assistList = data;
-                            _this.expertiseList = res.skill;
-                            console.log(_this.assistList);
-                        });
-                        _this.isLoading = false;
-                        _this.isFilter = false;
-                        _this.page = 1;
-                        refresher.complete();
-                    }, function (error) {
-                        _this.provider.toastMessage('Internal error!');
-                        _this.isLoading = false;
-                        refresher.complete();
-                    });
-                });
-            }
-            else {
-                this.provider.getData('ID').then(function (id) {
-                    _this.provider.getMemberAssist(id, 10, _this.page).subscribe(function (res) {
-                        var assist = __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__["Observable"].of(res.data);
-                        console.log('getMemberAssist', res.data);
-                        _this.cache.loadFromDelayedObservable(url, assist, groupKey, ttl, delay_type).subscribe(function (data) {
-                            console.log('loadFromObservable', data);
-                            _this.assistList = data;
-                        });
-                        // this.assistList = res.data;
-                        _this.totalPage = res.number_of_page;
-                        _this.expertiseList = res.skill;
-                        _this.isLoading = false;
-                        _this.isRefresh = true;
-                    }, function (error) {
-                        _this.provider.toastMessage('Internal error!');
-                        _this.isLoading = false;
-                        _this.isRefresh = true;
-                    });
-                });
-            }
-        }
-        else {
-            this.provider.getData(url).then(function (data) {
-                if (data != null) {
-                    var offline_data = __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__["Observable"].of(data.value);
-                    console.log('offline data: ', offline_data);
-                    if (refresher) {
-                        _this.cache.loadFromDelayedObservable(url, offline_data, groupKey, ttl, delay_type).subscribe(function (data) {
-                            _this.assistList = data;
-                            refresher.complete();
-                        });
-                    }
-                    else {
-                        _this.cache.loadFromObservable(url, offline_data, groupKey).subscribe(function (data) {
-                            _this.assistList = data;
-                        });
-                    }
-                    _this.isLoading = false;
-                    _this.isRefresh = true;
-                }
-                else {
-                    console.log('offline data: ', data);
-                    refresher.complete();
-                }
-            });
-        }
-    };
-    //Pull to refresh page
-    AssistPage.prototype.forceReload = function (refresher) {
-        this.loadMemberAssist(refresher);
-    };
-    AssistPage.prototype.filterAssist = function () {
-        var _this = this;
-        if (this.expertise == '') {
-            this.provider.toastMessage('Please select expertise.');
-            return;
-        }
-        this.isFilter = true;
-        // this.isLoading = true;
-        // this.isRefresh = false;
-        var loading = this.loadingCtrl.create({ content: 'Loading...' });
-        loading.present().then(function () {
-            _this.provider.getData('ID').then(function (id) {
-                _this.provider.getMemberAssistFilter(id, _this.expertise).subscribe(function (res) {
-                    console.log('getMemberAssistFilter', res);
-                    if (res.result == true) {
-                        _this.assistList = res.data;
-                    }
-                    else {
-                        _this.provider.toastMessage('No results found!');
-                    }
-                    loading.dismiss();
-                }, function (error) {
-                    _this.provider.toastMessage('Internal Error!');
-                    loading.dismiss();
-                });
-            });
-        });
-        setTimeout(function () {
-            loading.dismiss();
-        }, 20000);
-    };
-    AssistPage.prototype.respondToRequest = function (item) {
-        var _this = this;
-        if (item.connected) {
-            this.navCtrl.push('ChatPage');
-        }
-        else {
-            this.provider.getData('ID').then(function (id) {
-                var loading = _this.loadingCtrl.create({
-                    content: 'Please wait...',
-                });
-                loading.present().then(function () {
-                    _this.provider.respondMemberAssist(id, item.ID).subscribe(function (res) {
-                        console.log('respondToRequest', res);
-                        if (res.result == true) {
-                            _this.navCtrl.push('ChatPage');
-                            item.connected = res.result;
-                        }
-                        loading.dismiss();
-                    }, function (error) {
-                        _this.provider.toastMessage('Internal error!');
-                        loading.dismiss();
-                    });
-                });
-            });
-        }
-    };
-    AssistPage.prototype.doInfinite = function (infiniteScroll) {
-        var _this = this;
-        console.log('Begin async operation');
-        this.provider.getData('ID').then(function (id) {
-            _this.provider.getMemberAssist(id, _this.provider.PAGE_SIZE15, _this.page + 1).subscribe(function (res) {
-                var assist = res.data;
-                for (var i = 0; i < assist.length; i++) {
-                    _this.assistList.push(assist[i]);
-                    console.log(assist[i]);
-                }
-                infiniteScroll.complete();
-                _this.page++;
-                _this.isLoading = false;
-                _this.isRefresh = true;
-            }, function (error) {
-                _this.provider.toastMessage('Internal error!');
-                infiniteScroll.complete();
-                _this.isLoading = false;
-                _this.isRefresh = true;
-            });
+        this.epxProvider.getBusinessDetails(id).subscribe(function (data) {
+            _this.details = data;
+            console.log('details:', _this.details);
+            _this.isLoading = false;
+        }, function (error) {
+            _this.epxProvider.toastMessage('Internal error!');
+            _this.isLoading = false;
         });
     };
-    AssistPage.prototype.scrollToTop = function () {
-        this.content.scrollToTop();
+    BusinessDetailsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad BusinessDetailsPage');
+        this.loadBusinessDetails(this.partial_details.ID);
     };
-    AssistPage.prototype.onScroll = function (event) {
-        console.log(this.fab);
-        if (event.scrollTop - this.oldScrollTop > 10) {
-            this.renderer.addClass(this.filter.nativeElement, 'hide-filter');
-            this.renderer.addClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
-            console.log('scroll down', event.scrollTop - this.oldScrollTop);
-        }
-        else if (event.scrollTop - this.oldScrollTop < 0) {
-            this.renderer.removeClass(this.filter.nativeElement, 'hide-filter');
-            this.renderer.removeClass(this.fab._mainButton._elementRef.nativeElement, 'fab-show');
-            console.log('scroll up', event.scrollTop - this.oldScrollTop);
-        }
-        this.oldScrollTop = event.scrollTop;
+    BusinessDetailsPage.prototype.memberDetails = function () {
+        var data = {
+            ID: this.details.ID,
+            member_since: this.details.member_since,
+            avatar: this.details.avatar,
+            business_model: this.details.business_model,
+            business_url: this.details.business_url,
+            company: this.details.member_company,
+            employee: this.details.employee,
+            expert_in: this.details.expert_in,
+            help_with: this.details.help_with,
+            industry: this.details.industry,
+            name: this.details.member_name,
+            personal_description: this.details.personal_discription,
+            position: this.details.member_position,
+        };
+        console.log('data', this.details);
+        this.navCtrl.push('MemberDetailsPage', { data: data });
     };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
-    ], AssistPage.prototype, "content", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('filter'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
-    ], AssistPage.prototype, "filter", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('fab'),
-        __metadata("design:type", Object)
-    ], AssistPage.prototype, "fab", void 0);
-    AssistPage = __decorate([
+    BusinessDetailsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-assist',template:/*ion-inline-start:"D:\epx_app\src\pages\assist\assist.html"*/'<!--\n  Generated template for the AssistPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Member Assist</ion-title>\n    <ion-buttons right *ngIf="isNotification">\n      <button ion-button icon-end (click)="closeFilter()">\n        Close\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content (ionScroll)="onScroll($event)">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n  <div class="filter" #filter>\n    <ion-row>\n      <ion-col col-10>\n        <ion-item>\n          <ion-label>\n            Expertise\n          </ion-label>\n          <ion-select [(ngModel)]="expertise">\n            <ion-option *ngFor="let item of expertiseList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n\n      <ion-col col-2>\n        <button ion-button outline color="light" class="btn-search" (click)="filterAssist()">\n          Go\n        </button>\n      </ion-col>\n    </ion-row>\n  </div>\n  <ion-fab #fab bottom right class="fab-hide" (click)="scrollToTop()">\n    <button ion-fab mini>\n      <ion-icon name="arrow-dropup"></ion-icon>\n    </button>\n  </ion-fab>\n  <div id="indicator" class="{{isLoading ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let item of assistList">\n    <ion-item>\n      <ion-avatar item-start>\n        <img src="{{item.avatar}}">\n      </ion-avatar>\n      <h2>{{item.member_name}}</h2>\n      <ion-row class="sm-text">\n        <ion-col col-2>\n          <strong class="black">Skill :</strong>\n        </ion-col>\n        <ion-col col-10 class="gray">{{item.skill}}</ion-col>\n      </ion-row>\n    </ion-item>\n    <ion-card-content>\n      <p class="md-text pre-line" [innerHtml]="item.details">\n      </p>\n      <ion-row class="sm-text created">\n        <ion-col col-3>\n          <strong class="gray">Created :</strong>\n        </ion-col>\n        <ion-col col-9>{{item.date_created}}</ion-col>\n      </ion-row>\n      <ion-row class="sm-text">\n        <ion-col col-3>\n          <strong class="gray">Pending :</strong>\n        </ion-col>\n        <ion-col col-9>{{item.Pending}} days</ion-col>\n      </ion-row>\n      <button ion-button small outline [color]="item.connected ? \'secondary\' : \'primary\'" (click)="respondToRequest(item)">{{item.connected ? \'Connected\' : \'Respond\'}}</button>\n    </ion-card-content>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">\n    <ion-infinite-scroll-content loadingText="Loading more..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\assist\assist.html"*/,
+            selector: 'page-business-details',template:/*ion-inline-start:"D:\epx_app\src\pages\business-details\business-details.html"*/'<!--\n  Generated template for the BusinessDetailsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Business Details</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content>\n\n  <!-- <div class="page-thumbnail" >\n    <img class="business-logo" [src]="details.page_thumbnail">\n    <div class="page-title">\n      <h2 class="md-text pre-line" [innerHtml]="details.business_name | uppercase"></h2>\n    </div>\n  </div> -->\n  <div class="business-content">\n    <img class="business-logo" [src]="partial_details.business_logo">\n    <h4>Business Name:</h4>\n    <p class="md-text no-margin">{{partial_details.business_name}}</p>\n\n    <h4>Business Description:</h4>\n    <p class="md-text pre-line no-margin" [innerHTML]="partial_details.business_description"></p>\n\n    <h4>Target Customers:</h4>\n    <p class="md-text ">{{partial_details.target_customers}}</p>\n\n    <h4>Benefits Delivered:</h4>\n    <p class="md-text pre-line no-margin" [innerHTML]="partial_details.benefits_delivered"></p>\n\n    <h4>Where I can use help:</h4>\n    <p class="md-text no-margin" [innerHTML]="partial_details.business_industry"></p>\n\n    <!-- <h4>Target Customers:</h4>\n    <p class="md-text">{{details.target_customers}}</p> -->\n    <div id="indicator" [class]="isLoading ? \'show-indicator\' : \'hide-indicator\'">\n      <ion-spinner name="crescent"></ion-spinner>\n    </div>\n    <div class="owner-info" *ngIf="!isLoading">\n      <img class="owner-thumbnail" [src]="partial_details.avatar" (click)="memberDetails()">\n      <h1>{{partial_details.member_name}}</h1>\n      <p class="md-text no-margin">{{partial_details.member_position}}</p>\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\business-details\business-details.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Renderer2 */],
-            __WEBPACK_IMPORTED_MODULE_3_ionic_cache__["b" /* CacheService */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
-    ], AssistPage);
-    return AssistPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
+    ], BusinessDetailsPage);
+    return BusinessDetailsPage;
 }());
 
-//# sourceMappingURL=assist.js.map
+//# sourceMappingURL=business-details.js.map
 
 /***/ })
 

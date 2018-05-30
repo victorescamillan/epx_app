@@ -1,7 +1,8 @@
-import { Component, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Events, Content, DateTime, Platform } from 'ionic-angular';
+import { Component, ViewChild, Renderer2 } from '@angular/core';
+import { IonicPage, NavController, NavParams, Events, Content, Platform } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { CacheService } from 'ionic-cache';
 
 @IonicPage()
@@ -27,7 +28,6 @@ export class SoloPage {
     private platform: Platform,
     private renderer: Renderer2,
     private events:Events,
-    private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     private cache: CacheService,
     public navCtrl: NavController, public navParams: NavParams) {

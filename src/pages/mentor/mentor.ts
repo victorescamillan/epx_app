@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform, Events } from 'ionic-angular';
-import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Events } from 'ionic-angular';
+import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { regexValidators } from '../validators/validator'
 import { EpxProvider } from '../../providers/epx/epx';
 
@@ -22,7 +22,6 @@ export class MentorPage {
   skill: any;
   constructor(
     private events: Events,
-    private platform: Platform,
     private loadingCtrl: LoadingController,
     private provider: EpxProvider, private alertCtrl: AlertController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams) {
     this.events.subscribe(this.provider.CLOSE_PAGE, value => {

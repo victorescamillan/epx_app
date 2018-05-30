@@ -1,12 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
-import { Observable } from 'rxjs/Observable';
-import { StatusBar } from '@ionic-native/status-bar';
-
-// import { trigger, state, style, transition, animate,keyframes } from '@angular/animations'
-
-
 
 declare const google;
 
@@ -47,10 +41,8 @@ export class TripDetailsPage {
   // gallery_length: number;
 
   constructor(
-    private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
     // private googleMaps: GoogleMaps,
-    private platform: Platform,
     // public geolocation: Geolocation,
     public navCtrl: NavController, public navParams: NavParams) {
     this.partial_details = navParams.data.data;
@@ -163,11 +155,11 @@ export class TripDetailsPage {
       mapTypeId: 'roadmap'
     });
 
-    var marker = new google.maps.Marker({
-      position: position,
-      map: this.map,
-      title: location
-    });
+    // var marker = new google.maps.Marker({
+    //   position: position,
+    //   map: this.map,
+    //   title: location
+    // });
 
     this.map.setCenter(position);
   }

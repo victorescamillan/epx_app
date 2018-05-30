@@ -1,15 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser'
 import { EpxProvider } from '../../providers/epx/epx';
-import { Observable } from 'rxjs/Observable';
-import { CacheService } from 'ionic-cache';
-/**
- * Generated class for the VaultDetailsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -24,9 +16,7 @@ export class VaultDetailsPage {
 
   constructor(
     private platform: Platform,
-    private loadingCtrl: LoadingController,
     private epxProvider: EpxProvider,
-    private cache: CacheService,
     public domSanitizer: DomSanitizer,
     public navCtrl: NavController, public navParams: NavParams) {
     this.partial_details = navParams.data.data;
