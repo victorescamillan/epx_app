@@ -20,6 +20,7 @@ export class VaultDetailsPage {
     public domSanitizer: DomSanitizer,
     public navCtrl: NavController, public navParams: NavParams) {
     this.partial_details = navParams.data.data;
+    console.log('partial_details',this.partial_details);
   }
   ionViewWillEnter(){
     let backAction = this.platform.registerBackButtonAction(() => {

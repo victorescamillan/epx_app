@@ -23,6 +23,8 @@ export class TabsPage {
 
   isAppOpen: Boolean = false;
   tripPartialDetails: any;
+  vaultPartialDetails: any;
+  memberPartialDetails: any;
   constructor(
     private oneSignal: OneSignal,
     private epxProvider: EpxProvider,
@@ -75,7 +77,7 @@ export class TabsPage {
     this.events.subscribe(this.epxProvider.IS_LOGIN_NOTIFICATION, value => {
       this.oneSignal.sendTag('is_login', value);
     });
-    
+
 
   }
   initOneSignal() {
@@ -105,29 +107,8 @@ export class TabsPage {
       console.log('notification received. ', data);
       let target = data.payload.additionalData.target;
       let update = data.payload.additionalData.update;
-      let trip_id = data.payload.additionalData.product_id;
 
-      this.epxProvider.getData('ID').then(user_id => {
-        this.epxProvider.getTripPartialDetails(trip_id,user_id).subscribe(res => {
-          let data = {
-            ID: res.ID,
-            isInterested: res.trip_interested.interested,
-            sashes_image: res.sashes_image,
-            location: res.map_info.map_address,
-            lat: Number(res.map_info.map_latitude),
-            lng: Number(res.map_info.map_longitude),
-            product_cat: res.product_cat,
-            title: res.title,
-            trip_gallery: res.trip_gallery,
-            full_content: res.full_content
-          }
-          this.tripPartialDetails = data;
-        },error => {
-          this.epxProvider.toastMessage('Internal Error!');
-        });
-      })
-      
-      
+
       this.isAppOpen = true;
       switch (target) {
         case 'trip': {
@@ -147,28 +128,37 @@ export class TabsPage {
               });
             }
           });
+          let trip_id = data.payload.additionalData.product_id;
+          this.epxProvider.getData('ID').then(user_id => {
+            this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(res => {
+              let data = {
+                ID: res.ID,
+                isInterested: res.trip_interested.interested,
+                sashes_image: res.sashes_image,
+                location: res.map_info.map_address,
+                lat: Number(res.map_info.map_latitude),
+                lng: Number(res.map_info.map_longitude),
+                product_cat: res.product_cat,
+                title: res.title,
+                trip_gallery: res.trip_gallery,
+                full_content: res.full_content
+              }
+              this.tripPartialDetails = data;
+              console.log('tripPartialDetails', data);
+            }, error => {
+              this.epxProvider.toastMessage('Internal Error!');
+            });
+          })
           break;
         }
-
-        // case 'solo': {
-        //   this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(old_badge => {
-        //     if (old_badge != null && old_badge > 0) {
-        //       let badge = Number(update) + Number(old_badge);
-        //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, badge).then(new_badge => {
-        //         this.soloBadge = new_badge;
-        //         this.detectorRef.detectChanges();
-        //       });
-        //     }
-        //     else {
-        //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(new_badge => {
-        //         this.soloBadge = new_badge;
-        //         this.detectorRef.detectChanges();
-        //       });
-        //     }
-        //   });
-        //   break;
-        // }
         case 'vault': {
+          let vault_id = data.payload.additionalData.vault_id;
+          this.epxProvider.getVaultPartialDetails(vault_id).subscribe(res => {
+            console.log('vault partial details', res.vaults[0]);
+            this.vaultPartialDetails = res.vaults[0];
+          }, error => {
+            this.epxProvider.toastMessage('Internal error!');
+          });
           this.epxProvider.getData(this.epxProvider.VAULT_BADGE).then(old_badge => {
             if (old_badge != null && old_badge > 0) {
               let badge = Number(update) + Number(old_badge);
@@ -223,7 +213,7 @@ export class TabsPage {
             this.navCtrl.push('MentorPage')
             break;
           }
-        
+
           case 'trip-detail': {
             let data = {
               ID: trip.ID,
@@ -251,23 +241,45 @@ export class TabsPage {
             // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
-            
+
           }
           case 'member-assist-chat': {
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
           }
-          case 'trip-notice': {
-            console.log('tripPartialDetails',this.tripPartialDetails);
+          case 'trip': {
+            console.log('tripPartialDetails', this.tripPartialDetails);
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-            this.navCtrl.push('TripDetailsPage', {data : this.tripPartialDetails});
+            this.navCtrl.push('TripDetailsPage', { data: this.tripPartialDetails });
+          }
+          case 'trip-notice': {
+            console.log('tripPartialDetails', this.tripPartialDetails);
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('TripDetailsPage', { data: this.tripPartialDetails });
+          }
+          case 'vault': {
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('VaultDetailsPage', { data: this.vaultPartialDetails });
           }
         }
       }
       else {
         switch (target) {
+          case 'vault': {
+            let vault_id = data.notification.payload.additionalData.vault_id;
+            this.epxProvider.getVaultPartialDetails(vault_id).subscribe(res => {
+              console.log('vault partial details', res);
+              this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+              this.navCtrl.push('VaultDetailsPage', { data: res.vaults[0] });
+            }, error => {
+              this.epxProvider.toastMessage('Internal error!');
+            });
+            break;
+          }
           case 'trip': {
+
             //Cache trip update count to make it accessible to other components.
+            console.log('trip is open');
             this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(old_badge => {
               if (old_badge != null && old_badge > 0) {
                 let badge = Number(update) + Number(old_badge);
@@ -283,8 +295,55 @@ export class TabsPage {
                 });
               }
             });
-            break;
 
+            console.log('tripPartialDetails', this.tripPartialDetails);
+            this.epxProvider.getData('ID').then(user_id => {
+              let trip_id = data.notification.payload.additionalData.product_id;
+              this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(res => {
+                let data = {
+                  ID: res.ID,
+                  isInterested: res.trip_interested.interested,
+                  sashes_image: res.sashes_image,
+                  location: res.map_info.map_address,
+                  lat: Number(res.map_info.map_latitude),
+                  lng: Number(res.map_info.map_longitude),
+                  product_cat: res.product_cat,
+                  title: res.title,
+                  trip_gallery: res.trip_gallery,
+                  full_content: res.full_content
+                }
+                this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+                this.navCtrl.push('TripDetailsPage', { data: data });
+              }, error => {
+                this.epxProvider.toastMessage('Internal Error!');
+              });
+            });
+            break;
+          }
+          case 'trip-notice': {
+            console.log('tripPartialDetails', this.tripPartialDetails);
+            this.epxProvider.getData('ID').then(user_id => {
+              let trip_id = data.notification.payload.additionalData.product_id;
+              this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(res => {
+                let data = {
+                  ID: res.ID,
+                  isInterested: res.trip_interested.interested,
+                  sashes_image: res.sashes_image,
+                  location: res.map_info.map_address,
+                  lat: Number(res.map_info.map_latitude),
+                  lng: Number(res.map_info.map_longitude),
+                  product_cat: res.product_cat,
+                  title: res.title,
+                  trip_gallery: res.trip_gallery,
+                  full_content: res.full_content
+                }
+                this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+                this.navCtrl.push('TripDetailsPage', { data: data });
+              }, error => {
+                this.epxProvider.toastMessage('Internal Error!');
+              });
+            });
+            break;
           }
           case 'trip-detail': {
             let data = {
@@ -296,25 +355,8 @@ export class TabsPage {
               lng: Number(trip.lng)
             }
             this.navCtrl.push('TripDetailsPage', { data: data });
+            break;
           }
-          // case 'solo': {
-          //   this.epxProvider.getData(this.epxProvider.SOLO_BADGE).then(old_badge => {
-          //     if (old_badge != null && old_badge > 0) {
-          //       let badge = Number(update) + Number(old_badge);
-          //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, badge).then(new_badge => {
-          //         this.soloBadge = new_badge;
-          //         this.detectorRef.detectChanges();
-          //       });
-          //     }
-          //     else {
-          //       this.epxProvider.saveData(this.epxProvider.SOLO_BADGE, update).then(new_badge => {
-          //         this.soloBadge = new_badge;
-          //         this.detectorRef.detectChanges();
-          //       });
-          //     }
-          //   });
-          //   break;
-          // }
           case 'vault': {
             this.epxProvider.getData(this.epxProvider.VAULT_BADGE).then(old_badge => {
               if (old_badge != null && old_badge > 0) {
@@ -367,37 +409,13 @@ export class TabsPage {
             // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
-            
+
           }
           case 'member-assist-chat': {
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
           }
-          case 'trip-notice': {
-            console.log('tripPartialDetails',this.tripPartialDetails);
-            this.epxProvider.getData('ID').then(user_id => {
-              let trip_id = data.notification.payload.additionalData.product_id;
-              this.epxProvider.getTripPartialDetails(trip_id,user_id).subscribe(res => {
-                let data = {
-                  ID: res.ID,
-                  isInterested: res.trip_interested.interested,
-                  sashes_image: res.sashes_image,
-                  location: res.map_info.map_address,
-                  lat: Number(res.map_info.map_latitude),
-                  lng: Number(res.map_info.map_longitude),
-                  product_cat: res.product_cat,
-                  title: res.title,
-                  trip_gallery: res.trip_gallery,
-                  full_content: res.full_content
-                }
-                this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-                this.navCtrl.push('TripDetailsPage', {data : data});
-              },error => {
-                this.epxProvider.toastMessage('Internal Error!');
-              });
-            })
-           
-          }
+
         }
       }
     });

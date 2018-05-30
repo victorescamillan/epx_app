@@ -1,0 +1,94 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\epx_app\\platforms\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uk\\values-uk.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\aab8427edc82c30abc1eec3af90de713\\res\\values-uk\\values-uk.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "38",
+                        "startColumns": "4",
+                        "startOffsets": "5396",
+                        "endColumns": "100",
+                        "endOffsets": "5492"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-gcm-11.8.0.aar\\d38f43c9b4c3416703d7ebf815629946\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "228",
+                        "endColumns": "95",
+                        "endOffsets": "323"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "2820",
+                        "endColumns": "99",
+                        "endOffsets": "2915"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.8.0.aar\\ca95e94e320a50c2002d9fb9c49e97e1\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "281,387,582,707,815,1028,1155,1296,1426,1653,1757,1950,2073,2279,2447,2543,2630",
+                        "endColumns": "105,194,124,107,212,126,140,129,226,103,192,122,205,167,95,86,112",
+                        "endOffsets": "386,581,706,814,1027,1154,1295,1425,1652,1756,1949,2072,2278,2446,2542,2629,2742"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,215,410,539,651,864,995,1140,1479,1706,1814,2007,2134,2340,2512,2612,2703",
+                        "endColumns": "109,194,128,111,212,130,144,133,226,107,192,126,205,171,99,90,116",
+                        "endOffsets": "210,405,534,646,859,990,1135,1269,1701,1809,2002,2129,2335,2507,2607,2698,2815"
+                    }
+                },
+                {
+                    "source": "D:\\epx_app\\platforms\\android\\app\\src\\main\\res\\values-uk\\pgm_strings.xml",
+                    "from": {
+                        "startLines": "3,18,2,5,4,6,7,8,9,10,11,12,13,14,17,15,16",
+                        "startColumns": "2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2",
+                        "startOffsets": "114,2402,55,394,269,577,738,873,1006,1140,1311,1509,1663,1845,2289,2030,2191",
+                        "endColumns": "153,110,57,181,123,159,133,131,132,169,196,152,180,183,111,159,96",
+                        "endOffsets": "265,2510,110,573,390,734,869,1002,1136,1307,1505,1659,1841,2026,2398,2187,2285"
+                    },
+                    "to": {
+                        "startLines": "21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "2920,3076,3189,3249,3433,3559,3721,3857,3991,4126,4298,4497,4652,4835,5021,5135,5297",
+                        "endColumns": "155,112,59,183,125,161,135,133,134,171,198,154,182,185,113,161,98",
+                        "endOffsets": "3071,3184,3244,3428,3554,3716,3852,3986,4121,4293,4492,4647,4830,5016,5130,5292,5391"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\escamillan-victor\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.8.0.aar\\8c9c5d24115c9926678b03d46d1a148f\\res\\values-uk\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "283",
+                        "endColumns": "204",
+                        "endOffsets": "487"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1274",
+                        "endColumns": "204",
+                        "endOffsets": "1474"
+                    }
+                }
+            ]
+        }
+    ]
+}

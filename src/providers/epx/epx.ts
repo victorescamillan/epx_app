@@ -34,6 +34,7 @@ export class EpxProvider {
   public vault_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault';
   public vault_taxonomy_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-taxonomy';
   public vault_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-with-pagination&list_size';
+  public vault_partial_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-notice&id=';
   public vault_tag_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-tags&tag=';
   public vault_category_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-cat-with-pagination&paged=1&cat=';
   public vault_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=vault-details&vault-id=';
@@ -227,6 +228,12 @@ export class EpxProvider {
   }
   getVaultInfinite(list_size, page) {
     return this.httpClient.get(this.vault_infinite_url + list_size + '&paged=' + page)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getVaultPartialDetails(id) {
+    return this.httpClient.get(this.vault_partial_details_url + id)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
