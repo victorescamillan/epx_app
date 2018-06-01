@@ -9,6 +9,14 @@ module.exports = [
     ]
   },
   {
+    "id": "cordova-plugin-cccometchat.CCCometChat",
+    "file": "plugins/cordova-plugin-cccometchat/www/CCCometChat.js",
+    "pluginId": "cordova-plugin-cccometchat",
+    "clobbers": [
+      "CCCometChat"
+    ]
+  },
+  {
     "id": "cordova-plugin-device.device",
     "file": "plugins/cordova-plugin-device/www/device.js",
     "pluginId": "cordova-plugin-device",
@@ -288,6 +296,7 @@ module.exports.metadata =
 {
   "cordova-android-play-services-gradle-release": "1.4.1",
   "cordova-plugin-app-version": "0.1.9",
+  "cordova-plugin-cccometchat": "7.0.30.1",
   "cordova-plugin-device": "2.0.1",
   "cordova-plugin-googlemaps": "2.2.9",
   "cordova-plugin-inappbrowser": "2.0.2",

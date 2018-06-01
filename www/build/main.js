@@ -73,6 +73,7 @@ var EpxProvider = (function () {
         // MEMBERS
         this.members_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
         this.member_infinite_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
+        this.member_partial_details_url = 'https://' + this.target + '.epxworldwide.com/JSON API/epx-json-data.php?request=member-notice&user_id=';
         this.member_details_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
         this.member_taxonomy_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
         this.member_search_url = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&nameSearch=';
@@ -305,6 +306,12 @@ var EpxProvider = (function () {
             .map(this.extractData)
             .catch(this.catchError);
     };
+    EpxProvider.prototype.getMemberPartialDetails = function (id) {
+        return this.httpClient.get(this.member_partial_details_url + id)
+            .do(this.logResponse)
+            .map(this.extractData)
+            .catch(this.catchError);
+    };
     EpxProvider.prototype.getMemberDetails = function (user_id) {
         return this.httpClient.get(this.member_details_url + user_id)
             .do(this.logResponse)
@@ -455,7 +462,7 @@ var EpxProvider = (function () {
     };
     EpxProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8_ionic_angular__["c" /* Events */], __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["o" /* ToastController */], __WEBPACK_IMPORTED_MODULE_7__ionic_native_network__["a" /* Network */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8_ionic_angular__["c" /* Events */], __WEBPACK_IMPORTED_MODULE_8_ionic_angular__["p" /* ToastController */], __WEBPACK_IMPORTED_MODULE_7__ionic_native_network__["a" /* Network */], __WEBPACK_IMPORTED_MODULE_6__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
     ], EpxProvider);
     return EpxProvider;
 }());
@@ -494,11 +501,11 @@ var map = {
 		26
 	],
 	"../pages/business/business.module": [
-		301,
+		302,
 		5
 	],
 	"../pages/chat/chat.module": [
-		302,
+		301,
 		25
 	],
 	"../pages/forgot-password/forgot-password.module": [
@@ -522,15 +529,15 @@ var map = {
 		7
 	],
 	"../pages/member-search/member-search.module": [
-		310,
+		308,
 		21
 	],
 	"../pages/members/members.module": [
-		308,
+		309,
 		3
 	],
 	"../pages/mentor/mentor.module": [
-		309,
+		310,
 		20
 	],
 	"../pages/menu/menu.module": [
@@ -562,35 +569,35 @@ var map = {
 		14
 	],
 	"../pages/trip-details/trip-details.module": [
-		318,
+		320,
 		13
 	],
 	"../pages/trip-filter/trip-filter.module": [
-		319,
+		318,
 		12
 	],
 	"../pages/trip-tags/trip-tags.module": [
-		320,
+		319,
 		11
 	],
 	"../pages/trips/trips.module": [
-		321,
+		322,
 		1
 	],
 	"../pages/vault-category/vault-category.module": [
-		323,
+		321,
 		10
 	],
 	"../pages/vault-details/vault-details.module": [
-		322,
+		323,
 		9
 	],
 	"../pages/vault-tags/vault-tags.module": [
-		325,
+		324,
 		8
 	],
 	"../pages/vault/vault.module": [
-		324,
+		325,
 		0
 	]
 };
@@ -677,16 +684,16 @@ var AppModule = (function () {
                     links: [
                         { loadChildren: '../pages/assist/assist.module#AssistPageModule', name: 'AssistPage', segment: 'assist', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/business-details/business-details.module#BusinessDetailsPageModule', name: 'BusinessDetailsPage', segment: 'business-details', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/business/business.module#BusinessPageModule', name: 'BusinessPage', segment: 'business', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/business/business.module#BusinessPageModule', name: 'BusinessPage', segment: 'business', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/forgot-password/forgot-password.module#ForgotPasswordPageModule', name: 'ForgotPasswordPage', segment: 'forgot-password', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/get-lucky/get-lucky.module#GetLuckyPageModule', name: 'GetLuckyPage', segment: 'get-lucky', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-details/member-details.module#MemberDetailsPageModule', name: 'MemberDetailsPage', segment: 'member-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/member-map/member-map.module#MemberMapPageModule', name: 'MemberMapPage', segment: 'member-map', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/member-search/member-search.module#MemberSearchPageModule', name: 'MemberSearchPage', segment: 'member-search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/members/members.module#MembersPageModule', name: 'MembersPage', segment: 'members', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mentor/mentor.module#MentorPageModule', name: 'MentorPage', segment: 'mentor', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/member-search/member-search.module#MemberSearchPageModule', name: 'MemberSearchPage', segment: 'member-search', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/notification/notification.module#NotificationPageModule', name: 'NotificationPage', segment: 'notification', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/settings/settings.module#SettingsPageModule', name: 'SettingsPage', segment: 'settings', priority: 'low', defaultHistory: [] },
@@ -694,14 +701,14 @@ var AppModule = (function () {
                         { loadChildren: '../pages/solo-tags/solo-tags.module#SoloTagsPageModule', name: 'SoloTagsPage', segment: 'solo-tags', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tabs/tabs.module#TabsPageModule', name: 'TabsPage', segment: 'tabs', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/solo/solo.module#SoloPageModule', name: 'SoloPage', segment: 'solo', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-filter/trip-filter.module#TripFilterPageModule', name: 'TripFilterPage', segment: 'trip-filter', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trip-tags/trip-tags.module#TripTagsPageModule', name: 'TripTagsPage', segment: 'trip-tags', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/trip-details/trip-details.module#TripDetailsPageModule', name: 'TripDetailsPage', segment: 'trip-details', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/trips/trips.module#TripsPageModule', name: 'TripsPage', segment: 'trips', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/vault-details/vault-details.module#VaultDetailsPageModule', name: 'VaultDetailsPage', segment: 'vault-details', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault-category/vault-category.module#VaultCategoryPageModule', name: 'VaultCategoryPage', segment: 'vault-category', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/vault-tags/vault-tags.module#VaultTagsPageModule', name: 'VaultTagsPage', segment: 'vault-tags', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/vault-tags/vault-tags.module#VaultTagsPageModule', name: 'VaultTagsPage', segment: 'vault-tags', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/vault/vault.module#VaultPageModule', name: 'VaultPage', segment: 'vault', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_7__angular_common_http__["b" /* HttpClientModule */],
@@ -758,23 +765,38 @@ var MyApp = (function () {
     function MyApp(epxProvider, platform, statusBar, splashScreen) {
         var _this = this;
         this.epxProvider = epxProvider;
+        this.licenseKey = "COMETCHAT-3NDI5-DIFJW-6WFCX-ZP9HI";
+        this.apiKey = "50992xf9a72c7107c357bc79cd1d43c60facb0";
         platform.ready().then(function () {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             statusBar.backgroundColorByHexString('#2b3e50');
             statusBar.overlaysWebView(false);
             splashScreen.hide();
-            _this.epxProvider.getData('member_details').then(function (res) {
-                if (res != null) {
-                    // this.epxProvider.clearUser();
-                    _this.rootPage = 'MenuPage';
-                }
-                else {
-                    _this.rootPage = 'LoginPage';
-                }
-            });
+        });
+        this.epxProvider.getData('member_details').then(function (res) {
+            console.log('member_details', res);
+            if (res != null) {
+                _this.initializeChat(res.ID);
+                _this.rootPage = 'MenuPage';
+            }
+            else {
+                _this.rootPage = 'LoginPage';
+            }
         });
     }
+    MyApp.prototype.initializeChat = function (user_id) {
+        CCCometChat.initializeCometChat("", this.licenseKey, this.apiKey, true, function (response) {
+            console.log('Inside Success Callback', response);
+            CCCometChat.loginWithUID(user_id, function success(response) {
+                console.log('Logged in as' + user_id, response);
+            }, function failure(error) {
+                console.log('Login failure Callback', error);
+            });
+        }, function (error) {
+            console.log('Fail Callback ', error);
+        });
+    };
     MyApp = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\epx_app\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"D:\epx_app\src\app\app.html"*/
         }),

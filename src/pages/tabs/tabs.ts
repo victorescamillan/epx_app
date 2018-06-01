@@ -1,5 +1,5 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, MenuController, Platform, AlertController, Events } from 'ionic-angular';
+import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { IonicPage, NavController, MenuController, Platform, AlertController, Events, Tabs } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { OneSignal } from '@ionic-native/onesignal';
 
@@ -9,6 +9,7 @@ import { OneSignal } from '@ionic-native/onesignal';
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
+  @ViewChild('mainTabs') mainTabs: Tabs;
   tripsRoot = 'TripsPage';
   vaultRoot = 'VaultPage';
   soloRoot = 'SoloPage';
@@ -22,9 +23,9 @@ export class TabsPage {
   assistBadge = 0;
 
   isAppOpen: Boolean = false;
-  tripPartialDetails: any;
-  vaultPartialDetails: any;
-  memberPartialDetails: any;
+  // tripPartialDetails: any;
+  // vaultPartialDetails: any;
+  // memberPartialDetails: any;
   constructor(
     private oneSignal: OneSignal,
     private epxProvider: EpxProvider,
@@ -107,8 +108,6 @@ export class TabsPage {
       console.log('notification received. ', data);
       let target = data.payload.additionalData.target;
       let update = data.payload.additionalData.update;
-
-
       this.isAppOpen = true;
       switch (target) {
         case 'trip': {
@@ -128,37 +127,10 @@ export class TabsPage {
               });
             }
           });
-          let trip_id = data.payload.additionalData.product_id;
-          this.epxProvider.getData('ID').then(user_id => {
-            this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(res => {
-              let data = {
-                ID: res.ID,
-                isInterested: res.trip_interested.interested,
-                sashes_image: res.sashes_image,
-                location: res.map_info.map_address,
-                lat: Number(res.map_info.map_latitude),
-                lng: Number(res.map_info.map_longitude),
-                product_cat: res.product_cat,
-                title: res.title,
-                trip_gallery: res.trip_gallery,
-                full_content: res.full_content
-              }
-              this.tripPartialDetails = data;
-              console.log('tripPartialDetails', data);
-            }, error => {
-              this.epxProvider.toastMessage('Internal Error!');
-            });
-          })
+
           break;
         }
         case 'vault': {
-          let vault_id = data.payload.additionalData.vault_id;
-          this.epxProvider.getVaultPartialDetails(vault_id).subscribe(res => {
-            console.log('vault partial details', res.vaults[0]);
-            this.vaultPartialDetails = res.vaults[0];
-          }, error => {
-            this.epxProvider.toastMessage('Internal error!');
-          });
           this.epxProvider.getData(this.epxProvider.VAULT_BADGE).then(old_badge => {
             if (old_badge != null && old_badge > 0) {
               let badge = Number(update) + Number(old_badge);
@@ -213,7 +185,6 @@ export class TabsPage {
             this.navCtrl.push('MentorPage')
             break;
           }
-
           case 'trip-detail': {
             let data = {
               ID: trip.ID,
@@ -237,49 +208,104 @@ export class TabsPage {
             this.navCtrl.push('AssistPage');
             break;
           }
-          case 'get-lucky': {
-            // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
+          case 'member': {
+            this.mainTabs.select(3);
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-            this.navCtrl.push('ChatPage');
-
-          }
-          case 'member-assist-chat': {
-            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-            this.navCtrl.push('ChatPage');
-          }
-          case 'trip': {
-            console.log('tripPartialDetails', this.tripPartialDetails);
-            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-            this.navCtrl.push('TripDetailsPage', { data: this.tripPartialDetails });
-          }
-          case 'trip-notice': {
-            console.log('tripPartialDetails', this.tripPartialDetails);
-            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-            this.navCtrl.push('TripDetailsPage', { data: this.tripPartialDetails });
-          }
-          case 'vault': {
-            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-            this.navCtrl.push('VaultDetailsPage', { data: this.vaultPartialDetails });
-          }
-        }
-      }
-      else {
-        switch (target) {
-          case 'vault': {
-            let vault_id = data.notification.payload.additionalData.vault_id;
-            this.epxProvider.getVaultPartialDetails(vault_id).subscribe(res => {
-              console.log('vault partial details', res);
-              this.events.publish(this.epxProvider.CLOSE_PAGE, true);
-              this.navCtrl.push('VaultDetailsPage', { data: res.vaults[0] });
+            let member_id = data.notification.payload.additionalData.member_id;
+            this.epxProvider.getMemberPartialDetails(member_id).subscribe(res => {
+              console.log('getMemberPartialDetails', res.members);
+              this.navCtrl.push('MemberDetailsPage', { data: res.members });
             }, error => {
               this.epxProvider.toastMessage('Internal error!');
             });
             break;
           }
+          case 'get-lucky': {
+            // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('ChatPage');
+            break;
+          }
+          case 'member-assist-chat': {
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            this.navCtrl.push('ChatPage');
+            break;
+          }
           case 'trip': {
+            this.mainTabs.select(0);
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            let trip_id = data.notification.payload.additionalData.product_id;
+            this.epxProvider.getData('ID').then(user_id => {
+              this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(res => {
+                let data = {
+                  ID: res.ID,
+                  isInterested: res.trip_interested.interested,
+                  sashes_image: res.sashes_image,
+                  location: res.map_info.map_address,
+                  lat: Number(res.map_info.map_latitude),
+                  lng: Number(res.map_info.map_longitude),
+                  product_cat: res.product_cat,
+                  title: res.title,
+                  trip_gallery: res.trip_gallery,
+                  full_content: res.full_content
+                }
+                console.log('tripPartialDetails', data);
+                this.navCtrl.push('TripDetailsPage', { data: data });
+              }, error => {
+                this.epxProvider.toastMessage('Internal Error!');
+              });
+            })
+            
+            break;
+          }
+          case 'trip-notice': {
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            let trip_id = data.notification.payload.additionalData.product_id;
+            this.epxProvider.getData('ID').then(user_id => {
+              this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(res => {
+                let data = {
+                  ID: res.ID,
+                  isInterested: res.trip_interested.interested,
+                  sashes_image: res.sashes_image,
+                  location: res.map_info.map_address,
+                  lat: Number(res.map_info.map_latitude),
+                  lng: Number(res.map_info.map_longitude),
+                  product_cat: res.product_cat,
+                  title: res.title,
+                  trip_gallery: res.trip_gallery,
+                  full_content: res.full_content
+                }
+                console.log('tripPartialDetails', data);
+                this.navCtrl.push('TripDetailsPage', { data: data });
+              }, error => {
+                this.epxProvider.toastMessage('Internal Error!');
+              });
+            })
+            
+            break;
+          }
+          case 'vault': {
+            this.mainTabs.select(2);
+            this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+            let vault_id = data.notification.payload.additionalData.vault_id;
+            this.epxProvider.getVaultPartialDetails(vault_id).subscribe(res => {
+              console.log('vault partial details', res.vaults);
+              this.navCtrl.push('VaultDetailsPage', { data: res.vaults });
+            }, error => {
+              this.epxProvider.toastMessage('Internal error!');
+            });
 
+            break;
+          }
+        }
+      }
+      else {
+        switch (target) {
+          case 'trip': {
             //Cache trip update count to make it accessible to other components.
+            this.mainTabs.select(0);
             console.log('trip is open');
+            this.events.publish('trip', 0);
             this.epxProvider.getData(this.epxProvider.TRIP_BADGE).then(old_badge => {
               if (old_badge != null && old_badge > 0) {
                 let badge = Number(update) + Number(old_badge);
@@ -296,7 +322,6 @@ export class TabsPage {
               }
             });
 
-            console.log('tripPartialDetails', this.tripPartialDetails);
             this.epxProvider.getData('ID').then(user_id => {
               let trip_id = data.notification.payload.additionalData.product_id;
               this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(res => {
@@ -321,7 +346,6 @@ export class TabsPage {
             break;
           }
           case 'trip-notice': {
-            console.log('tripPartialDetails', this.tripPartialDetails);
             this.epxProvider.getData('ID').then(user_id => {
               let trip_id = data.notification.payload.additionalData.product_id;
               this.epxProvider.getTripPartialDetails(trip_id, user_id).subscribe(res => {
@@ -358,6 +382,15 @@ export class TabsPage {
             break;
           }
           case 'vault': {
+            this.mainTabs.select(2);
+            let vault_id = data.notification.payload.additionalData.vault_id;
+            this.epxProvider.getVaultPartialDetails(vault_id).subscribe(res => {
+              console.log('vault partial details', res);
+              this.events.publish(this.epxProvider.CLOSE_PAGE, true);
+              this.navCtrl.push('VaultDetailsPage', { data: res.vaults });
+            }, error => {
+              this.epxProvider.toastMessage('Internal error!');
+            });
             this.epxProvider.getData(this.epxProvider.VAULT_BADGE).then(old_badge => {
               if (old_badge != null && old_badge > 0) {
                 let badge = Number(update) + Number(old_badge);
@@ -376,6 +409,15 @@ export class TabsPage {
             break;
           }
           case 'member': {
+            this.mainTabs.select(3);
+            let member_id = data.notification.payload.additionalData.member_id;
+            this.epxProvider.getMemberPartialDetails(member_id).subscribe(res => {
+              console.log('getMemberPartialDetails', res.members);
+              this.navCtrl.push('MemberDetailsPage', { data: res.members });
+            }, error => {
+              this.epxProvider.toastMessage('Internal error!');
+            });
+
             this.epxProvider.getData(this.epxProvider.MEMBER_BADGE).then(old_badge => {
               if (old_badge != null && old_badge > 0) {
                 let badge = Number(update) + Number(old_badge);
@@ -409,13 +451,13 @@ export class TabsPage {
             // let assist = this.modalCtrl.create('ChatPage',{isNotification:true});
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
-
+            break;
           }
           case 'member-assist-chat': {
             this.events.publish(this.epxProvider.CLOSE_PAGE, true);
             this.navCtrl.push('ChatPage');
+            break;
           }
-
         }
       }
     });
@@ -433,4 +475,5 @@ export class TabsPage {
   openSideMenu() {
     this.menuCtrl.toggle();
   }
+
 }

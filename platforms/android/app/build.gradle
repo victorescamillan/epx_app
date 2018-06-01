@@ -92,6 +92,7 @@ ext {
 
 // PLUGIN GRADLE EXTENSIONS START
 apply from: "../cordova-android-play-services-gradle-release/epx-cordova-android-play-services-gradle-release.gradle"
+apply from: "../cordova-plugin-cccometchat/epx-CCCometChat.gradle"
 apply from: "../cordova-plugin-googlemaps/epx-tbxml-android.gradle"
 apply from: "../onesignal-cordova-plugin/epx-build-extras-onesignal.gradle"
 // PLUGIN GRADLE EXTENSIONS END

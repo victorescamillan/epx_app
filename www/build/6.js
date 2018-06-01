@@ -223,10 +223,19 @@ var AssistPage = (function () {
             loading.dismiss();
         }, 20000);
     };
+    AssistPage.prototype.launchChat = function () {
+        var isFullScreen = true;
+        CCCometChat.launchCometChat(isFullScreen, function success(data) {
+            console.log('success', data);
+        }, function error(data) {
+            console.log('fail', data);
+        });
+    };
     AssistPage.prototype.respondToRequest = function (item) {
         var _this = this;
         if (item.connected) {
-            this.navCtrl.push('ChatPage');
+            // this.navCtrl.push('ChatPage');
+            this.launchChat();
         }
         else {
             this.provider.getData('ID').then(function (id) {
@@ -237,8 +246,9 @@ var AssistPage = (function () {
                     _this.provider.respondMemberAssist(id, item.ID).subscribe(function (res) {
                         console.log('respondToRequest', res);
                         if (res.result == true) {
-                            _this.navCtrl.push('ChatPage');
+                            // this.navCtrl.push('ChatPage');
                             item.connected = res.result;
+                            _this.launchChat();
                         }
                         loading.dismiss();
                     }, function (error) {
@@ -305,7 +315,7 @@ var AssistPage = (function () {
             selector: 'page-assist',template:/*ion-inline-start:"D:\epx_app\src\pages\assist\assist.html"*/'<!--\n  Generated template for the AssistPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Member Assist</ion-title>\n    <ion-buttons right *ngIf="isNotification">\n      <button ion-button icon-end (click)="closeFilter()">\n        Close\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content (ionScroll)="onScroll($event)">\n  <ion-refresher (ionRefresh)="forceReload($event)">\n    <ion-refresher-content>\n    </ion-refresher-content>\n  </ion-refresher>\n  <div class="filter" #filter>\n    <ion-row>\n      <ion-col col-10>\n        <ion-item>\n          <ion-label>\n            Expertise\n          </ion-label>\n          <ion-select [(ngModel)]="expertise">\n            <ion-option *ngFor="let item of expertiseList">{{item}}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-col>\n\n      <ion-col col-2>\n        <button ion-button outline color="light" class="btn-search" (click)="filterAssist()">\n          Go\n        </button>\n      </ion-col>\n    </ion-row>\n  </div>\n  <ion-fab #fab bottom right class="fab-hide" (click)="scrollToTop()">\n    <button ion-fab mini>\n      <ion-icon name="arrow-dropup"></ion-icon>\n    </button>\n  </ion-fab>\n  <div id="indicator" class="{{isLoading ? \'show-indicator\' : \'hide-indicator\'}}">\n    <ion-spinner name="crescent"></ion-spinner>\n  </div>\n  <ion-card *ngFor="let item of assistList">\n    <ion-item>\n      <ion-avatar item-start>\n        <img src="{{item.avatar}}">\n      </ion-avatar>\n      <h2>{{item.member_name}}</h2>\n      <ion-row class="sm-text">\n        <ion-col col-2>\n          <strong class="black">Skill :</strong>\n        </ion-col>\n        <ion-col col-10 class="gray">{{item.skill}}</ion-col>\n      </ion-row>\n    </ion-item>\n    <ion-card-content>\n      <p class="md-text pre-line" [innerHtml]="item.details">\n      </p>\n      <ion-row class="sm-text created">\n        <ion-col col-3>\n          <strong class="gray">Created :</strong>\n        </ion-col>\n        <ion-col col-9>{{item.date_created}}</ion-col>\n      </ion-row>\n      <ion-row class="sm-text">\n        <ion-col col-3>\n          <strong class="gray">Pending :</strong>\n        </ion-col>\n        <ion-col col-9>{{item.Pending}} days</ion-col>\n      </ion-row>\n      <button ion-button small outline [color]="item.connected ? \'secondary\' : \'primary\'" (click)="respondToRequest(item)">{{item.connected ? \'Connected\' : \'Respond\'}}</button>\n    </ion-card-content>\n  </ion-card>\n  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">\n    <ion-infinite-scroll-content loadingText="Loading more..."></ion-infinite-scroll-content>\n  </ion-infinite-scroll>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\assist\assist.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* Events */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */],
             __WEBPACK_IMPORTED_MODULE_0__angular_core__["W" /* Renderer2 */],
             __WEBPACK_IMPORTED_MODULE_3_ionic_cache__["b" /* CacheService */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */],

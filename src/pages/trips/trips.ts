@@ -51,17 +51,18 @@ export class TripsPage {
     cache.setOfflineInvalidate(false);
     
   }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad TripsPage');
     this.LoadTrips();
     this.initFilterData();
-   
   }
   //Filter Page
   showFilter() {
-    let assist = this.modalCtrl.create('AssistPage',{isNotification:true});
-    assist.present();
+    // let assist = this.modalCtrl.create('AssistPage',{isNotification:true});
+    // assist.present();
     // this.content.scrollToTop();
+    this.navCtrl.parent.select(3);
   }
   initFilterData() {
     this.region = '';

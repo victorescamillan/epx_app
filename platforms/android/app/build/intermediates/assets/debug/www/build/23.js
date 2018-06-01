@@ -69,8 +69,6 @@ var LoginPage = (function () {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.alertCtrl = alertCtrl;
-        this.licenseKey = "COMETCHAT-0MZ10-PLO44-SWZAT-C9R3U";
-        this.apiKey = "50944x45d853898e582feaeaefe7db4df99b73";
         this.formGroup = formBuilder.group({
             email: ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["f" /* Validators */].compose([
                     // Validators.pattern(regexValidators.email),
@@ -81,6 +79,9 @@ var LoginPage = (function () {
         this.email_validation = this.formGroup.controls['email'];
         this.password_validation = this.formGroup.controls['password'];
     }
+    LoginPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad LoginPage');
+    };
     LoginPage.prototype.showAlert = function (title, message) {
         var alert = this.alertCtrl.create({
             title: title,
@@ -95,6 +96,11 @@ var LoginPage = (function () {
         loading.present().then(function () {
             _this.epxProvider.getLogin(_this.username, _this.password).subscribe(function (result) {
                 if (result.authentication) {
+                    CCCometChat.loginWithUID(result.ID, function success(response) {
+                        console.log('Logged in as' + result.ID, response);
+                    }, function failure(error) {
+                        console.log('Login failure Callback', error);
+                    });
                     _this.epxProvider.saveData('ID', result.ID);
                     _this.epxProvider.saveData('name', result.name);
                     _this.epxProvider.saveData('email', result.email);
@@ -145,9 +151,6 @@ var LoginPage = (function () {
             ]
         });
         prompt.present();
-    };
-    LoginPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad LoginPage');
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({

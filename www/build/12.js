@@ -1,6 +1,6 @@
 webpackJsonp([12],{
 
-/***/ 319:
+/***/ 318:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8,7 +8,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TripFilterPageModule", function() { return TripFilterPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_filter__ = __webpack_require__(349);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__trip_filter__ = __webpack_require__(348);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var TripFilterPageModule = (function () {
 
 /***/ }),
 
-/***/ 349:
+/***/ 348:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96,7 +96,7 @@ var TripFilterPage = (function () {
             selector: 'page-trip-filter',template:/*ion-inline-start:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/'<!--\n  Generated template for the TripFilterPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <!-- <ion-title>Search Trips</ion-title> -->\n    <ion-buttons right>\n      <button ion-button icon-end (click)="closeFilter()">\n        Close\n        <ion-icon name="close-circle"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <h1 class="text-center">Search Trips</h1>\n  <div class="select">\n    <ion-item>\n      <ion-label>Region</ion-label>\n      <ion-select [(ngModel)]="region" >\n        <ion-option *ngFor="let item of regionList">{{item}}</ion-option>\n      </ion-select>\n    </ion-item>\n  </div>\n  <div class="select">\n    <ion-item>\n      <ion-label>Trip Type</ion-label>\n      <ion-select [(ngModel)]="type">\n        <ion-option *ngFor="let item of product_typeList">{{item}}</ion-option>\n      </ion-select>\n    </ion-item>\n  </div>\n  <button ion-button round block outline (click)="filterTrips()">Update</button>\n</ion-content>'/*ion-inline-end:"D:\epx_app\src\pages\trip-filter\trip-filter.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__providers_epx_epx__["a" /* EpxProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* ViewController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* NavParams */]])
     ], TripFilterPage);
     return TripFilterPage;

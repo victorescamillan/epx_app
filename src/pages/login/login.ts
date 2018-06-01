@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController, LoadingController } from 'ionic-angular';
 import { EpxProvider } from '../../providers/epx/epx';
 import { Validators, FormBuilder, FormGroup, AbstractControl, FormControlName } from '@angular/forms';
+declare var CCCometChat : any;
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -14,8 +15,7 @@ export class LoginPage {
   // password: string = 'VzOo$)dl';
   username: string;
   password: string;
-  licenseKey: string = "COMETCHAT-0MZ10-PLO44-SWZAT-C9R3U";
-  apiKey: string = "50944x45d853898e582feaeaefe7db4df99b73"; 
+  
   email_validation: AbstractControl;
   password_validation: AbstractControl;
   formGroup: FormGroup;
@@ -35,6 +35,12 @@ export class LoginPage {
       this.email_validation = this.formGroup.controls['email'];
       this.password_validation = this.formGroup.controls['password'];
   }
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad LoginPage');
+    
+  }
+
+
   showAlert(title: string, message: string) {
     let alert = this.alertCtrl.create({
       title: title,
@@ -49,6 +55,11 @@ export class LoginPage {
     loading.present().then(() => {
       this.epxProvider.getLogin(this.username, this.password).subscribe(result => {
         if (result.authentication) {
+          CCCometChat.loginWithUID(result.ID, function success(response) {
+            console.log('Logged in as' + result.ID,response);
+          }, function failure(error) {
+            console.log('Login failure Callback',error);
+          });
           this.epxProvider.saveData('ID', result.ID);
           this.epxProvider.saveData('name', result.name);
           this.epxProvider.saveData('email', result.email);
@@ -100,7 +111,5 @@ export class LoginPage {
     });
     prompt.present();
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
+
 }

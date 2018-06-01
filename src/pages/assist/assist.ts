@@ -4,7 +4,7 @@ import { EpxProvider } from '../../providers/epx/epx';
 import { CacheService } from 'ionic-cache';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-
+declare var CCCometChat : any;
 @IonicPage()
 @Component({
   selector: 'page-assist',
@@ -131,7 +131,6 @@ export class AssistPage {
     this.loadMemberAssist(refresher);
   }
   filterAssist() {
-
     if (this.expertise == '') {
       this.provider.toastMessage('Please select expertise.')
       return;
@@ -162,9 +161,18 @@ export class AssistPage {
     }, 20000);
    
   }
+  launchChat() {
+    var isFullScreen = true;
+    CCCometChat.launchCometChat(isFullScreen, function success(data) {
+      console.log('success',data);      
+    }, function error(data) {
+      console.log('fail',data);
+    });
+  }
   respondToRequest(item) {
     if (item.connected) {
-      this.navCtrl.push('ChatPage');
+      // this.navCtrl.push('ChatPage');
+      this.launchChat();
     }
     else {
       this.provider.getData('ID').then(id => {
@@ -175,8 +183,9 @@ export class AssistPage {
           this.provider.respondMemberAssist(id, item.ID).subscribe(res => {
             console.log('respondToRequest', res);
             if (res.result == true) {
-              this.navCtrl.push('ChatPage');
+              // this.navCtrl.push('ChatPage');
               item.connected = res.result;
+              this.launchChat();
             }
             loading.dismiss();
           }, error => {

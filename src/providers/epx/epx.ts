@@ -44,6 +44,7 @@ export class EpxProvider {
   // MEMBERS
   public members_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=members';
   public member_infinite_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=members-with-pagination&paged=';
+  public member_partial_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON API/epx-json-data.php?request=member-notice&user_id=';
   public member_details_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-details&user_id=';
   public member_taxonomy_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-taxonomy';
   public member_search_url: string = 'https://' + this.target + '.epxworldwide.com/JSON%20API/epx-json-data.php?request=member-filter&nameSearch=';
@@ -282,6 +283,12 @@ export class EpxProvider {
   }
   getMembersInfinite(page) {
     return this.httpClient.get(this.member_infinite_url + page)
+      .do(this.logResponse)
+      .map(this.extractData)
+      .catch(this.catchError)
+  }
+  getMemberPartialDetails(id) {
+    return this.httpClient.get(this.member_partial_details_url + id)
       .do(this.logResponse)
       .map(this.extractData)
       .catch(this.catchError)
