@@ -1,0 +1,38 @@
+<!--
+  Generated template for the SoloDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Solo Details</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <div class="solo-image">
+    <img src="{{details.thumbnail}}" />
+  </div>
+  <div id="title">
+    <p class="pre-line" [innerHTML]="details.title"></p>
+  </div>
+  <div class="content-text">
+    <p class="pre-line sm-text" [innerHTML]="details.content"></p>
+
+    <div class="other-details">
+      <p class="text-center xxl-text">Trip Fee</p>
+      <div class="price">
+        <p class="text-center xxl-text">{{details.price}}</p>
+      </div>
+      <p class="text-center xxl-text strong">Date</p>
+      <p class="text-center xxl-text">{{details.start_date}}</p>
+
+      <p class="text-center xxl-text strong">Location</p>
+      <p class="text-center xxl-text">{{details.address}}</p>
+    </div>
+  </div>
+  <div #map id="map"></div>
+</ion-content>

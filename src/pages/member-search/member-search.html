@@ -1,0 +1,18 @@
+<!--
+  Generated template for the MemberSearchPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>member-search</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+  <ion-searchbar  [(ngModel)]="terms" placeholder="Search Members" showCancelButton color="danger"  (ionInput)="filterMembers($event)" ></ion-searchbar>
+</ion-content>

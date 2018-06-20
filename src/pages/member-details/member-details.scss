@@ -1,0 +1,138 @@
+page-member-details {
+    .member-content {
+        padding: 1em;
+    }
+    .member-info {
+        text-align: center;
+        // background: #297eb6;
+        @include linear-gradient(bottom,$nighthawk);
+        padding: 1rem;
+        color: white;
+    }
+    .member-info img{
+        border-radius: 50%;
+        height: 120px;
+        width: 120px;
+    }
+    .member-content img {
+        max-width: 100%;
+        border: 0;
+        border-radius: 50%;
+        height: 120px;
+        width: 120px;
+        // object-fit: cover;
+    }
+    
+    .member-info p {
+        -webkit-margin-before: 0em;
+        -webkit-margin-after: .5em;
+    }
+    .break{
+        display: block;
+    }
+    .business-logo {
+        text-align: center;
+        border-top: solid 1px gray;
+        padding: 2em;
+        margin-top: 2em;
+    }
+    .business-logo img {
+        max-width: 100%;
+        border: 0;
+        height: auto;
+        width: 150px;
+        border-radius: 0px;
+    }
+    .affiliates {
+        border-top: solid 1px gray;
+        margin-top: 2em;
+    }
+    .crew img{
+        max-width: 100%;
+        border: 0;
+        border-radius: 50%;
+        height: 80px;
+        width: 80px;
+        margin: auto;
+        margin-top: 30px;
+    }
+    .vault img {
+        border-radius: 0%;
+        width: 100%;
+    }
+    .scroll-zoom-wrapper ion-card {
+        width: auto;
+        margin: 5px;
+        padding: 0px;
+        max-width: 220px;
+    }
+  
+    ion-card-content.card-content.card-content-md {
+        padding: 5px;
+    }
+    ion-grid.grid {
+        padding: 0px;
+    }
+    ion-card.card.card-md {
+        margin: 5px;
+    }
+    .crew .scroll-zoom-wrapper ion-card{
+        padding: 0px 10px;
+    }
+    .crew .sm-text{
+        font-size: 100%;
+        color: gray;
+    }
+    .crew h3.text-center{
+        font-size: 1.6rem;
+    }
+    ion-card-content.card-content.card-content-ios {
+        padding: 5px;
+    }
+    p.date-text {
+        margin: 0 0 2px;
+        font-size: 0.7em;
+        font-weight: normal;
+        line-height: 1.5;
+        color: #222;
+    }
+    .price {
+        color: #15c534;
+        font-size: 115%;
+    }
+    .vault-title {
+        position: relative;
+        margin-top: -32px;
+        padding: 5px;
+        background: black;
+        color: white;
+        opacity: .6;
+    }
+    .vault-title h3 {
+        color: white;
+    }
+    .vault h3{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .vault-video ion-item{
+        padding: 0px;
+    }
+    
+    .vault .author img {
+        border-radius: 50%;
+        height: 35px;
+        width: 35px;
+    }
+    .show-indicator{
+        width: 100%;
+        display: -webkit-inline-box;
+        padding-top: 40px;
+        // background: gray;
+        position: relative;
+    }
+    .about{
+        padding: 5px 10px;
+    }
+}

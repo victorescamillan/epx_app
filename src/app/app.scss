@@ -1,0 +1,261 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+//Color
+.black{
+    color: black;
+}
+.black-important{
+    color: black!important;
+}
+.white{
+    color: white;
+}
+.gray{
+    color: gray;
+}
+.blue{
+    color: color($colors,primary);
+}
+.primary{
+    color: color($colors,primary);
+}
+.danger{
+    color: red;
+}
+.text-price{
+    color: #32db64;
+}
+//Button Alignment
+.btn-right{
+    float: right;
+}
+.btn-left{
+    float: left;
+}
+//Text Alignment
+.text-center{
+    text-align: center;
+}
+.center{
+    text-align: center;
+}
+.right{
+    text-align: end;
+}
+.pre-line{
+    white-space: pre-line!important;
+}
+p.strong{
+    font-weight: bold;
+}
+.strong{
+    font-weight: bold;
+}
+//Text Size
+.small{
+    font-size: 90%;
+}
+.sm-text{
+    font-size: 110%;
+}
+.sm-text-important{
+    font-size: 110%!important;
+   
+}
+.md-text{
+    font-size: 120%;
+}
+.md-text-important{
+    font-size: 120%!important;
+}
+.lg-text{
+    font-size: 130%;
+}
+.xl-text{
+    font-size: 140%;
+}
+.xxl-text{
+    font-size: 150%;
+}
+.badge-md {
+    border-radius: 50%;
+}
+.badge-danger {
+    color: #fff;
+    background-color: color($colors, danger) ;
+}
+
+//Spinner layout
+div#indicator ion-spinner {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: white;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+    border: solid 1px #5dafe5;
+}
+ion-spinner.process {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: auto;
+    margin-left: 10px;
+    border-radius: 50%;    
+}
+   
+.spinner-md-crescent circle, .spinner-ios-crescent circle{
+    stroke: #297aaf;
+}
+
+.hide-indicator {
+    display: none;
+    
+}
+.show-indicator{
+    width: 100%;
+    height: auto;
+    margin-bottom: -35px;
+    position: sticky;
+    top: 30%;
+    z-index: 1;
+}
+// ion-title.title.title-md {
+//     text-align: center;
+// }
+ion-header {
+    @include linear-gradient(top,$nighthawk);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+  }
+  .scroll-zoom-wrapper {
+    display: -webkit-inline-box;
+}
+ion-scroll.scroll-x {
+    min-height: 220px;
+    height: auto;
+}
+
+.loading-md .loading-wrapper, .loading-ios .loading-wrapper {
+    border-radius: 10px;
+    background: #ffff;
+    padding: 10px 15px;
+}
+.toast-message{
+    background: #2977aa;
+}
+.alert-md .alert-wrapper, .alert-ios .alert-wrapper{
+    margin-top: 30%;
+}
+.no-margin{
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+}
+
+//FILTER
+.filter{
+    background: #2977aa;
+    // padding: 5px;
+    padding-bottom: 3px;
+}
+.filter .label.label-md,.filter .label.label-ios{
+    margin: 5px 0px;
+    color: white;
+    font-weight: 100;
+    font-size: 80%;
+}
+.filter .btn-search{
+    float: right;
+    margin-top: 25px;
+    margin-bottom: 0px;
+    height: 28px;
+    width: 100%;
+    font-size: 85%;
+    font-weight: 100;
+    padding: 5px;
+}
+.filter ion-select{
+    max-width: 100%;
+    padding: 5px 10px;
+    background: white;
+    border-radius: 5px;
+}
+// .alert-head {
+//     background: #9aadba;
+// }
+.filter .item.item-block.item-md .item-inner, .filter .item.item-block.item-ios .item-inner{
+    border-bottom: none;
+}
+.filter .item.item-block.item-md , .filter .item.item-block.item-ios {
+    padding: 0px;
+    border-bottom: none;
+    background: #2977aa;
+}
+.filter .input-wrapper{
+    display: block;
+}
+.filter .select-text {
+    font-size: 90%;
+    color: black;
+}
+
+
+@keyframes fadeIn {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  .filter.hide-filter{
+    // opacity: 0;
+    top: -70px;
+    transition: top 0.25s ease;
+    // animation-name: fadeIn;
+    // animation-duration: 1s;
+}
+.filter{
+    position: sticky;
+    top: 0px;
+    z-index: 999;
+    width: 100%;
+    opacity: 1;
+    top: 0px;
+    transition: top 0.25s ease;
+}
+.filter ion-select button {
+    height: 0px;
+    display: none;
+}
+.filter ion-datetime button {
+    height: 0px;
+    display: none;
+}
+.datetime-md, .datetime-ios {
+    padding: 4px;
+    border: solid 1px silver;
+    border-radius: 5px;
+    background: #597d95;
+    height: 28px;
+}
+

@@ -1,0 +1,95 @@
+page-menu {
+    // ion-header.menu-header {
+    //     // background-image: url(../assets/imgs/bg.png);
+    //     @include linear-gradient(left,$nighthawk);
+    //     background-size: 120%;
+    //     // background: color($colors,dark);
+    //     background-position: 0%;
+    //     height: 150px;
+    // }
+    
+    .menu-content{
+        @include linear-gradient(right,$nighthawk);
+    }
+    .user-info{
+        // @include linear-gradient(left,$nighthawk);
+        height: 160px;
+        // position: absolute;
+        // bottom: 20px;
+        // left: 20px;
+        color: #e4dede;
+        font-weight: bold;
+        font-size: 130%;
+        border-bottom: 1px solid #5d6164;
+    }
+    img.avatar {
+        position: absolute;
+        top: 50px;
+        left: 10px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: solid 1px silver;
+    }
+    .user-info p{
+        position: relative;
+        left: 100px;
+        top: 80px;
+        -webkit-margin-before: 0px;
+        -webkit-margin-after: 0px;
+        font-family: sans-serif;
+    }
+    p#member-role {
+        font-size: small;
+        font-style: oblique;
+        margin-top: 5px;
+    }
+    p#member-role span {
+        font-size: smaller;
+    }
+    .version {
+        position: absolute;
+        bottom: 4px;
+        left: 10px;
+        color: #ccd1d5;
+        font-style: oblique;
+    }
+    .item-inner {
+        border-bottom: none!important;
+    }
+    .list > .item-block:last-child, .list > .item-wrapper:last-child .item-block {
+        border-bottom: none;
+    }
+    .menu-icon img{
+        max-width: 100%;
+        border: 0;
+        position: absolute;
+        width: 120px;
+        height: 150px;
+        right: 50px;
+        bottom: 20px;
+    }
+   
+    .item-md, ion-item.item.item-block.item-ios{
+        color: #e4dede;
+        background: transparent;
+        border: none;
+    }
+    .list-md, .list-ios {
+        padding-top: 15px;
+    }
+    span.badge-show {
+        background: #f53d3d;
+        border-radius: 50%;
+        margin-left: 20px;
+        padding: 1px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+    span.badge-hide {
+        display: none;
+    }
+  
+}

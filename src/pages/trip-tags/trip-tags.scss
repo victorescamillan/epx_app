@@ -1,0 +1,107 @@
+page-trip-tags {
+    .card-content {
+        padding: 5px;
+    }
+    ion-grid.grid {
+        padding: 0px;
+    }
+    .btn-interested button {
+        padding: 0px;
+        margin: 0px;
+        font-size: 100%;
+    }
+    .content-text {
+        padding: 3px 0px;
+    }
+    .content-text .colored {
+        color: #15c534;
+        font-size: 115%;
+    }
+    p.sm-text {
+        font-size: 90%;
+    }
+    p.md-text {
+        font-size: 110%;
+        color: #ffffff;
+    }
+    h3.content-text {
+        font-size: 130%;
+    }
+    .btn-category{
+        position: inherit;
+        margin-top: -410px;
+        margin-left: 10px;
+    }
+    .trip-image {
+        height: 220px;
+        width: 100%;
+        background: #747576;
+    }
+    .trip-image img{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto; 
+        height: 100%;
+        object-fit: cover;
+    }
+    img.sashes {
+        position: relative;
+        margin-left: 0px;
+        height: 120px;
+        width: 120px;
+        bottom: 120px;
+        margin-bottom: -120px;
+    }
+    .list {
+        margin: 0px;
+    }
+    .button-round {
+        border-radius: 64px;
+        padding: 0 1rem;
+        border-color: #ffffff;
+        color: #ffffff;
+        BACKGROUND: BLACK;
+        OPACITY: .5;
+    }
+    .button-outline.activated{
+        background: transparent;
+        border-color: #488aff;
+        color: #488aff;
+        BACKGROUND: BLACK;
+        OPACITY: .5;
+    }
+    button.disable-hover.bar-button.bar-button.bar-button-outline.bar-button-outline {
+        padding: 0px 10px;
+        height: 25px;
+        color: #488aff;
+        border-color: #488aff;
+    }
+    h1.text-center{
+        text-align: center;
+        color: #050505;
+        font-family: sans-serif;
+    }
+    button.disable-hover.button.button.button-default.button-default.button-block.button-block {
+        background: black;
+        width: 100px;
+        margin: auto;
+        height: 30px;
+        margin-bottom: 20px;
+    }
+  
+    .trip-meter p.sm-text.strong.white {
+        color: white;
+        margin-top: 30px;
+    }
+    .trip-meter {
+        position: relative;
+        display: block;
+        bottom: 50px;
+        color: white;
+        height: 29px;
+        width: 58px;
+        float: right;
+        right: 0px;
+        text-align: center;
+    }
+}

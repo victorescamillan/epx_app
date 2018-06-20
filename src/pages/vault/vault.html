@@ -1,0 +1,88 @@
+<!--
+  Generated template for the VaultPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>THE VAULT</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="light" (click)="searchVault()">
+        <ion-icon isActive="true" name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content (ionScroll)="onScroll($event)">
+  <ion-refresher (ionRefresh)="forceReload($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="filter" #filter>
+    <ion-row>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Skills
+          </ion-label>
+          <ion-select [(ngModel)]="skills">
+            <!-- <ion-option disabled value="">Region</ion-option> -->
+            <ion-option *ngFor="let item of skillsList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            Category
+          </ion-label>
+          <ion-select [(ngModel)]="category">
+            <!-- <ion-option disabled value="">Trip Type</ion-option> -->
+            <ion-option *ngFor="let item of categoryList">{{item}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button outline color="light" class="btn-search" (click)="filterVault()">
+          <!-- <ion-icon name="search"></ion-icon> -->
+          Go
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+
+  <ion-card *ngFor="let vault of vaultList">
+    <div class="vault-image">
+      <img [src]="vault.thumbnail" (click)="vaultDetails(vault)" class="{{vault.vault_type == 'video' ? 'video' : 'pdf'}}">
+    </div>
+    <ion-card-content>
+      <h3 class="content-text xl-text strong blue pre-line" [innerHtml]="vault.title | uppercase">
+      </h3>
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{vault.author_avatar}}">
+        </ion-avatar>
+        <h2>
+          <strong class="black">{{vault.author}}</strong> |
+          <span class="gray">{{vault.length}}</span>
+        </h2>
+        <p>{{vault.posted | date : 'MMMM d, y'}}</p>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">
+    <ion-infinite-scroll-content loadingText="Loading more vaults..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,0 +1,49 @@
+<!--
+  Generated template for the NotificationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Notification</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let member of soloList">
+      <ion-item >
+        <ion-avatar item-start>
+          <img [src]="member.avatar" (click)="memberDetails(member)">
+        </ion-avatar>
+        <p class="item-text">
+            <span class="strong ">{{member.name}}</span> is the
+            <span class="strong " [innerHtml]="member.position"></span> at
+            <span class="strong blue" (click)="openBrowser(member.business_url)" [innerHtml]="member.company"></span>, a
+            <span class="strong " >{{member.business_model}}</span> business in the
+            <span class="strong pre-line" [innerHtml]="member.industry"></span> industry with the
+            <span class="strong ">{{member.employee}}</span> employees.
+          </p>
+      </ion-item>
+      <!-- <ion-item-options side="left">
+        <button ion-button color="secondary">
+          <ion-icon name="text"></ion-icon>
+          Message
+        </button>
+      </ion-item-options> -->
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="memberDetails(member)">
+          <ion-icon name="person"></ion-icon>
+          Profile
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+    <ion-infinite-scroll-content  loadingText="Loading more members..." ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

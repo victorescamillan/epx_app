@@ -1,0 +1,47 @@
+<ion-menu [content]="content" side="left">
+  <ion-header class="menu-header">
+    <!-- <ion-navbar>
+      <ion-title>menu</ion-title>
+    </ion-navbar> -->
+    <!-- <div class="user-info">
+      {{name}}
+    </div> -->
+  </ion-header>
+  <ion-content class="menu-content">
+    <div class="menu-icon">
+      <img src="./assets/imgs/epx_logo_colored.png" />
+    </div>
+    <div class="version">
+      <p>Version {{version}}</p>
+    </div>
+    <div class="user-avatar">
+      <img class="avatar" [src]="avatar_url" (click)="memberDetails()">
+    </div>
+    <div class="user-info">
+      <div class="info-content">
+        <p>{{name}}</p>
+        <p id="member-role">{{role | uppercase}}
+          <span>(Member Type)</span>
+        </p>
+      </div>
+    </div>
+    <ion-list>
+      <ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon name="{{p.icon}}" item-start></ion-icon>
+        {{p.title}}
+        <span class="{{p.badge > 0 ? 'badge-show' : 'badge-hide'}}">{{p.badge}}</span>
+      </ion-item>
+      <ion-item (click)="launchChat()">
+        <ion-icon name="md-chatboxes" item-start></ion-icon>
+        Messages
+      </ion-item>
+      <ion-item (click)="showPrompt()">
+        <ion-icon name="md-exit" item-start></ion-icon>
+        Logout
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> -->
+<ion-nav id="nav" #content [root]="rootPage"></ion-nav>

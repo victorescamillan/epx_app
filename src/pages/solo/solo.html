@@ -1,0 +1,94 @@
+<!--
+  Generated template for the SoloPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>SOLO</ion-title>
+    <!-- <h1 class="text-center">
+        <strong>SOLO</strong>
+      </h1> -->
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)">
+  <ion-refresher (ionRefresh)="forceReload($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="filter" #filter>
+    <ion-row>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            From Date
+          </ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="fromDate"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col col-5>
+        <ion-item>
+          <ion-label>
+            To Date
+          </ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="toDate"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button outline color="light" class="btn-search" (click)="updateSolo()">
+          <!-- <ion-icon name="search"></ion-icon> -->
+          Update
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div id="indicator" class="{{isLoading && !isRefresh ? 'show-indicator' : 'hide-indicator'}}">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <ion-card *ngFor="let solo of soloList">
+    <div class="solo-image">
+        <img src="{{solo.thumbnail}}" (click)="soloDetails(solo)">
+    </div>
+    <ion-card-content>
+      <h2 class="content-text">
+        <strong class="pre-line" [innerHtml]="solo.title | uppercase"></strong>
+      </h2>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-2>
+            Price : 
+          </ion-col>
+          <ion-col col-10>
+            <h3 class="text-price">
+              <strong >{{solo.price}}</strong>
+            </h3>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-2>
+            Date :
+          </ion-col>
+          <ion-col col-10>
+            <p class="sm-text">{{solo.start_date}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="solo.product_tag.length">
+          <ion-col col-2>
+            Tags :
+          </ion-col>
+          <ion-col col-10>
+            <button class="btn-tags" ion-button round outline small *ngFor="let tag of solo.product_tag" (click)="soloByTags(tag)">{{tag}}</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage && !isFilter">
+    <ion-infinite-scroll-content loadingText="Loading more solo..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
